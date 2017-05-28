@@ -1,0 +1,54 @@
+!!!
+%html{lang: "en"}
+  %head
+    %meta{charset: "utf-8"}
+    %meta{http-equiv: "X-UA-Compatible" content: "IE=edge"}
+    %meta{name: "viewport" content: "width=device-width, initial-scale=1"}
+    %meta{name: "description" content: ""}
+    %meta{name: "author" content: ""}
+
+    %title ZB Faculty
+
+    %link{rel: "stylesheet", href: "#{static_path(@conn, "/css/app.css")}"}
+    %script{src: "#{static_path(@conn, "/js/app.js")}"}
+
+  %body
+    %nav.navbar.navbar-default
+      .container-fluid
+        .navbar-header
+          %a.navbar-brand{href: "/"} ZB Faculty
+
+        %ul.nav.navbar-nav.navbar-right
+          = case @current_user && @current_user.type do
+            = "admin" ->
+              %li= link "Dashboard", to: admin_dashboard_path(@conn, :index)
+              %li= link "Users", to: admin_user_path(@conn, :index)
+              %li= link "Questions", to: admin_question_path(@conn, :index)
+              %li= link "Interviews", to: admin_interview_path(@conn, :index)
+              %li= link "Tags", to: admin_tag_path(@conn, :index)
+              %li= link "Scheduled Tasks", to: admin_scheduled_task_path(@conn, :index)
+              %li= link "Contact Requests", to: admin_contact_request_path(@conn, :index)
+            = "faculty" ->
+              %li= next_action_link_for(@conn, @current_user)
+              %li= link "Results", to: result_path(@conn, :index), class: "results-navbar-link"
+            = nil ->
+              %li= link "Sign in", to: session_path(@conn, :new), class: "sign-in-nav-link"
+          - end
+
+          %li= link "Help", to: help_path(@conn, :index), class: "help-navbar-link"
+
+          = if @current_user do
+            %li.navbar-text{style: "color: #999;"} Signed in as #{@current_user.full_name}
+            %li.navbar-text= link "Sign out", to: session_path(@conn, :delete, @current_user), method: :delete, class: "sign-out-nav-link text-danger"
+          - end
+
+    %main
+      .container-fluid
+        = if get_flash(@conn, :info) do
+          %p.alert.alert-info{role: "alert"}= get_flash(@conn, :info)
+        - end
+        = if get_flash(@conn, :error) do
+          %p.alert.alert-danger{role: "alert"}= get_flash(@conn, :error)
+        - end
+
+        = render @view_module, @view_template, assigns

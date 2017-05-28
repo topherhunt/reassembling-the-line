@@ -1,0 +1,11 @@
+%h1 Admin dashboard
+
+%p Links:
+
+%ul
+  %li= link "Users", to: admin_user_path(@conn, :index)
+  %li= link "Questions", to: admin_question_path(@conn, :index)
+  %li= link "Interviews", to: admin_interview_path(@conn, :index)
+  %li= link "Tags", to: admin_tag_path(@conn, :index)
+  %li= link "Scheduled Tasks", to: admin_scheduled_task_path(@conn, :index)
+  %li= link "Contact requests", to: admin_contact_request_path(@conn, :index)

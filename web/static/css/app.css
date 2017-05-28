@@ -1,0 +1,29 @@
+/* This file is for your main application css. */
+/* All CSS files added to this directory are automatically included. */
+
+body { padding-bottom: 100px; }
+
+/* Page layout */
+
+.centered-1000 { max-width: 1000px; margin-left: auto; margin-right: auto; }
+.centered-800  { max-width:  800px; margin-left: auto; margin-right: auto; }
+.centered-600  { max-width:  600px; margin-left: auto; margin-right: auto; }
+.row-padded {
+  padding-top: 5px;
+  padding-bottom: 5px; }
+.row-padded-top { padding-top: 5px; }
+.row-padded-bottom { padding-bottom: 5px; }
+
+/* Utilities */
+
+.em { font-style: italic; }
+.strong { font-weight: bold; }
+.js-hidden { display: none; }
+.nowrap { white-space: nowrap; }
+
+/* Bootstrap fixes */
+
+.label a { color: #fff !important; }
+.text-info { color: #275972; } // original: #31708f
+.text-danger { color: #a94442 !important; }
+table.table { width: auto; }

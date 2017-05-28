@@ -1,0 +1,7 @@
+= if @data.completed > 0 do
+  .alert.alert-success
+    You've categorized #{@data.completed} out of #{@data.total} interviews.
+    = if @data.min_to_do > 0 do
+      Please try to complete at least #{@data.min_to_do} more.
+    - end
+- end

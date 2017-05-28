@@ -1,0 +1,42 @@
+.centered-800
+  %h1 Record your response
+
+  %p Welcome to the ZB Video Testimonial Portal! The experiences you shared with The Marketing Committee were so great that we wanted to capture them on film. Please follow the instructions below to help us keep your stories alive.
+
+  %p Instructions:
+  %ol
+    %li Read the question below and consider how you'd like to respond to it.
+    %li When you're ready, click the <strong>Start</strong> button below to start recording. You will have up to 2 minutes to answer the question.
+    %li Once you're finished answering the question, click <strong>Stop</strong> to stop recording.
+    %li Your video recording will automatically play back for you.
+    %li If you are not satisfied with how you answered the question, click <strong>Start over</strong> to re-record.
+    %li When you are satisfied with your answer, click <strong>Submit this Recording</strong> to upload the recording to our server.
+
+  %h4.text-success.text-center{style: "padding-top: 10px; padding-bottom: 10px;"}
+    Question #{@interview.question.position}:
+    = @interview.question.text
+
+  %div
+    %video#recording-video{controls: "", autoplay: "", style: "display: block; width: 640px; height: 480px; background-color: #222; margin: 10px auto 10px auto;"}
+  %div.text-center
+    = link "Start recording", to: "#", class: "js-start-recording btn btn-success"
+    %span.js-time-remaining.js-hidden.strong
+    &nbsp;
+    = link "Stop recording", to: "#", class: "js-stop-recording js-hidden btn btn-danger"
+    = link "Start over", to: "#", class: "js-reset-recording js-hidden btn btn-warning"
+    = link "Submit this recording", to: "#", class: "js-submit-recording js-hidden btn btn-primary", "data-presigned-s3-url": @presigned_s3_url
+
+  %hr
+
+  .upload-progress-container.js-hidden
+    %p <strong>Your file is being uploaded.</strong> Do not close or refresh the page until the upload completes.
+    .progress
+      .progress-bar.progress-bar-striped.active{role: "progressbar" style: "width: 5%;"}
+
+  .js-hidden.js-recording-submit-container
+    = form_for @changeset, interview_path(@conn, :update, @interview), fn(f) ->
+      = hidden_input f, :recording, value: "#{@interview.id}.webm"
+      = submit "Save", class: "edit-interview-form-submit-button"
+    - end
+
+  %div{style: "height: 100px;"}

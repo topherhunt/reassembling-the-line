@@ -1,0 +1,12 @@
+%h1 Import users from .csv
+
+%p Use the form below to upload a .csv of user data and create new user accounts on the app. The .csv must exactly follow the format of #{link "this sample .csv sheet", to: "TODO"}.
+
+%p.text-danger After the new users are created, Topher must set up the new users' interview and voting schedules or they won't receive any emails.
+
+%p If any errors are hit while importing the users, all changes will be reversed and an error message will be shown.
+
+= form_for @conn, admin_user_path(@conn, :batch_create), [as: :users, method: "post", multipart: true], fn(f) ->
+  %div= file_input(f, :csv, class: "form-control")
+  %div= submit "Upload", class: "btn btn-danger"
+- end

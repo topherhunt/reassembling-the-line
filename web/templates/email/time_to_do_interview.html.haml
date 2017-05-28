@@ -1,0 +1,12 @@
+%p Hello #{@user.full_name},
+
+%p Ready to tell a quick story? It's time to respond to question ##{@interview.question.position}. When you're ready, please click the link below to get started.
+
+-# The login action will auto redirect the user to the right place.
+%p= link "Record my video response", to: session_url(Zb.Endpoint, :login_from_uuid, @user.uuid)
+
+%p Note: This should not take you more than 5-10 minutes. If you have any problems, please contact me.
+
+%p Thank you for your time,
+
+%p Whitney

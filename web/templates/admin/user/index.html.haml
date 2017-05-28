@@ -1,0 +1,35 @@
+%h1 Users
+
+%h3= link "Filter", to: "#", class: "js-toggle", "data-target": ".filter-users"
+.filter-users.well.js-hidden
+  %p TODO
+  -# TODO: Allow filtering by: name contains, email contains, user id is in list (comma-separated)
+
+%p Listing #{length(@users)} users.
+
+%table.table.table-striped
+  %tr
+    %th Type
+    %th ID
+    %th Name
+    %th Email
+    %th Last signed in
+    %th
+      .js-tooltip{title: "# completed / # total to do"} # interviews
+    %th
+      .js-tooltip{title: "# submitted / # minimum needed"} # votes
+    %th
+  = @users |> Enum.map(fn(user) ->
+    %tr
+      %td= user.type
+      %td= user.id
+      %td= user.full_name
+      %td= user.email
+      %td= user.last_signed_in_at
+      %td #{ct_interviews_complete(user)} / #{ct_interviews_total(user)}
+      %td
+        = if user.min_votes_needed do
+          = "#{ct_submitted_votes(user)} / #{user.min_votes_needed}"
+        - end
+      %td= link "Details", to: admin_user_path(@conn, :show, user)
+  - end)

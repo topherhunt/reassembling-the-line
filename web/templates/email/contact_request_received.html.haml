@@ -1,0 +1,12 @@
+%p Dear ZB Voices admin,
+
+%p A user claiming to be #{@request.email} just submitted a message via the contact form.
+
+%p <strong>Subject:</strong> #{@request.subject}
+
+%p <strong>Body:</strong>
+%hr
+= @request.body
+%hr
+
+%p All replies to this notification will be sent to the sender.

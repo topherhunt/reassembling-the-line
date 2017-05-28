@@ -1,0 +1,23 @@
+%h1 Details on contact request from #{@message.email}
+
+%table.basic-info.table
+  %tr
+    %th Sent at
+    %td= @message.inserted_at
+  %tr
+    %th Sent by user
+    %td
+      = if @message.user do
+        = link @message.user.full_name, to: admin_user_path(@conn, :show, @message.user)
+      = else
+        .em No user was logged in when this message was sent.
+      - end
+  %tr
+    %th The return email address
+    %td= @message.email
+  %tr
+    %th Subject
+    %td= @message.subject
+  %tr
+    %th Full message
+    %td= @message.body

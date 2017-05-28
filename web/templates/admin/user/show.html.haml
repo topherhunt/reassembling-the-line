@@ -1,0 +1,90 @@
+%h1 Details on user: #{@user.full_name}
+
+%h3 Basic info
+%table.basic-info.table
+  %tr
+    %th ID
+    %td= @user.id
+  %tr
+    %th Type
+    %td= @user.type
+  %tr
+    %th Name
+    %td= @user.full_name
+  %tr
+    %th Email
+    %td= @user.email
+  %tr
+    %th Last signed in
+    %td= @user.last_signed_in_at
+  %tr
+    %th
+      .js-tooltip{title: "# completed / # total to do"} # interviews
+    %td #{ct_interviews_complete(@user)} / #{ct_interviews_total(@user)}
+  = if @user.min_votes_needed do
+    %tr
+      %th
+        .js-tooltip{title: "# submitted / # minimum needed"} # votes
+      %td #{ct_submitted_votes(@user)} / #{@user.min_votes_needed}
+  - end
+
+%h3 Scheduled tasks
+%table.my-scheduled-tasks.table.table-striped
+  %tr
+    %th Task
+    %th Due date
+    %th Status
+  = @scheduled_tasks |> Enum.map(fn(task) ->
+    %tr
+      %td= Zb.Admin.ScheduledTaskView.describe_command(task)
+      %td= task.due_on_date
+      %td= Zb.Admin.ScheduledTaskView.describe_status(task)
+  - end)
+
+%h3 Interviews
+%table.my-interviews.table.table-striped
+  %tr
+    %th Question
+    %th ID
+    %th Status
+    %th # votes
+    %th
+      .js-tooltip{title: "Average vote_agreement value"} Agreement
+    %th
+      .js-tooltip{title: "Average vote_influenced value"} Influenced
+    %th Top tags
+    %th
+  = @interviews |> Enum.map(fn(interview) ->
+    %tr
+      %td= interview.question.position
+      %td= interview.id
+      %td= Zb.Admin.InterviewView.describe_status(interview)
+      %td= Zb.Admin.InterviewView.ct_votes(interview)
+      %td= Zb.Admin.InterviewView.avg_vote_agreement(interview)
+      %td= Zb.Admin.InterviewView.avg_vote_influenced(interview)
+      %td= Zb.Admin.InterviewView.top_tags(interview)
+      %td= link "Details", to: admin_interview_path(@conn, :show, interview)
+  - end)
+
+%h3 Ratings I've submitted
+%table.my-votes.table.table-striped
+  %tr
+    %th Interviewee
+    %th Submitted at
+    %th Agreement
+    %th Influenced
+    %th Tags
+    %th
+  = @votes |> Enum.map(fn(vote) ->
+    %tr
+      %td= link vote.interview.user.full_name, to: admin_user_path(@conn, :show, vote.interview.user)
+      %td= vote.inserted_at
+      %td= Zb.Admin.InterviewView.describe_vote_value(vote.vote_agreement)
+      %td= Zb.Admin.InterviewView.describe_vote_value(vote.vote_influenced)
+      %td= Zb.Admin.InterviewView.describe_vote_tags(vote)
+      %td= link "View interview", to: admin_interview_path(@conn, :show, vote.interview)
+  - end)
+
+%h3 Actions
+%ul
+  %li= link "Log in as #{@user.full_name}", to: session_path(@conn, :login_from_uuid, @user.uuid), class: "btn btn-sm btn-danger"

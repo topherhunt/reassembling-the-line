@@ -1,0 +1,16 @@
+# App artifacts
+/_build
+/db
+/deps
+/*.ez
+/node_modules
+erl_crash.dump
+*.log
+
+# Since we are building assets from web/static,
+# we ignore priv/static. You may want to comment
+# this depending on your deployment strategy.
+/priv/static/
+
+# Sensitive environment variables shouldn't be committed
+config/secrets.exs
