@@ -1,4 +1,4 @@
-defmodule Zb.ChannelCase do
+defmodule EducateYour.ChannelCase do
   @moduledoc """
   This module defines the test case to be used by
   channel tests.
@@ -20,22 +20,22 @@ defmodule Zb.ChannelCase do
       # Import conveniences for testing with channels
       use Phoenix.ChannelTest
 
-      alias Zb.Repo
+      alias EducateYour.Repo
       import Ecto
       import Ecto.Changeset
       import Ecto.Query
 
 
       # The default endpoint for testing
-      @endpoint Zb.Endpoint
+      @endpoint EducateYour.Endpoint
     end
   end
 
   setup tags do
-    :ok = Ecto.Adapters.SQL.Sandbox.checkout(Zb.Repo)
+    :ok = Ecto.Adapters.SQL.Sandbox.checkout(EducateYour.Repo)
 
     unless tags[:async] do
-      Ecto.Adapters.SQL.Sandbox.mode(Zb.Repo, {:shared, self()})
+      Ecto.Adapters.SQL.Sandbox.mode(EducateYour.Repo, {:shared, self()})
     end
 
     :ok

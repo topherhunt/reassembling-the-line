@@ -2,7 +2,7 @@ use Mix.Config
 
 # We don't run a server during test. If one is required,
 # you can enable the server option below.
-config :zb, Zb.Endpoint,
+config :educate_your, EducateYour.Endpoint,
   http: [port: 4001],
   server: true
 
@@ -15,7 +15,7 @@ config :logger, :test_log,
   level: :info # :debug for ALL queries etc; :brief for only the basics
 
 # Configure your database
-config :zb, Zb.Repo,
+config :educate_your, EducateYour.Repo,
   adapter: Ecto.Adapters.Postgres,
   username: System.get_env("DB_USERNAME"),
   password: System.get_env("DB_PASSWORD"),
@@ -25,7 +25,7 @@ config :zb, Zb.Repo,
   pool: Ecto.Adapters.SQL.Sandbox,
   ownership_timeout: 20 * 60 * 1000
 
-config :zb, Zb.Mailer,
+config :educate_your, EducateYour.Mailer,
   adapter: Bamboo.TestAdapter
 
 # Reduce # of rounds when encrypting passwords (= faster test suite)

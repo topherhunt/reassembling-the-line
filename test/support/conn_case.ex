@@ -1,4 +1,4 @@
-defmodule Zb.ConnCase do
+defmodule EducateYour.ConnCase do
   @moduledoc """
   This module defines the test case to be used by
   tests that require setting up a connection.
@@ -23,27 +23,27 @@ defmodule Zb.ConnCase do
       import Ecto
       import Ecto.Changeset
       import Ecto.Query
-      import Zb.Router.Helpers
-      import Zb.ModelHelpers
-      import Zb.EmailHelpers
-      import Zb.ConnHelpers
-      import Zb.Factory
+      import EducateYour.Router.Helpers
+      import EducateYour.ModelHelpers
+      import EducateYour.EmailHelpers
+      import EducateYour.ConnHelpers
+      import EducateYour.Factory
 
-      alias Zb.Repo
+      alias EducateYour.Repo
 
       # The default endpoint for testing
-      @endpoint Zb.Endpoint
+      @endpoint EducateYour.Endpoint
     end
   end
 
   setup tags do
-    :ok = Ecto.Adapters.SQL.Sandbox.checkout(Zb.Repo)
+    :ok = Ecto.Adapters.SQL.Sandbox.checkout(EducateYour.Repo)
 
     unless tags[:async] do
-      Ecto.Adapters.SQL.Sandbox.mode(Zb.Repo, {:shared, self()})
+      Ecto.Adapters.SQL.Sandbox.mode(EducateYour.Repo, {:shared, self()})
     end
 
-    Zb.ModelHelpers.empty_database
+    EducateYour.ModelHelpers.empty_database
 
     {:ok, conn: Phoenix.ConnTest.build_conn()}
   end

@@ -1,5 +1,5 @@
-defmodule Zb.ErrorView do
-  use Zb.Web, :view
+defmodule EducateYour.ErrorView do
+  use EducateYour.Web, :view
 
   def render("404.html", _assigns) do
     "Page not found"

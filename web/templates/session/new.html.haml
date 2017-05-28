@@ -1,13 +1,5 @@
 %h1 Log in
 
-%h3 Faculty and students:
-
-%p To log in, click on the link in the email we sent you.
-
-%h3 Admin:
-
-%p To log in, enter your email and password into the form below.
-
 = form_for @conn, session_path(@conn, :create), [as: :session], fn(f) ->
   .form-group
     = text_input f, :email, placeholder: "Email", class: "form-control"

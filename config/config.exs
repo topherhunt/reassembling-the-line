@@ -9,16 +9,16 @@ use Mix.Config
 if File.exists?("config/secrets.exs"), do: import_config("secrets.exs")
 
 # General application configuration
-config :zb,
-  ecto_repos: [Zb.Repo]
+config :educate_your,
+  ecto_repos: [EducateYour.Repo]
 
 # Configures the endpoint
-config :zb, Zb.Endpoint,
+config :educate_your, EducateYour.Endpoint,
   url: [host: "localhost"],
   secret_key_base: System.get_env("SECRET_KEY_BASE"),
   # TODO: Should this only be in dev and test?
-  render_errors: [view: Zb.ErrorView, accepts: ~w(html json)],
-  pubsub: [name: Zb.PubSub,
+  render_errors: [view: EducateYour.ErrorView, accepts: ~w(html json)],
+  pubsub: [name: EducateYour.PubSub,
            adapter: Phoenix.PubSub.PG2]
 
 # Configures Elixir's Logger
@@ -29,7 +29,7 @@ config :logger, :console,
 
 config :phoenix, :template_engines, haml: PhoenixHaml.Engine
 
-config :zb, Zb.Mailer,
+config :educate_your, EducateYour.Mailer,
   adapter: Bamboo.SMTPAdapter,
   server: System.get_env("SMTP_SERVER"),
   port: 587,

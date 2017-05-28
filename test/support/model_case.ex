@@ -1,4 +1,4 @@
-defmodule Zb.ModelCase do
+defmodule EducateYour.ModelCase do
   @moduledoc """
   This module defines the test case to be used by
   model tests.
@@ -19,24 +19,24 @@ defmodule Zb.ModelCase do
       import Ecto
       import Ecto.Changeset
       import Ecto.Query
-      import Zb.ModelCase
-      import Zb.ModelHelpers
-      import Zb.EmailHelpers
-      import Zb.ValidationHelpers
-      import Zb.Factory
+      import EducateYour.ModelCase
+      import EducateYour.ModelHelpers
+      import EducateYour.EmailHelpers
+      import EducateYour.ValidationHelpers
+      import EducateYour.Factory
 
-      alias Zb.Repo
+      alias EducateYour.Repo
     end
   end
 
   setup tags do
-    :ok = Ecto.Adapters.SQL.Sandbox.checkout(Zb.Repo)
+    :ok = Ecto.Adapters.SQL.Sandbox.checkout(EducateYour.Repo)
 
     unless tags[:async] do
-      Ecto.Adapters.SQL.Sandbox.mode(Zb.Repo, {:shared, self()})
+      Ecto.Adapters.SQL.Sandbox.mode(EducateYour.Repo, {:shared, self()})
     end
 
-    Zb.ModelHelpers.empty_database
+    EducateYour.ModelHelpers.empty_database
 
     :ok
   end

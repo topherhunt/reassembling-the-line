@@ -1,9 +1,9 @@
-defmodule Zb.Auth do
+defmodule EducateYour.Auth do
   import Plug.Conn # assign/3, halt/1, *_session/*
   import Comeonin.Bcrypt, only: [checkpw: 2, dummy_checkpw: 0]
   import Phoenix.Controller, only: [put_flash: 3, redirect: 2]
 
-  alias Zb.{Repo, User}
+  alias EducateYour.{Repo, User}
 
   # === Plugs ===
 
@@ -32,19 +32,19 @@ defmodule Zb.Auth do
     else
       conn
         |> put_flash(:error, "You must be logged in to access that page.")
-        |> redirect(to: Zb.Router.Helpers.session_path(conn, :new))
+        |> redirect(to: EducateYour.Router.Helpers.session_path(conn, :new))
         |> halt
     end
   end
 
   # Deny access to this page unless a user is an admin
   def require_admin(conn, _opts) do
-    if conn.assigns.current_user.type == "admin" do
+    if conn.assigns.current_user.admin do
       conn
     else
       conn
         |> put_flash(:error, "You must be an admin to access that page.")
-        |> redirect(to: Zb.Router.Helpers.page_path(conn, :index))
+        |> redirect(to: EducateYour.Router.Helpers.page_path(conn, :index))
         |> halt
     end
   end

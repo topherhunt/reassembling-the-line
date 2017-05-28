@@ -1,7 +1,7 @@
-defmodule Zb.ValidationHelpers do
+defmodule EducateYour.ValidationHelpers do
   use ExUnit.CaseTemplate
 
-  alias Zb.Repo
+  alias EducateYour.Repo
 
   # === How to use these validation helpers ===
   # Call assert_validates functions as relevant, passing the struct, changeset

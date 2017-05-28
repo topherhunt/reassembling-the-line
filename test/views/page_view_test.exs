@@ -1,3 +1,3 @@
-defmodule Zb.PageViewTest do
-  use Zb.ConnCase, async: true
+defmodule EducateYour.PageViewTest do
+  use EducateYour.ConnCase, async: true
 end

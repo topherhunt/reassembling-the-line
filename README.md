@@ -1,8 +1,7 @@
-# Zb
+# EducateYour
 
 ## Running the app
 
-  * `source .env`
   * `mix phoenix.server`
 
 ## Test

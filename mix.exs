@@ -1,8 +1,8 @@
-defmodule Zb.Mixfile do
+defmodule EducateYour.Mixfile do
   use Mix.Project
 
   def project do
-    [app: :zb,
+    [app: :educate_your,
      version: "0.0.1",
      elixir: "1.3.4",
      elixirc_paths: elixirc_paths(Mix.env),
@@ -22,7 +22,7 @@ defmodule Zb.Mixfile do
       test: [:hound],
       prod: []
     }
-    [ mod: {Zb, []},
+    [ mod: {EducateYour, []},
       applications: apps[:global] ++ apps[Mix.env] ]
   end
 

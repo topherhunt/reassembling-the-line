@@ -15,10 +15,7 @@ exports.config = {
       order: {
         before: [
           "web/static/vendor/jquery.js",
-          "web/static/vendor/bootstrap.js",
-          "web/static/vendor/jquery.ui.widget.js",        // For Jquery file upload
-          "web/static/vendor/jquery.iframe-transport.js", // For Jquery file upload
-          "web/static/vendor/jquery.fileupload.js"
+          "web/static/vendor/bootstrap.js"
         ]
       }
     },

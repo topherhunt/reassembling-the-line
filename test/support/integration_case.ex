@@ -1,4 +1,4 @@
-defmodule Zb.IntegrationCase do
+defmodule EducateYour.IntegrationCase do
   use ExUnit.CaseTemplate
 
   using do
@@ -10,27 +10,27 @@ defmodule Zb.IntegrationCase do
       import Ecto
       import Ecto.Changeset
       import Ecto.Query
-      import Zb.Router.Helpers
-      import Zb.ConnHelpers
-      import Zb.Factory
-      import Zb.ModelHelpers
-      import Zb.EmailHelpers
-      import Zb.ExtraHoundHelpers
+      import EducateYour.Router.Helpers
+      import EducateYour.ConnHelpers
+      import EducateYour.Factory
+      import EducateYour.ModelHelpers
+      import EducateYour.EmailHelpers
+      import EducateYour.ExtraHoundHelpers
 
-      alias Zb.Repo
+      alias EducateYour.Repo
 
-      @endpoint Zb.Endpoint
+      @endpoint EducateYour.Endpoint
     end
   end
 
   setup tags do
-    :ok = Ecto.Adapters.SQL.Sandbox.checkout(Zb.Repo)
+    :ok = Ecto.Adapters.SQL.Sandbox.checkout(EducateYour.Repo)
 
     unless tags[:async] do
-      Ecto.Adapters.SQL.Sandbox.mode(Zb.Repo, {:shared, self()})
+      Ecto.Adapters.SQL.Sandbox.mode(EducateYour.Repo, {:shared, self()})
     end
 
-    Zb.ModelHelpers.empty_database
+    EducateYour.ModelHelpers.empty_database
 
     {processes, _code} = System.cmd("ps", [])
     unless processes =~ "phantomjs --wd" do

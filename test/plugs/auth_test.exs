@@ -1,10 +1,10 @@
-defmodule Zb.AuthTest do
-  use Zb.ConnCase, async: true
-  alias Zb.Auth
+defmodule EducateYour.AuthTest do
+  use EducateYour.ConnCase, async: true
+  alias EducateYour.Auth
 
   setup %{conn: conn} do
     # Sets up standard connection status (flash, session, etc.)
-    conn = conn |> bypass_through(Zb.Router, :browser) |> get("/")
+    conn = conn |> bypass_through(EducateYour.Router, :browser) |> get("/")
     {:ok, %{conn: conn}}
   end
 
@@ -81,7 +81,7 @@ defmodule Zb.AuthTest do
     conn = Auth.login!(conn, user)
     assert conn.assigns.current_user.id == user.id
     assert get_session(conn, :user_id) == user.id
-    user = Repo.get!(Zb.User, user.id)
+    user = Repo.get!(EducateYour.User, user.id)
     assert user.last_signed_in_at != nil
   end
 

@@ -1,4 +1,4 @@
-defmodule Zb.AdminHelpers do
+defmodule EducateYour.AdminHelpers do
   use Phoenix.HTML
 
   def true_or_false_indicator(value) do

@@ -1,4 +1,4 @@
-defmodule Zb.ErrorHelpers do
+defmodule EducateYour.ErrorHelpers do
   use Phoenix.HTML
 
   def error_tag(form, field) do
@@ -22,9 +22,9 @@ defmodule Zb.ErrorHelpers do
     #     dgettext "errors", "is invalid"
     #
     if count = opts[:count] do
-      Gettext.dngettext(Zb.Gettext, "errors", msg, msg, count, opts)
+      Gettext.dngettext(EducateYour.Gettext, "errors", msg, msg, count, opts)
     else
-      Gettext.dgettext(Zb.Gettext, "errors", msg, opts)
+      Gettext.dgettext(EducateYour.Gettext, "errors", msg, opts)
     end
   end
 end

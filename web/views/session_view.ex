@@ -1,3 +1,3 @@
-defmodule Zb.SessionView do
-  use Zb.Web, :view
+defmodule EducateYour.SessionView do
+  use EducateYour.Web, :view
 end

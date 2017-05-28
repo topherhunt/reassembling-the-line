@@ -1,6 +1,6 @@
-defmodule Zb.ConnHelpers do
+defmodule EducateYour.ConnHelpers do
   use Phoenix.ConnTest
-  import Zb.Factory
+  import EducateYour.Factory
 
   def login_as_new_user(conn, user_opts \\ %{}) do
     user = insert :user, user_opts

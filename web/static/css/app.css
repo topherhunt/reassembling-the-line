@@ -24,6 +24,6 @@ body { padding-bottom: 100px; }
 /* Bootstrap fixes */
 
 .label a { color: #fff !important; }
-.text-info { color: #275972; } // original: #31708f
+.text-info { color: #275972; } /* original: #31708f */
 .text-danger { color: #a94442 !important; }
 table.table { width: auto; }

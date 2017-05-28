@@ -1,12 +1,12 @@
-defmodule Zb.Web do
+defmodule EducateYour.Web do
   @moduledoc """
   A module that keeps using definitions for controllers,
   views and so on.
 
   This can be used in your application as:
 
-      use Zb.Web, :controller
-      use Zb.Web, :view
+      use EducateYour.Web, :controller
+      use EducateYour.Web, :view
 
   The definitions below will be executed for every view,
   controller, etc, so keep them short and clean, focused
@@ -31,13 +31,13 @@ defmodule Zb.Web do
     quote do
       use Phoenix.Controller
 
-      alias Zb.Repo
+      alias EducateYour.Repo
       import Ecto
       import Ecto.Query
 
-      import Zb.Router.Helpers
-      import Zb.Gettext
-      import Zb.Auth, only: [require_user: 2]
+      import EducateYour.Router.Helpers
+      import EducateYour.Gettext
+      import EducateYour.Auth, only: [require_user: 2]
     end
   end
 
@@ -45,14 +45,14 @@ defmodule Zb.Web do
     quote do
       use Phoenix.View, root: "web/templates"
 
-      # Rendered HTML will automatically use Zb.LayoutView "app.html"
+      # Rendered HTML will automatically use EducateYour.LayoutView "app.html"
       # unless I specify another layout using Phoenix.Controller.put_layout/2.
 
       use Phoenix.HTML # All HTML functionality (forms, tags, etc)
       import Phoenix.Controller, only: [get_csrf_token: 0, get_flash: 2, view_module: 1]
-      import Zb.Router.Helpers
-      import Zb.ErrorHelpers
-      import Zb.Gettext
+      import EducateYour.Router.Helpers
+      import EducateYour.ErrorHelpers
+      import EducateYour.Gettext
     end
   end
 
@@ -66,10 +66,10 @@ defmodule Zb.Web do
     quote do
       use Phoenix.Channel
 
-      alias Zb.Repo
+      alias EducateYour.Repo
       import Ecto
       import Ecto.Query
-      import Zb.Gettext
+      import EducateYour.Gettext
     end
   end
 

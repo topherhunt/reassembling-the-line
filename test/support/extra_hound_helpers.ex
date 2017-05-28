@@ -1,4 +1,4 @@
-defmodule Zb.ExtraHoundHelpers do
+defmodule EducateYour.ExtraHoundHelpers do
   use ExUnit.CaseTemplate
   use Hound.Helpers # See https://github.com/HashNuke/hound for docs
 

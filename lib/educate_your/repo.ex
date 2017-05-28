@@ -1,9 +1,9 @@
-defmodule Zb.Repo do
-  use Ecto.Repo, otp_app: :zb
+defmodule EducateYour.Repo do
+  use Ecto.Repo, otp_app: :educate_your
 
   import Ecto.Query
 
-  alias Zb.Repo
+  alias EducateYour.Repo
 
   # Simplify count queries where no join tables exist: query |> Repo.count
   def count(query) do

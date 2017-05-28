@@ -6,7 +6,7 @@ use Mix.Config
 # The watchers configuration can be used to run external
 # watchers to your application. For example, we use it
 # with brunch.io to recompile .js and .css sources.
-config :zb, Zb.Endpoint,
+config :educate_your, EducateYour.Endpoint,
   http: [port: 4000],
   debug_errors: true,
   code_reloader: true,
@@ -15,7 +15,7 @@ config :zb, Zb.Endpoint,
                     cd: Path.expand("../", __DIR__)]]
 
 # Watch static and templates for browser reloading.
-config :zb, Zb.Endpoint,
+config :educate_your, EducateYour.Endpoint,
   live_reload: [
     patterns: [
       ~r{priv/static/.*(js|css|png|jpeg|jpg|gif|svg)$},
@@ -25,7 +25,7 @@ config :zb, Zb.Endpoint,
     ]
   ]
 
-config :zb, Zb.Repo,
+config :educate_your, EducateYour.Repo,
   adapter: Ecto.Adapters.Postgres,
   username: System.get_env("DB_USERNAME"),
   password: System.get_env("DB_PASSWORD"),
@@ -33,7 +33,7 @@ config :zb, Zb.Repo,
   hostname: System.get_env("DB_HOST"),
   pool_size: 10
 
-config :zb, Zb.Mailer,
+config :educate_your, EducateYour.Mailer,
   adapter: Bamboo.LocalAdapter
 
 # Do not include metadata nor timestamps in development logs
