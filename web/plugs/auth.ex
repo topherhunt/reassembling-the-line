@@ -1,6 +1,6 @@
 defmodule EducateYour.Auth do
   import Plug.Conn # assign/3, halt/1, *_session/*
-  import Comeonin.Bcrypt, only: [checkpw: 2, dummy_checkpw: 0]
+  # import Comeonin.Bcrypt, only: [checkpw: 2, dummy_checkpw: 0]
   import Phoenix.Controller, only: [put_flash: 3, redirect: 2]
 
   alias EducateYour.{Repo, User}
@@ -32,19 +32,7 @@ defmodule EducateYour.Auth do
     else
       conn
         |> put_flash(:error, "You must be logged in to access that page.")
-        |> redirect(to: EducateYour.Router.Helpers.session_path(conn, :new))
-        |> halt
-    end
-  end
-
-  # Deny access to this page unless a user is an admin
-  def require_admin(conn, _opts) do
-    if conn.assigns.current_user.admin do
-      conn
-    else
-      conn
-        |> put_flash(:error, "You must be an admin to access that page.")
-        |> redirect(to: EducateYour.Router.Helpers.page_path(conn, :index))
+        |> redirect(to: EducateYour.Router.Helpers.home_path(conn, :index))
         |> halt
     end
   end
@@ -53,26 +41,12 @@ defmodule EducateYour.Auth do
 
   # Start a logged-in session for an (already authenticated) user
   def login!(conn, user) do
-    user |> User.admin_changeset(%{last_signed_in_at: Timex.now}) |> Repo.update!
+    user |> User.changeset(%{last_signed_in_at: Timex.now}) |> Repo.update!
     conn
       |> assign(:current_user, user)
       |> put_session(:user_id, user.id)
       |> put_session(:expires_at, new_expiration_datetime_string())
       |> configure_session(renew: true)
-  end
-
-  # Given a submitted UN and PW, we want to log them in if those creds are valid
-  def try_login(conn, email, pw) do
-    user = Repo.get_by(User, email: email)
-    cond do
-      user && checkpw(pw, user.password_hash)
-        -> {:ok, login!(conn, user)}
-      user ->
-        {:error, :unauthorized, conn}
-      true ->
-        dummy_checkpw() # prevent timing attacks that could derive valid emails
-        {:error, :not_found, conn}
-    end
   end
 
   # To log out, we just nuke the whole (cookie-stored) session.

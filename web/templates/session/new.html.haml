@@ -1,9 +1,0 @@
-%h1 Log in
-
-= form_for @conn, session_path(@conn, :create), [as: :session], fn(f) ->
-  .form-group
-    = text_input f, :email, placeholder: "Email", class: "form-control"
-  .form-group
-    = password_input f, :password, placeholder: "Password", class: "form-control"
-  = submit "Log in", class: "sign-in-button btn btn-primary"
-- end

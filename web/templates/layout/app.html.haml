@@ -20,11 +20,12 @@
 
         %ul.nav.navbar-nav.navbar-right
           = if @current_user do
-            -# TODO
-            %li.navbar-text{style: "color: #999;"} Signed in as #{@current_user.full_name}
-            %li.navbar-text= link "Sign out", to: session_path(@conn, :delete, @current_user), method: :delete, class: "sign-out-nav-link text-danger"
-          = else do
-            -# TODO
+            %li.dropdown
+              %a.dropdown-toggle{data-toggle: "dropdown"}
+                = @current_user.full_name
+                %span.caret
+              %ul.dropdown-menu
+                %li= link "Log out", to: session_path(@conn, :logout), class: "test-logout-link text-danger"
           - end
 
     %main

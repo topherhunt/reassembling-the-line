@@ -68,7 +68,7 @@ defmodule EducateYour.AuthTest do
 
   test "#require_user redirects and halts if no current_user", %{conn: conn} do
     conn = Auth.require_user(conn, [])
-    assert redirected_to(conn) == session_path(conn, :new)
+    assert redirected_to(conn) == home_path(conn, :index)
     assert conn.halted
   end
 
@@ -83,34 +83,6 @@ defmodule EducateYour.AuthTest do
     assert get_session(conn, :user_id) == user.id
     user = Repo.get!(EducateYour.User, user.id)
     assert user.last_signed_in_at != nil
-  end
-
-  # #try_login
-
-  test "#try_login logs in the user if email and password match", %{conn: conn} do
-    user = insert :user
-    { code, conn } = Auth.try_login(conn, user.email, user.password)
-    assert code == :ok
-    assert conn.assigns.current_user.id == user.id
-    assert conn |> get_session(:user_id) == user.id
-  end
-
-  test "#try_login returns error if password doesn't match", %{conn: conn} do
-    user = insert :user
-    { code, reason, conn } = Auth.try_login(conn, user.email, "incorrect")
-    assert code == :error
-    assert reason == :unauthorized
-    assert conn.assigns[:current_user] == nil
-    assert conn |> get_session(:user_id) == nil
-  end
-
-  test "#try_login returns error if un not found", %{conn: conn} do
-    user = insert :user
-    { code, reason, conn } = Auth.try_login(conn, "bad_username", user.password)
-    assert code == :error
-    assert reason == :not_found
-    assert conn.assigns[:current_user] == nil
-    assert conn |> get_session(:user_id) == nil
   end
 
   # #logout!
