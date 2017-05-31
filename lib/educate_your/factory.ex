@@ -10,6 +10,10 @@ defmodule EducateYour.Factory do
     build(factory, params_with_assocs(factory, opts))
   end
 
+  # NOTE: Be careful with `params_with_assocs`. It behaves in counterintuitive
+  # ways when you override associations or FK fields. Best practice is to
+  # only ever call `params_with_assocs\1` and then Map.merge any FK overrides.
+
   def user_factory do
     hex = random_hex()
     %User{

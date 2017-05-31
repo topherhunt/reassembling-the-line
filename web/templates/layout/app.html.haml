@@ -19,7 +19,10 @@
           %a.navbar-brand{href: "/"} EducateYour
 
         %ul.nav.navbar-nav.navbar-right
+          %li= link "Explore", to: explore_path(@conn, :index)
+
           = if @current_user do
+            %li= link "Videos", to: admin_video_path(@conn, :index)
             %li.dropdown
               %a.dropdown-toggle{data-toggle: "dropdown"}
                 = @current_user.full_name

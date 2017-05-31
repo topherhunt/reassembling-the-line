@@ -15,14 +15,10 @@ defmodule EducateYour.Tag do
       |> cast(params, [:context, :text])
       |> validate_required([:context, :text])
       |> validate_inclusion(:context, valid_contexts())
-      |> validate_text_has_no_special_chars
+      # TODO: Should we validate that text contains no special chars?
   end
 
   def valid_contexts do
     ["location", "demographic", "topic", "sentiment"]
-  end
-
-  def validate_text_has_no_special_chars(changeset) do
-    TODO
   end
 end

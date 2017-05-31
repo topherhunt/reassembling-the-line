@@ -25,6 +25,12 @@ defmodule EducateYour.Router do
     get "/sessions/logout", SessionController, :logout
     get "/sessions/login_from_uuid/:uuid", SessionController, :login_from_uuid
 
-    # TODO: Fill in other routes
+    get "/explore", ExploreController, :index
+
+    scope "/admin", as: :admin do
+      pipe_through :admin_area
+
+      resources "/videos", Admin.VideoController, only: [:index]
+    end
   end
 end
