@@ -6,6 +6,7 @@ defmodule EducateYour.Coding do
     belongs_to :updated_by_user, EducateYour.User
     timestamps()
     has_many :taggings, EducateYour.Tagging
+    has_many :tags, through: [:taggings, :tag]
   end
 
   # === Changesets ===
