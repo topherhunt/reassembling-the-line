@@ -1,0 +1,38 @@
+%h2 Coding video: "#{@video.title}"
+
+.row
+  .col-sm-9
+    %video.play-video-container{src: "#{@video.recording_url}", style: "display: block; width: 100%; min-height: 480px; background-color: #222;", controls: ""}
+  .col-sm-3
+    %p Video: <em>#{@video.title}</em>
+    %p Source: #{EducateYour.Admin.VideoView.link_to_source(@video)}
+    %p TODO: Clicking anywhere on the video pauses / resumes it
+    %p TODO: controls for skipping forward / backward in time
+
+%hr
+
+= form_for @changeset, admin_coding_path(@conn, :create), fn(_f) ->
+  .row
+    .col-sm-6
+      %h4 Location tags
+      %table.table.js-tags-table{data-context: "location", data-autocompletes: Poison.encode!(tags_for_context(@all_tags, "location"))}
+        %tr
+          %td= link "Add", to: "#", class: "js-add-tag test-add-tag"
+    .col-sm-6
+      %h4 Demographic tags
+      %table.table.js-tags-table{data-context: "demographic", data-autocompletes: Poison.encode!(tags_for_context(@all_tags, "demographic"))}
+        %tr
+          %td= link "Add", to: "#", class: "js-add-tag test-add-tag"
+  .row
+    .col-sm-6
+      %h4 Topic tags
+      %table.table.js-tags-table{data-context: "topic", data-autocompletes: Poison.encode!(tags_for_context(@all_tags, "topic"))}
+        %tr
+          %td= link "Add", to: "#", class: "js-add-tag test-add-tag"
+    .col-sm-6
+      %h4 Sentiment tags
+      %table.table.js-tags-table{data-context: "sentiment", data-autocompletes: Poison.encode!(tags_for_context(@all_tags, "sentiment"))}
+        %tr
+          %td= link "Add", to: "#", class: "js-add-tag test-add-tag"
+  = submit "Submit", class: "test-create-coding btn btn-primary"
+- end

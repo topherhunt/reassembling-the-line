@@ -16,6 +16,7 @@ exports.config = {
         before: [
           "web/static/vendor/jquery.js",
           "web/static/vendor/bootstrap.js"
+          "web/static/vendor/jquery-ui.js"
         ]
       }
     },
@@ -23,7 +24,9 @@ exports.config = {
       joinTo: "css/app.css",
       order: {
         before: [
-          "web/static/vendor/bootstrap.css"
+          "web/static/vendor/bootstrap.css",
+          "web/static/vendor/jquery-ui.structure.css",
+          "web/static/vendor/jquery-ui.theme.css",
         ],
         after: ["web/static/css/app.css"] // concat app.css last
       }

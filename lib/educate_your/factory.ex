@@ -40,7 +40,6 @@ defmodule EducateYour.Factory do
 
   def tagging_factory do
     %Tagging{
-      video: build(:video),
       coding: build(:coding),
       tag: build(:tag)
     }

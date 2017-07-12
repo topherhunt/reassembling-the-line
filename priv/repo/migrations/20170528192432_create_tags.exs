@@ -8,6 +8,6 @@ defmodule EducateYour.Repo.Migrations.CreateTags do
       timestamps()
     end
 
-    create unique_index(:tags, [:text])
+    create unique_index(:tags, [:context, :text])
   end
 end

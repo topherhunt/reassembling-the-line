@@ -31,6 +31,7 @@ defmodule EducateYour.Router do
       pipe_through :admin_area
 
       resources "/videos", Admin.VideoController, only: [:index]
+      resources "/codings", Admin.CodingController, only: [:new, :create, :edit, :update]
     end
   end
 end

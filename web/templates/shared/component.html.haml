@@ -1,0 +1,7 @@
+= content_tag(@container, id: @id)
+
+:javascript
+  $(document).ready(function() {
+    var inner_html = #{@component_name}.render(#{Poison.encode!(@props)});
+    $('##{@id}').html(inner_html);
+  });

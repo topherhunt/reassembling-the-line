@@ -28,7 +28,7 @@ end)
   video = insert :video
   coding = insert :coding, updated_by_user: coder
   Enum.take_random(tags, 2) |> Enum.each(fn(tag) ->
-    insert :tagging, video: video, coding: coding, tag: tag
+    insert :tagging, coding: coding, tag: tag
   end)
 end)
 

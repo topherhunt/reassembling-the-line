@@ -1,12 +1,21 @@
-defmodule EducateYour.VideoControllerTest do
+defmodule EducateYour.Admin.VideoControllerTest do
   use EducateYour.ConnCase, async: true
 
-  test "#index renders correctly when logged in", %{conn: conn} do
+  test "all actions require logged-in user", %{conn: conn} do
+    [
+      get(conn, admin_video_path(conn, :index))
+    ] |> Enum.each(fn(conn) ->
+      assert redirect_to(conn) == home_path(conn, :index)
+      assert conn.halted
+    end)
+  end
+
+  test "#index renders correctly", %{conn: conn} do
+    {conn, _user} = login_as_new_user(conn)
     # Populate some dummy data
     insert :video
     insert :video
 
-    {conn, _user} = login_as_new_user(conn)
     conn = get(conn, admin_video_path(conn, :index))
     assert html_response(conn, 200) =~ "Videos"
   end

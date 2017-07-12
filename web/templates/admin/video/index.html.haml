@@ -14,12 +14,7 @@
     %tr
       %td= video.id
       %td= video.title
-      %td
-        = if video.source_url do
-          = link video.source_name || video.source_url, to: video.source_url
-        = else
-          = video.source_name
-        - end
+      %td= link_to_source(video)
       = if video.coding do
         %td.text-success Coded by #{video.coding.updated_by_user.full_name}
         %td= link "edit", to: "#", class: "text-warning"
