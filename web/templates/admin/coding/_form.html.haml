@@ -11,28 +11,54 @@
 
 %hr
 
-= form_for @changeset, admin_coding_path(@conn, :create), fn(_f) ->
+= form_for @changeset, create_or_update_path(@conn, @changeset), fn(_f) ->
+  %h3 Tags
   .row
     .col-sm-6
-      %h4 Location tags
-      %table.table.js-tags-table{data-context: "location", data-autocompletes: Poison.encode!(tags_for_context(@all_tags, "location"))}
+      %h4 Location
+      %table.table.js-tags-table.test-tags-table{class: "location", data-context: "location", data-autocompletes: "#{all_tags_json(@all_tags, "location")}", data-present-tags: "#{present_tags_json(@present_tags, "location")}"}
         %tr
-          %td= link "Add", to: "#", class: "js-add-tag test-add-tag"
+          %th Tag
+          %th
+          %th
+          %th
+        %tr
+          %td{colspan: 4}
+            = link "Add", to: "#", class: "js-add-tag test-add-tag btn btn-default btn-sm"
     .col-sm-6
-      %h4 Demographic tags
-      %table.table.js-tags-table{data-context: "demographic", data-autocompletes: Poison.encode!(tags_for_context(@all_tags, "demographic"))}
+      %h4 Demographic
+      %table.table.js-tags-table.test-tags-table{data-context: "demographic", data-autocompletes: "#{all_tags_json(@all_tags, "demographic")}", data-present-tags: "#{present_tags_json(@present_tags, "demographic")}"}
         %tr
-          %td= link "Add", to: "#", class: "js-add-tag test-add-tag"
+          %th Tag
+          %th
+          %th
+          %th
+        %tr
+          %td{colspan: 4}
+            = link "Add", to: "#", class: "js-add-tag test-add-tag btn btn-default btn-sm"
   .row
     .col-sm-6
-      %h4 Topic tags
-      %table.table.js-tags-table{data-context: "topic", data-autocompletes: Poison.encode!(tags_for_context(@all_tags, "topic"))}
+      %h4 Topic
+      %table.table.js-tags-table.test-tags-table{data-context: "topic", data-autocompletes: "#{all_tags_json(@all_tags, "topic")}", data-present-tags: "#{present_tags_json(@present_tags, "topic")}"}
         %tr
-          %td= link "Add", to: "#", class: "js-add-tag test-add-tag"
+          %th Tag
+          %th Starts at
+          %th Ends at
+          %th
+        %tr
+          %td{colspan: 4}
+            = link "Add", to: "#", class: "js-add-tag test-add-tag btn btn-default btn-sm"
     .col-sm-6
-      %h4 Sentiment tags
-      %table.table.js-tags-table{data-context: "sentiment", data-autocompletes: Poison.encode!(tags_for_context(@all_tags, "sentiment"))}
+      %h4 Sentiment
+      %table.table.js-tags-table.test-tags-table{data-context: "sentiment", data-autocompletes: "#{all_tags_json(@all_tags, "sentiment")}", data-present-tags: "#{present_tags_json(@present_tags, "sentiment")}"}
         %tr
-          %td= link "Add", to: "#", class: "js-add-tag test-add-tag"
+          %th Tag
+          %th Starts at
+          %th Ends at
+          %th
+        %tr
+          %td{colspan: 4}
+            = link "Add", to: "#", class: "js-add-tag test-add-tag btn btn-default btn-sm"
+  %input{type: "hidden", name: "coding[video_id]", value: "#{@video.id}"}
   = submit "Submit", class: "test-create-coding btn btn-primary"
 - end

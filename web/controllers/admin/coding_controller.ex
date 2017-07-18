@@ -1,9 +1,6 @@
 defmodule EducateYour.Admin.CodingController do
   use EducateYour.Web, :controller
-  alias EducateYour.{Video, Coding, Tag, Tagging}
-  import Ecto.Changeset
-
-require IEx
+  alias EducateYour.{Video, Coding, Tag}
 
   def new(conn, %{"video_id" => video_id}) do
     video = Repo.get!(Video, video_id)
@@ -11,10 +8,11 @@ require IEx
     render conn, "new.html",
       video: video,
       changeset: changeset,
-      all_tags: all_tags()
+      all_tags: all_tags(),
+      present_tags: []
   end
 
-  def create(conn, %{"coding" => %{"video_id" => video_id, "tags" => tags_params}} = params) do
+  def create(conn, %{"coding" => %{"video_id" => video_id, "tags" => tags_params}}) do
     changeset = Coding.create_changeset(
       %Coding{},
       %{video_id: video_id, updated_by_user_id: conn.assigns.current_user.id}
@@ -25,12 +23,13 @@ require IEx
   end
 
   def edit(conn, %{"id" => coding_id}) do
-    coding = Repo.get!(Coding, coding_id) |> Repo.preload(:video)
+    coding = Repo.get!(Coding, coding_id) |> Repo.preload([:video, [taggings: :tag]])
     changeset = Coding.update_changeset(coding, %{})
     render conn, "edit.html",
       video: coding.video,
       changeset: changeset,
-      all_tags: all_tags()
+      all_tags: all_tags(),
+      present_tags: Coding.compact_tag_info(coding)
   end
 
   def update(conn, %{"id" => coding_id, "coding" => %{"tags" => tags_params}}) do

@@ -1,6 +1,6 @@
 defmodule EducateYour.Coding do
   use EducateYour.Web, :model
-  alias EducateYour.{Repo, Tagging, Tag}
+  alias EducateYour.{H, Repo, Tagging, Tag}
 
   schema "codings" do
     belongs_to :video, EducateYour.Video
@@ -32,16 +32,18 @@ defmodule EducateYour.Coding do
   #
 
   def associate_tags(coding, tags_list) do
-    Enum.each(tags_list, fn(tag_map) ->
-      tag = Tag.find_or_create(tag_map)
-      tagging_changeset = Tagging.changeset(%Tagging{}, %{
-        coding_id: coding.id,
-        tag_id: tag.id,
-        starts_at: tag_map["starts_at"],
-        ends_at: tag_map["ends_at"]
-      })
-      Repo.insert!(tagging_changeset)
-    end)
+    tags_list
+      |> Enum.reject(fn(params)-> H.is_blank?(params["text"]) end)
+      |> Enum.each(fn(params) ->
+        tag = Tag.find_or_create(params)
+        tagging_changeset = Tagging.changeset(%Tagging{}, %{
+          coding_id: coding.id,
+          tag_id: tag.id,
+          starts_at: H.human_time_to_integer(params["starts_at"]),
+          ends_at:   H.human_time_to_integer(params["ends_at"])
+        })
+        Repo.insert!(tagging_changeset)
+      end)
   end
 
   def compact_tag_info(coding) do
@@ -50,8 +52,8 @@ defmodule EducateYour.Coding do
       %{
         context: tagging.tag.context,
         text: tagging.tag.text,
-        starts_at: tagging.starts_at,
-        ends_at: tagging.ends_at
+        starts_at: H.integer_time_to_human(tagging.starts_at),
+        ends_at:   H.integer_time_to_human(tagging.ends_at)
       }
     end)
   end

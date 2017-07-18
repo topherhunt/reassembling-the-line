@@ -15,7 +15,7 @@ exports.config = {
       order: {
         before: [
           "web/static/vendor/jquery.js",
-          "web/static/vendor/bootstrap.js"
+          "web/static/vendor/bootstrap.js",
           "web/static/vendor/jquery-ui.js"
         ]
       }

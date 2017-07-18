@@ -11,7 +11,6 @@ defmodule EducateYour.IntegrationCase do
       import Ecto.Changeset
       import Ecto.Query
       import EducateYour.Router.Helpers
-      import EducateYour.ConnHelpers
       import EducateYour.Factory
       import EducateYour.ModelHelpers
       import EducateYour.EmailHelpers

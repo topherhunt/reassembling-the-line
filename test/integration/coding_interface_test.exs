@@ -1,16 +1,16 @@
 defmodule CodingInterfaceTest do
   use EducateYour.IntegrationCase
   alias EducateYour.{Repo, Coding}
-  require IEx
 
   hound_session()
 
   # See CodingControllerTest for the CRUD basics
 
   test "User can add and remove tags and submit coding data", %{conn: conn} do
-    {conn, user} = login_as_new_user(conn)
+    user  = insert :user
     video = insert :video
 
+    navigate_to session_path(conn, :login_from_uuid, user.uuid)
     navigate_to admin_coding_path(conn, :new, video_id: video.id)
     table("location")    |> click_add_tag_link
     table("location")    |> click_add_tag_link
@@ -25,64 +25,42 @@ defmodule CodingInterfaceTest do
     table("sentiment") |> assert_num_tags(0)
     table("location")  |> tag_rows |> List.first |> text_field |> fill_field("Georgia")
     table("location")  |> tag_rows |> List.last  |> text_field |> fill_field("Alabama")
-    table("topic")     |> tag_rows |> List.first |> text_field |> fill_field("books")
     # The second "topic" tag is left blank and should be discarded on submission.
-    tag_4_row = table("topics") |> tag_rows |> List.first
+    tag_4_row = table("topic") |> tag_rows |> List.first
     tag_4_row |> text_field       |> fill_field("bullying")
     tag_4_row |> start_time_field |> fill_field("0:15")
     tag_4_row |> end_time_field   |> fill_field("0:45")
-    find_element(".test-create-coding") |> click
+    find_element(:css, ".test-create-coding") |> click
 
-    assert current_path() == "blah"
+    assert current_path() == admin_video_path(conn, :index)
     coding = video
-      |> Repo.assoc(:coding)
+      |> assoc(:coding)
       |> Repo.first
       |> Repo.preload([:taggings, :tags])
     tags = Coding.compact_tag_info(coding) |> Enum.sort
     assert tags == [
-      %{
-        context: "location",
-        text: "Alabama",
-        starts_at: nil,
-        ends_at: nil
-      },
-      %{
-        context: "location",
-        text: "Georgia",
-        starts_at: nil,
-        ends_at: nil
-      },
-
+      %{context: "location", text: "Alabama", starts_at: nil, ends_at: nil},
+      %{context: "location", text: "Georgia", starts_at: nil, ends_at: nil},
+      %{context: "topic", text: "bullying", starts_at: "0:15", ends_at: "0:45"}
     ]
   end
 
-  test "Tags autocomplete", %{conn: conn} do
-    {conn, user} = login_as_new_user(conn)
-    video = insert :video
-    insert :tag, context: "topic", text: "bullying"
-    insert :tag, context: "topic", text: "teaching method"
-
-    navigate_to admin_coding_path(conn, :new, video_id: video.id)
-    table("location") |> click_add_tag_link
-    table("location") |> tag_rows |> list.first |> text_field |> fill_field "tea"
-    raise "TODO: assert that no autocomplete suggestions appear"
-    table("topic") |> tag_rows |> list.first |> text_field |> fill_field "tea"
-    raise "TODO: assert that an autocomplete suggestion appears. Click it."
-    raise "TODO: assert that the tag text 'teaching method' was filled in."
-  end
-
   test "Selected tags are autopopulated when re-coding a video", %{conn: conn} do
-    {conn, user} = login_as_new_user(conn)
+    user   = insert :user
     coding = insert :coding
     Coding.associate_tags(coding, [
-      %{"context" => "location", "text" => "abc"},
-      %{"context" => "sentiment", "text" => "def", "starts_at" => 15, "ends_at" => 49},
-      %{"context" => "sentinent", "text" => "ghi", "starts_at" => 40, "ends_at" => 72}
+      %{"context"=>"location", "text"=>"abc"},
+      %{"context"=>"sentiment", "text"=>"def", "starts_at"=>"15", "ends_at"=>"49"},
+      %{"context"=>"sentiment", "text"=>"ghi", "starts_at"=>"40", "ends_at"=>"72"}
     ])
-    assert (coding |> Repo.assoc(:taggings) |> Repo.count) == 3
+    assert (coding |> assoc(:taggings) |> Repo.count) == 3
 
+    navigate_to session_path(conn, :login_from_uuid, user.uuid)
     navigate_to admin_coding_path(conn, :edit, coding.id)
-    raise "TODO: Inspect the page and verify that all tags look correct"
+    table("location")    |> assert_num_tags(1)
+    table("sentiment")   |> assert_num_tags(2)
+    table("topic")       |> assert_num_tags(0)
+    table("demographic") |> assert_num_tags(0)
   end
 
   ##
@@ -90,15 +68,17 @@ defmodule CodingInterfaceTest do
   #
 
   defp table(context) do
-    find_element(".tags-table[data-context=\"#{context}\"]")
+    find_all_elements(:css, ".test-tags-table")
+      |> Enum.find(fn(el) -> attribute_value(el, "data-context") == context end)
+      || raise("Can't find table with context #{context}!")
   end
 
   defp tag_rows(table) do
     table |> find_all_within_element(:css, ".test-tag-row")
   end
 
-  def text_field(tag_row) do
-    tag_row |> find_within_element(".test-tag-text-field")
+  defp text_field(tag_row) do
+    tag_row |> find_within_element(:css, ".test-tag-text-field")
   end
 
   defp start_time_field(tag_row) do
@@ -106,7 +86,7 @@ defmodule CodingInterfaceTest do
   end
 
   defp end_time_field(tag_row) do
-    tag_row |> find_all_within_element(".test-tag-time-field") |> List.last
+    tag_row |> find_all_within_element(:css, ".test-tag-time-field") |> List.last
   end
 
   ##
@@ -126,7 +106,7 @@ defmodule CodingInterfaceTest do
   end
 
   defp click_remove_tag_link(tag_row) do
-    tag_row |> find_within_element(".test-remove-tag") |> click
+    tag_row |> find_within_element(:css, ".test-remove-tag") |> click
   end
 
 end

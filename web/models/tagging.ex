@@ -1,5 +1,6 @@
 defmodule EducateYour.Tagging do
   use EducateYour.Web, :model
+  alias EducateYour.H
 
   schema "taggings" do
     belongs_to :coding, EducateYour.Coding
@@ -19,15 +20,10 @@ defmodule EducateYour.Tagging do
   end
 
   defp validate_start_and_end_must_be_paired(changeset) do
-    if is_blank?(get_change(changeset, :starts_at)) != is_blank?(get_change(changeset, :ends_at)) do
+    if H.is_blank?(get_change(changeset, :starts_at)) != H.is_blank?(get_change(changeset, :ends_at)) do
       add_error(changeset, :starts_at, "Both starts_at and ends_at must be present if either is present.")
     else
       changeset
     end
-  end
-
-  # TODO: There's probably a standard way to do this
-  defp is_blank?(value) do
-    value == nil || value == ""
   end
 end
