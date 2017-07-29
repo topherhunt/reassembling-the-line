@@ -38,7 +38,8 @@ IO.puts "- #{Repo.count(Video)} videos"
 IO.puts "- #{Repo.count(Coding)} codings"
 IO.puts "- #{Repo.count(Tagging)} Taggings"
 IO.puts "- #{Repo.count(Tag)} tags"
-IO.puts "Whitney's autologin link:"
-IO.puts Router.Helpers.session_path(Endpoint, :login_from_uuid, whitney.uuid)
-IO.puts "Coder's autologin link:"
-IO.puts Router.Helpers.session_path(Endpoint, :login_from_uuid, coder.uuid)
+IO.puts "Login paths:"
+Repo.all(User) |> Enum.each(fn(user) ->
+  path = Router.Helpers.session_path(Endpoint, :login_from_uuid, user.uuid)
+  IO.puts "* #{user.full_name} logs in with: #{path}"
+end)

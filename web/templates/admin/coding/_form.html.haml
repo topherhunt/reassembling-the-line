@@ -2,12 +2,16 @@
 
 .row
   .col-sm-9
-    %video.play-video-container{src: "#{Video.recording_url(@video)}", poster: "#{Video.thumbnail_url(@video)}", style: "display: block; width: 100%; min-height: 480px; background-color: #222;", controls: ""}
+    %video.js-coding-video-player{src: "#{Video.recording_url(@video)}", poster: "#{Video.thumbnail_url(@video)}", style: "display: block; width: 100%; min-height: 480px; background-color: #222;", controls: ""}
   .col-sm-3
     %p Video: <em>#{@video.title}</em>
     %p Source: #{EducateYour.Admin.VideoView.link_to_source(@video)}
-    %p TODO: Clicking anywhere on the video pauses / resumes it
-    %p TODO: controls for skipping forward / backward in time
+    %p
+      %a.js-time-skip.btn.btn-default{data-amount: "-10"} <<
+      %a.js-time-skip.btn.btn-default{data-amount: "-2"} <
+      %a.js-time-skip.btn.btn-default{data-amount: "2"} >
+      %a.js-time-skip.btn.btn-default{data-amount: "10"} >>
+
 
 %hr
 

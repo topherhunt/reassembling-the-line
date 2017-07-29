@@ -10,6 +10,11 @@ var CodingHelpers = {
 };
 
 $(document).ready(function() {
+
+  ////
+  // Coding controls
+  //
+
   setTimeout(function() {
     CodingHelpers.init_autocomplete();
   }, 1000);
@@ -36,5 +41,19 @@ $(document).ready(function() {
     $.each(present_tags, function(i, presets) {
       footer.before(CodingTagComponent.render(presets));
     });
+  });
+
+  ////
+  // Video playback
+  //
+
+  $('.js-coding-video-player').click(function(){
+    this.paused ? this.play() : this.pause();
+  });
+
+  $('.js-time-skip').click(function(){
+    var videoPlayer = $('video')[0];
+    var amount = $(this).data('amount');
+    videoPlayer.currentTime += amount;
   });
 });
