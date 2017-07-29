@@ -1,5 +1,6 @@
 defmodule EducateYour.Admin.CodingView do
   use EducateYour.Web, :view
+  alias EducateYour.Video
 
   def all_tags_json(tags, context) do
     tags

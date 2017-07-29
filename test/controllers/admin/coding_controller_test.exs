@@ -83,8 +83,8 @@ require IEx
     coding = insert :coding
     Coding.associate_tags(coding, [
       %{"context" => "location", "text" => "abc"},
-      %{"context" => "sentiment", "text" => "def", "starts_at" => 15, "ends_at" => 49},
-      %{"context" => "sentiment", "text" => "ghi", "starts_at" => 40, "ends_at" => 72}
+      %{"context" => "sentiment", "text" => "def", "starts_at" => "15", "ends_at" => "49"},
+      %{"context" => "sentiment", "text" => "ghi", "starts_at" => "40", "ends_at" => "72"}
     ])
     assert (coding |> assoc(:taggings) |> Repo.count) == 3
 

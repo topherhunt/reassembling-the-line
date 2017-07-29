@@ -1,7 +1,7 @@
 defmodule EducateYour.Factory do
   use ExMachina.Ecto, repo: EducateYour.Repo
 
-  alias EducateYour.{User, Video, Coding, Tagging, Tag}
+  alias EducateYour.{H, User, Video, Coding, Tagging, Tag}
 
   # Returns an unpersisted struct with all foreign key _id fields populated.
   # Useful when testing validations: we need a valid, unpersisted struct that
@@ -15,19 +15,20 @@ defmodule EducateYour.Factory do
   # only ever call `params_with_assocs\1` and then Map.merge any FK overrides.
 
   def user_factory do
-    hex = random_hex()
+    hex = H.random_hex()
     %User{
       full_name: "User #{hex}",
       email: "user_#{hex}@example.com",
-      uuid: random_hex() <> random_hex()
+      uuid: H.random_hex() <> H.random_hex()
     }
   end
 
   def video_factory do
-    hex = random_hex()
+    hex = H.random_hex()
     %Video{
       title: "Video #{hex}",
-      recording_url: "http://www.example.com/videos/#{hex}"
+      recording_filename: "#{hex}.webm",
+      thumbnail_filename: "#{hex}.jpg"
     }
   end
 
@@ -48,13 +49,7 @@ defmodule EducateYour.Factory do
   def tag_factory do
     %Tag{
       context: Enum.random(Tag.valid_contexts),
-      text: "tag_#{random_hex()}"
+      text: "tag_#{H.random_hex()}"
     }
-  end
-
-  # Helpers
-
-  defp random_hex do
-    :crypto.strong_rand_bytes(4) |> Base.encode16
   end
 end

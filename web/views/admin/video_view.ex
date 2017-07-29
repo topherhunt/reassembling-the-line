@@ -1,5 +1,6 @@
 defmodule EducateYour.Admin.VideoView do
   use EducateYour.Web, :view
+  alias EducateYour.Video
 
   def tag_list(video) do
     video.coding.tags

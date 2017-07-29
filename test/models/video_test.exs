@@ -6,6 +6,7 @@ defmodule EducateYour.VideoTest do
     defaults = params_with_assocs(:video)
     assert_valid(Video, :changeset, defaults)
     assert_invalid(Video, :changeset, defaults, %{title: nil})
-    assert_invalid(Video, :changeset, defaults, %{recording_url: nil})
+    assert_invalid(Video, :changeset, defaults, %{recording_filename: nil})
+    assert_invalid(Video, :changeset, defaults, %{thumbnail_filename: nil})
   end
 end

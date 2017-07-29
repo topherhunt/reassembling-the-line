@@ -57,7 +57,8 @@ defmodule EducateYour.Mixfile do
       {:bamboo, "~> 0.7"},
       {:bamboo_smtp, "~> 1.2.1"},
       {:hound, "~> 1.0", only: :test},
-      {:logger_file_backend, "~> 0.0.9", only: :test}
+      {:logger_file_backend, "~> 0.0.9", only: :test},
+      {:csv, "~> 2.0.0"}
     ]
   end
 

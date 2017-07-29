@@ -26,4 +26,8 @@ defmodule EducateYour.H do
       "#{minutes}:#{seconds}"
     end
   end
+
+  def random_hex do
+    :crypto.strong_rand_bytes(4) |> Base.encode16
+  end
 end

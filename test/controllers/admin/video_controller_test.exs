@@ -5,7 +5,7 @@ defmodule EducateYour.Admin.VideoControllerTest do
     [
       get(conn, admin_video_path(conn, :index))
     ] |> Enum.each(fn(conn) ->
-      assert redirect_to(conn) == home_path(conn, :index)
+      assert redirected_to(conn) == home_path(conn, :index)
       assert conn.halted
     end)
   end

@@ -50,7 +50,8 @@ config :ex_aws,
 
 config :arc,
   storage: Arc.Storage.S3,
-  bucket: System.get_env("S3_BUCKET")
+  bucket: System.get_env("S3_BUCKET"),
+  version_timeout: 60_000
 
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.

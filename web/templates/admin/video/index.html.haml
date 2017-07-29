@@ -5,6 +5,7 @@
 %table.table.table-striped
   %tr
     %th ID
+    %th
     %th Title
     %th Source
     %th Status
@@ -13,6 +14,9 @@
   = Enum.map(@videos, fn(video) ->
     %tr
       %td= video.id
+      %td
+        %div{style: "overflow: hidden; height: 80px;"}
+          %img{src: "#{Video.thumbnail_url(video)}", style: "height: 100px; margin: -20px;"}
       %td= video.title
       %td= link_to_source(video)
       = if video.coding do

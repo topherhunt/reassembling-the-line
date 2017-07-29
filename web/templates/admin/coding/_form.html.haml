@@ -2,7 +2,7 @@
 
 .row
   .col-sm-9
-    %video.play-video-container{src: "#{@video.recording_url}", style: "display: block; width: 100%; min-height: 480px; background-color: #222;", controls: ""}
+    %video.play-video-container{src: "#{Video.recording_url(@video)}", poster: "#{Video.thumbnail_url(@video)}", style: "display: block; width: 100%; min-height: 480px; background-color: #222;", controls: ""}
   .col-sm-3
     %p Video: <em>#{@video.title}</em>
     %p Source: #{EducateYour.Admin.VideoView.link_to_source(@video)}
