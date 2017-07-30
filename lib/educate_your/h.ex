@@ -2,6 +2,20 @@
 # Various helper methods to make a Rails dev feel more at home in Phoenix
 #
 defmodule EducateYour.H do
+  def tap(input, function) do
+    function.(input)
+    input
+  end
+
+  # Example usage: |> H.tap("All segments found:", &Segment.debug_list/1)
+  def tap(input, debug_msg, function) do
+    IO.puts "====="
+    IO.puts debug_msg
+    function.(input)
+    IO.puts "====="
+    input
+  end
+
   def is_blank?(value) do
     value == nil || value == ""
   end

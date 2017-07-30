@@ -19,3 +19,4 @@ import "phoenix_html";
 
 import "web/static/js/utilities";
 import "web/static/js/coding";
+import "web/static/js/explore";

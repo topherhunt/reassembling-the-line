@@ -53,7 +53,6 @@ defmodule CodingInterfaceTest do
       %{"context"=>"sentiment", "text"=>"def", "starts_at"=>"15", "ends_at"=>"49"},
       %{"context"=>"sentiment", "text"=>"ghi", "starts_at"=>"40", "ends_at"=>"72"}
     ])
-    assert (coding |> assoc(:taggings) |> Repo.count) == 3
 
     navigate_to session_path(conn, :login_from_uuid, user.uuid)
     navigate_to admin_coding_path(conn, :edit, coding.id)

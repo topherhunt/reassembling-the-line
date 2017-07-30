@@ -8,6 +8,8 @@ defmodule EducateYour.Admin.CodingController do
     render conn, "new.html",
       video: video,
       changeset: changeset,
+      # TODO: Should load tags separately per context, that way the filtering
+      # doesn't need to be done client-side
       all_tags: all_tags(),
       present_tags: []
   end

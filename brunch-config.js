@@ -16,7 +16,8 @@ exports.config = {
         before: [
           "web/static/vendor/jquery.js",
           "web/static/vendor/bootstrap.js",
-          "web/static/vendor/jquery-ui.js"
+          "web/static/vendor/jquery-ui.js",
+          "web/static/vendor/chosen.jquery.js"
         ]
       }
     },
@@ -27,6 +28,7 @@ exports.config = {
           "web/static/vendor/bootstrap.css",
           "web/static/vendor/jquery-ui.structure.css",
           "web/static/vendor/jquery-ui.theme.css",
+          "web/static/vendor/chosen.css"
         ],
         after: ["web/static/css/app.css"] // concat app.css last
       }

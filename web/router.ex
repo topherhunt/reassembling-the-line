@@ -26,6 +26,7 @@ defmodule EducateYour.Router do
     get "/sessions/login_from_uuid/:uuid", SessionController, :login_from_uuid
 
     get "/explore", ExploreController, :index
+    get "/explore/playlist", ExploreController, :playlist
 
     scope "/admin", as: :admin do
       pipe_through :admin_area
