@@ -1,7 +1,7 @@
 # Logic for searching for video clips matching a filter
 defmodule EducateYour.Playlist do
   import Ecto.Query
-  alias EducateYour.{Repo, Video, Segment}
+  alias EducateYour.{H, Repo, Video, Segment}
 
   # INPUT is a list of filtered tags in the format %{context:, text:}
   # Outputs a list of matching Segment structs, with adjacent segments merged
@@ -94,7 +94,11 @@ defmodule EducateYour.Playlist do
     [start_times, end_times]
       |> List.zip
       |> Enum.map(fn({starts_at, ends_at}) ->
-        %Segment{starts_at: starts_at, ends_at: ends_at}
+        %Segment{
+          segment_id: H.random_hex(),
+          starts_at: starts_at,
+          ends_at: ends_at
+        }
       end)
   end
 

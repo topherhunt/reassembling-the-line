@@ -1,9 +1,9 @@
 defmodule EducateYour.ExploreController do
   use EducateYour.Web, :controller
-  alias EducateYour.{Tag}
+  alias EducateYour.{H, Tag}
 
-  def index(conn, _params) do
-    render conn, "index.html", tags: tags_by_context()
+  def index(conn, params) do
+    render conn, "index.html", all_tags: all_tags_by_context()
   end
 
   # Receives an ajax request for video clips given a specific filter
@@ -16,7 +16,7 @@ defmodule EducateYour.ExploreController do
   # Helpers
   #
 
-  defp tags_by_context do
+  defp all_tags_by_context do
     %{
       location: load_tags("location"),
       demographic: load_tags("demographic"),
@@ -36,6 +36,7 @@ defmodule EducateYour.ExploreController do
   defp tags_from_params(params) do
     (params["tags"] || "")
       |> String.split(",")
+      |> Enum.reject(&H.is_blank?/1)
       |> Enum.map(fn(encoded_tag) ->
         [context, text] = String.split(encoded_tag, ":")
         %{context: context, text: text}

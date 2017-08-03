@@ -1,5 +1,6 @@
 defmodule EducateYour.Segment do
   defstruct(
+    segment_id: nil,
     video_id: nil,
     title: nil,
     recording_url: nil,

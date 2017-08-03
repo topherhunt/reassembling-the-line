@@ -11,6 +11,8 @@ var CodingHelpers = {
 
 $(document).ready(function() {
 
+  if ($('.js-coding-video-player').length == 0) { return; }
+
   ////
   // Coding controls
   //

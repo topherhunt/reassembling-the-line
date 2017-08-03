@@ -4,14 +4,14 @@ defmodule EducateYour.PlaylistTest do
 
   test "#search loads matching videos" do
     video1 = insert_video_with_tags(
-      ["location:abc", "sentiment:def:15:49", "topic:ghi:40:72"])
+      ["location:abc", "sentiment:Def:15:49", "topic:ghi:40:72"])
     _video2 = insert_video_with_tags(
-      ["sentiment:def:10:20", "location:abc:30:40"])
+      ["sentiment:Def:10:20", "location:abc:30:40"])
     _video3 = insert_video_with_tags([])
     video4 = insert_video_with_tags(
-      ["sentiment:def:15:38", "location:abc:30:60", "sentiment:def:55:82"])
+      ["sentiment:Def:15:38", "location:abc:30:60", "sentiment:Def:55:82"])
 
-    tags = [%{context: "location", text: "abc"}, %{context: "sentiment", text: "def"}]
+    tags = [%{context: "location", text: "abc"}, %{context: "sentiment", text: "Def"}]
     results = summarize_segments(Playlist.search(tags))
     # - video1 has one matching segment (a global tag & a segment tag)
     # - video2 has the right tags, but no overlap
@@ -26,12 +26,12 @@ defmodule EducateYour.PlaylistTest do
 
   test "#search loads all videos when no tags applied" do
     video1 = insert_video_with_tags(
-      ["location:abc", "sentiment:def:15:49", "topic:ghi:40:72"])
+      ["location:abc", "sentiment:Def:15:49", "topic:ghi:40:72"])
     video2 = insert_video_with_tags(
-      ["sentiment:def:10:20", "location:abc:30:40"])
+      ["sentiment:Def:10:20", "location:abc:30:40"])
     _video3 = insert_video_with_tags([])
     video4 = insert_video_with_tags(
-      ["location:abc:30:60", "sentiment:def:15:49", "topic:ghi:65:82"])
+      ["location:abc:30:60", "sentiment:Def:15:49", "topic:ghi:65:82"])
 
     segments = Playlist.search([])
     results = summarize_segments(segments)

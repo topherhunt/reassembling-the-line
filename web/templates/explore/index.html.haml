@@ -2,30 +2,31 @@
   .col-sm-8
     %h1{style: "margin-top: 0px;"} Explore
     %div{style: "padding-bottom: 5px;"}
-    %video.js-explore-video-player{style: "display: block; width: 100%; min-height: 480px; background-color: #222;", controls: ""}
+    %video.js-explore-video-player{style: "display: block; width: 100%; height: 480px; background-color: #222;", controls: "", autoplay: ""}
 
   .col-sm-4
     %h3 Filters
     .row.row-padded
       .col-xs-6
         %select.js-chosen-select{data-context: "location", data-placeholder: "Location" multiple: ""}
-          = Enum.map(@tags.location, fn(tag) ->
+          = Enum.map(@all_tags.location, fn(tag) ->
             %option{value: "#{tag}"}= tag
           - end)
       .col-xs-6
         %select.js-chosen-select{data-context: "demographic", data-placeholder: "Demographic" multiple: ""}
-          = Enum.map(@tags.demographic, fn(tag) ->
+          = Enum.map(@all_tags.demographic, fn(tag) ->
             %option{value: "#{tag}"}= tag
           - end)
     .row.row-padded
       .col-xs-6
         %select.js-chosen-select{data-context: "topic", data-placeholder: "Topic" multiple: ""}
-          = Enum.map(@tags.topic, fn(tag) ->
+          = Enum.map(@all_tags.topic, fn(tag) ->
             %option{value: "#{tag}"}= tag
           - end)
       .col-xs-6
         %select.js-chosen-select{data-context: "sentiment", data-placeholder: "Sentiment" multiple: ""}
-          = Enum.map(@tags.sentiment, fn(tag) ->
+          = Enum.map(@all_tags.sentiment, fn(tag) ->
             %option{value: "#{tag}"}= tag
           - end)
     %h3 Playlist
+    .js-playlist-container
