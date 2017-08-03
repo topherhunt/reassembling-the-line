@@ -28,10 +28,6 @@ var CodingTagComponent = {
     return ['location', 'demographic', 'topic', 'sentiment'].indexOf(context) > -1;
   },
 
-  context_is_global: function(context) {
-    return ['location', 'demographic'].indexOf(context) > -1;
-  },
-
   context_and_text_html: function(tag) {
     return '<td>' +
       '<input type="hidden" name="'+tag.name_root+'[context]" value="'+tag.context+'" />' +
@@ -40,13 +36,9 @@ var CodingTagComponent = {
   },
 
   time_window_html: function(tag) {
-    if (this.context_is_global(tag.context)) {
-      return '<td colspan="2"><em>whole video</em></td>';
-    } else {
-      return '' +
-        '<td><input class="css-tag-time-field test-tag-time-field form-control" type="text" name="'+tag.name_root+'[starts_at]" value="'+tag.starts_at+'" placeholder="mm:ss" style="width: 70px;" /></td>' +
-        '<td><input class="css-tag-time-field test-tag-time-field form-control" type="text" name="'+tag.name_root+'[ends_at]" value="'+tag.ends_at+'" placeholder="mm:ss" style="width: 70px;" /></td>';
-    }
+    return '' +
+      '<td><input class="css-tag-time-field test-tag-time-field form-control" type="text" name="'+tag.name_root+'[starts_at]" value="'+(tag.starts_at || '')+'" placeholder="mm:ss" style="width: 70px;" /></td>' +
+      '<td><input class="css-tag-time-field test-tag-time-field form-control" type="text" name="'+tag.name_root+'[ends_at]" value="'+(tag.ends_at || '')+'" placeholder="mm:ss" style="width: 70px;" /></td>';
   }
 };
 

@@ -21,11 +21,11 @@
       %td= link_to_source(video)
       = if video.coding do
         %td.text-success Coded by #{video.coding.updated_by_user.full_name}
-        %td= link "edit", to: admin_coding_path(@conn, :edit, video.coding.id), class: "text-warning"
+        %td= link "edit", to: admin_coding_path(@conn, :edit, video.coding.id), class: "btn btn-xs btn-default"
         %td= tag_list(video)
       = else
         %td.text-muted Not coded
-        %td= link "code", to: admin_coding_path(@conn, :new, video_id: video.id), class: ""
+        %td= link "code", to: admin_coding_path(@conn, :new, video_id: video.id), class: "btn btn-xs btn-success"
         %td
       - end
   - end)

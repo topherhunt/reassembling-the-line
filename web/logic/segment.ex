@@ -1,14 +1,20 @@
 defmodule EducateYour.Segment do
   defstruct(
-    segment_id: nil,
+    segment_id: nil, # a hash string unique to this video_id, starts_at, ends_at
     video_id: nil,
     title: nil,
     recording_url: nil,
     thumbnail_url: nil,
     starts_at: nil,
     ends_at: nil,
-    tags: nil
+    tags: nil # array of tag maps: %{context:, text:, starts_at:, ends_at:}
   )
+
+  # A random-looking but fixed alphanumeric ID unique to this video clip
+  def hash(segment) do
+    string = "#{segment.video_id}-#{segment.starts_at}-#{segment.ends_at}"
+    :crypto.hash(:md5, string) |> Base.encode16
+  end
 
   def is_tagged?(segment) do
     length(segment.tags) > 0
@@ -27,10 +33,13 @@ defmodule EducateYour.Segment do
   def merge_adjacent(segments) do
     if index_a = find_adjacent_pair(segments) do
       index_b = index_a + 1
-      a = Enum.at(segments, index_a)
-      b = Enum.at(segments, index_b)
+      old_a = Enum.at(segments, index_a)
+      old_b = Enum.at(segments, index_b)
+      new_a = old_a
+        |> Map.put(:ends_at, old_b.ends_at)
+        |> Map.put(:tags, Enum.uniq(old_a.tags ++ old_b.tags))
       segments
-        |> List.replace_at(index_a, Map.put(a, :ends_at, b.ends_at))
+        |> List.replace_at(index_a, new_a)
         |> List.delete_at(index_b)
         |> merge_adjacent
     else

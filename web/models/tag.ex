@@ -18,7 +18,16 @@ defmodule EducateYour.Tag do
       |> cast(params, [:context, :text])
       |> validate_required([:context, :text])
       |> validate_inclusion(:context, valid_contexts())
-      # TODO: Should we validate that text contains no special chars?
+      |> validate_tag_has_no_special_chars
+  end
+
+  def validate_tag_has_no_special_chars(changeset) do
+    text = get_field(changeset, :text)
+    if String.match?(text, ~r/\A[\w\d ]+\z/) do
+      changeset
+    else
+      add_error(changeset, :text, "Must only contain letters, numbers, and spaces.")
+    end
   end
 
   ##

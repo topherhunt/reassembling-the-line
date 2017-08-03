@@ -36,8 +36,8 @@ $(document).ready(function() {
     tag_row.remove();
   });
 
+  // Populate all pre-selected tags
   $('.js-tags-table').each(function(i, table) {
-    console.log('Initializing presets. Values are:');
     var footer = $(table).find('.js-add-tag').parents('tr');
     var present_tags = $(table).data('present-tags') || [];
     $.each(present_tags, function(i, presets) {

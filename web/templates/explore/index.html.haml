@@ -10,23 +10,23 @@
       .col-xs-6
         %select.js-chosen-select{data-context: "location", data-placeholder: "Location" multiple: ""}
           = Enum.map(@all_tags.location, fn(tag) ->
-            %option{value: "#{tag}"}= tag
+            %option{value: "#{tag.value}"}= tag.label
           - end)
       .col-xs-6
         %select.js-chosen-select{data-context: "demographic", data-placeholder: "Demographic" multiple: ""}
           = Enum.map(@all_tags.demographic, fn(tag) ->
-            %option{value: "#{tag}"}= tag
+            %option{value: "#{tag.value}"}= tag.label
           - end)
     .row.row-padded
       .col-xs-6
         %select.js-chosen-select{data-context: "topic", data-placeholder: "Topic" multiple: ""}
           = Enum.map(@all_tags.topic, fn(tag) ->
-            %option{value: "#{tag}"}= tag
+            %option{value: "#{tag.value}"}= tag.label
           - end)
       .col-xs-6
         %select.js-chosen-select{data-context: "sentiment", data-placeholder: "Sentiment" multiple: ""}
           = Enum.map(@all_tags.sentiment, fn(tag) ->
-            %option{value: "#{tag}"}= tag
+            %option{value: "#{tag.value}"}= tag.label
           - end)
     %h3 Playlist
     .js-playlist-container

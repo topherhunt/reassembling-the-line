@@ -3,7 +3,7 @@ defmodule EducateYour.Playlist do
   import Ecto.Query
   alias EducateYour.{H, Repo, Video, Segment}
 
-  # INPUT is a list of filtered tags in the format %{context:, text:}
+  # INPUT is a list of filter tags in the format %{context:, text:}
   # Outputs a list of matching Segment structs, with adjacent segments merged
   def search(tags) do
     load_matching_videos(tags)
@@ -13,6 +13,7 @@ defmodule EducateYour.Playlist do
       |> Enum.filter(fn(s) -> Segment.matches_all_tags?(s, tags) end)
       |> Segment.merge_adjacent
       # |> H.tap("Merged segments:", &Segment.debug_list/1)
+      |> order_segments(tags)
   end
 
   def load_matching_videos(tags) do
@@ -106,9 +107,10 @@ defmodule EducateYour.Playlist do
   def populate_segments(segments, video) do
     video_data = Map.take(video, [:video_id, :title, :recording_url, :thumbnail_url])
     Enum.map(segments, fn(segment) ->
-      segment
+      segment = segment
         |> Map.merge(video_data)
         |> Map.put(:tags, get_segment_tags_list(segment, video.tags))
+      Map.put(segment, :segment_id, Segment.hash(segment))
     end)
   end
 
@@ -119,5 +121,13 @@ defmodule EducateYour.Playlist do
         (tag.ends_at || 9999) > segment.starts_at
       end)
       |> Enum.map(fn(tag) -> Map.drop(tag, [:starts_at, :ends_at]) end)
+  end
+
+  def order_segments(segments, tags) do
+    if length(tags) == 0 do
+      Enum.shuffle(segments)
+    else
+      Enum.sort(segments, fn(a, b) -> a.segment_id < b.segment_id end)
+    end
   end
 end

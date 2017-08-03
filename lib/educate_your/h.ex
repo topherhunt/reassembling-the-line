@@ -20,8 +20,11 @@ defmodule EducateYour.H do
     value == nil || value == ""
   end
 
-  def human_time_to_integer(human) do
-    case String.split(human || "", ":") do
+  def human_time_to_integer(input) do
+    string = (input || "")
+      |> String.replace(~r/[^\d\:]+/, "", global: true)
+      |> String.split(":")
+    case string do
       [""] ->
         nil
       [minutes, seconds] ->
@@ -29,7 +32,7 @@ defmodule EducateYour.H do
       [seconds] ->
         String.to_integer(seconds)
       _default ->
-        raise "Don't know how to parse human time: #{human}"
+        raise "Don't know how to parse human time: #{input}"
     end
   end
 

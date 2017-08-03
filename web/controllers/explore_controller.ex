@@ -1,6 +1,6 @@
 defmodule EducateYour.ExploreController do
   use EducateYour.Web, :controller
-  alias EducateYour.{H, Tag}
+  alias EducateYour.{H, Tag, Tagging}
 
   def index(conn, params) do
     render conn, "index.html", all_tags: all_tags_by_context()
@@ -28,9 +28,12 @@ defmodule EducateYour.ExploreController do
   defp load_tags(context) do
     Tag
       |> where([t], t.context == ^context)
-      |> order_by([t], t.text)
+      |> join(:inner, [t], ti in Tagging, t.id == ti.tag_id)
+      |> group_by([t, ti], [t.text])
+      |> select([t, ti], {t.text, count(ti.id)})
+      |> order_by([t, ti], [desc: count(ti.id), asc: t.text])
       |> Repo.all
-      |> Enum.map(fn(tag) -> tag.text end)
+      |> Enum.map(fn({text, ct}) -> %{value: text, label: "#{text} (#{ct})"} end)
   end
 
   defp tags_from_params(params) do
