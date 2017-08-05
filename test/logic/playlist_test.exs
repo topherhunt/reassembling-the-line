@@ -1,6 +1,6 @@
 defmodule EducateYour.PlaylistTest do
   use EducateYour.ModelCase, async: true
-  alias EducateYour.{Coding, Playlist}
+  alias EducateYour.Playlist
 
   test "#search loads matching videos" do
     video1 = insert_video_with_tags(
@@ -17,11 +17,11 @@ defmodule EducateYour.PlaylistTest do
     # - video2 has the right tags, but no overlap
     # - video3 has no matching tags so it's excluded
     # - video4 has two separate sections where both of these tags apply
-    assert results == [
+    assert Enum.sort(results) == Enum.sort([
       %{video_id: video1.id, starts_at: 15, ends_at: 49},
       %{video_id: video4.id, starts_at: 30, ends_at: 38},
       %{video_id: video4.id, starts_at: 55, ends_at: 60}
-    ]
+    ])
   end
 
   test "#search loads all videos when no tags applied" do
@@ -39,13 +39,13 @@ defmodule EducateYour.PlaylistTest do
     # - video2 has 2 non-overlapping tags so 2 segments are included
     # - video3 has no tags so it's excluded
     # - video4 has some overlapping and some non-overlapping tags, so 2 segments
-    assert results == [
+    assert Enum.sort(results) == Enum.sort([
       %{video_id: video1.id, starts_at: 0, ends_at: 9999},
       %{video_id: video2.id, starts_at: 10, ends_at: 20},
       %{video_id: video2.id, starts_at: 30, ends_at: 40},
       %{video_id: video4.id, starts_at: 15, ends_at: 60},
       %{video_id: video4.id, starts_at: 65, ends_at: 82},
-    ]
+    ])
   end
 
   defp summarize_segments(segments) do

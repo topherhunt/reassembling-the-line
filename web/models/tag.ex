@@ -23,7 +23,7 @@ defmodule EducateYour.Tag do
 
   def validate_tag_has_no_special_chars(changeset) do
     text = get_field(changeset, :text)
-    if String.match?(text, ~r/\A[\w\d ]+\z/) do
+    if String.match?((text || ""), ~r/\A[\w\d ]+\z/) do
       changeset
     else
       add_error(changeset, :text, "Must only contain letters, numbers, and spaces.")

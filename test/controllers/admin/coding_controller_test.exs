@@ -1,8 +1,6 @@
 defmodule EducateYour.Admin.CodingControllerTest do
   use EducateYour.ConnCase, async: true
-  alias EducateYour.Coding
-
-require IEx
+  alias EducateYour.{Coding, Tagging}
 
   test "all actions require logged-in user", %{conn: conn} do
     [
@@ -70,6 +68,15 @@ require IEx
     assert Repo.count(Coding) == 0
   end
 
+  test "#create rejects changes if tags are invalid", %{conn: conn} do
+    {conn, _} = login_as_new_user(conn)
+    video = insert :video
+
+    conn = post(conn, admin_coding_path(conn, :create), coding: %{video_id: video.id, tags: %{"1" => %{"context" => "location", "text" => "Topher's"}}})
+    assert Repo.count(Coding) == 0
+    assert html_response(conn, 200) =~ "Unable to save your changes because tags must only contain letters, numbers, and spaces."
+  end
+
   test "#edit renders correctly", %{conn: conn} do
     {conn, _} = login_as_new_user(conn)
     coding = insert :coding
@@ -93,6 +100,21 @@ require IEx
     assert redirected_to(conn) == admin_video_path(conn, :index)
     latest_coding = Repo.get!(Coding, coding.id) |> Repo.preload(taggings: :tag)
     assert EducateYour.Coding.compact_tag_info(latest_coding) == expected_tag_info()
+  end
+
+  test "#update rejects changes if tags are invalid", %{conn: conn} do
+    {conn, _} = login_as_new_user(conn)
+    coding = insert :coding
+    Coding.associate_tags(coding, [
+      %{"context" => "location", "text" => "abc"},
+      %{"context" => "sentiment", "text" => "def"},
+    ])
+
+    conn = patch(conn, admin_coding_path(conn, :update, coding.id),
+      coding: %{tags: %{"1" => %{"context" => "location", "text" => "Topher's"}}})
+
+    assert (Tagging |> where([t], t.coding_id == ^coding.id) |> Repo.count()) == 2
+    assert html_response(conn, 200) =~ "Unable to save your changes because tags must only contain letters, numbers, and spaces."
   end
 
   ##

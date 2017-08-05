@@ -2,7 +2,7 @@ defmodule EducateYour.ExploreController do
   use EducateYour.Web, :controller
   alias EducateYour.{H, Tag, Tagging}
 
-  def index(conn, params) do
+  def index(conn, _params) do
     render conn, "index.html", all_tags: all_tags_by_context()
   end
 

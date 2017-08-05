@@ -18,10 +18,10 @@ defmodule EducateYour.ExploreControllerTest do
     conn = get(conn, explore_path(conn, :playlist), tags: "location:abc,topic:ghi")
     segments = json_response(conn, 200)["playlist"]
     summaries = Enum.map(segments, fn(s) -> summarize_segment(s) end)
-    assert summaries == [
+    assert Enum.sort(summaries) == Enum.sort([
       "Video ##{video1.id} (40-72) [location:abc, sentiment:def, topic:ghi]",
       "Video ##{video4.id} (55-60) [location:abc, topic:ghi]"
-    ]
+    ])
   end
 
   defp summarize_segment(s) do

@@ -1,6 +1,6 @@
 defmodule EducateYour.Admin.CodingController do
   use EducateYour.Web, :controller
-  alias EducateYour.{Video, Coding, Tag}
+  alias EducateYour.{H, Video, Coding, Tag}
 
   def new(conn, %{"video_id" => video_id}) do
     video = Repo.get!(Video, video_id)
@@ -65,6 +65,7 @@ defmodule EducateYour.Admin.CodingController do
 
   def get_invalid_tags(tags_params) do
     tags_params
+      |> Enum.reject(fn(params)-> H.is_blank?(params["text"]) end)
       |> Enum.map(fn(tag_params) -> Tag.changeset(%Tag{}, tag_params) end)
       |> Enum.reject(fn(changeset) -> changeset.valid? end)
       |> Enum.map(fn(changeset) -> Ecto.Changeset.get_field(changeset, :text) end)
@@ -99,11 +100,11 @@ defmodule EducateYour.Admin.CodingController do
   defp render_error(conn, view, changeset, video, tags_params, invalid_tags) do
     conn
       |> put_flash(:error, "Unable to save your changes because tags must only contain letters, numbers, and spaces. These tags are invalid: [#{Enum.join(invalid_tags, ", ")}]")
-      |> render "#{view}.html",
+      |> render("#{view}.html",
         video: video,
         changeset: changeset,
         all_tags: all_tags(),
-        present_tags: compact_tag_info_from_params(tags_params)
+        present_tags: compact_tag_info_from_params(tags_params))
   end
 
   def compact_tag_info_from_params(tags_params) do
