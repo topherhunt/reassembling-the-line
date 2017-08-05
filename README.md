@@ -3,6 +3,7 @@
 ## Running the app
 
   * `mix phoenix.server`
+  * `mix run priv/repo/autologins.exs` to get autologin URLs
 
 ## Importing videos
 
@@ -17,6 +18,8 @@ I've written scripts to help with batch importing videos from YouTube. Here's ho
   * Run `phantomjs --wd` before running `mix test` (integration tests require this service to be running)
 
 ## Heroku
+
+* Deployment process: https://hexdocs.pm/phoenix/heroku.html
 
 ### Reset database state:
 
