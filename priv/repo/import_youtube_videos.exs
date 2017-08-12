@@ -5,7 +5,8 @@
 # To run it:
 # - Must be run on Mac OSX
 # - The Brew package `youtube-dl` must be installed
-# - Create import_youtube_videos.tsv in this folder, following the sample file
+# - Create import_youtube_videos.tsv in the root folder, following the sample file
+# - Temporarily update config to point to the production AWS bucket
 # - `mix run priv/repo/import_videos.exs`
 # - You can re-run it idempotently; it will skip any videos already imported,
 #   and retry any failures.
