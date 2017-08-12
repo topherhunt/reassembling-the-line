@@ -25,6 +25,8 @@ config :educate_your, EducateYour.Endpoint,
     ]
   ]
 
+config :logger, level: :debug
+
 config :educate_your, EducateYour.Repo,
   adapter: Ecto.Adapters.Postgres,
   username: System.get_env("DB_USERNAME"),

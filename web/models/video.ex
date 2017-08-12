@@ -26,6 +26,10 @@ defmodule EducateYour.Video do
   # Helpers
   #
 
+  def hashed_url(url) do
+    :crypto.hash(:md5, url) |> Base.encode16
+  end
+
   def recording_url(video) do
     GenericAttachment.url({video.recording_filename, "recording"})
   end

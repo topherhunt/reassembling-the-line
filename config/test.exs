@@ -12,7 +12,7 @@ config :logger,
 config :logger, :test_log,
   path: "log/test.log",
   format: "$date $time $metadata[$level] $message\n",
-  level: :info # :debug for ALL queries etc; :brief for only the basics
+  level: :debug # :debug for ALL queries etc; :brief for only the basics
 
 # Configure your database
 config :educate_your, EducateYour.Repo,
