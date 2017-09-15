@@ -2,16 +2,14 @@ defmodule EducateYour.Admin.CodingView do
   use EducateYour.Web, :view
   alias EducateYour.Video
 
-  def all_tags_json(tags, context) do
+  def all_tags_json(tags) do
     tags
-      |> Enum.filter(fn(tag) -> tag.context == context end)
       |> Enum.map(fn(tag) -> tag.text end)
       |> Poison.encode!()
   end
 
-  def present_tags_json(tags, context) do
+  def present_tags_json(tags) do
     tags
-      |> Enum.filter(fn(tag) -> tag[:context] == context end)
       |> Poison.encode!()
   end
 

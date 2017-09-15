@@ -3,7 +3,7 @@ defmodule EducateYour.Playlist do
   import Ecto.Query
   alias EducateYour.{H, Repo, Video, Segment}
 
-  # INPUT is a list of filter tags in the format %{context:, text:}
+  # INPUT is a list of filter tags in the format %{text:}
   # Outputs a list of matching Segment structs, with adjacent segments merged
   def search(tags) do
     load_matching_videos(tags)
@@ -36,9 +36,9 @@ defmodule EducateYour.Playlist do
         EXISTS (
           SELECT * FROM taggings ti
           LEFT JOIN tags t ON ti.tag_id = t.id
-          WHERE ti.coding_id = ? AND t.context = ? AND t.text = ?
+          WHERE ti.coding_id = ? AND t.text = ?
         )",
-        c.id, ^tag[:context], ^tag[:text]))
+        c.id, ^tag[:text]))
     end)
   end
 
@@ -58,7 +58,6 @@ defmodule EducateYour.Playlist do
   def convert_tags_to_maps(taggings) do
     Enum.map(taggings, fn(tagging)->
       %{
-        context: tagging.tag.context,
         text: tagging.tag.text,
         starts_at: tagging.starts_at,
         ends_at: tagging.ends_at

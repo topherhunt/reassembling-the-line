@@ -12,10 +12,7 @@ var TagHelper = {
       .split(",")
       .map(function(tag){
         var tag_array = decodeURI(tag).split(":");
-        return { context: tag_array[0], text: tag_array[1] };
-      })
-      .filter(function(tag){
-        return (tag.context && tag.context != "");
+        return {text: tag_array[1]};
       });
     return tags;
   },
@@ -23,10 +20,9 @@ var TagHelper = {
   get_from_select_elements: function() {
     var tags = [];
     $('.js-chosen-select').each(function(index, el) {
-      var context = $(el).data('context');
       var texts = $(el).val();
       $.each(texts, function(index, text) {
-        tags.push({context: context, text: text});
+        tags.push({text: text});
       });
     });
     return tags;
@@ -34,7 +30,7 @@ var TagHelper = {
 
   to_query_string: function(tags) {
     return tags
-      .map(function(i){ return i.context + ':' + i.text; })
+      .map(function(i){ return i.text; })
       .join(",");
   },
 
@@ -43,18 +39,12 @@ var TagHelper = {
     window.history.pushState({}, "Explore Videos", "explore?tags=" + tags_qs);
   },
 
-  update_select_elements: function(filtered_tags) {
-    var contexts = _.map($('.js-chosen-select'),
-      function(select) { return $(select).data('context'); });
-    $.each(contexts, function(index, context) {
-      var select = $('.js-chosen-select[data-context="'+context+'"]');
-      var relevant_tags = filtered_tags
-        .filter(function(t) { return t.context == context; })
-        .map(function(t) { return t.text; });
-      select.val('');
-      select.val(relevant_tags);
-      select.trigger('chosen:updated');
-    });
+  update_select_element: function(filtered_tags) {
+    var select = $('.js-filter-tag');
+    var tag_text = filtered_tags.map(function(t) { return t.text; });
+    select.val('');
+    select.val(tag_text);
+    select.trigger('chosen:updated');
   }
 }
 

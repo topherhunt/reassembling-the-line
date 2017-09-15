@@ -7,7 +7,7 @@ defmodule EducateYour.Segment do
     thumbnail_url: nil,
     starts_at: nil,
     ends_at: nil,
-    tags: nil # array of tag maps: %{context:, text:, starts_at:, ends_at:}
+    tags: nil # array of tag maps: %{text:, starts_at:, ends_at:}
   )
 
   # A random-looking but fixed alphanumeric ID unique to this video clip
@@ -23,7 +23,6 @@ defmodule EducateYour.Segment do
   def matches_all_tags?(segment, expected_tags) do
     Enum.all?(expected_tags, fn(expected_tag) ->
       Enum.any?(segment.tags, fn(actual_tag) ->
-        actual_tag.context == expected_tag.context &&
         actual_tag.text == expected_tag.text
       end)
     end)
@@ -67,7 +66,7 @@ defmodule EducateYour.Segment do
 
   def debug(s) do
     tag_texts = s.tags
-      |> Enum.map(fn(t) -> "#{t.context}:#{t.text}" end)
+      |> Enum.map(fn(t) -> t.text end)
       |> Enum.join(", ")
     IO.puts "Video ##{s.video_id} (#{s.starts_at}-#{s.ends_at}) [#{tag_texts}]"
   end

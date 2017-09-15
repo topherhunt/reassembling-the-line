@@ -72,7 +72,8 @@ defmodule EducateYour.Admin.CodingControllerTest do
     {conn, _} = login_as_new_user(conn)
     video = insert :video
 
-    conn = post(conn, admin_coding_path(conn, :create), coding: %{video_id: video.id, tags: %{"1" => %{"context" => "location", "text" => "Topher's"}}})
+    coding_params = %{video_id: video.id, tags: %{"1" => %{"text" => "Topher's"}}}
+    conn = post(conn, admin_coding_path(conn, :create), coding: coding_params)
     assert Repo.count(Coding) == 0
     assert html_response(conn, 200) =~ "Unable to save your changes because tags must only contain letters, numbers, and spaces."
   end
@@ -89,9 +90,9 @@ defmodule EducateYour.Admin.CodingControllerTest do
     {conn, _} = login_as_new_user(conn)
     coding = insert :coding
     Coding.associate_tags(coding, [
-      %{"context" => "location", "text" => "abc"},
-      %{"context" => "sentiment", "text" => "def", "starts_at" => "15", "ends_at" => "49"},
-      %{"context" => "sentiment", "text" => "ghi", "starts_at" => "40", "ends_at" => "72"}
+      %{"text" => "abc"},
+      %{"text" => "def", "starts_at" => "15", "ends_at" => "49"},
+      %{"text" => "ghi", "starts_at" => "40", "ends_at" => "72"}
     ])
     assert (coding |> assoc(:taggings) |> Repo.count) == 3
 
@@ -106,12 +107,12 @@ defmodule EducateYour.Admin.CodingControllerTest do
     {conn, _} = login_as_new_user(conn)
     coding = insert :coding
     Coding.associate_tags(coding, [
-      %{"context" => "location", "text" => "abc"},
-      %{"context" => "sentiment", "text" => "def"},
+      %{"text" => "abc"},
+      %{"text" => "def"},
     ])
 
-    conn = patch(conn, admin_coding_path(conn, :update, coding.id),
-      coding: %{tags: %{"1" => %{"context" => "location", "text" => "Topher's"}}})
+    coding_params = %{tags: %{"1" => %{"text" => "Topher's"}}}
+    conn = patch(conn, admin_coding_path(conn, :update, coding.id), coding: coding_params)
 
     assert (Tagging |> where([t], t.coding_id == ^coding.id) |> Repo.count()) == 2
     assert html_response(conn, 200) =~ "Unable to save your changes because tags must only contain letters, numbers, and spaces."
@@ -128,20 +129,20 @@ defmodule EducateYour.Admin.CodingControllerTest do
   def update_params do
     %{
       "tags" => %{
-        "1" => %{"context" => "location", "text" => "abc", "starts_at" => nil, "ends_at" => nil},
-        "2" => %{"context" => "topic", "text" => "def", "starts_at" => nil, "ends_at" => nil},
-        "3" => %{"context" => "topic", "text" => "ghi", "starts_at" => nil, "ends_at" => nil},
-        "4" => %{"context" => "sentiment", "text" => "jkl", "starts_at" => nil, "ends_at" => nil}
+        "1" => %{"text" => "abc", "starts_at" => nil, "ends_at" => nil},
+        "2" => %{"text" => "def", "starts_at" => nil, "ends_at" => nil},
+        "3" => %{"text" => "ghi", "starts_at" => nil, "ends_at" => nil},
+        "4" => %{"text" => "jkl", "starts_at" => nil, "ends_at" => nil}
       }
     }
   end
 
   def expected_tag_info do
     [
-      %{context: "location", ends_at: nil, starts_at: nil, text: "abc"},
-      %{context: "topic", ends_at: nil, starts_at: nil, text: "def"},
-      %{context: "topic", ends_at: nil, starts_at: nil, text: "ghi"},
-      %{context: "sentiment", ends_at: nil, starts_at: nil, text: "jkl"}
+      %{ends_at: nil, starts_at: nil, text: "abc"},
+      %{ends_at: nil, starts_at: nil, text: "def"},
+      %{ends_at: nil, starts_at: nil, text: "ghi"},
+      %{ends_at: nil, starts_at: nil, text: "jkl"}
     ]
   end
 end

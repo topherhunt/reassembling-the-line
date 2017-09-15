@@ -8,8 +8,6 @@ defmodule EducateYour.Admin.CodingController do
     render conn, "new.html",
       video: video,
       changeset: changeset,
-      # TODO: Should load tags separately per context, that way the filtering
-      # doesn't need to be done client-side
       all_tags: all_tags(),
       present_tags: []
   end
@@ -60,7 +58,7 @@ defmodule EducateYour.Admin.CodingController do
   # Helpers
 
   defp all_tags do
-    Tag |> order_by([t], [t.context, t.text]) |> Repo.all
+    Tag |> order_by([t], t.text) |> Repo.all
   end
 
   def get_invalid_tags(tags_params) do
@@ -111,7 +109,6 @@ defmodule EducateYour.Admin.CodingController do
     tags_params
       |> Enum.map(fn(tag) ->
         %{
-          context: tag["context"],
           text: tag["text"],
           starts_at: tag["starts_at"],
           ends_at: tag["ends_at"]

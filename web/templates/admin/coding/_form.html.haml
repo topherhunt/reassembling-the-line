@@ -12,54 +12,13 @@
       %a.js-time-skip.btn.btn-default{data-amount: "2"} >
       %a.js-time-skip.btn.btn-default{data-amount: "10"} >>
 
-
 %hr
 
 = form_for @changeset, create_or_update_path(@conn, @changeset), fn(_f) ->
-  %h3 Tags
   .row
     .col-sm-6
-      %h4 Location
-      %table.table.js-tags-table.test-tags-table{class: "location", data-context: "location", data-autocompletes: "#{all_tags_json(@all_tags, "location")}", data-present-tags: "#{present_tags_json(@present_tags, "location")}"}
-        %tr
-          %th Tag
-          %th
-          %th
-          %th
-        %tr
-          %td{colspan: 4}
-            = link "Add", to: "#", class: "js-add-tag test-add-tag btn btn-default btn-sm"
-    .col-sm-6
-      %h4 Demographic
-      %table.table.js-tags-table.test-tags-table{data-context: "demographic", data-autocompletes: "#{all_tags_json(@all_tags, "demographic")}", data-present-tags: "#{present_tags_json(@present_tags, "demographic")}"}
-        %tr
-          %th Tag
-          %th
-          %th
-          %th
-        %tr
-          %td{colspan: 4}
-            = link "Add", to: "#", class: "js-add-tag test-add-tag btn btn-default btn-sm"
-  .row
-    .col-sm-6
-      %h4 Topic
-      %table.table.js-tags-table.test-tags-table{data-context: "topic", data-autocompletes: "#{all_tags_json(@all_tags, "topic")}", data-present-tags: "#{present_tags_json(@present_tags, "topic")}"}
-        %tr
-          %th Tag
-          %th Starts at
-          %th Ends at
-          %th
-        %tr
-          %td{colspan: 4}
-            = link "Add", to: "#", class: "js-add-tag test-add-tag btn btn-default btn-sm"
-    .col-sm-6
-      %h4 Sentiment
-      %table.table.js-tags-table.test-tags-table{data-context: "sentiment", data-autocompletes: "#{all_tags_json(@all_tags, "sentiment")}", data-present-tags: "#{present_tags_json(@present_tags, "sentiment")}"}
-        %tr
-          %th Tag
-          %th Starts at
-          %th Ends at
-          %th
+      %h3 Tags
+      %table.table.js-tags-table.test-tags-table{data-autocompletes: "#{all_tags_json(@all_tags)}", data-present-tags: "#{present_tags_json(@present_tags)}"}
         %tr
           %td{colspan: 4}
             = link "Add", to: "#", class: "js-add-tag test-add-tag btn btn-default btn-sm"

@@ -48,7 +48,6 @@ defmodule EducateYour.Factory do
 
   def tag_factory do
     %Tag{
-      context: Enum.random(Tag.valid_contexts),
       text: "tag_#{H.random_hex()}"
     }
   end

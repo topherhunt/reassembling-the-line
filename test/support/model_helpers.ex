@@ -16,10 +16,10 @@ defmodule EducateYour.ModelHelpers do
     coding = insert :coding, video: video
     tags = tag_strings |> Enum.map(fn(string) ->
       case String.split(string, ":") do
-        [context, text] ->
-          %{"context" => context, "text" => text}
-        [context, text, starts_at, ends_at] ->
-          %{"context"=>context,"text"=>text,"starts_at"=>starts_at,"ends_at"=>ends_at}
+        [text] ->
+          %{"text" => text}
+        [text, starts_at, ends_at] ->
+          %{"text" => text, "starts_at" => starts_at, "ends_at" => ends_at}
       end
     end)
     Coding.associate_tags(coding, tags)

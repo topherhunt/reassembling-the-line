@@ -3,7 +3,7 @@ defmodule EducateYour.ExploreController do
   alias EducateYour.{H, Tag, Tagging}
 
   def index(conn, _params) do
-    render conn, "index.html", all_tags: all_tags_by_context()
+    render conn, "index.html", all_tags: all_tags()
   end
 
   # Receives an ajax request for video clips given a specific filter
@@ -16,18 +16,8 @@ defmodule EducateYour.ExploreController do
   # Helpers
   #
 
-  defp all_tags_by_context do
-    %{
-      location: load_tags("location"),
-      demographic: load_tags("demographic"),
-      sentiment: load_tags("sentiment"),
-      topic: load_tags("topic")
-    }
-  end
-
-  defp load_tags(context) do
+  defp all_tags do
     Tag
-      |> where([t], t.context == ^context)
       |> join(:inner, [t], ti in Tagging, t.id == ti.tag_id)
       |> group_by([t, ti], [t.text])
       |> select([t, ti], {t.text, count(ti.id)})
@@ -40,9 +30,6 @@ defmodule EducateYour.ExploreController do
     (params["tags"] || "")
       |> String.split(",")
       |> Enum.reject(&H.is_blank?/1)
-      |> Enum.map(fn(encoded_tag) ->
-        [context, text] = String.split(encoded_tag, ":")
-        %{context: context, text: text}
-      end)
+      |> Enum.map(fn(text) -> %{text: text} end)
   end
 end

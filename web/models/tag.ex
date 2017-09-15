@@ -3,7 +3,6 @@ defmodule EducateYour.Tag do
   alias EducateYour.{Repo, Tagging, Tag}
 
   schema "tags" do
-    field :context, :string
     field :text, :string
     timestamps()
     has_many :taggings, Tagging
@@ -15,9 +14,8 @@ defmodule EducateYour.Tag do
 
   def changeset(struct, params \\ %{}) do
     struct
-      |> cast(params, [:context, :text])
-      |> validate_required([:context, :text])
-      |> validate_inclusion(:context, valid_contexts())
+      |> cast(params, [:text])
+      |> validate_required([:text])
       |> validate_tag_has_no_special_chars
   end
 
@@ -34,18 +32,9 @@ defmodule EducateYour.Tag do
   # Helpers
   #
 
-  def valid_contexts do
-    ["location", "demographic", "topic", "sentiment"]
-  end
-
   def find_or_create(params) do
-    tag_changeset = Tag.changeset(%Tag{}, %{
-      context: params["context"],
-      text: params["text"]
-    })
-    cleaned_tag_params = %{
-      context: get_change(tag_changeset, :context),
-      text: get_change(tag_changeset, :text)}
+    tag_changeset = Tag.changeset(%Tag{}, %{text: params["text"]})
+    cleaned_tag_params = %{text: get_change(tag_changeset, :text)}
     Repo.get_by(Tag, cleaned_tag_params) || Repo.insert!(tag_changeset)
   end
 end

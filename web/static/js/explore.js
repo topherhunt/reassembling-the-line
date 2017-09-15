@@ -10,7 +10,7 @@ $(document).ready(function() {
   //
 
   $('.js-chosen-select').chosen({width: "100%"});
-  TagHelper.update_select_elements(TagHelper.get_from_query_string());
+  TagHelper.update_select_element(TagHelper.get_from_query_string());
   PlaylistHelper.refresh_playlist();
 
   ////
@@ -26,7 +26,7 @@ $(document).ready(function() {
   $('.js-playlist-container').on('click', '.js-clear-search', function(e) {
     e.preventDefault();
     var current_tags = [];
-    TagHelper.update_select_elements(current_tags);
+    TagHelper.update_select_element(current_tags);
     TagHelper.update_page_url(current_tags);
     PlaylistHelper.refresh_playlist();
   });

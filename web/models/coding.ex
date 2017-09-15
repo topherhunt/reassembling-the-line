@@ -50,7 +50,6 @@ defmodule EducateYour.Coding do
     # assumes %{taggings: :tag} is already preloaded
     coding.taggings |> Enum.map(fn(tagging)->
       %{
-        context: tagging.tag.context,
         text: tagging.tag.text,
         starts_at: H.integer_time_to_human(tagging.starts_at),
         ends_at:   H.integer_time_to_human(tagging.ends_at)

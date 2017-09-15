@@ -16,16 +16,16 @@ var PlaylistRowComponent = {
 
   thumbnail_html: function(segment) {
     var style = 'background-image: url(\''+segment.thumbnail_url+'\')';
-    return '<div class="play-icon"></div>' + 
+    return '<div class="play-icon"></div>' +
       '<div class="js-thumbnail" style="'+style+'"></div>';
   },
 
-  // Input: an array of tag objects, each in format {context:, text:}
+  // Input: an array of tag objects, each in format {text:}
   tags_html: function(tags) {
     return tags
       .map(function(tag) {
-        var data = 'data-context="'+tag.context+'" data-text="'+tag.text+'"';
-        return '<span class="js-playlist-tag" '+data+'>'+tag.text+'</span> ';
+        var text = tag.text;
+        return '<span class="js-playlist-tag" data-text="'+text+'">'+text+'</span> ';
       })
       .join("");
   }

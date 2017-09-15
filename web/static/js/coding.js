@@ -24,8 +24,7 @@ $(document).ready(function() {
   $('.js-add-tag').click(function(e) {
     e.preventDefault();
     var link = $(this);
-    var context = link.parents('table.js-tags-table').data('context');
-    link.parents('tr').before(CodingTagComponent.render({context: context}));
+    link.parents('tr').before(CodingTagComponent.render());
     link.parents('tr').prev().find('.js-tag-text-field').focus();
     CodingHelpers.init_autocomplete();
   });

@@ -4,17 +4,13 @@ import { _ } from 'lodash';
 var CodingTagComponent = {
   render: function(presets = {}) {
     var tag = _.merge({
-      context: '',
       text: '',
       starts_at: '',
       ends_at: '',
       name_root: 'coding[tags]['+this.random_id()+']'
     }, presets);
-    if (!this.context_is_valid(tag.context)) {
-      throw new Error("Invalid context: " + tag.context);
-    }
     return '<tr class="test-tag-row">' +
-      this.context_and_text_html(tag) +
+      this.text_html(tag) +
       this.time_window_html(tag) +
       '<td><a href="#" class="js-remove-tag test-remove-tag text-danger">remove</a></td>'
     '</tr>';
@@ -24,13 +20,8 @@ var CodingTagComponent = {
     return Math.round(Math.random() * 1000000000);
   },
 
-  context_is_valid: function(context) {
-    return ['location', 'demographic', 'topic', 'sentiment'].indexOf(context) > -1;
-  },
-
-  context_and_text_html: function(tag) {
+  text_html: function(tag) {
     return '<td>' +
-      '<input type="hidden" name="'+tag.name_root+'[context]" value="'+tag.context+'" />' +
       '<input class="js-tag-text-field test-tag-text-field form-control" type="text" name="'+tag.name_root+'[text]" value="'+tag.text+'" placeholder="Type tag here" />' +
     '</td>';
   },
