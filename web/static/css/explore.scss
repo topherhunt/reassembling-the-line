@@ -17,6 +17,8 @@
   position: relative;
   height: 50px;
   cursor: pointer;
+  background-color: #fff;
+  overflow: hidden;
 
   .play-icon {
     position: absolute;
@@ -41,16 +43,22 @@
 
   .js-playlist-title {
     font-weight: bold;
-    padding-bottom: 2px;
+    white-space: nowrap;
   }
 
+  .playlist-tags-container {
+    white-space: nowrap;
+  }
+
+
   .js-playlist-tag {
-    border-radius: 3px;
+    display: inline-block;
+    border-radius: 4px;
+    // border: 1px solid rgba(0, 0, 0, 0.1);
+    background-color: rgba(0, 0, 0, 0.05);
     padding: 2px 3px;
-    font-size: 80%;
-    text-transform: uppercase;
-    background-color: #a66;
-    color: #fff;
+    margin: 1px;
+    font-size: 85%;
   }
 
   &:hover {

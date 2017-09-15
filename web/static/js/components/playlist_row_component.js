@@ -6,7 +6,7 @@ var PlaylistRowComponent = {
     return '<div class="js-playlist-row" '+data+'>' +
       this.thumbnail_html(segment) +
       '<div class="js-playlist-title">'+segment.title+'</div>' +
-      '<div>'+this.tags_html(segment.tags)+'</div>' +
+      '<div class="playlist-tags-container">'+this.tags_html(segment.tags)+'</div>' +
     '</div>';
   },
 
@@ -25,7 +25,7 @@ var PlaylistRowComponent = {
     return tags
       .map(function(tag) {
         var text = tag.text;
-        return '<span class="js-playlist-tag" data-text="'+text+'">'+text+'</span> ';
+        return '<span class="js-playlist-tag" data-text="'+text+'">'+text+'</span>';
       })
       .join("");
   }
