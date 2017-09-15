@@ -11,6 +11,7 @@ defmodule EducateYour.Segment do
   )
 
   # A random-looking but fixed alphanumeric ID unique to this video clip
+  # We use this as each segment's id so that we can sort them in a fixed order etc.
   def hash(segment) do
     string = "#{segment.video_id}-#{segment.starts_at}-#{segment.ends_at}"
     :crypto.hash(:md5, string) |> Base.encode16

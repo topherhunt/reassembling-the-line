@@ -13,7 +13,7 @@ defmodule EducateYour.Playlist do
       |> Enum.filter(fn(s) -> Segment.matches_all_tags?(s, tags) end)
       |> Segment.merge_adjacent
       # |> H.tap("Merged segments:", &Segment.debug_list/1)
-      |> order_segments(tags)
+      |> Enum.shuffle
   end
 
   def load_matching_videos(tags) do
@@ -95,7 +95,6 @@ defmodule EducateYour.Playlist do
       |> List.zip
       |> Enum.map(fn({starts_at, ends_at}) ->
         %Segment{
-          segment_id: H.random_hex(),
           starts_at: starts_at,
           ends_at: ends_at
         }
@@ -120,13 +119,5 @@ defmodule EducateYour.Playlist do
         (tag.ends_at || 9999) > segment.starts_at
       end)
       |> Enum.map(fn(tag) -> Map.drop(tag, [:starts_at, :ends_at]) end)
-  end
-
-  def order_segments(segments, tags) do
-    if length(tags) == 0 do
-      Enum.shuffle(segments)
-    else
-      Enum.sort(segments, fn(a, b) -> a.segment_id < b.segment_id end)
-    end
   end
 end
