@@ -48,10 +48,6 @@ $(document).ready(function() {
   // Video playback
   //
 
-  $('.js-coding-video-player').click(function(){
-    this.paused ? this.play() : this.pause();
-  });
-
   $('.js-time-skip').click(function(){
     var videoPlayer = $('video')[0];
     var amount = $(this).data('amount');

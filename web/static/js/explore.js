@@ -39,10 +39,6 @@ $(document).ready(function() {
     }
   });
 
-  $('.js-explore-video-player').click(function(){
-    this.paused ? this.play() : this.pause();
-  });
-
   // Every second, check if we should move on to the next video
   window.setInterval(function() {
     if (PlaylistHelper.is_clip_done()) {

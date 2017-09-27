@@ -18,5 +18,6 @@ import "phoenix_html";
 // import socket from "./socket"
 
 import "web/static/js/utilities";
+import "web/static/js/video";
 import "web/static/js/coding";
 import "web/static/js/explore";

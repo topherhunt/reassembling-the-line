@@ -6,6 +6,7 @@ var PlaylistHelper = {
     var current_tags = TagHelper.get_from_select_elements();
     var player = $('.js-explore-video-player');
     $('.js-playlist-container').html('Loading...');
+    $('.js-hear-more-link').hide();
     player.attr('src', '');
     player[0].pause();
     $.ajax({
@@ -57,6 +58,7 @@ var PlaylistHelper = {
   play_clip: function(segment_id) {
     var playlist_row  = $('.js-playlist-row[data-segment-id="'+segment_id+'"]');
     var recording_url = playlist_row.data('recording-url');
+    var video_id      = playlist_row.data('video-id');
     var starts_at     = playlist_row.data('starts-at');
     var ends_at       = playlist_row.data('ends-at');
     var player        = $('.js-explore-video-player');
@@ -64,6 +66,7 @@ var PlaylistHelper = {
     playlist_row.addClass('js-active');
     player.data({'segment-id': segment_id, 'ends-at': ends_at});
     player.attr('src', recording_url+'#t='+starts_at);
+    $('.js-hear-more-link').show().attr('href', '/videos/' + video_id);
   },
 
   scroll_to_clip: function(row) {

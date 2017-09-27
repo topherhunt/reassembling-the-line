@@ -28,6 +28,8 @@ defmodule EducateYour.Router do
     get "/explore", ExploreController, :index
     get "/explore/playlist", ExploreController, :playlist
 
+    resources "/videos", VideoController, only: [:show]
+
     scope "/admin", as: :admin do
       pipe_through :admin_area
 
