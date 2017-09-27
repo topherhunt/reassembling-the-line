@@ -39,6 +39,10 @@ $(document).ready(function() {
     }
   });
 
+  $('.js-playlist-container').on('scroll', function() {
+    PlaylistHelper.update_scroll_shadows();
+  });
+
   // Every second, check if we should move on to the next video
   window.setInterval(function() {
     if (PlaylistHelper.is_clip_done()) {

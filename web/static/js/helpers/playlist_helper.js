@@ -39,6 +39,7 @@ var PlaylistHelper = {
       container.append(PlaylistRowComponent.render(segment));
     });
     container.append(this.end_of_results_html());
+    this.update_scroll_shadows();
   },
 
   end_of_results_html: function() {
@@ -71,7 +72,20 @@ var PlaylistHelper = {
 
   scroll_to_clip: function(row) {
     var container = $('.js-playlist-container')[0];
-    container.scrollTop = (row[0].offsetTop - container.offsetTop);
+    container.scrollTop = (row[0].offsetTop - container.offsetTop - 25);
+    this.update_scroll_shadows();
+  },
+
+  update_scroll_shadows: function() {
+    // TODO: Maybe use setTimeout to buffer this so touchpad scrolling doesn't
+    // trigger it 100 times / second
+    var div = $('.js-playlist-container'),
+        top_shadow    = $('.js-playlist-container-outer .top-shadow'),
+        bottom_shadow = $('.js-playlist-container-outer .bottom-shadow'),
+        at_top = (div.scrollTop() == 0),
+        at_bottom = (div.scrollTop() + div.outerHeight() >= div[0].scrollHeight);
+    at_top ? top_shadow.hide()       : top_shadow.show();
+    at_bottom ? bottom_shadow.hide() : bottom_shadow.show();
   },
 
   is_clip_done: function() {
