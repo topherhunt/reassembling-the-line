@@ -91,7 +91,7 @@ defmodule EducateYour.Admin.CodingController do
     Video
       |> where([v],
         fragment("NOT EXISTS (SELECT * FROM codings WHERE video_id = ?)", v.id))
-      # TODO: Sort by date or something?
+      |> order_by([v], asc: v.id)
       |> Repo.first
   end
 
