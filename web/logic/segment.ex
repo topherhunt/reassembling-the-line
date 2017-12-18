@@ -30,6 +30,7 @@ defmodule EducateYour.Segment do
   end
 
   # Input: a list of segments, some of which may be adjacent
+  # Output: The same list, but with adjacent segments merged into 1 segment
   def merge_adjacent(segments) do
     if index_a = find_adjacent_pair(segments) do
       index_b = index_a + 1

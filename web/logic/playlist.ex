@@ -1,7 +1,7 @@
 # Logic for searching for video clips matching a filter
 defmodule EducateYour.Playlist do
   import Ecto.Query
-  alias EducateYour.{H, Repo, Video, Segment}
+  alias EducateYour.{Repo, Video, Segment}
 
   # INPUT is a list of filter tags in the format %{text:}
   # Outputs a list of matching Segment structs, with adjacent segments merged

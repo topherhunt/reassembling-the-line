@@ -7,7 +7,9 @@
 # - The Brew package `youtube-dl` must be installed
 # - Create import_youtube_videos.tsv in the root folder, following the sample file
 # - Temporarily update config to point to the production AWS bucket
-# - `mix run priv/repo/import_videos.exs`
+# - (if desired) Empty the prod AWS bucket, and local and prod DB so the newly
+#   imported data will have a fresh start
+# - `mix run priv/repo/import_youtube_videos.exs`
 # - You can re-run it idempotently; it will skip any videos already imported,
 #   and retry any failures.
 # - Set env var FORMAT=18 to download everything as mp4 instead of webm (default)
@@ -17,6 +19,30 @@ import Ecto.Query
 alias EducateYour.{Repo, Video, GenericAttachment}
 
 defmodule YoutubeImporter do
+  def process_tsv(path) do
+    File.stream!(path)
+      |> CSV.decode!(separator: ?\t)
+      |> process_rows()
+  end
+
+  # Returns a map of return codes
+  def process_rows(rows) do
+    IO.puts "Running import_youtube_videos.exs on #{Enum.count(rows)} input rows."
+    rows
+      |> Enum.map(fn(row) -> process_row(row) end)
+      |> Enum.group_by(fn({code, _, _}) -> code end)
+  end
+
+  def process_row(row) do
+    case row do
+      [title, url] ->
+        import_if_needed(title, url)
+      _ ->
+        IO.puts "WARNING: This row looks invalid, skipping:"
+        IO.inspect(row)
+    end
+  end
+
   def import_if_needed(title, url) do
     # TODO: Display "N out of N" tracker for each video
     if already_imported?(url) do
@@ -91,19 +117,15 @@ end
 IO.puts "NOTE: Existing videos are NOT cleared out first."
 IO.puts "You'll need to clear them out yourself if you want a clean import."
 
-original_videos_count = Repo.count(Video)
-
-rows = File.stream!("import_youtube_videos.tsv") |> CSV.decode!(separator: ?\t)
-IO.puts "Running import_youtube_videos.exs on #{Enum.count(rows)} input rows."
 System.cmd("mkdir", ["tmp"])
 
-results = rows
-  |> Enum.map(fn([title, url]) -> YoutubeImporter.import_if_needed(title, url) end)
-  |> Enum.group_by(fn({code, _, _}) -> code end)
+original_videos_count = Repo.count(Video)
+results = YoutubeImporter.process_tsv("import_youtube_videos.tsv")
+new_videos_count = Repo.count(Video) - original_videos_count
+
 oks    = results[:ok]    || []
 skips  = results[:skip]  || []
 errors = results[:error] || []
-new_videos_count = Repo.count(Video) - original_videos_count
 IO.puts "\n=====\nDone! #{new_videos_count} videos imported."
 IO.puts "\nSkipped #{length(skips)} videos which were already imported:"
 Enum.each(skips, fn({:skip, url, _}) -> IO.puts("* #{url}") end)

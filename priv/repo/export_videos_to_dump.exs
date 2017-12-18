@@ -5,8 +5,8 @@
 # - Import videos into your local database
 # - `mix run priv/repo/export_videos_to_dump.exs`
 # - See the output for the name of the dump file
-# - Copy the contents of the dumpfile and paste them into any other
-#   environment to recreate the identical records.
+# - Copy the contents of the dumpfile and paste them into your production
+#   IEx console to recreate the identical records.
 #
 
 alias EducateYour.{Repo, Video}
