@@ -3,10 +3,12 @@
 # run in another environment to recreate the videos there.
 # Usage:
 # - Import videos into your local database
-# - `mix run priv/repo/export_videos_to_dump.exs`
+# - `mix run priv/repo/videos_dump.exs`
 # - See the output for the name of the dump file
-# - Copy the contents of the dumpfile and paste them into your production
-#   IEx console to recreate the identical records.
+# - Open an iex console on the server and paste in the dump file contents to
+#   execute it and recreate the desired records. (WARNING: The Heroku CLI seems
+#   to freeze when you paste in 40+ lines to execute at once; a workaround is
+#   to divide the dump into 30-line sections and paste each section separately.)
 #
 
 alias EducateYour.{Repo, Video}

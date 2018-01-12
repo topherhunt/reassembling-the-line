@@ -1,126 +1,30 @@
-##
-# For each row in `import_youtube_videos.tsv`, download the video at the given
-# URL, create a video record in the local DB, and upload the video to S3.
+# Given a list of Youtube videos, download each video file, upload it to S3, and
+# insert a Video record for it in the local DB.
 #
-# To run it:
-# - Must be run on Mac OSX
-# - The Brew package `youtube-dl` must be installed
-# - Create import_youtube_videos.tsv in the root folder, following the sample file
-# - Temporarily update config to point to the production AWS bucket
-# - (if desired) Empty the prod AWS bucket, and local and prod DB so the newly
-#   imported data will have a fresh start
-# - `mix run priv/repo/import_youtube_videos.exs`
-# - You can re-run it idempotently; it will skip any videos already imported,
-#   and retry any failures.
-# - Set env var FORMAT=18 to download everything as mp4 instead of webm (default)
+# Usage:
+# - Ensure `youtube-dl` is installed (Homebrew works well)
+# - If you want a fresh start, first delete all videos from the local DB and
+#   the specified S3 bucket.
+# > S3_BUCKET=bucket_name mix run priv/repo/videos_import_youtube.exs videos.tsv
+# - It's idempotent; re-running it will skip any done videos and retry any failures.
+#
+# Arguments:
+# - The first arg is the filename of the .tsv where the videos are listed.
+#   The path defaults to the project root. The .tsv should have 2 columns for
+#   name and title, and should not have a header row.
+# - Set env var S3_BUCKET=bucket_name to specify where videos should be uploaded
+# - Set env var FORMAT=18 to download everything as .mp4 (default is .webm)
 #
 
-import Ecto.Query
-alias EducateYour.{Repo, Video, GenericAttachment}
+alias EducateYour.{Repo, Video, YoutubeImporter}
 
-defmodule YoutubeImporter do
-  def process_tsv(path) do
-    File.stream!(path)
-      |> CSV.decode!(separator: ?\t)
-      |> process_rows()
-  end
+IO.puts "Importing Youtube videos into the local DB and the S3 bucket #{System.get_env("S3_BUCKET")}."
 
-  # Returns a map of return codes
-  def process_rows(rows) do
-    IO.puts "Running import_youtube_videos.exs on #{Enum.count(rows)} input rows."
-    rows
-      |> Enum.map(fn(row) -> process_row(row) end)
-      |> Enum.group_by(fn({code, _, _}) -> code end)
-  end
-
-  def process_row(row) do
-    case row do
-      [title, url] ->
-        import_if_needed(title, url)
-      _ ->
-        IO.puts "WARNING: This row looks invalid, skipping:"
-        IO.inspect(row)
-    end
-  end
-
-  def import_if_needed(title, url) do
-    # TODO: Display "N out of N" tracker for each video
-    if already_imported?(url) do
-      IO.puts "Video \"#{title}\" is already imported; skipping."
-      {:skip, url, nil}
-    else
-      IO.puts "Video \"#{title}\" needs importing."
-      import_video(title, url)
-    end
-  end
-
-  def already_imported?(url) do
-    (Video |> where([v], v.source_url == ^url) |> Repo.count) > 0
-  end
-
-  def import_video(title, url) do
-    case download_from_youtube(url) do
-      {:ok, recording_path, thumbnail_path} ->
-        IO.puts "Uploading to S3 and saving the record..."
-        # Upload the attachments first, then create the Video record.
-        {:ok, recording_filename} = GenericAttachment.store({recording_path, "recording"})
-        {:ok, thumbnail_filename} = GenericAttachment.store({thumbnail_path, "thumbnail"})
-        params = %{
-          title: title,
-          source_name: "YouTube",
-          source_url: url,
-          recording_filename: recording_filename,
-          thumbnail_filename: thumbnail_filename
-        }
-        Video.changeset(%Video{}, params) |> Repo.insert!
-        {:ok, url, nil}
-      {:error, message} ->
-        {:error, url, message}
-    end
-  end
-
-  def download_from_youtube(url) do
-    IO.puts "Downloading from url #{url}..."
-    filename = Video.hashed_url(url)
-
-    # TODO: Set up youtube-dl with multiple fallback formats, and detect which
-    # was chosen afterwards.
-    {format, video_ext} = case System.get_env("FORMAT") do
-      "43" -> {43, "webm"} # This is the most common format. Size varies.
-      "18" -> {18, "mp4"}  # Some videos don't have webm, so fall back to this
-      nil  -> {43, "webm"}
-    end
-
-    try do
-      {output, _status} = System.cmd(
-        "youtube-dl", ["-o", "#{filename}.#{video_ext}", "-f#{format}", "--write-thumbnail", "--no-playlist", url],
-        cd: "tmp",
-        stderr_to_stdout: true
-      )
-      recording_path = "tmp/#{filename}.#{video_ext}"
-      thumbnail_path = "tmp/#{filename}.jpg"
-      if File.exists?(recording_path) and File.exists?(thumbnail_path) do
-        IO.puts "Download succeeded."
-        {:ok, recording_path, thumbnail_path}
-      else
-        IO.puts "Download failed with output: \n=====\n#{output}\n====="
-        {:error, output}
-      end
-    rescue
-      e in RuntimeError ->
-        IO.puts "Download hit exception: #{Exception.message(e)}"
-        {:error, Exception.message(e)}
-    end
-  end
-end
-
-IO.puts "NOTE: Existing videos are NOT cleared out first."
-IO.puts "You'll need to clear them out yourself if you want a clean import."
-
+tsv_filename = System.argv() |> Enum.at(0)
 System.cmd("mkdir", ["tmp"])
 
 original_videos_count = Repo.count(Video)
-results = YoutubeImporter.process_tsv("import_youtube_videos.tsv")
+results = YoutubeImporter.process_tsv(tsv_filename)
 new_videos_count = Repo.count(Video) - original_videos_count
 
 oks    = results[:ok]    || []
