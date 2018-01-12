@@ -36,7 +36,7 @@ I've written scripts to help with batch importing videos from YouTube. Here's ho
 
 More documentation at: https://hexdocs.pm/phoenix/heroku.html
 
-### Deploying to a new Heroku app
+### How to deploy to a new Heroku app
 
 Assumes you're familiar with and set up with Git, Heroku CLI, and Elixir.
 
@@ -47,10 +47,19 @@ Assumes you're familiar with and set up with Git, Heroku CLI, and Elixir.
     https://github.com/gjaldon/heroku-buildpack-phoenix-static.git`
 * `heroku addons:create -a educate-your-demo1 heroku-postgresql:hobby-dev`
 * `git remote add heroku-demo1 https://git.heroku.com/educate-your-demo1.git`
-* Copy `config/secrets.exs.sample` to `config/secrets.exs`; fill in real values for the production
+* Create an S3 bucket to hold files for this app. The AWS credentials you provide in the next step must have full R/W access, but no other special permissions are needed.
+* Copy `config/secrets.exs.sample` to `config/secrets.exs`; fill in real values for your app environment. The AWS credentials you specify must have access to the bucket you specify.
 * `heroku config:set -a educate-your-demo1 KEY=value KEY2=value2`
 * `git push heroku-demo1 master`
 * `heroku run -a educate-your-demo1 "POOL_SIZE=2 mix ecto.migrate"`
+* `heroku run 'mix run priv/repo/insert_coder.exs "Elmer" elmer.fudd@example.com'`
+
+### How to populate videos in a Heroku app
+
+* Make a .tsv list of Youtube videos to import. (Currently we only have a YouTube import script.) See `priv/repo/videos_import_youtube.exs` for details.
+* In your dev environment, run the Youtube importer. See `priv/repo/videos_import_youtube.exs` for details.
+* Export the videos to a dumpfile, then execute that dump in the Heroku environment. See `mix run priv/repo/videos_dump.exs`.
+* Use the scripts in `priv/repo/` to set up a database of videos and export them to the new Heroku environment
 * `heroku open`
 
 ### Reset database state:
