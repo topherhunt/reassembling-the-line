@@ -1,6 +1,4 @@
-##
 # Various helper methods to make a Rails dev feel more at home in Phoenix
-#
 defmodule EducateYour.H do
   def tap(input, function) do
     function.(input)

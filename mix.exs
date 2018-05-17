@@ -44,16 +44,15 @@ defmodule EducateYour.Mixfile do
       {:gettext, "~> 0.11"},
       {:cowboy, "~> 1.0"},
       {:comeonin, "~> 2.0"},
-      {:ex_machina, "~> 1.0"}, # factory (useful both in tests and seeds)
+      {:ex_machina, "~> 1.0"},
       {:timex, "~> 3.0"},
       {:timex_ecto, "~> 3.0"},
       {:arc, "~> 0.6.0"},
-      {:ex_aws, "~> 1.0"}, # arc requires ex_aws 1.0 (for S3 upload)
-      {:hackney, "~> 1.6"}, # required by ex_aws
-      {:poison, "~> 2.0"}, # required by ex_aws
-      {:sweet_xml, "~> 0.5"}, # required by ex_aws
+      {:ex_aws, "~> 1.0"}, # :arc S3 integration
+      {:hackney, "~> 1.6"}, # required for :ex_aws
+      {:poison, "~> 2.0"}, # required for :ex_aws
+      {:sweet_xml, "~> 0.5"}, # required for :ex_aws
       {:httpotion, "~> 3.0"}, # maybe only required in tests for fetching S3 files
-      # ^ If this gives me any trouble, consider httpoison instead
       {:bamboo, "~> 0.7"},
       {:bamboo_smtp, "~> 1.2.1"},
       {:hound, "~> 1.0", only: :test},
@@ -68,16 +67,11 @@ defmodule EducateYour.Mixfile do
        "ecto.reset": [
          "ecto.drop",
          "ecto.create",
-         "ecto.migrate",
-         "run priv/repo/seeds.exs"],
-       "ecto.reset_test": [
-         "ecto.drop",
-         "ecto.create",
-         "ecto.migrate"], # no seeds
+         "ecto.migrate"],
        "test": [
          "ecto.create --quiet",
          "ecto.migrate",
-         "run priv/clear_test_log.exs", # Clear test logs before each run
+         "run priv/clear_test_log.exs",
          "test"]
      ]
   end

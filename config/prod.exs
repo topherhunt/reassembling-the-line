@@ -19,5 +19,15 @@ config :educate_your, EducateYour.Repo,
   pool_size: System.get_env("POOL_SIZE"),
   ssl: true
 
+# config :educate_your, EducateYour.Mailer,
+#   adapter: Bamboo.SMTPAdapter,
+#   server: System.get_env("SMTP_SERVER"),
+#   port: 587,
+#   username: System.get_env("SMTP_USERNAME"),
+#   password: System.get_env("SMTP_PASSWORD"),
+#   tls: :if_available, # other options: :always or :never
+#   ssl: false,
+#   retries: 1
+
 # Do not print debug messages in production
 config :logger, level: :info

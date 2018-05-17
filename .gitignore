@@ -2,18 +2,12 @@
 /_build
 /db
 /deps
+/tmp
 /*.ez
 /node_modules
+/priv/static/
 erl_crash.dump
 *.log
 
-# Since we are building assets from web/static,
-# we ignore priv/static. You may want to comment
-# this depending on your deployment strategy.
-/priv/static/
-
-# Sensitive environment variables shouldn't be committed
+# Sensitive env variables
 config/secrets.exs
-
-# Temp files for video import
-import_youtube_videos.tsv

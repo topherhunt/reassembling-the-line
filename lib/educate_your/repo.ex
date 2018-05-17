@@ -5,7 +5,7 @@ defmodule EducateYour.Repo do
 
   alias EducateYour.Repo
 
-  # Simplify count queries where no join tables exist: query |> Repo.count
+  # Simplify count queries where no join tables exist
   def count(query) do
     query |> select([table], count(table.id)) |> Repo.one
   end

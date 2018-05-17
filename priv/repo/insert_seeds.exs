@@ -23,7 +23,7 @@ tags = (1..5) |> Enum.map(fn(_index) ->
   insert :tag
 end)
 
-A few sample videos with random taggings
+# A few sample videos with random taggings
 (1..5) |> Enum.each(fn(_index) ->
   video = insert :video
   coding = insert :coding, updated_by_user: coder

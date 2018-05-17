@@ -8,11 +8,9 @@ use Mix.Config
 # Automatically load sensitive environment variables for dev and test
 if File.exists?("config/secrets.exs"), do: import_config("secrets.exs")
 
-# General application configuration
 config :educate_your,
   ecto_repos: [EducateYour.Repo]
 
-# Configures the endpoint
 config :educate_your, EducateYour.Endpoint,
   url: [host: "localhost"],
   secret_key_base: Map.fetch!(System.get_env(), "SECRET_KEY_BASE"),
@@ -20,23 +18,11 @@ config :educate_your, EducateYour.Endpoint,
   render_errors: [view: EducateYour.ErrorView, accepts: ~w(html json)],
   pubsub: [name: EducateYour.PubSub, adapter: Phoenix.PubSub.PG2]
 
-# Configures Elixir's Logger
-# Logs print to the console by default.
 config :logger, :console,
   format: "$date $time $metadata[$level] $message\n",
   metadata: [:request_id]
 
 config :phoenix, :template_engines, haml: PhoenixHaml.Engine
-
-# config :educate_your, EducateYour.Mailer,
-#   adapter: Bamboo.SMTPAdapter,
-#   server: System.get_env("SMTP_SERVER"),
-#   port: 587,
-#   username: System.get_env("SMTP_USERNAME"),
-#   password: System.get_env("SMTP_PASSWORD"),
-#   tls: :if_available, # other options: :always or :never
-#   ssl: false,
-#   retries: 1
 
 config :ex_aws,
   access_key_id:     Map.fetch!(System.get_env(), "AWS_ACCESS_KEY_ID"),
