@@ -2,7 +2,7 @@ use Mix.Config
 
 # We don't run a server during test. If one is required,
 # you can enable the server option below.
-config :educate_your, EducateYour.Endpoint,
+config :educate_your, EducateYourWeb.Endpoint,
   http: [port: 4001],
   server: true
 
@@ -16,21 +16,12 @@ config :logger, :test_log,
 
 # Configure your database
 config :educate_your, EducateYour.Repo,
-  adapter: Ecto.Adapters.Postgres,
-  username: System.get_env("DB_USERNAME"),
-  password: System.get_env("DB_PASSWORD"),
-  database: System.get_env("DB_NAME"),
-  hostname: System.get_env("DB_HOST"),
-  pool_size: 10,
   pool: Ecto.Adapters.SQL.Sandbox,
-  ownership_timeout: 20 * 60 * 1000
+  ownership_timeout: 20 * 60 * 1000 # long timeout to allow debugging in tests
 
 config :educate_your, EducateYour.Mailer,
   adapter: Bamboo.TestAdapter
 
-# Reduce # of rounds when encrypting passwords (= faster test suite)
-config :comeonin, :bcrypt_log_rounds, 4
-config :comeonin, :pbkdf2_rounds, 1
+config :argon2_elixir, t_cost: 1, m_cost: 8 # reduce hashing algorithm cost
 
-# See https://github.com/HashNuke/hound/blob/master/notes/configuring-hound.md
 config :hound, driver: "phantomjs"

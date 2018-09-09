@@ -1,6 +1,8 @@
 # These helpers are heavily inspired from Bamboo.Test, but rewritten such that
 # checking for an email doesn't delete it from the message queue.
 defmodule EducateYour.EmailHelpers do
+  alias EducateYour.Schemas.User
+
   # NOTE: This only returns emails sent by / to this Process -- meaning our
   # integration tests don't have access to the emails sent server-side.
   # Switch to using Bamboo.LocalAdapter instead, which catches messages and
@@ -25,7 +27,7 @@ defmodule EducateYour.EmailHelpers do
     expected_email in all_delivered_emails()
   end
 
-  def emails_delivered_to(%EducateYour.User{} = user) do
+  def emails_delivered_to(%User{} = user) do
     all_delivered_emails()
       |> Enum.filter(fn(email) ->
         email.to |> Enum.any?(fn({_, to_address}) -> to_address == user.email end)

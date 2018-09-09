@@ -11,7 +11,8 @@
 #   to divide the dump into 30-line sections and paste each section separately.)
 #
 
-alias EducateYour.{Repo, Video}
+alias EducateYour.Repo
+alias EducateYour.Schemas.Video
 
 defmodule H do
   def clean(string) do

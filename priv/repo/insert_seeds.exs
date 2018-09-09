@@ -2,7 +2,9 @@
 # > mix run priv/repo/seeds.exs
 
 import EducateYour.Factory
-alias EducateYour.{Endpoint, Router, Repo, User, Video, Coding, Tagging, Tag}
+alias EducateYour.{Repo}
+alias EducateYour.Schemas.{User, Video, Coding, Tagging, Tag}
+alias EducateYourWeb.{Endpoint, Router}
 
 defmodule Helpers do
   def in_days(n) do
@@ -16,8 +18,8 @@ Repo.delete_all(Coding)
 Repo.delete_all(Tagging)
 Repo.delete_all(Tag)
 
-whitney = insert :user, full_name: "Whitney", email: "emailwhitney@gmail.com"
-coder   = insert :user, full_name: "Coder"
+_whitney = insert :user, full_name: "Whitney", email: "emailwhitney@gmail.com"
+coder    = insert :user, full_name: "Coder"
 
 tags = (1..5) |> Enum.map(fn(_index) ->
   insert :tag
@@ -26,7 +28,7 @@ end)
 # A few sample videos with random taggings
 (1..5) |> Enum.each(fn(_index) ->
   video = insert :video
-  coding = insert :coding, updated_by_user: coder
+  coding = insert :coding, video: video, updated_by_user: coder
   Enum.take_random(tags, 2) |> Enum.each(fn(tag) ->
     insert :tagging, coding: coding, tag: tag
   end)

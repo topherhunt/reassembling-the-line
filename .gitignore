@@ -4,10 +4,11 @@
 /deps
 /tmp
 /*.ez
-/node_modules
+/assets/node_modules
 /priv/static/
 erl_crash.dump
 *.log
+.DS_Store
 
 # Sensitive env variables
 config/secrets.exs

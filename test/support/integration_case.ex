@@ -1,4 +1,4 @@
-defmodule EducateYour.IntegrationCase do
+defmodule EducateYourWeb.IntegrationCase do
   use ExUnit.CaseTemplate
 
   using do
@@ -9,15 +9,15 @@ defmodule EducateYour.IntegrationCase do
       import Ecto
       import Ecto.Changeset
       import Ecto.Query
-      import EducateYour.Router.Helpers
       import EducateYour.Factory
-      import EducateYour.ModelHelpers
+      import EducateYour.DataHelpers
       import EducateYour.EmailHelpers
-      import EducateYour.ExtraHoundHelpers
+      import EducateYourWeb.Router.Helpers
+      import EducateYourWeb.ExtraHoundHelpers
 
       alias EducateYour.Repo
 
-      @endpoint EducateYour.Endpoint
+      @endpoint EducateYourWeb.Endpoint
     end
   end
 
@@ -26,7 +26,7 @@ defmodule EducateYour.IntegrationCase do
     unless tags[:async] do
       Ecto.Adapters.SQL.Sandbox.mode(EducateYour.Repo, {:shared, self()})
     end
-    EducateYour.ModelHelpers.empty_database
+    EducateYour.DataHelpers.empty_database
     ensure_phantomjs_running()
     {:ok, conn: Phoenix.ConnTest.build_conn()}
   end

@@ -16,7 +16,9 @@
 # - Set env var FORMAT=18 to download everything as .mp4 (default is .webm)
 #
 
-alias EducateYour.{Repo, Video, YoutubeImporter}
+alias EducateYour.Repo
+alias EducateYour.Services.YoutubeImporter
+alias EducateYour.Schemas.Video
 
 IO.puts "Importing Youtube videos into the local DB and the S3 bucket #{System.get_env("S3_BUCKET")}."
 

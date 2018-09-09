@@ -1,8 +1,6 @@
 defmodule EducateYour.Repo do
   use Ecto.Repo, otp_app: :educate_your
-
   import Ecto.Query
-
   alias EducateYour.Repo
 
   # Simplify count queries where no join tables exist

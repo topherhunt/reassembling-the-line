@@ -1,0 +1,27 @@
+%h2 Coding video: "#{@video.title}"
+
+.row
+  .col-sm-9
+    %video.js-coding-video-player{src: "#{Video.recording_url(@video)}", poster: "#{Video.thumbnail_url(@video)}", style: "display: block; width: 100%; height: 480px; background-color: #222;", controls: ""}
+  .col-sm-3
+    %p Video: <em>#{@video.title}</em>
+    %p Source: #{EducateYourWeb.Admin.VideoView.link_to_source(@video)}
+    %p
+      %a.js-time-skip.btn.btn-default{data-amount: "-10"} <<
+      %a.js-time-skip.btn.btn-default{data-amount: "-2"} <
+      %a.js-time-skip.btn.btn-default{data-amount: "2"} >
+      %a.js-time-skip.btn.btn-default{data-amount: "10"} >>
+
+%hr
+
+- # can't rename this unused var to _f due to Calliope 0.4.2 parsing bug
+- form_for @changeset, create_or_update_path(@conn, @changeset), fn(f) ->
+  .row
+    .col-sm-6
+      %h3 Tags
+      %table.table.js-tags-table.test-tags-table{data-autocompletes: "#{all_tags_json(@all_tags)}", data-present-tags: "#{present_tags_json(@present_tags)}"}
+        %tr
+          %td{colspan: 4}
+            = link "Add", to: "#", class: "js-add-tag test-add-tag btn btn-default btn-sm"
+  %input{type: "hidden", name: "coding[video_id]", value: "#{@video.id}"}
+  = submit "Submit", class: "test-create-coding btn btn-primary"

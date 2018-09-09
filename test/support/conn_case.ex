@@ -1,4 +1,4 @@
-defmodule EducateYour.ConnCase do
+defmodule EducateYourWeb.ConnCase do
   @moduledoc """
   This module defines the test case to be used by
   tests that require setting up a connection.
@@ -23,16 +23,16 @@ defmodule EducateYour.ConnCase do
       import Ecto
       import Ecto.Changeset
       import Ecto.Query
-      import EducateYour.Router.Helpers
-      import EducateYour.ModelHelpers
+      import EducateYour.DataHelpers
       import EducateYour.EmailHelpers
-      import EducateYour.ConnHelpers
       import EducateYour.Factory
+      import EducateYourWeb.Router.Helpers
+      import EducateYourWeb.ConnHelpers
 
       alias EducateYour.Repo
 
       # The default endpoint for testing
-      @endpoint EducateYour.Endpoint
+      @endpoint EducateYourWeb.Endpoint
     end
   end
 
@@ -43,7 +43,7 @@ defmodule EducateYour.ConnCase do
       Ecto.Adapters.SQL.Sandbox.mode(EducateYour.Repo, {:shared, self()})
     end
 
-    EducateYour.ModelHelpers.empty_database
+    EducateYour.DataHelpers.empty_database
 
     {:ok, conn: Phoenix.ConnTest.build_conn()}
   end

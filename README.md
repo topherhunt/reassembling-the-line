@@ -1,5 +1,10 @@
 # EducateYour
 
+## TODO
+
+- I've migrated the app to Phoenix 1.3, but don't yet use Contexts to encapsulate schemas; I'm accessing the schemas directly, which feels like a code smell. Ideally in controllers and controller tests, I'd be able to use the context module as persistence boundary, and not need to import `Ecto.Query` and `Repo` in most cases.
+- I suspect I don't need factories; I can just set up Contexts with `create_*` functions.
+
 ## Setting up the dev environment
 
   * Ensure Erlang, Kiex, Elixir (version in `mix.exs`), and Node are installed
@@ -67,3 +72,7 @@ Assumes you're familiar with and set up with Git, Heroku CLI, and Elixir.
 - `heroku pg:reset`
 - `heroku run mix ecto.migrate`
 - `heroku run mix run priv/repo/seeds.exs`
+
+## Elixir troubleshooting primer
+
+- Haml: it's easy to get the syntax wrong when embedding Elixir logic. Extract complex logic to View helpers where possible, especially anything that might trigger exceptions. See https://github.com/nurugger07/calliope for correct syntax (may need to do a little trial & error). You can also hack the `phoenix_haml` dependency to print out the `eex` string compiled by Calliopee; often this makes it obvious why the eex parser is complaining. (Need to run `mix deps.compile` after changing code in deps.)

@@ -27,7 +27,7 @@ defmodule EducateYour.ChannelCase do
 
 
       # The default endpoint for testing
-      @endpoint EducateYour.Endpoint
+      @endpoint EducateYourWeb.Endpoint
     end
   end
 

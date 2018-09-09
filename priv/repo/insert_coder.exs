@@ -3,7 +3,9 @@
 # > mix run priv/repo/seeds.exs
 
 import EducateYour.Factory
-alias EducateYour.{Endpoint, Router, Repo, User}
+alias EducateYour.Repo
+alias EducateYour.Schemas.User
+alias EducateYourWeb.{Endpoint, Router}
 
 [name, email] = System.argv()
 

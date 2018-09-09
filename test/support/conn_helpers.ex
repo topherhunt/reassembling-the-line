@@ -1,4 +1,4 @@
-defmodule EducateYour.ConnHelpers do
+defmodule EducateYourWeb.ConnHelpers do
   use Phoenix.ConnTest
   import EducateYour.Factory
 

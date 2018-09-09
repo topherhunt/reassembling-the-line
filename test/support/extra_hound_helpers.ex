@@ -1,4 +1,4 @@
-defmodule EducateYour.ExtraHoundHelpers do
+defmodule EducateYourWeb.ExtraHoundHelpers do
   use ExUnit.CaseTemplate
   use Hound.Helpers # See https://github.com/HashNuke/hound for docs
 
@@ -12,5 +12,11 @@ defmodule EducateYour.ExtraHoundHelpers do
 
   def refute_selector(strategy, selector) do
     assert length(find_all_elements(strategy, selector)) == 0
+  end
+
+  def print_page_source() do
+    IO.puts "<<<<<<< Page source: >>>>>>"
+    IO.puts page_source()
+    IO.puts "<<<<<<<<<<<<<<>>>>>>>>>>>>>"
   end
 end

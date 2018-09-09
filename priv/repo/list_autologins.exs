@@ -1,6 +1,8 @@
 # mix run priv/repo/autologins.exs
 
-alias EducateYour.{Repo, Router, Endpoint, User}
+alias EducateYour.Repo
+alias EducateYour.Schemas.User
+alias EducateYourWeb.{Endpoint, Router}
 
 IO.puts "Autologin paths:"
 Repo.all(User) |> Enum.each(fn(user) ->
