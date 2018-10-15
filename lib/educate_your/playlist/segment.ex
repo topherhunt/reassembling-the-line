@@ -1,4 +1,4 @@
-defmodule EducateYour.Logic.Segment do
+defmodule EducateYour.Playlist.Segment do
   defstruct(
     segment_id: nil, # a hash string unique to this video_id, starts_at, ends_at
     video_id: nil,

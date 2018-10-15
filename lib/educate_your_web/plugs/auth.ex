@@ -8,8 +8,7 @@ defmodule EducateYourWeb.Auth do
   ]
   import Phoenix.Controller, only: [put_flash: 3, redirect: 2]
   import Comeonin.Argon2, only: [checkpw: 2, dummy_checkpw: 0]
-  alias EducateYour.Repo
-  alias EducateYour.Schemas.User
+  alias EducateYour.Accounts
 
   # === Plugs ===
 
@@ -58,7 +57,7 @@ defmodule EducateYourWeb.Auth do
 
   # Log in the user from UN and PW if credentials are valid
   def try_login(conn, email, pw, [remember_me: remember_me]) do
-    user = Repo.get_by(User, email: email)
+    user = Accounts.get_user_by(email: email)
     cond do
       user && checkpw(pw, user.password_hash)
         -> {:ok, login!(conn, user, remember_me: remember_me)}
@@ -72,7 +71,7 @@ defmodule EducateYourWeb.Auth do
 
   # Start a logged-in session for an (already authenticated) user
   def login!(conn, user, [remember_me: remember_me]) do
-    user |> User.changeset(%{last_signed_in_at: Timex.now}) |> Repo.update!
+    Accounts.update_user_signin_timestamp!(user)
     conn
       |> assign(:current_user, user)
       |> put_session(:user_id, user.id)
@@ -111,7 +110,7 @@ defmodule EducateYourWeb.Auth do
   end
 
   defp load_user_from_session(conn) do
-    Repo.get(User, get_session(conn, :user_id))
+    Accounts.get_user_by(id: get_session(conn, :user_id))
   end
 
   defp new_expiration_datetime_string do

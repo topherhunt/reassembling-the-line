@@ -1,6 +1,7 @@
 defmodule EducateYourWeb.AuthTest do
   use EducateYourWeb.ConnCase, async: true
   alias EducateYourWeb.Auth
+  alias EducateYour.Accounts
 
   setup %{conn: conn} do
     # Sets up standard connection status (flash, session, etc.)
@@ -31,7 +32,7 @@ defmodule EducateYourWeb.AuthTest do
   end
 
   test "#load_current_user assigns current_user based on user_id", %{conn: conn} do
-    user = insert :user
+    user = Factory.insert_user
     conn = put_session(conn, :user_id, user.id)
     conn = put_session_expiration(conn, hours: +1)
     conn = Auth.load_current_user(conn, nil)
@@ -39,7 +40,7 @@ defmodule EducateYourWeb.AuthTest do
   end
 
   test "#load_current_user logs me out if user_id is invalid", %{conn: conn} do
-    user = insert :user
+    user = Factory.insert_user
     conn = put_session(conn, :user_id, user.id + 999)
     conn = put_session_expiration(conn, hours: +1)
     conn = Auth.load_current_user(conn, nil)
@@ -75,20 +76,20 @@ defmodule EducateYourWeb.AuthTest do
   # #login!
 
   test "#login! logs in this user", %{conn: conn} do
-    user = insert :user
+    user = Factory.insert_user
     assert user.last_signed_in_at == nil
     assert conn.assigns[:current_user] == nil
     conn = Auth.login!(conn, user, [remember_me: false])
     assert conn.assigns.current_user.id == user.id
     assert get_session(conn, :user_id) == user.id
-    user = Repo.get!(EducateYour.Schemas.User, user.id)
-    assert user.last_signed_in_at != nil
+    reloaded_user = Accounts.get_user!(user.id)
+    assert reloaded_user.last_signed_in_at != nil
   end
 
   # #logout!
 
   test "#logout! drops the whole session", %{conn: conn} do
-    user = insert :user
+    user = Factory.insert_user
     conn = Auth.login!(conn, user, [remember_me: false])
     assert get_session(conn, :user_id) == user.id
     conn = Auth.logout!(conn)

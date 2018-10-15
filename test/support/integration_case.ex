@@ -5,17 +5,11 @@ defmodule EducateYourWeb.IntegrationCase do
     quote do
       use Phoenix.ConnTest
       use Hound.Helpers # See https://github.com/HashNuke/hound for usage info
-
-      import Ecto
-      import Ecto.Changeset
-      import Ecto.Query
-      import EducateYour.Factory
       import EducateYour.DataHelpers
       import EducateYour.EmailHelpers
       import EducateYourWeb.Router.Helpers
       import EducateYourWeb.ExtraHoundHelpers
-
-      alias EducateYour.Repo
+      alias EducateYour.Factory
 
       @endpoint EducateYourWeb.Endpoint
     end

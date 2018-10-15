@@ -1,4 +1,4 @@
-##
+#
 # Export all videos in the local db to an executable dump file, which you can
 # run in another environment to recreate the videos there.
 # Usage:
@@ -11,8 +11,12 @@
 #   to divide the dump into 30-line sections and paste each section separately.)
 #
 
-alias EducateYour.Repo
-alias EducateYour.Schemas.Video
+# TODO: This dump format (executable Elixir code as a data transmission format)
+# is a major code smell. Set up a simple admin page where you can upload or paste
+# in a dumpfile to bulk-import videos. This page should also have controls to
+# delete all local videos etc.
+
+alias EducateYour.Videos
 
 defmodule H do
   def clean(string) do
@@ -22,16 +26,15 @@ end
 
 timestamp = Timex.now |> Timex.format!("%Y-%m-%d_%H-%M-%S", :strftime)
 filename = "#{timestamp}_videos_export.exs"
-num_videos = Repo.count(Video)
+num_videos = Videos.count_all_videos
 {:ok, file} = File.open(filename, [:write])
 IO.puts "Running export_videos_to_dump.exs which will write to #{filename}."
 IO.puts "There are #{num_videos} videos in your local db."
-IO.binwrite(file, "alias EducateYour.{Repo, Video}\n")
+IO.binwrite(file, "alias EducateYour.Repo\nalias EducateYour.Videos.Video\n")
 
-Repo.all(Video)
-  |> Enum.each(fn(video) ->
-    IO.binwrite(file, "Repo.insert!(%Video{title: \"#{H.clean(video.title)}\", source_name: \"#{H.clean(video.source_name)}\", source_url: \"#{H.clean(video.source_url)}\", recording_filename: \"#{H.clean(video.recording_filename)}\", thumbnail_filename: \"#{H.clean(video.thumbnail_filename)}\"})\n")
-  end)
+Videos.all_videos_with_preloads |> Enum.each(fn(video) ->
+  IO.binwrite(file, "Repo.insert!(%Video{title: \"#{H.clean(video.title)}\", source_name: \"#{H.clean(video.source_name)}\", source_url: \"#{H.clean(video.source_url)}\", recording_filename: \"#{H.clean(video.recording_filename)}\", thumbnail_filename: \"#{H.clean(video.thumbnail_filename)}\"})\n")
+end)
 
 IO.binwrite(file, "IO.puts \"Import is complete. This should have imported #{num_videos} videos. Currently there are \#{Repo.count(Video)} videos total in this database.\"\n")
 

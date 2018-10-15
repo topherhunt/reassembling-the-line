@@ -2,19 +2,19 @@
 # > mix run priv/repo/seed_coder.exs Whitney emailwhitney@gmail.com
 # > mix run priv/repo/seeds.exs
 
-import EducateYour.Factory
-alias EducateYour.Repo
-alias EducateYour.Schemas.User
 alias EducateYourWeb.{Endpoint, Router}
+alias EducateYour.Factory
+alias EducateYour.Accounts
 
-[name, email] = System.argv()
+[name, email] = System.argv
+coder = Factory.insert_user(%{full_name: name, email: email})
+all_users = Accounts.get_all_users
 
-coder = insert :user, full_name: name, email: email
-
-IO.puts "Added #{coder.full_name}"
-IO.puts "There are now #{Repo.count(User)} coders total."
+IO.puts "Added coder \"#{coder.full_name}\"."
+IO.puts "There are now #{length(all_users)} coders total."
 IO.puts "Login paths:"
-Repo.all(User) |> Enum.each(fn(user) ->
+# TODO: How to run one mix task from another mix task? (this is duplicate logic)
+Enum.each(all_users, fn(user) ->
   path = Router.Helpers.session_path(Endpoint, :login_from_uuid, user.uuid)
   IO.puts "* #{user.full_name} logs in with: #{path}"
 end)

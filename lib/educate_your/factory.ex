@@ -1,54 +1,51 @@
+# I was using ExMachina but found these hand-rolled factories simple to set up
+# and more transparent vis-a-vis Ecto association handling.
 defmodule EducateYour.Factory do
-  use ExMachina.Ecto, repo: EducateYour.Repo
   alias EducateYour.Helpers
-  alias EducateYour.Schemas.{User, Video, Coding, Tagging, Tag}
+  alias EducateYour.Accounts
+  alias EducateYour.Videos
 
-  # Returns an unpersisted struct with all foreign key _id fields populated.
-  # Useful when testing validations: we need a valid, unpersisted struct that
-  # contains all the fields accepted by the changeset.
-  def build_with_assocs(factory, opts \\ %{}) do
-    build(factory, params_with_assocs(factory, opts))
+  def insert_user(params \\ %{}) do
+    hex = Helpers.random_hex
+    {:ok, user} = Accounts.insert_user(%{
+      full_name: params[:full_name] || "User #{hex}",
+      email: params[:email] || "user_#{hex}@example.com",
+      uuid: params[:uuid] || Helpers.random_hex <> Helpers.random_hex
+    })
+    user
   end
 
-  # NOTE: Be careful with `params_with_assocs`. It behaves in counterintuitive
-  # ways when you override associations or FK fields. Best practice is to
-  # only ever call `params_with_assocs\1` and then Map.merge any FK overrides.
-
-  def user_factory do
-    hex = Helpers.random_hex()
-    %User{
-      full_name: "User #{hex}",
-      email: "user_#{hex}@example.com",
-      uuid: Helpers.random_hex() <> Helpers.random_hex()
-    }
+  def insert_video(params \\ %{}) do
+    hex = Helpers.random_hex
+    Videos.insert_video!(%{
+      title: params[:title] || "Video #{hex}",
+      recording_filename: params[:recording_filename] || "#{hex}.webm",
+      thumbnail_filename: params[:thumbnail_filename] || "#{hex}.jpg"
+    })
   end
 
-  def video_factory do
-    hex = Helpers.random_hex()
-    %Video{
-      title: "Video #{hex}",
-      recording_filename: "#{hex}.webm",
-      thumbnail_filename: "#{hex}.jpg"
-    }
+  def insert_coding(params \\ %{}) do
+    # TODO: For this and similar helpers, maybe assert param keys against a whitelist
+    # so consumers can't accidentally input invalid keys.
+    default_tags = [%{"text"=>"tag1"}, %{"text"=>"tag2"}]
+    {:ok, coding} = Videos.insert_coding(%{
+      video_id: params[:video_id] || insert_video().id,
+      coder_id: params[:coder_id] || insert_user().id,
+      tags: params[:tags] || default_tags
+    })
+    coding
   end
 
-  def coding_factory do
-    %Coding{
-      video: build(:video),
-      updated_by_user: build(:user)
-    }
+  def insert_tagging(params \\ %{}) do
+    Videos.insert_tagging!(%{
+      coding_id: params[:coding_id] || insert_coding().id,
+      tag_id: params[:tag_id] || insert_tag().id,
+      starts_at: params[:starts_at],
+      ends_at: params[:ends_at]
+    })
   end
 
-  def tagging_factory do
-    %Tagging{
-      coding: build(:coding),
-      tag: build(:tag)
-    }
-  end
-
-  def tag_factory do
-    %Tag{
-      text: "tag_#{Helpers.random_hex()}"
-    }
+  def insert_tag(params \\ %{}) do
+    Videos.find_or_create_tag(%{text: params[:text] || "tag_#{Helpers.random_hex}"})
   end
 end

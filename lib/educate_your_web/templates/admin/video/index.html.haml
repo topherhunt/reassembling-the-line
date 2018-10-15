@@ -16,7 +16,7 @@
       %td= video.id
       %td
         %div{style: "overflow: hidden; height: 80px;"}
-          %img{src: "#{EducateYour.Schemas.Video.thumbnail_url(video)}", style: "height: 100px; margin: -20px;"}
+          %img{src: "#{EducateYour.Videos.thumbnail_url(video)}", style: "height: 100px; margin: -20px;"}
       %td= video.title
       %td= link_to_source(video)
       - if video.coding do

@@ -1,12 +1,9 @@
 defmodule EducateYourWeb.ExploreController do
   use EducateYourWeb, :controller
-  import Ecto.Query
-  alias EducateYour.Repo
-  alias EducateYour.Schemas.{Tag, Tagging}
-  alias EducateYour.Helpers
+  alias EducateYour.Videos
 
   def index(conn, _params) do
-    render conn, "index.html", all_tags: all_tags()
+    render conn, "index.html", tag_options: tag_options()
   end
 
   # Receives an ajax request for video clips given a specific filter
@@ -19,20 +16,15 @@ defmodule EducateYourWeb.ExploreController do
   # Helpers
   #
 
-  defp all_tags do
-    Tag
-      |> join(:inner, [t], ti in Tagging, t.id == ti.tag_id)
-      |> group_by([t, ti], [t.text])
-      |> select([t, ti], {t.text, count(ti.id)})
-      |> order_by([t, ti], [desc: count(ti.id), asc: t.text])
-      |> Repo.all
-      |> Enum.map(fn({text, ct}) -> %{value: text, label: "#{text} (#{ct})"} end)
+  defp tag_options do
+    Videos.all_tags_with_counts
+    |> Enum.map(& %{label: "#{&1.text} (#{&1.count})", value: &1.text})
   end
 
   defp tags_from_params(params) do
     (params["tags"] || "")
       |> String.split(",")
-      |> Enum.reject(&Helpers.is_blank?/1)
-      |> Enum.map(fn(text) -> %{text: text} end)
+      |> Enum.reject(& Helpers.is_blank?(&1))
+      |> Enum.map(& %{text: &1})
   end
 end

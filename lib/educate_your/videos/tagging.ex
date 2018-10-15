@@ -1,10 +1,10 @@
-defmodule EducateYour.Schemas.Tagging do
+defmodule EducateYour.Videos.Tagging do
   use Ecto.Schema
   import Ecto.Changeset
 
   schema "taggings" do
-    belongs_to :coding, EducateYour.Schemas.Coding
-    belongs_to :tag, EducateYour.Schemas.Tag
+    belongs_to :coding, EducateYour.Videos.Coding
+    belongs_to :tag, EducateYour.Videos.Tag
     field :starts_at, :integer
     field :ends_at, :integer
     timestamps()

@@ -27,6 +27,7 @@ defmodule EducateYourWeb do
         must_be_logged_in: 2,
         must_not_be_logged_in: 2
       ]
+      alias EducateYour.Helpers
     end
   end
 

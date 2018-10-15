@@ -1,17 +1,10 @@
 defmodule EducateYourWeb.Admin.CodingView do
   use EducateYourWeb, :view
-  alias EducateYour.Schemas.Video
+  alias EducateYour.Videos
 
-  def all_tags_json(tags) do
-    tags
-      |> Enum.map(fn(tag) -> tag.text end)
-      |> Poison.encode!()
-  end
+  def all_tags_json(tags), do: tags |> Enum.map(& &1.text) |> Poison.encode!
 
-  def present_tags_json(tags) do
-    tags
-      |> Poison.encode!()
-  end
+  def present_tags_json(tags), do: Poison.encode!(tags)
 
   def create_or_update_path(conn, changeset) do
     if changeset.data.id do

@@ -16,16 +16,11 @@ defmodule EducateYour.DataCase do
 
   using do
     quote do
-      import Ecto
-      import Ecto.Changeset
-      import Ecto.Query
       import EducateYour.DataCase
       import EducateYour.DataHelpers
       import EducateYour.EmailHelpers
       import EducateYour.ValidationHelpers
-      import EducateYour.Factory
-
-      alias EducateYour.Repo
+      alias EducateYour.Factory
     end
   end
 

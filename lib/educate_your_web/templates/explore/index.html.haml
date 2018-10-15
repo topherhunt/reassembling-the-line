@@ -8,7 +8,7 @@
   .col-sm-4
     %h3 Filter by tag
     %select.js-chosen-select.js-filter-tag{data-placeholder: "Click to add a filter", multiple: ""}
-      - Enum.map(@all_tags, fn(tag) ->
+      - Enum.map(@tag_options, fn(tag) ->
         %option{value: "#{tag.value}"}= tag.label
     %h3 Playlist
     .js-playlist-container-outer

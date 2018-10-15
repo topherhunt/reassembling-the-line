@@ -1,7 +1,6 @@
 defmodule EducateYourWeb.CodingInterfaceTest do
   use EducateYourWeb.IntegrationCase
-  alias EducateYour.Repo
-  alias EducateYour.Schemas.Coding
+  alias EducateYour.Videos
   require IEx
 
   hound_session()
@@ -9,8 +8,8 @@ defmodule EducateYourWeb.CodingInterfaceTest do
   # See CodingControllerTest for the CRUD basics
 
   test "User can add and remove tags and submit coding data", %{conn: conn} do
-    user  = insert :user
-    video = insert :video
+    user  = Factory.insert_user
+    video = Factory.insert_video
 
     navigate_to session_path(conn, :login_from_uuid, user.uuid)
     navigate_to admin_coding_path(conn, :new, video_id: video.id)
@@ -33,11 +32,8 @@ defmodule EducateYourWeb.CodingInterfaceTest do
     find_element(:css, ".test-create-coding") |> click
 
     assert current_path() == admin_video_path(conn, :index)
-    coding = video
-      |> assoc(:coding)
-      |> Repo.first
-      |> Repo.preload([:taggings, :tags])
-    tags = Coding.compact_tag_info(coding) |> Enum.sort
+    coding = Videos.get_coding_by!(video_id: video.id) |> Videos.get_coding_preloads
+    tags = Videos.summarize_taggings(coding.taggings) |> Enum.sort
     assert tags == [
       %{text: "Alabama", starts_at: nil, ends_at: nil},
       %{text: "Georgia", starts_at: nil, ends_at: nil},
@@ -46,9 +42,8 @@ defmodule EducateYourWeb.CodingInterfaceTest do
   end
 
   test "Selected tags are autopopulated when re-coding a video", %{conn: conn} do
-    user   = insert :user
-    coding = insert :coding
-    Coding.associate_tags(coding, [
+    user   = Factory.insert_user
+    coding = Factory.insert_coding(tags: [
       %{"text"=>"abc"},
       %{"text"=>"def", "starts_at"=>"15", "ends_at"=>"49"},
       %{"text"=>"ghi", "starts_at"=>"40", "ends_at"=>"72"}

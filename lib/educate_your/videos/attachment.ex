@@ -1,4 +1,5 @@
-defmodule EducateYour.Uploaders.GenericAttachment do
+defmodule EducateYour.Videos.Attachment do
+  alias EducateYour.Helpers
   use Arc.Definition
 
   # Include ecto support (requires package arc_ecto installed):
@@ -27,9 +28,8 @@ defmodule EducateYour.Uploaders.GenericAttachment do
 
   # Override the storage directory:
   def storage_dir(_version, {_file, scope}) do
-    unless Enum.member?(["recording", "thumbnail", "text"], scope) do
-      raise "Unknown attachment scope #{scope}!"
-    end
+    # TODO: What's this "text" scope for? Can I get rid of it?
+    Helpers.assert_list_contains(["recording", "thumbnail", "text"], scope)
     "uploads/#{scope}"
   end
 

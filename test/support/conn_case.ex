@@ -19,17 +19,11 @@ defmodule EducateYourWeb.ConnCase do
     quote do
       # Import conveniences for testing with connections
       use Phoenix.ConnTest
-
-      import Ecto
-      import Ecto.Changeset
-      import Ecto.Query
       import EducateYour.DataHelpers
       import EducateYour.EmailHelpers
-      import EducateYour.Factory
       import EducateYourWeb.Router.Helpers
       import EducateYourWeb.ConnHelpers
-
-      alias EducateYour.Repo
+      alias EducateYour.Factory
 
       # The default endpoint for testing
       @endpoint EducateYourWeb.Endpoint

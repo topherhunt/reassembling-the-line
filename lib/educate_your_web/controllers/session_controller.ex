@@ -1,11 +1,10 @@
 defmodule EducateYourWeb.SessionController do
   use EducateYourWeb, :controller
-  alias EducateYour.Repo
-  alias EducateYour.Schemas.User
+  alias EducateYour.Accounts
   alias EducateYourWeb.Auth
 
   def login_from_uuid(conn, %{"uuid" => uuid}) do
-    user = Repo.get_by!(User, uuid: uuid)
+    user = Accounts.get_user_by!(uuid: uuid)
     conn
       |> Auth.login!(user, remember_me: false)
       |> put_flash(:info, "Welcome back, #{user.full_name}!")

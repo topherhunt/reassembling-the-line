@@ -1,8 +1,5 @@
-defmodule EducateYour.Services.YoutubeImporter do
-  import Ecto.Query
-  alias EducateYour.Repo
-  alias EducateYour.Schemas.Video
-  alias EducateYour.Uploaders.GenericAttachment
+defmodule EducateYour.Importing.YoutubeImporter do
+  alias EducateYour.Videos
 
   def process_tsv(path) do
     File.stream!(path)
@@ -40,7 +37,7 @@ defmodule EducateYour.Services.YoutubeImporter do
   end
 
   def already_imported?(url) do
-    (Video |> where([v], v.source_url == ^url) |> Repo.count) > 0
+    Videos.count_videos_where(source_url: url) > 0
   end
 
   def import_video(title, url) do
@@ -48,16 +45,15 @@ defmodule EducateYour.Services.YoutubeImporter do
       {:ok, recording_path, thumbnail_path} ->
         IO.puts "Uploading to S3 and saving the record..."
         # Upload the attachments first, then create the Video record.
-        {:ok, recording_filename} = GenericAttachment.store({recording_path, "recording"})
-        {:ok, thumbnail_filename} = GenericAttachment.store({thumbnail_path, "thumbnail"})
-        params = %{
+        {:ok, recording_filename} = Videos.upload_recording(recording_path)
+        {:ok, thumbnail_filename} = Videos.upload_thumbnail(thumbnail_path)
+        Videos.insert_video!(%{
           title: title,
           source_name: "YouTube",
           source_url: url,
           recording_filename: recording_filename,
           thumbnail_filename: thumbnail_filename
-        }
-        Video.changeset(%Video{}, params) |> Repo.insert!
+        })
         {:ok, url, nil}
       {:error, message} ->
         {:error, url, message}
@@ -66,7 +62,7 @@ defmodule EducateYour.Services.YoutubeImporter do
 
   def download_from_youtube(url) do
     IO.puts "Downloading from url #{url}..."
-    filename = Video.hashed_url(url)
+    filename = Videos.url_to_hash(url)
 
     # TODO: Set up youtube-dl with multiple fallback formats, and detect which
     # was chosen afterwards.

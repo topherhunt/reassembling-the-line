@@ -16,18 +16,17 @@
 # - Set env var FORMAT=18 to download everything as .mp4 (default is .webm)
 #
 
-alias EducateYour.Repo
 alias EducateYour.Services.YoutubeImporter
-alias EducateYour.Schemas.Video
+alias EducateYour.Videos
 
 IO.puts "Importing Youtube videos into the local DB and the S3 bucket #{System.get_env("S3_BUCKET")}."
 
 tsv_filename = System.argv() |> Enum.at(0)
 System.cmd("mkdir", ["tmp"])
 
-original_videos_count = Repo.count(Video)
+original_videos_count = Videos.count_all_videos
 results = YoutubeImporter.process_tsv(tsv_filename)
-new_videos_count = Repo.count(Video) - original_videos_count
+new_videos_count = Videos.count_all_videos - original_videos_count
 
 oks    = results[:ok]    || []
 skips  = results[:skip]  || []

@@ -1,10 +1,8 @@
 defmodule EducateYourWeb.VideoController do
   use EducateYourWeb, :controller
-  alias EducateYour.Repo
-  alias EducateYour.Schemas.Video
+  alias EducateYour.Videos
 
   def show(conn, %{"id" => video_id}) do
-    video = Repo.get!(Video, video_id)
-    render conn, "show.html", video: video
+    render conn, "show.html", video: Videos.get_video!(video_id)
   end
 end

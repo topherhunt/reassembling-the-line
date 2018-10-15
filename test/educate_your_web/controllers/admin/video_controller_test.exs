@@ -13,8 +13,8 @@ defmodule EducateYourWeb.Admin.VideoControllerTest do
   test "#index renders correctly", %{conn: conn} do
     {conn, _user} = login_as_new_user(conn)
     # Populate some dummy data
-    insert :video
-    insert :video
+    Factory.insert_video
+    Factory.insert_video
 
     conn = get(conn, admin_video_path(conn, :index))
     assert html_response(conn, 200) =~ "Videos"

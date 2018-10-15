@@ -1,29 +1,28 @@
 defmodule EducateYour.DataHelpers do
-  import EducateYour.Factory
-  alias EducateYour.Repo
-  alias EducateYour.Schemas.{User, Video, Coding, Tagging, Tag}
+  alias EducateYour.Factory
+  alias EducateYour.Accounts
+  alias EducateYour.Videos
 
+  # TODO: This can be moved to the factories too, since it serves similar purpose
   def empty_database do
     # Clean out cruft records possibly left over by earlier (crashed) tests...?
-    Repo.delete_all(User)
-    Repo.delete_all(Video)
-    Repo.delete_all(Coding)
-    Repo.delete_all(Tagging)
-    Repo.delete_all(Tag)
+    Accounts.delete_all_users
+    Videos.delete_all_content
   end
 
+  # TODO: I feel like this belongs in the factory?
   def insert_video_with_tags(tag_strings) do
-    video = insert :video
-    coding = insert :coding, video: video
-    tags = tag_strings |> Enum.map(fn(string) ->
+    video = Factory.insert_video
+    Factory.insert_coding(video_id: video.id, tags: tag_strings_to_maps(tag_strings))
+    video
+  end
+
+  def tag_strings_to_maps(strings) do
+    Enum.map(strings, fn(string) ->
       case String.split(string, ":") do
-        [text] ->
-          %{"text" => text}
-        [text, starts_at, ends_at] ->
-          %{"text" => text, "starts_at" => starts_at, "ends_at" => ends_at}
+        [text] -> %{"text" => text}
+        [text, s, e] -> %{"text" => text, "starts_at" => s, "ends_at" => e}
       end
     end)
-    Coding.associate_tags(coding, tags)
-    video
   end
 end

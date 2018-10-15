@@ -1,14 +1,12 @@
-defmodule EducateYour.Schemas.Tag do
+defmodule EducateYour.Videos.Tag do
   use Ecto.Schema
   import Ecto.Changeset
-  alias EducateYour.Repo
-  alias EducateYour.Schemas.Tag
 
   schema "tags" do
     field :text, :string
     timestamps()
 
-    has_many :taggings, EducateYour.Schemas.Tagging
+    has_many :taggings, EducateYour.Videos.Tagging
   end
 
   ##
@@ -29,15 +27,5 @@ defmodule EducateYour.Schemas.Tag do
     else
       add_error(changeset, :text, "Must only contain letters, numbers, and spaces.")
     end
-  end
-
-  ##
-  # Helpers
-  #
-
-  def find_or_create(params) do
-    tag_changeset = Tag.changeset(%Tag{}, %{text: params["text"]})
-    cleaned_tag_params = %{text: get_change(tag_changeset, :text)}
-    Repo.get_by(Tag, cleaned_tag_params) || Repo.insert!(tag_changeset)
   end
 end
