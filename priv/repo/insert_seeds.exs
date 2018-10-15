@@ -2,7 +2,7 @@
 # > mix run priv/repo/seeds.exs
 
 alias EducateYourWeb.{Endpoint, Router}
-import EducateYour.Factory
+alias EducateYour.Factory
 alias EducateYour.Repo
 alias EducateYour.Accounts
 alias EducateYour.Videos
@@ -18,17 +18,17 @@ end
 Accounts.delete_all_users
 Videos.delete_all_content
 
-_whitney = insert_user(full_name: "Whitney", email: "emailwhitney@gmail.com")
-coder    = insert_user(full_name: "Coder")
+_whitney = Factory.insert_user(full_name: "Whitney", email: "emailwhitney@gmail.com")
+coder    = Factory.insert_user(full_name: "Coder")
 
-tags = (1..5) |> Enum.map(fn(_) -> insert_tag end)
+tags = (1..5) |> Enum.map(fn(_) -> Factory.insert_tag end)
 
 # A few sample videos with random taggings
 (1..5) |> Enum.each(fn(_index) ->
-  video = insert_video
-  coding = insert_coding(video_id: video.id, coder_id: coder)
+  video = Factory.insert_video
+  coding = Factory.insert_coding(video_id: video.id, coder_id: coder.id)
   Enum.take_random(tags, 2) |> Enum.each(fn(tag) ->
-    insert_tagging(coding_id: coding.id, tag_id: tag.id)
+    Factory.insert_tagging(coding_id: coding.id, tag_id: tag.id)
   end)
 end)
 
