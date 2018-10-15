@@ -1,7 +1,7 @@
-defmodule EducateYour.Videos.AttachmentTest do
-  use EducateYour.DataCase, async: true
-  alias EducateYour.Videos.Attachment
-  alias EducateYour.Helpers
+defmodule RTL.Videos.AttachmentTest do
+  use RTL.DataCase, async: true
+  alias RTL.Videos.Attachment
+  alias RTL.Helpers
 
   # TODO: Ideally create a new file each time with a random name, so writing to
   # S3 is truly exercised

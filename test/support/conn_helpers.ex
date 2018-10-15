@@ -1,6 +1,6 @@
-defmodule EducateYourWeb.ConnHelpers do
+defmodule RTLWeb.ConnHelpers do
   use Phoenix.ConnTest
-  import EducateYour.Factory
+  import RTL.Factory
 
   # NOTE: Only works on functional tests, not integration tests.
   def login_as_new_user(conn, user_params \\ %{}) do

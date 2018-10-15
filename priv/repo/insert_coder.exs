@@ -2,9 +2,9 @@
 # > mix run priv/repo/seed_coder.exs Whitney emailwhitney@gmail.com
 # > mix run priv/repo/seeds.exs
 
-alias EducateYourWeb.{Endpoint, Router}
-alias EducateYour.Factory
-alias EducateYour.Accounts
+alias RTLWeb.{Endpoint, Router}
+alias RTL.Factory
+alias RTL.Accounts
 
 [name, email] = System.argv
 coder = Factory.insert_user(%{full_name: name, email: email})

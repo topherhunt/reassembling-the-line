@@ -1,9 +1,9 @@
-defmodule EducateYour.Mixfile do
+defmodule RTL.Mixfile do
   use Mix.Project
 
   def project do
     [
-      app: :educate_your,
+      app: :rtl,
       version: "0.0.1",
       elixir: "~> 1.6",
       elixirc_paths: elixirc_paths(Mix.env),
@@ -18,7 +18,7 @@ defmodule EducateYour.Mixfile do
   # Type `mix help compile.app` for more information.
   def application do
     [
-      mod: {EducateYour, []},
+      mod: {RTL, []},
       extra_applications: [:logger, :runtime_tools]
     ]
   end

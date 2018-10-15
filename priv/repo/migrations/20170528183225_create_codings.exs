@@ -1,4 +1,4 @@
-defmodule EducateYour.Repo.Migrations.CreateCodings do
+defmodule RTL.Repo.Migrations.CreateCodings do
   use Ecto.Migration
 
   def change do

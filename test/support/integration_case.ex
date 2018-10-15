@@ -1,26 +1,26 @@
-defmodule EducateYourWeb.IntegrationCase do
+defmodule RTLWeb.IntegrationCase do
   use ExUnit.CaseTemplate
 
   using do
     quote do
       use Phoenix.ConnTest
       use Hound.Helpers # See https://github.com/HashNuke/hound for usage info
-      import EducateYour.DataHelpers
-      import EducateYour.EmailHelpers
-      import EducateYourWeb.Router.Helpers
-      import EducateYourWeb.ExtraHoundHelpers
-      alias EducateYour.Factory
+      import RTL.DataHelpers
+      import RTL.EmailHelpers
+      import RTLWeb.Router.Helpers
+      import RTLWeb.ExtraHoundHelpers
+      alias RTL.Factory
 
-      @endpoint EducateYourWeb.Endpoint
+      @endpoint RTLWeb.Endpoint
     end
   end
 
   setup tags do
-    :ok = Ecto.Adapters.SQL.Sandbox.checkout(EducateYour.Repo)
+    :ok = Ecto.Adapters.SQL.Sandbox.checkout(RTL.Repo)
     unless tags[:async] do
-      Ecto.Adapters.SQL.Sandbox.mode(EducateYour.Repo, {:shared, self()})
+      Ecto.Adapters.SQL.Sandbox.mode(RTL.Repo, {:shared, self()})
     end
-    EducateYour.DataHelpers.empty_database
+    RTL.DataHelpers.empty_database
     ensure_phantomjs_running()
     {:ok, conn: Phoenix.ConnTest.build_conn()}
   end

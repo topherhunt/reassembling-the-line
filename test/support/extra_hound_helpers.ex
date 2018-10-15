@@ -1,4 +1,4 @@
-defmodule EducateYourWeb.ExtraHoundHelpers do
+defmodule RTLWeb.ExtraHoundHelpers do
   use ExUnit.CaseTemplate
   use Hound.Helpers # See https://github.com/HashNuke/hound for docs
 

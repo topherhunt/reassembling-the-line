@@ -1,6 +1,6 @@
-defmodule EducateYourWeb.CodingInterfaceTest do
-  use EducateYourWeb.IntegrationCase
-  alias EducateYour.Videos
+defmodule RTLWeb.CodingInterfaceTest do
+  use RTLWeb.IntegrationCase
+  alias RTL.Videos
   require IEx
 
   hound_session()

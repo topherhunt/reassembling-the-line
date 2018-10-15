@@ -1,5 +1,5 @@
-defmodule EducateYourWeb.ExploreControllerTest do
-  use EducateYourWeb.ConnCase, async: true
+defmodule RTLWeb.ExploreControllerTest do
+  use RTLWeb.ConnCase, async: true
 
   test "#index renders the page (no login needed)", %{conn: conn} do
     conn = get(conn, explore_path(conn, :index))

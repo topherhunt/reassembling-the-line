@@ -3,7 +3,7 @@ use Mix.Config
 # For production, we configure the host to read the PORT
 # from the system environment. Therefore, you will need
 # to set PORT=80 before running your server.
-config :educate_your, EducateYourWeb.Endpoint,
+config :rtl, RTLWeb.Endpoint,
   http: [:inet6, port: H.env("PORT")],
   url: [
     scheme: "https",
@@ -13,10 +13,10 @@ config :educate_your, EducateYourWeb.Endpoint,
   force_ssl: [rewrite_on: [:x_forwarded_proto]],
   cache_static_manifest: "priv/static/cache_manifest.json"
 
-config :educate_your, EducateYour.Repo,
+config :rtl, RTL.Repo,
   ssl: true
 
-# config :educate_your, EducateYour.Mailer,
+# config :rtl, RTL.Mailer,
 #   adapter: Bamboo.SMTPAdapter,
 #   server: System.get_env("SMTP_SERVER"),
 #   port: 587,

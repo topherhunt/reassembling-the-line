@@ -1,13 +1,13 @@
 # Script for populating the database. You can run it as:
 # > mix run priv/repo/seeds.exs
 
-alias EducateYourWeb.{Endpoint, Router}
-alias EducateYour.Factory
-alias EducateYour.Repo
-alias EducateYour.Accounts
-alias EducateYour.Videos
-alias EducateYour.Accounts.User
-alias EducateYour.Videos.{Video, Coding, Tagging, Tag}
+alias RTLWeb.{Endpoint, Router}
+alias RTL.Factory
+alias RTL.Repo
+alias RTL.Accounts
+alias RTL.Videos
+alias RTL.Accounts.User
+alias RTL.Videos.{Video, Coding, Tagging, Tag}
 
 defmodule Helpers do
   def in_days(n) do

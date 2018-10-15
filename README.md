@@ -1,9 +1,6 @@
-# EducateYour
+# Reassembling the Line
 
-## TODO
-
-- I've migrated the app to Phoenix 1.3, but don't yet use Contexts to encapsulate schemas; I'm accessing the schemas directly, which feels like a code smell. Ideally in controllers and controller tests, I'd be able to use the context module as persistence boundary, and not need to import `Ecto.Query` and `Repo` in most cases.
-- I suspect I don't need factories; I can just set up Contexts with `create_*` functions.
+Record video interviews where people share first-hand experience on an important topic. Code each segment of the video by theme. Explore the results using a novel filterable segment playback UI.
 
 ## Setting up the dev environment
 
@@ -36,8 +33,8 @@ I've written scripts to help with batch importing videos from YouTube. Here's ho
 ## Heroku
 
 * `git push heroku-production master`
-* `heroku run -a educate-your "POOL_SIZE=2 mix ecto.migrate"`
-* `heroku run -a educate-your "POOL_SIZE=2 iex -S mix"`
+* `heroku run -a rtl "POOL_SIZE=2 mix ecto.migrate"`
+* `heroku run -a rtl "POOL_SIZE=2 iex -S mix"`
 
 More documentation at: https://hexdocs.pm/phoenix/heroku.html
 
@@ -46,17 +43,17 @@ More documentation at: https://hexdocs.pm/phoenix/heroku.html
 Assumes you're familiar with and set up with Git, Heroku CLI, and Elixir.
 
 * Clone this repository to your local machine
-* `heroku create educate-your-demo1 \
+* `heroku create rtl-demo1 \
     --buildpack "https://github.com/HashNuke/heroku-buildpack-elixir.git"`
-* `heroku buildpacks:add -a educate-your-demo1 \
+* `heroku buildpacks:add -a rtl-demo1 \
     https://github.com/gjaldon/heroku-buildpack-phoenix-static.git`
-* `heroku addons:create -a educate-your-demo1 heroku-postgresql:hobby-dev`
-* `git remote add heroku-demo1 https://git.heroku.com/educate-your-demo1.git`
+* `heroku addons:create -a rtl-demo1 heroku-postgresql:hobby-dev`
+* `git remote add heroku-demo1 https://git.heroku.com/rtl-demo1.git`
 * Create an S3 bucket to hold files for this app. The AWS credentials you provide in the next step must have full R/W access, but no other special permissions are needed.
 * Copy `config/secrets.exs.sample` to `config/secrets.exs`; fill in real values for your app environment. The AWS credentials you specify must have access to the bucket you specify.
-* `heroku config:set -a educate-your-demo1 KEY=value KEY2=value2`
+* `heroku config:set -a rtl-demo1 KEY=value KEY2=value2`
 * `git push heroku-demo1 master`
-* `heroku run -a educate-your-demo1 "POOL_SIZE=2 mix ecto.migrate"`
+* `heroku run -a rtl-demo1 "POOL_SIZE=2 mix ecto.migrate"`
 * `heroku run 'mix run priv/repo/insert_coder.exs "Elmer" elmer.fudd@example.com'`
 
 ### How to populate videos in a Heroku app

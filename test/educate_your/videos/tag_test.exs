@@ -1,7 +1,7 @@
 # TODO: Move this to a Videos context test
-defmodule EducateYour.Videos.TagTest do
-  use EducateYour.DataCase, async: true
-  alias EducateYour.Videos.Tag
+defmodule RTL.Videos.TagTest do
+  use RTL.DataCase, async: true
+  alias RTL.Videos.Tag
 
   test "validates presence of text" do
     assert_valid(Tag, :changeset, %{text: "some_text"})

@@ -1,7 +1,7 @@
 # mix run priv/repo/autologins.exs
 
-alias EducateYourWeb.{Endpoint, Router}
-alias EducateYour.Accounts
+alias RTLWeb.{Endpoint, Router}
+alias RTL.Accounts
 
 IO.puts "Autologin paths:"
 Accounts.get_all_users |> Enum.each(fn(user) ->

@@ -1,3 +1,3 @@
-defmodule EducateYour.LayoutViewTest do
-  use EducateYourWeb.ConnCase, async: true
+defmodule RTL.LayoutViewTest do
+  use RTLWeb.ConnCase, async: true
 end

@@ -1,4 +1,4 @@
-defmodule EducateYour.DataCase do
+defmodule RTL.DataCase do
   @moduledoc """
   This module defines the test case to be used by
   model tests.
@@ -16,22 +16,22 @@ defmodule EducateYour.DataCase do
 
   using do
     quote do
-      import EducateYour.DataCase
-      import EducateYour.DataHelpers
-      import EducateYour.EmailHelpers
-      import EducateYour.ValidationHelpers
-      alias EducateYour.Factory
+      import RTL.DataCase
+      import RTL.DataHelpers
+      import RTL.EmailHelpers
+      import RTL.ValidationHelpers
+      alias RTL.Factory
     end
   end
 
   setup tags do
-    :ok = Ecto.Adapters.SQL.Sandbox.checkout(EducateYour.Repo)
+    :ok = Ecto.Adapters.SQL.Sandbox.checkout(RTL.Repo)
 
     unless tags[:async] do
-      Ecto.Adapters.SQL.Sandbox.mode(EducateYour.Repo, {:shared, self()})
+      Ecto.Adapters.SQL.Sandbox.mode(RTL.Repo, {:shared, self()})
     end
 
-    EducateYour.DataHelpers.empty_database
+    RTL.DataHelpers.empty_database
 
     :ok
   end

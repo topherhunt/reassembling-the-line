@@ -1,4 +1,4 @@
-defmodule EducateYour.Repo.Migrations.CreateVideos do
+defmodule RTL.Repo.Migrations.CreateVideos do
   use Ecto.Migration
 
   def change do

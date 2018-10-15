@@ -1,4 +1,4 @@
-defmodule EducateYour.Repo.Migrations.AddTextIndexToTags do
+defmodule RTL.Repo.Migrations.AddTextIndexToTags do
   use Ecto.Migration
 
   def change do

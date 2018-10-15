@@ -16,7 +16,7 @@
 # in a dumpfile to bulk-import videos. This page should also have controls to
 # delete all local videos etc.
 
-alias EducateYour.Videos
+alias RTL.Videos
 
 defmodule H do
   def clean(string) do
@@ -30,7 +30,7 @@ num_videos = Videos.count_all_videos
 {:ok, file} = File.open(filename, [:write])
 IO.puts "Running export_videos_to_dump.exs which will write to #{filename}."
 IO.puts "There are #{num_videos} videos in your local db."
-IO.binwrite(file, "alias EducateYour.Repo\nalias EducateYour.Videos.Video\n")
+IO.binwrite(file, "alias RTL.Repo\nalias RTL.Videos.Video\n")
 
 Videos.all_videos_with_preloads |> Enum.each(fn(video) ->
   IO.binwrite(file, "Repo.insert!(%Video{title: \"#{H.clean(video.title)}\", source_name: \"#{H.clean(video.source_name)}\", source_url: \"#{H.clean(video.source_url)}\", recording_filename: \"#{H.clean(video.recording_filename)}\", thumbnail_filename: \"#{H.clean(video.thumbnail_filename)}\"})\n")

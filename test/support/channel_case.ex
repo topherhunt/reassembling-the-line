@@ -1,4 +1,4 @@
-defmodule EducateYour.ChannelCase do
+defmodule RTL.ChannelCase do
   @moduledoc """
   This module defines the test case to be used by
   channel tests.
@@ -20,22 +20,22 @@ defmodule EducateYour.ChannelCase do
       # Import conveniences for testing with channels
       use Phoenix.ChannelTest
 
-      alias EducateYour.Repo
+      alias RTL.Repo
       import Ecto
       import Ecto.Changeset
       import Ecto.Query
 
 
       # The default endpoint for testing
-      @endpoint EducateYourWeb.Endpoint
+      @endpoint RTLWeb.Endpoint
     end
   end
 
   setup tags do
-    :ok = Ecto.Adapters.SQL.Sandbox.checkout(EducateYour.Repo)
+    :ok = Ecto.Adapters.SQL.Sandbox.checkout(RTL.Repo)
 
     unless tags[:async] do
-      Ecto.Adapters.SQL.Sandbox.mode(EducateYour.Repo, {:shared, self()})
+      Ecto.Adapters.SQL.Sandbox.mode(RTL.Repo, {:shared, self()})
     end
 
     :ok

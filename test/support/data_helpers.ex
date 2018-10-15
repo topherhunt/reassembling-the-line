@@ -1,7 +1,7 @@
-defmodule EducateYour.DataHelpers do
-  alias EducateYour.Factory
-  alias EducateYour.Accounts
-  alias EducateYour.Videos
+defmodule RTL.DataHelpers do
+  alias RTL.Factory
+  alias RTL.Accounts
+  alias RTL.Videos
 
   # TODO: This can be moved to the factories too, since it serves similar purpose
   def empty_database do

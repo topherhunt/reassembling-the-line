@@ -1,5 +1,5 @@
-defmodule EducateYourWeb.SessionControllerTest do
-  use EducateYourWeb.ConnCase, async: true
+defmodule RTLWeb.SessionControllerTest do
+  use RTLWeb.ConnCase, async: true
 
   test "#login_from_uuid logs me in if uuid matches", %{conn: conn} do
     user = Factory.insert_user

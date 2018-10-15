@@ -1,6 +1,6 @@
 # These helpers are heavily inspired from Bamboo.Test, but rewritten such that
 # checking for an email doesn't delete it from the message queue.
-defmodule EducateYour.EmailHelpers do
+defmodule RTL.EmailHelpers do
   # NOTE: This only returns emails sent by / to this Process -- meaning our
   # integration tests don't have access to the emails sent server-side.
   # Switch to using Bamboo.LocalAdapter instead, which catches messages and

@@ -1,4 +1,4 @@
-defmodule EducateYour.ValidationHelpers do
+defmodule RTL.ValidationHelpers do
   use ExUnit.CaseTemplate
 
   def assert_valid(module, changeset_name, default_params, overrides \\ %{}) do

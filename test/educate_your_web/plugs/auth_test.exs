@@ -1,11 +1,11 @@
-defmodule EducateYourWeb.AuthTest do
-  use EducateYourWeb.ConnCase, async: true
-  alias EducateYourWeb.Auth
-  alias EducateYour.Accounts
+defmodule RTLWeb.AuthTest do
+  use RTLWeb.ConnCase, async: true
+  alias RTLWeb.Auth
+  alias RTL.Accounts
 
   setup %{conn: conn} do
     # Sets up standard connection status (flash, session, etc.)
-    conn = conn |> bypass_through(EducateYourWeb.Router, :browser) |> get("/")
+    conn = conn |> bypass_through(RTLWeb.Router, :browser) |> get("/")
     {:ok, %{conn: conn}}
   end
 

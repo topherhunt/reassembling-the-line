@@ -1,4 +1,4 @@
-defmodule EducateYourWeb.ConnCase do
+defmodule RTLWeb.ConnCase do
   @moduledoc """
   This module defines the test case to be used by
   tests that require setting up a connection.
@@ -19,25 +19,25 @@ defmodule EducateYourWeb.ConnCase do
     quote do
       # Import conveniences for testing with connections
       use Phoenix.ConnTest
-      import EducateYour.DataHelpers
-      import EducateYour.EmailHelpers
-      import EducateYourWeb.Router.Helpers
-      import EducateYourWeb.ConnHelpers
-      alias EducateYour.Factory
+      import RTL.DataHelpers
+      import RTL.EmailHelpers
+      import RTLWeb.Router.Helpers
+      import RTLWeb.ConnHelpers
+      alias RTL.Factory
 
       # The default endpoint for testing
-      @endpoint EducateYourWeb.Endpoint
+      @endpoint RTLWeb.Endpoint
     end
   end
 
   setup tags do
-    :ok = Ecto.Adapters.SQL.Sandbox.checkout(EducateYour.Repo)
+    :ok = Ecto.Adapters.SQL.Sandbox.checkout(RTL.Repo)
 
     unless tags[:async] do
-      Ecto.Adapters.SQL.Sandbox.mode(EducateYour.Repo, {:shared, self()})
+      Ecto.Adapters.SQL.Sandbox.mode(RTL.Repo, {:shared, self()})
     end
 
-    EducateYour.DataHelpers.empty_database
+    RTL.DataHelpers.empty_database
 
     {:ok, conn: Phoenix.ConnTest.build_conn()}
   end

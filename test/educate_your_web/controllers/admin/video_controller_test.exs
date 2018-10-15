@@ -1,5 +1,5 @@
-defmodule EducateYourWeb.Admin.VideoControllerTest do
-  use EducateYourWeb.ConnCase, async: true
+defmodule RTLWeb.Admin.VideoControllerTest do
+  use RTLWeb.ConnCase, async: true
 
   test "all actions require logged-in user", %{conn: conn} do
     [

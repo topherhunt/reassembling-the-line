@@ -1,4 +1,4 @@
-defmodule EducateYour.Repo.Migrations.CreateUsers do
+defmodule RTL.Repo.Migrations.CreateUsers do
   use Ecto.Migration
 
   def change do

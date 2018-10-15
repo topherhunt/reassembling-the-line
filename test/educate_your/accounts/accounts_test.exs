@@ -1,8 +1,8 @@
-defmodule EducateYour.AccountsTest do
-  use EducateYour.DataCase
+defmodule RTL.AccountsTest do
+  use RTL.DataCase
 
-  alias EducateYour.Accounts
-  alias EducateYour.Accounts.User
+  alias RTL.Accounts
+  alias RTL.Accounts.User
 
   # TODO: Fill in thorough tests for each context.
   # See commented-out sample context tests below.
@@ -31,7 +31,7 @@ defmodule EducateYour.AccountsTest do
   # Sample context tests:
   #
   # describe "regions" do
-  #   alias EducateYour.Landscapes.Region
+  #   alias RTL.Landscapes.Region
 
   #   @valid_attrs %{name: "some name"}
   #   @update_attrs %{name: "some updated name"}

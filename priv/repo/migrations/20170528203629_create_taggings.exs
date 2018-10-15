@@ -1,4 +1,4 @@
-defmodule EducateYour.Repo.Migrations.CreateTaggings do
+defmodule RTL.Repo.Migrations.CreateTaggings do
   use Ecto.Migration
 
   def change do

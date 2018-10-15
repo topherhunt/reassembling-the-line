@@ -1,6 +1,6 @@
-defmodule EducateYourWeb.Admin.CodingControllerTest do
-  use EducateYourWeb.ConnCase, async: true
-  alias EducateYour.Videos
+defmodule RTLWeb.Admin.CodingControllerTest do
+  use RTLWeb.ConnCase, async: true
+  alias RTL.Videos
 
   test "all actions require logged-in user", %{conn: conn} do
     [

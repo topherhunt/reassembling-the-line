@@ -12,19 +12,19 @@ use Mix.Config
 # Automatically load sensitive environment variables for dev and test
 if File.exists?("config/secrets.exs"), do: import_config("secrets.exs")
 
-config :educate_your,
-  ecto_repos: [EducateYour.Repo]
+config :rtl,
+  ecto_repos: [RTL.Repo]
 
-config :educate_your, EducateYour.Repo,
+config :rtl, RTL.Repo,
   adapter: Ecto.Adapters.Postgres,
   url: Helpers.env("DATABASE_URL"),
   pool_size: Helpers.env("POOL_SIZE")
 
-config :educate_your, EducateYourWeb.Endpoint,
+config :rtl, RTLWeb.Endpoint,
   url: [host: "localhost"],
   secret_key_base: Helpers.env("SECRET_KEY_BASE"),
-  render_errors: [view: EducateYourWeb.ErrorView, accepts: ~w(html json)],
-  pubsub: [name: EducateYour.PubSub, adapter: Phoenix.PubSub.PG2]
+  render_errors: [view: RTLWeb.ErrorView, accepts: ~w(html json)],
+  pubsub: [name: RTL.PubSub, adapter: Phoenix.PubSub.PG2]
 
 config :phoenix, :template_engines,
   haml: PhoenixHaml.Engine

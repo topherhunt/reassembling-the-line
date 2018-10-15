@@ -1,5 +1,5 @@
-defmodule EducateYour.PlaylistTest do
-  use EducateYour.DataCase, async: true
+defmodule RTL.PlaylistTest do
+  use RTL.DataCase, async: true
 
   test "#search loads matching videos" do
     video1 = insert_video_with_tags(["abc", "Def:15:49", "ghi:40:72"])
@@ -8,7 +8,7 @@ defmodule EducateYour.PlaylistTest do
     video4 = insert_video_with_tags(["Def:15:38", "abc:30:60", "Def:55:82"])
 
     tags = [%{text: "abc"}, %{text: "Def"}]
-    results = summarize_segments(EducateYour.Playlist.build_playlist(tags))
+    results = summarize_segments(RTL.Playlist.build_playlist(tags))
     # - video1 has one matching segment (a global tag & a segment tag)
     # - video2 has the right tags, but no overlap
     # - video3 has no matching tags so it's excluded
@@ -26,7 +26,7 @@ defmodule EducateYour.PlaylistTest do
     _video3 = insert_video_with_tags([])
     video4 = insert_video_with_tags(["abc:30:60", "Def:15:49", "ghi:65:82"])
 
-    segments = EducateYour.Playlist.build_playlist([])
+    segments = RTL.Playlist.build_playlist([])
     results = summarize_segments(segments)
     # - video1 has a global tag so it's fully included
     # - video2 has 2 non-overlapping tags so 2 segments are included
