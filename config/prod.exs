@@ -4,10 +4,10 @@ use Mix.Config
 # from the system environment. Therefore, you will need
 # to set PORT=80 before running your server.
 config :rtl, RTLWeb.Endpoint,
-  http: [:inet6, port: H.env("PORT")],
+  http: [:inet6, port: System.get_env("PORT")],
   url: [
     scheme: "https",
-    host: H.env("HOST_NAME"),
+    host: System.get_env("HOST_NAME"),
     port: 443
   ],
   force_ssl: [rewrite_on: [:x_forwarded_proto]],
