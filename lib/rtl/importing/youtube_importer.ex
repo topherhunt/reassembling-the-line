@@ -67,9 +67,9 @@ defmodule RTL.Importing.YoutubeImporter do
     # TODO: Set up youtube-dl with multiple fallback formats, and detect which
     # was chosen afterwards.
     {format, video_ext} = case System.get_env("FORMAT") do
-      "43" -> {43, "webm"} # This is the most common format. Size varies.
-      "18" -> {18, "mp4"}  # Some videos don't have webm, so fall back to this
-      nil  -> {43, "webm"}
+      "18" -> {18, "mp4"}  # mp4 is better cross-browser, but not always available
+      "43" -> {43, "webm"} # webm is less compatible, but more reliably present
+      nil  -> {43, "webm"} # Default to webm for now
     end
 
     try do
