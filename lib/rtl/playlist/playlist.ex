@@ -7,11 +7,11 @@ defmodule RTL.Playlist do
   # Outputs a list of matching Segment structs, with adjacent segments merged
   def build_playlist(tags) do
     # TODO: Assert tags is a well-formed list
-    Videos.videos_tagged_with(tags)
-      |> Enum.map(fn(v) -> convert_video_record_to_map(v) end)
-      |> Enum.flat_map(fn(v) -> split_video_into_segments(v) end)
-      |> Enum.filter(fn(s) -> Segment.is_tagged?(s) end)
-      |> Enum.filter(fn(s) -> Segment.matches_all_tags?(s, tags) end)
+    Videos.coded_videos_tagged_with(tags)
+      |> Enum.map(& convert_video_record_to_map(&1))
+      |> Enum.flat_map(& split_video_into_segments(&1))
+      |> Enum.filter(& Segment.is_tagged?(&1))
+      |> Enum.filter(& Segment.matches_all_tags?(&1, tags))
       |> Segment.merge_adjacent
       |> Enum.shuffle
   end

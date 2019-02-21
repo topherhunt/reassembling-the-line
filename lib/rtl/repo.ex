@@ -11,4 +11,9 @@ defmodule RTL.Repo do
   def first(query) do
     query |> limit(1) |> Repo.one
   end
+
+  # NOTE: Only works with select statements.
+  def to_sql(query) do
+    Ecto.Adapters.SQL.to_sql(:all, Repo, query)
+  end
 end

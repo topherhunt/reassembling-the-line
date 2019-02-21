@@ -21,6 +21,7 @@ defmodule RTL.DataCase do
       import RTL.EmailHelpers
       import RTL.ValidationHelpers
       alias RTL.Factory
+      alias RTL.Repo # Minimize my reliance on this
     end
   end
 

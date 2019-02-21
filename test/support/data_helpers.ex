@@ -10,6 +10,7 @@ defmodule RTL.DataHelpers do
     Videos.delete_all_content
   end
 
+  # Usage: `video4 = insert_video_with_tags(["abc:30:60", "Def:15:49", "ghi:65:82"])`
   # TODO: I feel like this belongs in the factory?
   def insert_video_with_tags(tag_strings) do
     video = Factory.insert_video

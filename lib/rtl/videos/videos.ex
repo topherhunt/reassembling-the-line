@@ -24,13 +24,20 @@ defmodule RTL.Videos do
 
   def get_video!(id), do: Video |> Repo.get!(id)
   def next_video_to_code, do: Video.uncoded |> Video.sort_by_newest |> Repo.first
-  def all_videos_with_preloads, do:
-    Video |> Video.sort_by_newest |> preload([coding: [:updated_by_user, :tags]]) |> Repo.all
-  def videos_tagged_with(tags), do: Video.tagged_with(tags) |> Video.preload_tags |> Repo.all
   def count_all_videos, do: Video |> Repo.count
   def count_videos_where(constraints), do: Video |> where(^constraints) |> Repo.count
   def insert_video!(%{} = params), do: video_changeset(%Video{}, params) |> Repo.insert!
   def video_changeset(video \\ %Video{}, changes), do: Video.changeset(video, changes)
+
+  def all_videos_with_preloads do
+    Video.sort_by_newest(Video)
+    |> preload([coding: [:updated_by_user, :tags]])
+    |> Repo.all
+  end
+
+  def coded_videos_tagged_with(tags) do
+    Video.coded |> Video.tagged_with(tags) |> Video.preload_tags |> Repo.all
+  end
 
   #
   # File attachments

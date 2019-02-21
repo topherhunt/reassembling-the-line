@@ -13,6 +13,7 @@ defmodule RTLWeb.Admin.VideoControllerTest do
   test "#index renders correctly", %{conn: conn} do
     {conn, _user} = login_as_new_user(conn)
     # Populate some dummy data
+    # TODO: Add coding data to a video so it's more realistic
     Factory.insert_video
     Factory.insert_video
 

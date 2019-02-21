@@ -1,6 +1,6 @@
 # Usage:
-# > mix run priv/repo/seed_coder.exs Whitney emailwhitney@gmail.com
-# > mix run priv/repo/seeds.exs
+# > mix run priv/repo/insert_coder.exs Whitney emailwhitney@gmail.com
+# > mix run priv/repo/insert_seeds.exs
 
 alias RTLWeb.{Endpoint, Router}
 alias RTL.Factory

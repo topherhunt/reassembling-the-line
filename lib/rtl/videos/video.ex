@@ -30,19 +30,22 @@ defmodule RTL.Videos.Video do
 
   def preload_tags(query), do: query |> preload(coding: [taggings: :tag])
 
+  def coded(query \\ Video) do
+    query |> where([v], fragment("EXISTS (SELECT * FROM codings WHERE video_id = ?)", v.id))
+  end
+
   def uncoded(query \\ Video) do
     query |> where([v], fragment("NOT EXISTS (SELECT * FROM codings WHERE video_id = ?)", v.id))
   end
 
   def tagged_with(orig_query \\ Video, tags) do
-    # TODO: Assert that tags is a properly-formed list of tags
     Enum.reduce(tags, orig_query, fn(tag, query) ->
       query |> where([v], fragment("EXISTS (
         SELECT * FROM codings c
           JOIN taggings ti ON c.id = ti.coding_id
           JOIN tags t ON ti.tag_id = t.id
         WHERE c.video_id = ? AND t.text = ?)",
-        v.id, ^tag[:text]))
+        v.id, ^tag.text))
     end)
   end
 end
