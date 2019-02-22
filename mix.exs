@@ -43,7 +43,6 @@ defmodule RTL.Mixfile do
       {:cowboy, "~> 1.0"},
       {:comeonin, "~> 4.0"},
       {:argon2_elixir, "~> 1.2"}, # :comeonin hashing algorithm
-      {:ex_machina, "~> 1.0"}, # TODO: Can we do without this now?
       {:timex, "~> 3.2"},
       {:timex_ecto, "~> 3.2"},
       {:arc, "~> 0.6.0"}, # file uploads
