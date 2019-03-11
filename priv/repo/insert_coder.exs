@@ -16,5 +16,5 @@ IO.puts "Login paths:"
 # TODO: How to run one mix task from another mix task? (this is duplicate logic)
 Enum.each(all_users, fn(user) ->
   path = Router.Helpers.session_path(Endpoint, :login_from_uuid, user.uuid)
-  IO.puts "* #{user.full_name} logs in with: #{path}"
+  IO.puts "* #{user.full_name} logs in with: http://#{System.get_env("HOST_NAME")}#{path}"
 end)
