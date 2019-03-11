@@ -29,6 +29,8 @@ config :rtl, RTLWeb.Endpoint,
 config :phoenix, :template_engines,
   haml: PhoenixHaml.Engine
 
+config :phoenix, :json_library, Jason
+
 config :logger, :console,
   format: "$date $time $metadata[$level] $message\n",
   metadata: [:request_id]

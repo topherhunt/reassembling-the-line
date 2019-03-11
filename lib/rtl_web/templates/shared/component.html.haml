@@ -2,6 +2,6 @@
 
 :javascript
   $(document).ready(function() {
-    var inner_html = #{@component_name}.render(#{Poison.encode!(@props)});
+    var inner_html = #{@component_name}.render(#{Jason.encode!(@props)});
     $('##{@id}').html(inner_html);
   });

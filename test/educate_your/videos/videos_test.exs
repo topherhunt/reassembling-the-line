@@ -14,11 +14,11 @@ defmodule RTL.VideosTest do
     videos = Videos.coded_videos_tagged_with([%{text: "abc"}, %{text: "def"}])
     video_ids = Enum.map(videos, & &1.id) |> Enum.sort
 
-    assert !v1.id in video_ids
-    assert !v2.id in video_ids
-    assert  v3.id in video_ids
-    assert  v4.id in video_ids
-    assert !v5.id in video_ids
-    assert !v6.id in video_ids
+    assert v1.id not in video_ids
+    assert v2.id not in video_ids
+    assert v3.id in video_ids
+    assert v4.id in video_ids
+    assert v5.id not in video_ids
+    assert v6.id not in video_ids
   end
 end

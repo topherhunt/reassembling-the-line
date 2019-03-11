@@ -2,9 +2,9 @@ defmodule RTLWeb.Admin.CodingView do
   use RTLWeb, :view
   alias RTL.Videos
 
-  def all_tags_json(tags), do: tags |> Enum.map(& &1.text) |> Poison.encode!
+  def all_tags_json(tags), do: tags |> Enum.map(& &1.text) |> Jason.encode!
 
-  def present_tags_json(tags), do: Poison.encode!(tags)
+  def present_tags_json(tags), do: Jason.encode!(tags)
 
   def create_or_update_path(conn, changeset) do
     if changeset.data.id do

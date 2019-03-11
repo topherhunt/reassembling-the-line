@@ -5,7 +5,7 @@ defmodule RTL.Mixfile do
     [
       app: :rtl,
       version: "0.0.1",
-      elixir: "~> 1.6",
+      elixir: "~> 1.8.1",
       elixirc_paths: elixirc_paths(Mix.env),
       compilers: [:phoenix, :gettext] ++ Mix.compilers,
       start_permanent: Mix.env == :prod,
@@ -32,37 +32,48 @@ defmodule RTL.Mixfile do
   # Mix auto-starts all relevant `deps` as applications.
   defp deps do
     [
-      {:phoenix, "~> 1.3.4"},
-      {:phoenix_pubsub, "~> 1.0"},
-      {:phoenix_ecto, "~> 3.2"},
-      {:postgrex, ">= 0.0.0"},
-      {:phoenix_html, "~> 2.10"},
-      {:phoenix_haml, "~> 0.2.3"},
-      {:phoenix_live_reload, "~> 1.0", only: :dev},
-      {:gettext, "~> 0.11"},
-      {:cowboy, "~> 1.0"},
-      {:comeonin, "~> 4.0"},
-      {:argon2_elixir, "~> 1.2"}, # :comeonin hashing algorithm
-      {:timex, "~> 3.2"},
-      {:timex_ecto, "~> 3.2"},
-      {:arc, "~> 0.6.0"}, # file uploads
-      {:ex_aws, "~> 1.0"}, # :arc S3 integration
-      {:hackney, "~> 1.6"}, # required for :ex_aws
-      {:poison, "~> 2.0"}, # required for :ex_aws
-      {:sweet_xml, "~> 0.5"}, # required for :ex_aws
-      {:httpotion, "~> 3.0"}, # maybe only required in tests for fetching S3 files
-      {:bamboo, "~> 0.8"},
-      {:bamboo_smtp, "~> 1.4"},
+      # Core
+      {:phoenix, "~> 1.4"},
+      {:phoenix_pubsub, "~> 1.1"},
+      {:phoenix_ecto, "~> 3.6"},
+      {:phoenix_html, "~> 2.13"},
+      {:phoenix_haml, "~> 0.2"},
+      {:phoenix_live_reload, "~> 1.2", only: :dev},
+      {:plug_cowboy, "~> 2.0"},
+      {:postgrex, "~> 0.13"},
+      {:gettext, "~> 0.16"},
+
+      # Auth
+      {:comeonin, "~> 5.1"},
+      {:argon2_elixir, "~> 2.0"}, # :comeonin hashing algorithm
+
+      # Logic
+      {:csv, "~> 2.2"},
+      {:jason, "~> 1.1"},
+      {:timex, "~> 3.5"},
+      {:timex_ecto, "~> 3.3"},
+
+      # File storage & HTTP requests
+      {:arc, "~> 0.11"}, # file uploads
+      {:ex_aws, "~> 2.1"}, # :arc S3 integration
+      {:ex_aws_s3, "~> 2.0"}, # :arc S3 integration
+      {:httpotion, "~> 3.1"}, # for fetching S3 files in tests
+      {:sweet_xml, "~> 0.6"}, # required by :ex_aws
+
+      # Email
+      {:bamboo, "~> 1.2"}, # not currently in use, but will be soon
+      {:bamboo_smtp, "~> 1.6"},
+
+      # Tests
       {:hound, "~> 1.0", only: :test},
-      {:logger_file_backend, "~> 0.0.10", only: :test},
-      {:csv, "~> 2.1.1"}
+      {:logger_file_backend, "~> 0.0", only: :test}
     ]
   end
 
   # Aliases are shortcuts or tasks specific to the current project.
   defp aliases do
      [
-       "test": [
+       test: [
          "ecto.create --quiet",
          "ecto.migrate",
          "run priv/clear_test_log.exs",

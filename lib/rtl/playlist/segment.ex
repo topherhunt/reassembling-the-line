@@ -1,4 +1,5 @@
 defmodule RTL.Playlist.Segment do
+  @derive Jason.Encoder # all fields are json-serializable
   defstruct(
     segment_id: nil, # a hash string unique to this video_id, starts_at, ends_at
     video_id: nil,
