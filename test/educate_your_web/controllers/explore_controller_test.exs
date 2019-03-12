@@ -20,6 +20,7 @@ defmodule RTLWeb.ExploreControllerTest do
       "Video ##{video1.id} (40-72) [abc, def, ghi]",
       "Video ##{video4.id} (55-60) [abc, ghi]"
     ]
+
     assert Enum.sort(summaries) == Enum.sort(expected)
   end
 

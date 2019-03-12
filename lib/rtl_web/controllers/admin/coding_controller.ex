@@ -88,8 +88,8 @@ defmodule RTLWeb.Admin.CodingController do
   end
 
   def invalid_tags_message(invalid_tags) do
-    "Error: Tags can only contain letters, numbers, and spaces. "<>
-    "These tags are invalid: [#{Enum.join(invalid_tags, ", ")}]"
+    "Error: Tags can only contain letters, numbers, and spaces. " <>
+      "These tags are invalid: [#{Enum.join(invalid_tags, ", ")}]"
   end
 
   def summarize_tags_from_params(tags_params) do

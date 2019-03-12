@@ -6,8 +6,8 @@ defmodule RTL.ValidationHelpers do
     changeset = apply(module, changeset_name, [struct(module), params])
 
     assert changeset.valid?,
-           "Expected #{module_name(module)}.#{changeset_name} to be valid, "<>
-           "but it's invalid. The changeset: #{inspect(changeset)}"
+           "Expected #{module_name(module)}.#{changeset_name} to be valid, " <>
+             "but it's invalid. The changeset: #{inspect(changeset)}"
   end
 
   def assert_invalid(module, changeset_name, default_params, overrides \\ %{}) do
@@ -15,8 +15,8 @@ defmodule RTL.ValidationHelpers do
     changeset = apply(module, changeset_name, [struct(module), params])
 
     assert !changeset.valid?,
-           "Expected #{module_name(module)}.#{changeset_name} to be invalid, "<>
-           "but it's valid. The changeset: #{inspect(changeset)}"
+           "Expected #{module_name(module)}.#{changeset_name} to be invalid, " <>
+             "but it's valid. The changeset: #{inspect(changeset)}"
   end
 
   defp module_name(module) do

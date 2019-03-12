@@ -41,8 +41,8 @@ defmodule RTL.Helpers do
 
   def assert_list_contains(list, item) do
     unless Enum.member?(list, item) do
-      raise "Expected list to contain item #{stringify(item)}, but it isn't there. "<>
-        "The list: #{stringify(list)}"
+      raise "Expected list to contain item #{stringify(item)}, but it isn't there. " <>
+              "The list: #{stringify(list)}"
     end
   end
 

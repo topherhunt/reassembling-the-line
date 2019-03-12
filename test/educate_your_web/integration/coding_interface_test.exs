@@ -40,28 +40,25 @@ defmodule RTLWeb.CodingInterfaceTest do
       %{text: "Georgia", starts_at: nil, ends_at: nil},
       %{text: "bullying", starts_at: "0:15", ends_at: "0:45"}
     ]
+
     assert tags == expected
   end
 
   test "Selected tags are autopopulated when re-coding a video", %{conn: conn} do
     user = Factory.insert_user()
 
-    coding = insert_coding([
+    tag_attrs = [
       %{"text" => "abc"},
       %{"text" => "def", "starts_at" => "15", "ends_at" => "49"},
       %{"text" => "ghi", "starts_at" => "40", "ends_at" => "72"}
-    ])
+    ]
+
+    coding = Factory.insert_coding(tags: tag_attrs)
 
     navigate_to(session_path(conn, :login_from_uuid, user.uuid))
     navigate_to(admin_coding_path(conn, :edit, coding.id))
     assert Enum.count(tag_rows()) == 3
   end
-
-  #
-  # Data helpers
-  #
-
-  def insert_coding(tag_attrs), do: Factory.insert_coding(tags: tag_attrs)
 
   #
   # DOM selection helpers

@@ -19,6 +19,7 @@ defmodule RTL.PlaylistTest do
       %{video_id: video4.id, starts_at: 30, ends_at: 38},
       %{video_id: video4.id, starts_at: 55, ends_at: 60}
     ]
+
     assert Enum.sort(results) == Enum.sort(expected)
   end
 
@@ -42,6 +43,7 @@ defmodule RTL.PlaylistTest do
       %{video_id: video4.id, starts_at: 15, ends_at: 60},
       %{video_id: video4.id, starts_at: 65, ends_at: 82}
     ]
+
     assert Enum.sort(results) == Enum.sort(expected)
   end
 

@@ -86,6 +86,7 @@ defmodule RTL.Playlist do
 
   defp populate_segment(segment, video) do
     video_data = Map.take(video, [:video_id, :title, :recording_url, :thumbnail_url])
+
     segment
     |> Map.merge(video_data)
     |> Map.put(:tags, get_segment_tags_list(segment, video.tags))
