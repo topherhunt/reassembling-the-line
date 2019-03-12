@@ -26,8 +26,7 @@ config :rtl, RTLWeb.Endpoint,
   render_errors: [view: RTLWeb.ErrorView, accepts: ~w(html json)],
   pubsub: [name: RTL.PubSub, adapter: Phoenix.PubSub.PG2]
 
-config :phoenix, :template_engines,
-  haml: PhoenixHaml.Engine
+config :phoenix, :template_engines, haml: PhoenixHaml.Engine
 
 config :phoenix, :json_library, Jason
 
@@ -36,7 +35,7 @@ config :logger, :console,
   metadata: [:request_id]
 
 config :ex_aws,
-  access_key_id:     Helpers.env("AWS_ACCESS_KEY_ID"),
+  access_key_id: Helpers.env("AWS_ACCESS_KEY_ID"),
   secret_access_key: Helpers.env("AWS_SECRET_ACCESS_KEY"),
   region: "us-east-1",
   s3: [
@@ -52,4 +51,4 @@ config :arc,
 
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
-import_config "#{Mix.env}.exs"
+import_config "#{Mix.env()}.exs"

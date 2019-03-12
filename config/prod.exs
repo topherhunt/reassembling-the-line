@@ -13,8 +13,7 @@ config :rtl, RTLWeb.Endpoint,
   force_ssl: [rewrite_on: [:x_forwarded_proto]],
   cache_static_manifest: "priv/static/cache_manifest.json"
 
-config :rtl, RTL.Repo,
-  ssl: true
+config :rtl, RTL.Repo, ssl: true
 
 # config :rtl, RTL.Mailer,
 #   adapter: Bamboo.SMTPAdapter,

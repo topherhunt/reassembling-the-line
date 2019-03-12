@@ -6,17 +6,18 @@ defmodule RTL.Factory do
   alias RTL.Videos
 
   def insert_user(params \\ %{}) do
-    hex = Helpers.random_hex
-    {:ok, user} = Accounts.insert_user(%{
+    hex = Helpers.random_hex()
+
+    Accounts.insert_user!(%{
       full_name: params[:full_name] || "User #{hex}",
       email: params[:email] || "user_#{hex}@example.com",
-      uuid: params[:uuid] || Helpers.random_hex <> Helpers.random_hex
+      uuid: params[:uuid] || Helpers.random_hex() <> Helpers.random_hex()
     })
-    user
   end
 
   def insert_video(params \\ %{}) do
-    hex = Helpers.random_hex
+    hex = Helpers.random_hex()
+
     Videos.insert_video!(%{
       title: params[:title] || "Video #{hex}",
       recording_filename: params[:recording_filename] || "#{hex}.webm",
@@ -27,12 +28,15 @@ defmodule RTL.Factory do
   def insert_coding(params \\ %{}) do
     # TODO: For this and similar helpers, maybe assert param keys against a whitelist
     # so consumers can't accidentally input invalid keys.
-    default_tags = [%{"text"=>"tag1"}, %{"text"=>"tag2"}]
-    {:ok, coding} = Videos.insert_coding(%{
-      video_id: params[:video_id] || insert_video().id,
-      coder_id: params[:coder_id] || insert_user().id,
-      tags: params[:tags] || default_tags
-    })
+    default_tags = [%{"text" => "tag1"}, %{"text" => "tag2"}]
+
+    {:ok, coding} =
+      Videos.insert_coding(%{
+        video_id: params[:video_id] || insert_video().id,
+        coder_id: params[:coder_id] || insert_user().id,
+        tags: params[:tags] || default_tags
+      })
+
     coding
   end
 
@@ -46,6 +50,6 @@ defmodule RTL.Factory do
   end
 
   def insert_tag(params \\ %{}) do
-    Videos.find_or_create_tag(%{text: params[:text] || "tag_#{Helpers.random_hex}"})
+    Videos.find_or_create_tag(%{text: params[:text] || "tag_#{Helpers.random_hex()}"})
   end
 end

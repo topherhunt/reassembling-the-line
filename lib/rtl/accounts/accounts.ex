@@ -12,8 +12,15 @@ defmodule RTL.Accounts do
   def get_all_users, do: Repo.all(User)
   def count_all_users, do: Repo.count(User)
   def insert_user(%{} = params), do: user_changeset(%User{}, params) |> Repo.insert()
-  def update_user_signin_timestamp!(user), do:
-    user_changeset(user, %{last_signed_in_at: Timex.now}) |> Repo.update!
+
+  def insert_user!(%{} = params) do
+    {:ok, user} = insert_user(params)
+    user
+  end
+
+  def update_user_signin_timestamp!(user),
+    do: user_changeset(user, %{last_signed_in_at: Timex.now()}) |> Repo.update!()
+
   def delete_all_users, do: Repo.delete_all(User)
   def user_changeset(%User{} = user, changes), do: User.changeset(user, changes)
 end

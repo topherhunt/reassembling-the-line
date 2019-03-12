@@ -12,7 +12,7 @@ defmodule RTL.VideosTest do
     v6 = insert_video_with_tags(["ghi:1:2", "jkl:1:2", "def:1:2"])
 
     videos = Videos.coded_videos_tagged_with([%{text: "abc"}, %{text: "def"}])
-    video_ids = Enum.map(videos, & &1.id) |> Enum.sort
+    video_ids = Enum.map(videos, & &1.id) |> Enum.sort()
 
     assert v1.id not in video_ids
     assert v2.id not in video_ids

@@ -14,17 +14,17 @@ defmodule RTLWeb.ExploreControllerTest do
 
     conn = get(conn, explore_path(conn, :playlist), tags: "abc,ghi")
     segments = json_response(conn, 200)["playlist"]
-    summaries = Enum.map(segments, fn(s) -> summarize_segment(s) end)
-    assert Enum.sort(summaries) == Enum.sort([
+    summaries = Enum.map(segments, fn s -> summarize_segment(s) end)
+
+    expected = [
       "Video ##{video1.id} (40-72) [abc, def, ghi]",
       "Video ##{video4.id} (55-60) [abc, ghi]"
-    ])
+    ]
+    assert Enum.sort(summaries) == Enum.sort(expected)
   end
 
   defp summarize_segment(s) do
-    tag_texts = s["tags"]
-      |> Enum.map(fn(t) -> t["text"] end)
-      |> Enum.join(", ")
+    tag_texts = s["tags"] |> Enum.map(& &1["text"]) |> Enum.join(", ")
     "Video ##{s["video_id"]} (#{s["starts_at"]}-#{s["ends_at"]}) [#{tag_texts}]"
   end
 end

@@ -37,7 +37,7 @@ defmodule RTLWeb.ConnCase do
       Ecto.Adapters.SQL.Sandbox.mode(RTL.Repo, {:shared, self()})
     end
 
-    RTL.DataHelpers.empty_database
+    RTL.DataHelpers.empty_database()
 
     {:ok, conn: Phoenix.ConnTest.build_conn()}
   end

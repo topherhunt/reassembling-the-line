@@ -3,6 +3,6 @@ defmodule RTLWeb.VideoController do
   alias RTL.Videos
 
   def show(conn, %{"id" => video_id}) do
-    render conn, "show.html", video: Videos.get_video!(video_id)
+    render(conn, "show.html", video: Videos.get_video!(video_id))
   end
 end

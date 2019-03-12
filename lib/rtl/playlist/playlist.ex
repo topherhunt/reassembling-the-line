@@ -8,12 +8,12 @@ defmodule RTL.Playlist do
   def build_playlist(tags) do
     # TODO: Assert tags is a well-formed list
     Videos.coded_videos_tagged_with(tags)
-      |> Enum.map(& convert_video_record_to_map(&1))
-      |> Enum.flat_map(& split_video_into_segments(&1))
-      |> Enum.filter(& Segment.is_tagged?(&1))
-      |> Enum.filter(& Segment.matches_all_tags?(&1, tags))
-      |> Segment.merge_adjacent
-      |> Enum.shuffle
+    |> Enum.map(&convert_video_record_to_map(&1))
+    |> Enum.flat_map(&split_video_into_segments(&1))
+    |> Enum.filter(&Segment.is_tagged?(&1))
+    |> Enum.filter(&Segment.matches_all_tags?(&1, tags))
+    |> Segment.merge_adjacent()
+    |> Enum.shuffle()
   end
 
   defp convert_video_record_to_map(video) do
@@ -30,7 +30,7 @@ defmodule RTL.Playlist do
   # Output: a list of maps, each summarizing that tag
   # Note that starts_at and ends_at are left in numeric form.
   defp convert_tags_to_maps(taggings) do
-    Enum.map(taggings, fn(tagging)->
+    Enum.map(taggings, fn tagging ->
       %{
         text: tagging.tag.text,
         starts_at: tagging.starts_at,
@@ -46,52 +46,60 @@ defmodule RTL.Playlist do
   # - Any segments with no tags are discarded
   defp split_video_into_segments(video) do
     video.tags
-      |> identify_breakpoints
-      |> create_empty_segments
-      |> populate_segments(video)
+    |> identify_breakpoints
+    |> create_empty_segments
+    |> populate_segments(video)
   end
 
   # Input: a list of tags, each in format %{starts_at:, ends_at:}
   # Output: a list of breakpoints, each an integer of seconds
   defp identify_breakpoints(tags) do
     tags
-      |> Enum.flat_map(fn(tag) -> [tag.starts_at || 0, tag.ends_at || 9999] end)
-      |> Enum.sort
-      |> Enum.uniq
+    |> Enum.flat_map(fn tag -> [tag.starts_at || 0, tag.ends_at || 9999] end)
+    |> Enum.sort()
+    |> Enum.uniq()
   end
 
   # Input: a list of breakpoints, each an integer of seconds
   # Output: a list of partially-populated Segments
   defp create_empty_segments(breakpoints) do
     start_times = breakpoints |> List.delete_at(-1)
-    end_times   = breakpoints |> List.delete_at(0)
+    end_times = breakpoints |> List.delete_at(0)
+
     [start_times, end_times]
-      |> List.zip
-      |> Enum.map(fn({starts_at, ends_at}) ->
-        %Segment{
-          starts_at: starts_at,
-          ends_at: ends_at
-        }
-      end)
+    |> List.zip()
+    |> Enum.map(fn {starts_at, ends_at} ->
+      %Segment{
+        starts_at: starts_at,
+        ends_at: ends_at
+      }
+    end)
   end
 
   # Returns the list of Segments, but with video & tag data filled in for each
   defp populate_segments(segments, video) do
-    video_data = Map.take(video, [:video_id, :title, :recording_url, :thumbnail_url])
-    Enum.map(segments, fn(segment) ->
-      segment = segment
-        |> Map.merge(video_data)
-        |> Map.put(:tags, get_segment_tags_list(segment, video.tags))
+    Enum.map(segments, fn segment ->
+      segment = populate_segment(segment, video)
       Map.put(segment, :segment_id, Segment.hash(segment))
     end)
   end
 
+  defp populate_segment(segment, video) do
+    video_data = Map.take(video, [:video_id, :title, :recording_url, :thumbnail_url])
+    segment
+    |> Map.merge(video_data)
+    |> Map.put(:tags, get_segment_tags_list(segment, video.tags))
+  end
+
   defp get_segment_tags_list(segment, tags) do
     tags
-      |> Enum.filter(fn(tag) ->
-        (tag.starts_at || 0) < segment.ends_at &&
-        (tag.ends_at || 9999) > segment.starts_at
-      end)
-      |> Enum.map(fn(tag) -> Map.drop(tag, [:starts_at, :ends_at]) end)
+    |> Enum.filter(fn tag -> tag_overlaps_with_segment?(tag, segment) end)
+    |> Enum.map(fn tag -> Map.drop(tag, [:starts_at, :ends_at]) end)
+  end
+
+  defp tag_overlaps_with_segment?(tag, segment) do
+    tag_starts_at = tag.starts_at || 0
+    tag_ends_at = tag.ends_at || 9999
+    tag_starts_at < segment.ends_at && tag_ends_at > segment.starts_at
   end
 end

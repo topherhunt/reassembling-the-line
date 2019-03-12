@@ -1,6 +1,7 @@
 defmodule RTLWeb.ExtraHoundHelpers do
   use ExUnit.CaseTemplate
-  use Hound.Helpers # See https://github.com/HashNuke/hound for docs
+  # See https://github.com/HashNuke/hound for docs
+  use Hound.Helpers
 
   def assert_selector(strategy, selector, opts \\ %{}) do
     if opts[:count] do
@@ -15,8 +16,8 @@ defmodule RTLWeb.ExtraHoundHelpers do
   end
 
   def print_page_source() do
-    IO.puts "<<<<<<< Page source: >>>>>>"
-    IO.puts page_source()
-    IO.puts "<<<<<<<<<<<<<<>>>>>>>>>>>>>"
+    IO.puts("<<<<<<< Page source: >>>>>>")
+    IO.puts(page_source())
+    IO.puts("<<<<<<<<<<<<<<>>>>>>>>>>>>>")
   end
 end

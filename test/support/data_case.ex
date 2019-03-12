@@ -21,7 +21,8 @@ defmodule RTL.DataCase do
       import RTL.EmailHelpers
       import RTL.ValidationHelpers
       alias RTL.Factory
-      alias RTL.Repo # Minimize my reliance on this
+      # Minimize my reliance on this
+      alias RTL.Repo
     end
   end
 
@@ -32,7 +33,7 @@ defmodule RTL.DataCase do
       Ecto.Adapters.SQL.Sandbox.mode(RTL.Repo, {:shared, self()})
     end
 
-    RTL.DataHelpers.empty_database
+    RTL.DataHelpers.empty_database()
 
     :ok
   end

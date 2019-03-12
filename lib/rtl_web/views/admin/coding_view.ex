@@ -2,7 +2,7 @@ defmodule RTLWeb.Admin.CodingView do
   use RTLWeb, :view
   alias RTL.Videos
 
-  def all_tags_json(tags), do: tags |> Enum.map(& &1.text) |> Jason.encode!
+  def all_tags_json(tags), do: tags |> Enum.map(& &1.text) |> Jason.encode!()
 
   def present_tags_json(tags), do: Jason.encode!(tags)
 

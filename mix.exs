@@ -6,9 +6,9 @@ defmodule RTL.Mixfile do
       app: :rtl,
       version: "0.0.1",
       elixir: "~> 1.8.1",
-      elixirc_paths: elixirc_paths(Mix.env),
-      compilers: [:phoenix, :gettext] ++ Mix.compilers,
-      start_permanent: Mix.env == :prod,
+      elixirc_paths: elixirc_paths(Mix.env()),
+      compilers: [:phoenix, :gettext] ++ Mix.compilers(),
+      start_permanent: Mix.env() == :prod,
       aliases: aliases(),
       deps: deps()
     ]
@@ -25,7 +25,7 @@ defmodule RTL.Mixfile do
 
   # Specifies which paths to compile per environment.
   defp elixirc_paths(:test), do: ["lib", "web", "test/support"]
-  defp elixirc_paths(_),     do: ["lib", "web"]
+  defp elixirc_paths(_), do: ["lib", "web"]
 
   # Specifies your project dependencies.
   # Type `mix help deps` for examples and options.
@@ -45,7 +45,8 @@ defmodule RTL.Mixfile do
 
       # Auth
       {:comeonin, "~> 5.1"},
-      {:argon2_elixir, "~> 2.0"}, # :comeonin hashing algorithm
+      # :comeonin hashing algorithm
+      {:argon2_elixir, "~> 2.0"},
 
       # Logic
       {:csv, "~> 2.2"},
@@ -54,14 +55,20 @@ defmodule RTL.Mixfile do
       {:timex_ecto, "~> 3.3"},
 
       # File storage & HTTP requests
-      {:arc, "~> 0.11"}, # file uploads
-      {:ex_aws, "~> 2.1"}, # :arc S3 integration
-      {:ex_aws_s3, "~> 2.0"}, # :arc S3 integration
-      {:httpotion, "~> 3.1"}, # for fetching S3 files in tests
-      {:sweet_xml, "~> 0.6"}, # required by :ex_aws
+      # file uploads
+      {:arc, "~> 0.11"},
+      # :arc S3 integration
+      {:ex_aws, "~> 2.1"},
+      # :arc S3 integration
+      {:ex_aws_s3, "~> 2.0"},
+      # for fetching S3 files in tests
+      {:httpotion, "~> 3.1"},
+      # required by :ex_aws
+      {:sweet_xml, "~> 0.6"},
 
       # Email
-      {:bamboo, "~> 1.2"}, # not currently in use, but will be soon
+      # not currently in use, but will be soon
+      {:bamboo, "~> 1.2"},
       {:bamboo_smtp, "~> 1.6"},
 
       # Tests
@@ -72,12 +79,13 @@ defmodule RTL.Mixfile do
 
   # Aliases are shortcuts or tasks specific to the current project.
   defp aliases do
-     [
-       test: [
-         "ecto.create --quiet",
-         "ecto.migrate",
-         "run priv/clear_test_log.exs",
-         "test"]
-     ]
+    [
+      test: [
+        "ecto.create --quiet",
+        "ecto.migrate",
+        "run priv/clear_test_log.exs",
+        "test"
+      ]
+    ]
   end
 end

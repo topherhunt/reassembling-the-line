@@ -5,11 +5,11 @@ defmodule RTL.Repo do
 
   # Simplify count queries where no join tables exist
   def count(query) do
-    query |> select([table], count(table.id)) |> Repo.one
+    query |> select([table], count(table.id)) |> Repo.one()
   end
 
   def first(query) do
-    query |> limit(1) |> Repo.one
+    query |> limit(1) |> Repo.one()
   end
 
   # NOTE: Only works with select statements.

@@ -21,7 +21,7 @@ defmodule RTLWeb.AuthTest do
     conn = Auth.load_current_user(conn, nil)
     assert get_session(conn, :user_id) == nil
     assert conn.assigns.current_user == nil
-    assert ! conn.halted
+    assert !conn.halted
   end
 
   test "#load_current_user ends the session if expired", %{conn: conn} do
@@ -32,7 +32,7 @@ defmodule RTLWeb.AuthTest do
   end
 
   test "#load_current_user assigns current_user based on user_id", %{conn: conn} do
-    user = Factory.insert_user
+    user = Factory.insert_user()
     conn = put_session(conn, :user_id, user.id)
     conn = put_session_expiration(conn, hours: +1)
     conn = Auth.load_current_user(conn, nil)
@@ -40,7 +40,7 @@ defmodule RTLWeb.AuthTest do
   end
 
   test "#load_current_user logs me out if user_id is invalid", %{conn: conn} do
-    user = Factory.insert_user
+    user = Factory.insert_user()
     conn = put_session(conn, :user_id, user.id + 999)
     conn = put_session_expiration(conn, hours: +1)
     conn = Auth.load_current_user(conn, nil)
@@ -48,7 +48,7 @@ defmodule RTLWeb.AuthTest do
   end
 
   defp put_session_expiration(conn, adjustment) do
-    expiry = Timex.now |> Timex.shift(adjustment) |> Timex.format!("{ISO:Extended}")
+    expiry = Timex.now() |> Timex.shift(adjustment) |> Timex.format!("{ISO:Extended}")
     put_session(conn, :expires_at, expiry)
   end
 
@@ -76,10 +76,10 @@ defmodule RTLWeb.AuthTest do
   # #login!
 
   test "#login! logs in this user", %{conn: conn} do
-    user = Factory.insert_user
+    user = Factory.insert_user()
     assert user.last_signed_in_at == nil
     assert conn.assigns[:current_user] == nil
-    conn = Auth.login!(conn, user, [remember_me: false])
+    conn = Auth.login!(conn, user, remember_me: false)
     assert conn.assigns.current_user.id == user.id
     assert get_session(conn, :user_id) == user.id
     reloaded_user = Accounts.get_user!(user.id)
@@ -89,8 +89,8 @@ defmodule RTLWeb.AuthTest do
   # #logout!
 
   test "#logout! drops the whole session", %{conn: conn} do
-    user = Factory.insert_user
-    conn = Auth.login!(conn, user, [remember_me: false])
+    user = Factory.insert_user()
+    conn = Auth.login!(conn, user, remember_me: false)
     assert get_session(conn, :user_id) == user.id
     conn = Auth.logout!(conn)
     assert_logged_out(conn)

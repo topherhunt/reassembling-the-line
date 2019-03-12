@@ -11,8 +11,14 @@ config :rtl, RTLWeb.Endpoint,
   debug_errors: true,
   code_reloader: true,
   check_origin: false,
-  watchers: [node: ["node_modules/brunch/bin/brunch", "watch", "--stdin",
-                    cd: Path.expand("../assets", __DIR__)]]
+  watchers: [
+    node: [
+      "node_modules/brunch/bin/brunch",
+      "watch",
+      "--stdin",
+      cd: Path.expand("../assets", __DIR__)
+    ]
+  ]
 
 # Watch static and templates for browser reloading.
 config :rtl, RTLWeb.Endpoint,
@@ -25,9 +31,9 @@ config :rtl, RTLWeb.Endpoint,
     ]
   ]
 
-config :rtl, RTL.Mailer,
-  adapter: Bamboo.LocalAdapter
+config :rtl, RTL.Mailer, adapter: Bamboo.LocalAdapter
 
 config :logger, level: :debug
 
-config :phoenix, :stacktrace_depth, 20 # higher stack depth (impairs performance)
+# higher stack depth (impairs performance)
+config :phoenix, :stacktrace_depth, 20

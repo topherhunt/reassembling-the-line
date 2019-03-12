@@ -3,6 +3,6 @@ defmodule RTLWeb.Admin.VideoController do
   alias RTL.Videos
 
   def index(conn, _params) do
-    render conn, "index.html", videos: Videos.all_videos_with_preloads
+    render(conn, "index.html", videos: Videos.all_videos_with_preloads())
   end
 end

@@ -5,21 +5,20 @@ defmodule RTL.Videos.Video do
   alias RTL.Videos.Video
 
   schema "videos" do
-    field :title, :string
-    field :source_name, :string
-    field :source_url, :string
-    field :recording_filename, :string
-    field :thumbnail_filename, :string
+    field(:title, :string)
+    field(:source_name, :string)
+    field(:source_url, :string)
+    field(:recording_filename, :string)
+    field(:thumbnail_filename, :string)
     timestamps()
 
-    has_one :coding, RTL.Videos.Coding
+    has_one(:coding, RTL.Videos.Coding)
   end
 
   def changeset(struct, params \\ %{}) do
     struct
-      |> cast(params, [:title, :source_name, :source_url, :recording_filename,
-        :thumbnail_filename])
-      |> validate_required([:title, :recording_filename, :thumbnail_filename])
+    |> cast(params, [:title, :source_name, :source_url, :recording_filename, :thumbnail_filename])
+    |> validate_required([:title, :recording_filename, :thumbnail_filename])
   end
 
   #
@@ -39,13 +38,12 @@ defmodule RTL.Videos.Video do
   end
 
   def tagged_with(orig_query \\ Video, tags) do
-    Enum.reduce(tags, orig_query, fn(tag, query) ->
+    Enum.reduce(tags, orig_query, fn tag, query ->
       query |> where([v], fragment("EXISTS (
         SELECT * FROM codings c
           JOIN taggings ti ON c.id = ti.coding_id
           JOIN tags t ON ti.tag_id = t.id
-        WHERE c.video_id = ? AND t.text = ?)",
-        v.id, ^tag.text))
+        WHERE c.video_id = ? AND t.text = ?)", v.id, ^tag.text))
     end)
   end
 end

@@ -9,19 +9,22 @@ config :rtl, RTLWeb.Endpoint,
 # Log ALL messages (default is :warn) but route them to a logfile.
 config :logger,
   backends: [{LoggerFileBackend, :test_log}]
+
 config :logger, :test_log,
   path: "log/test.log",
   format: "$date $time $metadata[$level] $message\n",
-  level: :debug # :debug for ALL queries etc; :brief for only the basics
+  # :debug for ALL queries etc; :brief for only the basics
+  level: :debug
 
 # Configure your database
 config :rtl, RTL.Repo,
   pool: Ecto.Adapters.SQL.Sandbox,
-  ownership_timeout: 20 * 60 * 1000 # long timeout to allow debugging in tests
+  # long timeout to allow debugging in tests
+  ownership_timeout: 20 * 60 * 1000
 
-config :rtl, RTL.Mailer,
-  adapter: Bamboo.TestAdapter
+config :rtl, RTL.Mailer, adapter: Bamboo.TestAdapter
 
-config :argon2_elixir, t_cost: 1, m_cost: 8 # reduce hashing algorithm cost
+# reduce hashing algorithm cost
+config :argon2_elixir, t_cost: 1, m_cost: 8
 
 config :hound, driver: "phantomjs"

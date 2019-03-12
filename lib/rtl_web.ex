@@ -23,23 +23,21 @@ defmodule RTLWeb do
       import Plug.Conn
       import RTLWeb.Router.Helpers
       import RTLWeb.Gettext
-      import RTLWeb.Auth, only: [
-        must_be_logged_in: 2,
-        must_not_be_logged_in: 2
-      ]
+      import RTLWeb.Auth, only: [must_be_logged_in: 2, must_not_be_logged_in: 2]
+
       alias RTL.Helpers
     end
   end
 
   def view do
     quote do
-      use Phoenix.View, root: "lib/rtl_web/templates",
-                        namespace: RTLWeb
+      use Phoenix.View, root: "lib/rtl_web/templates", namespace: RTLWeb
 
       # Rendered HTML will automatically use RTL.LayoutView "app.html"
       # unless I specify another layout using Phoenix.Controller.put_layout/2.
 
-      use Phoenix.HTML # All HTML functionality (forms, tags, etc)
+      # All HTML functionality (forms, tags, etc)
+      use Phoenix.HTML
       import Phoenix.Controller, only: [get_flash: 2, view_module: 1]
       import RTLWeb.Router.Helpers
       import RTLWeb.ErrorHelpers

@@ -1,21 +1,24 @@
 defmodule RTL.Playlist.Segment do
-  @derive Jason.Encoder # all fields are json-serializable
+  # all fields are json-serializable
+  @derive Jason.Encoder
   defstruct(
-    segment_id: nil, # a hash string unique to this video_id, starts_at, ends_at
+    # a hash string unique to this video_id, starts_at, ends_at
+    segment_id: nil,
     video_id: nil,
     title: nil,
     recording_url: nil,
     thumbnail_url: nil,
     starts_at: nil,
     ends_at: nil,
-    tags: nil # array of tag maps: %{text:, starts_at:, ends_at:}
+    # array of tag maps: %{text:, starts_at:, ends_at:}
+    tags: nil
   )
 
   # A random-looking but fixed alphanumeric ID unique to this video clip
   # We use this as each segment's id so that we can sort them in a fixed order etc.
   def hash(segment) do
     string = "#{segment.video_id}-#{segment.starts_at}-#{segment.ends_at}"
-    :crypto.hash(:md5, string) |> Base.encode16
+    :crypto.hash(:md5, string) |> Base.encode16()
   end
 
   def is_tagged?(segment) do
@@ -23,8 +26,8 @@ defmodule RTL.Playlist.Segment do
   end
 
   def matches_all_tags?(segment, expected_tags) do
-    Enum.all?(expected_tags, fn(expected_tag) ->
-      Enum.any?(segment.tags, fn(actual_tag) ->
+    Enum.all?(expected_tags, fn expected_tag ->
+      Enum.any?(segment.tags, fn actual_tag ->
         actual_tag.text == expected_tag.text
       end)
     end)
@@ -37,13 +40,16 @@ defmodule RTL.Playlist.Segment do
       index_b = index_a + 1
       old_a = Enum.at(segments, index_a)
       old_b = Enum.at(segments, index_b)
-      new_a = old_a
+
+      new_a =
+        old_a
         |> Map.put(:ends_at, old_b.ends_at)
         |> Map.put(:tags, Enum.uniq(old_a.tags ++ old_b.tags))
+
       segments
-        |> List.replace_at(index_a, new_a)
-        |> List.delete_at(index_b)
-        |> merge_adjacent
+      |> List.replace_at(index_a, new_a)
+      |> List.delete_at(index_b)
+      |> merge_adjacent
     else
       segments
     end
@@ -55,22 +61,25 @@ defmodule RTL.Playlist.Segment do
     # There's got to be a more elegant way to do this.
     list_a = segments |> List.delete_at(-1)
     list_b = segments |> List.delete_at(0)
+
     [list_a, list_b]
-      |> List.zip
-      |> Enum.find_index(fn({segment_a, segment_b}) ->
-        segment_a.video_id == segment_b.video_id &&
+    |> List.zip()
+    |> Enum.find_index(fn {segment_a, segment_b} ->
+      segment_a.video_id == segment_b.video_id &&
         segment_a.ends_at == segment_b.starts_at
-      end)
+    end)
   end
 
   def debug_list(segments) do
-    Enum.map(segments, fn(s) -> debug(s) end)
+    Enum.map(segments, fn s -> debug(s) end)
   end
 
   def debug(s) do
-    tag_texts = s.tags
-      |> Enum.map(fn(t) -> t.text end)
+    tag_texts =
+      s.tags
+      |> Enum.map(fn t -> t.text end)
       |> Enum.join(", ")
-    IO.puts "Video ##{s.video_id} (#{s.starts_at}-#{s.ends_at}) [#{tag_texts}]"
+
+    IO.puts("Video ##{s.video_id} (#{s.starts_at}-#{s.ends_at}) [#{tag_texts}]")
   end
 end
