@@ -2,7 +2,7 @@ defmodule RTL.Videos.Video do
   use Ecto.Schema
   import Ecto.Changeset
   import Ecto.Query
-  alias RTL.Videos.Video
+  alias RTL.Videos.{Video, Coding}
 
   schema "videos" do
     field(:title, :string)
@@ -12,7 +12,7 @@ defmodule RTL.Videos.Video do
     field(:thumbnail_filename, :string)
     timestamps()
 
-    has_one(:coding, RTL.Videos.Coding)
+    has_one(:coding, Coding)
   end
 
   def changeset(struct, params \\ %{}) do
@@ -25,7 +25,17 @@ defmodule RTL.Videos.Video do
   # Query helpers
   #
 
-  def sort_by_newest(query), do: query |> order_by([v], desc: v.inserted_at)
+  def sort_by_last_coded(query) do
+    query
+    |> join(:left, [v], c in assoc(v, :coding))
+    |> order_by([v, c],
+      asc: fragment("? IS NULL", c.id),
+      desc: c.inserted_at,
+      asc: v.inserted_at
+    )
+  end
+
+  def sort_by_oldest(query), do: query |> order_by([v], asc: v.inserted_at)
 
   def preload_tags(query), do: query |> preload(coding: [taggings: :tag])
 

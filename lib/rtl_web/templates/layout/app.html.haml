@@ -23,7 +23,6 @@
         %ul.navbar-nav
           %li.nav-item
             = link "Explore", to: explore_path(@conn, :index), class: "nav-link"
-
           - if @current_user do
             %li.nav-item
               = link "Admin", to: admin_video_path(@conn, :index), class: "nav-link"

@@ -1,6 +1,10 @@
-%h1 Videos
+.float-left
+  %h1 Videos
+.float-right{style: "padding-top: 10px;"}
+  = link "Code next", to: admin_coding_path(@conn, :new, video_id: @next_uncoded_video.id), class: "btn btn-success"
+.clearfix
 
-%p All available videos, sorted by title.
+%p All videos, sorted by how recently they were coded. Uncoded videos are at the bottom.
 
 %table.table.table-striped
   %tr
@@ -20,11 +24,14 @@
       %td= video.title
       %td= link_to_source(video)
       - if video.coding do
-        %td.text-success Coded by #{video.coding.updated_by_user.full_name}
-        %td= link "edit", to: admin_coding_path(@conn, :edit, video.coding.id), class: "btn btn-xs btn-default"
+        %td.text-success.small
+          Coded by #{video.coding.updated_by_user.full_name}
+          %br
+          on #{RTLWeb.DateHelpers.print_date(video.coding.updated_at)}
+        %td= link "edit", to: admin_coding_path(@conn, :edit, video.coding.id), class: "btn btn-sm btn-outline-warning"
         %td= tag_list(video)
       - else
         %td.text-muted Not coded
-        %td= link "code", to: admin_coding_path(@conn, :new, video_id: video.id), class: "btn btn-xs btn-success"
+        %td= link "code", to: admin_coding_path(@conn, :new, video_id: video.id), class: "btn btn-sm btn-outline-primary"
         %td
 
