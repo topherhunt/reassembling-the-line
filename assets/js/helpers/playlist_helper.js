@@ -68,6 +68,14 @@ var PlaylistHelper = {
     player.data({'segment-id': segment_id, 'ends-at': ends_at});
     player.attr('src', recording_url+'#t='+starts_at);
     $('.js-hear-more-link').show().attr('href', '/videos/' + video_id);
+
+    this.start_player();
+  },
+
+  start_player: function() {
+    if (window.document.hasFocus()) {
+      $('video.js-explore-video-player')[0].play();
+    }
   },
 
   scroll_to_clip: function(row) {

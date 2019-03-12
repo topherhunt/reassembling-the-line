@@ -43,7 +43,7 @@ $(document).ready(function() {
     PlaylistHelper.update_scroll_shadows();
   });
 
-  // Every second, check if we should move on to the next video
+  // Every 0.1 seconds, check if we should move on to the next video
   window.setInterval(function() {
     if (PlaylistHelper.is_clip_done()) {
       var current_segment_id = $('.js-explore-video-player').data('segment-id');
@@ -57,6 +57,6 @@ $(document).ready(function() {
         $('.js-explore-video-player')[0].pause();
       }
     }
-  }, 1000);
+  }, 0.1);
 
 });
