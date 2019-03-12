@@ -40,8 +40,8 @@ defmodule RTLWeb do
       use Phoenix.HTML
       import Phoenix.Controller, only: [get_flash: 2, view_module: 1]
       import RTLWeb.Router.Helpers
-      import RTLWeb.ErrorHelpers
       import RTLWeb.Gettext
+      import RTLWeb.{DateHelpers, ErrorHelpers, IconHelpers}
     end
   end
 

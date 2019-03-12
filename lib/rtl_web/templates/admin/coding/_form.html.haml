@@ -7,13 +7,12 @@
     %p Video: <em>#{@video.title}</em>
     %p Source: #{RTLWeb.Admin.VideoView.link_to_source(@video)}
     %p
-      %a.js-time-skip.btn.btn-default{data-amount: "-10"} <<
-      %a.js-time-skip.btn.btn-default{data-amount: "-2"} <
-      %a.js-time-skip.btn.btn-default{data-amount: "2"} >
-      %a.js-time-skip.btn.btn-default{data-amount: "10"} >>
+      %a.js-time-skip.btn.btn-light{data-amount: "-10"} <<
+      %a.js-time-skip.btn.btn-light{data-amount: "-2"} <
+      %a.js-time-skip.btn.btn-light{data-amount: "2"} >
+      %a.js-time-skip.btn.btn-light{data-amount: "10"} >>
 
 %hr
-
 
 .row
   .col-sm-6

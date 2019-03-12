@@ -28,6 +28,7 @@
               = link "Admin", to: admin_video_path(@conn, :index), class: "nav-link"
             %li.nav-item.dropdown
               %a.nav-link.dropdown-toggle{href: "#", data-toggle: "dropdown"}
+                = icon("person")
                 = @current_user.full_name
                 %span.caret
               .dropdown-menu.dropdown-menu-right

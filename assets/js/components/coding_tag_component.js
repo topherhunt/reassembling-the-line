@@ -12,7 +12,8 @@ var CodingTagComponent = {
     return '<tr class="test-tag-row">' +
       this.text_html(tag) +
       this.time_window_html(tag) +
-      '<td><a href="#" class="js-remove-tag test-remove-tag text-danger">remove</a></td>'
+      this.preview_button_html() +
+      this.remove_button_html()
     '</tr>';
   },
 
@@ -30,6 +31,14 @@ var CodingTagComponent = {
     return '' +
       '<td><input class="css-tag-time-field test-tag-time-field form-control" type="text" name="'+tag.name_root+'[starts_at]" value="'+(tag.starts_at || '')+'" placeholder="mm:ss" style="width: 70px;" /></td>' +
       '<td><input class="css-tag-time-field test-tag-time-field form-control" type="text" name="'+tag.name_root+'[ends_at]" value="'+(tag.ends_at || '')+'" placeholder="mm:ss" style="width: 70px;" /></td>';
+  },
+
+  preview_button_html: function() {
+    return '<td><a href="#" class="js-preview-tag text-info btn btn-light"><i class="ion-md-search"></i></a></td>';
+  },
+
+  remove_button_html: function() {
+    return '<td><a href="#" class="js-remove-tag test-remove-tag text-danger btn btn-light"><i class="ion-md-trash"></i></a></td>';
   }
 };
 

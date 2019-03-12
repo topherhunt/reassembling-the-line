@@ -6,7 +6,6 @@ defmodule RTLWeb.Admin.VideoView do
     |> Enum.map(fn tag -> tag.text end)
     |> Enum.uniq()
     |> Enum.sort()
-    |> Enum.join(", ")
   end
 
   def link_to_source(video) do

@@ -11,14 +11,14 @@ exports.config = {
       //   "js/vendor.js": /^(?!js)/
       // }
       //
-      // To change the order of concatenation of files, explicitly mention here
+      // All vendor CSS and JS are concatenated together by default.
+      // To change the order of files, explicitly mention them here:
       order: {
         before: [
           "vendor/jquery.js",
           "vendor/popper.js",
           "vendor/bootstrap.js",
           "vendor/jquery-ui.js",
-          "vendor/chosen.jquery.js"
         ]
       }
     },

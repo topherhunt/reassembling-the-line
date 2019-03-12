@@ -25,11 +25,16 @@
       %td= link_to_source(video)
       - if video.coding do
         %td.text-success.small
+          -# TODO: If I put these two text statements on one line (e.g. Coded by #{...} on #{...}), the parser for some reason drops everything before the word "on". Figure out how to make phoenix_haml more reliable or revert to eex.
           Coded by #{video.coding.updated_by_user.full_name}
           %br
           on #{RTLWeb.DateHelpers.print_date(video.coding.updated_at)}
         %td= link "edit", to: admin_coding_path(@conn, :edit, video.coding.id), class: "btn btn-sm btn-outline-warning"
-        %td= tag_list(video)
+        %td
+          -# TODO: I get a syntax error if the bound variable is named `tag_text` instead of `text`. This is getting stupid. Either figure out how to make phoenix_haml more reliable or abandon it for eex.
+          - Enum.map tag_list(video), fn(text) ->
+            %span.badge.badge-secondary{style: "margin-bottom: 4px;"}
+              = text
       - else
         %td.text-muted Not coded
         %td= link "code", to: admin_coding_path(@conn, :new, video_id: video.id), class: "btn btn-sm btn-outline-primary"
