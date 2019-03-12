@@ -24,7 +24,7 @@ defmodule RTL.Videos do
 
   def get_video!(id), do: Video |> Repo.get!(id)
   def next_video_to_code, do: Video.uncoded() |> Video.sort_by_oldest() |> Repo.first()
-  def count_all_videos, do: Video |> Repo.count()
+  def count_all_videos, do: Repo.count(Video)
   def count_videos_where(constraints), do: Video |> where(^constraints) |> Repo.count()
   def insert_video!(%{} = params), do: video_changeset(%Video{}, params) |> Repo.insert!()
   def video_changeset(video \\ %Video{}, changes), do: Video.changeset(video, changes)
@@ -93,8 +93,25 @@ defmodule RTL.Videos do
   # Taggings
   #
 
-  def all_tags, do: Tag |> order_by([t], t.text) |> Repo.all()
-  def insert_tagging!(%{} = params), do: tagging_changeset(%Tagging{}, params) |> Repo.insert!()
+  def all_tags, do: Tag |> order_by([t], asc: t.text) |> Repo.all()
+
+  def most_recent_tags(n) do
+    from(t in Tag,
+      inner_join: ti in assoc(t, :taggings),
+      group_by: t.id,
+      order_by: t.text,
+      limit: ^n
+    )
+    |> Repo.all()
+
+    # I could also sort by how recently they were applied:
+    # |> order_by([t, ti], desc: fragment("MAX(?)", ti.inserted_at))
+  end
+
+  def insert_tagging!(%{} = params) do
+    tagging_changeset(%Tagging{}, params) |> Repo.insert!()
+  end
+
   def tagging_changeset(tagging, changes), do: Tagging.changeset(tagging, changes)
 
   def summarize_taggings(taggings) do

@@ -9,8 +9,9 @@ defmodule RTLWeb.Admin.CodingController do
     render(conn, "new.html",
       video: video,
       changeset: changeset,
+      present_tags: [],
       all_tags: Videos.all_tags(),
-      present_tags: []
+      most_recent_tags: Videos.most_recent_tags(20)
     )
   end
 
@@ -37,8 +38,9 @@ defmodule RTLWeb.Admin.CodingController do
     render(conn, "edit.html",
       video: coding.video,
       changeset: changeset,
+      present_tags: Videos.summarize_taggings(coding.taggings),
       all_tags: Videos.all_tags(),
-      present_tags: Videos.summarize_taggings(coding.taggings)
+      most_recent_tags: Videos.most_recent_tags(20)
     )
   end
 
@@ -82,8 +84,9 @@ defmodule RTLWeb.Admin.CodingController do
     |> render("#{view}.html",
       video: video,
       changeset: changeset,
+      present_tags: summarize_tags_from_params(tags_params),
       all_tags: Videos.all_tags(),
-      present_tags: summarize_tags_from_params(tags_params)
+      most_recent_tags: Videos.most_recent_tags(20)
     )
   end
 

@@ -14,14 +14,20 @@
 
 %hr
 
-- # can't rename this unused var to _f due to Calliope 0.4.2 parsing bug
-- form_for @changeset, create_or_update_path(@conn, @changeset), fn(f) ->
-  .row
-    .col-sm-6
+
+.row
+  .col-sm-6
+    - # can't rename this unused var to _f due to Calliope 0.4.2 parsing bug
+    - form_for @changeset, create_or_update_path(@conn, @changeset), fn(f) ->
       %h3 Tags
       %table.table.js-tags-table.test-tags-table{data-autocompletes: "#{all_tags_json(@all_tags)}", data-present-tags: "#{present_tags_json(@present_tags)}"}
         %tr
           %td{colspan: 4}
             = link "Add", to: "#", class: "js-add-tag test-add-tag btn btn-default btn-sm"
-  %input{type: "hidden", name: "coding[video_id]", value: "#{@video.id}"}
-  = submit "Submit", class: "test-create-coding btn btn-primary"
+      %input{type: "hidden", name: "coding[video_id]", value: "#{@video.id}"}
+      = submit "Submit", class: "test-create-coding btn btn-primary"
+
+  .col-sm-6
+    Recent tags:
+    - Enum.map @most_recent_tags, fn tag ->
+      %span.badge.badge-secondary= tag.text
