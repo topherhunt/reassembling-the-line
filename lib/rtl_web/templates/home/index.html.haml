@@ -1,4 +1,4 @@
-%h1.text-success Reassembling the Line
+%h1 Reassembling the Line
 
 .row
   .col-md-8
@@ -15,6 +15,14 @@
       %li Collect raw interview videos where people share their personal experience with a topic. Each video might be 5 minutes, or it might be an hour.
       %li "Code" each interview into small, digestible, categorized segments
       %li Depending on what topic you're concerned about, we remix those segments into a customized stream of personal experience about that topic
+
+    - if @demo_coder do
+      %h3 Demo
+
+      %p This is a demo instance of RTL. Click the button below to log in as a coder so you can get a feel for how coding works.
+
+      %p.text-center
+        = link "Log in as a coder", to: session_path(@conn, :login_from_uuid, @demo_coder.uuid), class: "btn btn-primary"
 
   .col-md-4
     %div{style: "overflow: hidden; height: 400px; border-radius: 5px;"}

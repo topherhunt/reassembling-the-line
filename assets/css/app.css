@@ -2,6 +2,7 @@
 /* All CSS files added to this directory are automatically included. */
 
 body { padding-bottom: 100px; }
+.container-fluid { padding-top: 20px; }
 
 /* Page layout */
 

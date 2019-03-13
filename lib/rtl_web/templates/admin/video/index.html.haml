@@ -1,14 +1,15 @@
-.float-left
-  %h1 Videos
-.float-right{style: "padding-top: 10px;"}
-  = link "Code next", to: admin_coding_path(@conn, :new, video_id: @next_uncoded_video.id), class: "btn btn-success"
-.clearfix
+%h1 Code videos
 
-%p All videos, sorted by how recently they were coded. Uncoded videos are at the bottom.
+.row
+  .col-sm-6
+    %p We "code" each video by tagging any interesting segments so that viewers can easily jump to topics that they care about and don't need to watch each entire video.
+
+    %p All videos are listed below, with the most recently coded first. Uncoded videos are at the bottom.
+  .col-sm-6
+    = link icon_and_text("pricetags", "Code the next video"), to: admin_coding_path(@conn, :new, video_id: @next_uncoded_video.id), class: "btn btn-primary"
 
 %table.table.table-striped
   %tr
-    %th ID
     %th
     %th Title
     %th Source
@@ -17,10 +18,9 @@
     %th Tags
   - Enum.map @videos, fn(video) ->
     %tr
-      %td= video.id
       %td
-        %div{style: "overflow: hidden; height: 80px;"}
-          %img{src: "#{RTL.Videos.thumbnail_url(video)}", style: "height: 100px; margin: -20px;"}
+        %div{style: "overflow: hidden; height: 80px; width: 80px; border-radius: 10px;"}
+          %img{src: "#{RTL.Videos.thumbnail_url(video)}", style: "display: block; height: 100%; margin-left: -39%;"}
       %td= video.title
       %td= link_to_source(video)
       - if video.coding do

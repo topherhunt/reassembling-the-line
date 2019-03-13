@@ -20,7 +20,8 @@ defmodule RTLWeb.Admin.CodingControllerTest do
     video = Factory.insert_video()
 
     conn = get(conn, admin_coding_path(conn, :new, %{"video_id" => video.id}))
-    assert html_response(conn, 200) =~ "Coding video: \"#{video.title}\""
+    assert html_response(conn, 200) =~ "Coding video:"
+    assert conn.resp_body =~ video.title
   end
 
   test "#new raises exception if video is not found", %{conn: conn} do
@@ -82,7 +83,8 @@ defmodule RTLWeb.Admin.CodingControllerTest do
     video = Videos.get_video!(coding.video_id)
 
     conn = get(conn, admin_coding_path(conn, :edit, coding.id))
-    assert html_response(conn, 200) =~ "Coding video: \"#{video.title}\""
+    assert html_response(conn, 200) =~ "Coding video:"
+    assert conn.resp_body =~ video.title
   end
 
   test "#update saves my codes and redirects to the videos list", %{conn: conn} do
