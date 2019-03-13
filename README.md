@@ -2,6 +2,8 @@
 
 Record video interviews where people share first-hand experience on an important topic. Code each segment of the video by theme. Explore the results using a novel filterable segment playback UI.
 
+Check out the demo to see more: [https://rtl-demo1.herokuapp.com](https://rtl-demo1.herokuapp.com)
+
 ## Setting up the dev environment
 
   * Ensure Erlang, Kiex, Elixir (version in `mix.exs`), and Node are installed
