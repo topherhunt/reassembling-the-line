@@ -45,3 +45,7 @@
           %p.alert.alert-danger{role: "alert"}= get_flash(@conn, :error)
 
         = render @view_module, @view_template, assigns
+
+    .footer
+      .text-center
+        = link "Github", to: "https://github.com/topherhunt/reassembling-the-line", target: "_blank"
