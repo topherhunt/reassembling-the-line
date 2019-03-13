@@ -73,11 +73,11 @@ defmodule RTLWeb.CodingInterfaceTest do
   end
 
   defp start_time_field(tag_row) do
-    tag_row |> find_all_within_element(:css, ".test-tag-time-field") |> List.first()
+    tag_row |> find_within_element(:css, ".js-start-time-field")
   end
 
   defp end_time_field(tag_row) do
-    tag_row |> find_all_within_element(:css, ".test-tag-time-field") |> List.last()
+    tag_row |> find_within_element(:css, ".js-end-time-field")
   end
 
   #

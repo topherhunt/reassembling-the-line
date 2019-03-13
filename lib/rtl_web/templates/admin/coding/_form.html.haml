@@ -7,10 +7,10 @@
     %p Video: <em>#{@video.title}</em>
     %p Source: #{RTLWeb.Admin.VideoView.link_to_source(@video)}
     %p
-      %a.js-time-skip.btn.btn-light{data-amount: "-10"} <<
-      %a.js-time-skip.btn.btn-light{data-amount: "-2"} <
-      %a.js-time-skip.btn.btn-light{data-amount: "2"} >
-      %a.js-time-skip.btn.btn-light{data-amount: "10"} >>
+      %a.js-time-skip.btn.btn-light{data-amount: "-10"}= icon("rewind")
+      %a.js-time-skip.btn.btn-light{data-amount: "-2", style: "transform: rotate(180deg);"}= icon("play")
+      %a.js-time-skip.btn.btn-light{data-amount: "2"}= icon("play")
+      %a.js-time-skip.btn.btn-light{data-amount: "10"}= icon("fastforward")
 
 %hr
 
@@ -21,8 +21,8 @@
       %h3 Tags
       %table.table.js-tags-table.test-tags-table{data-autocompletes: "#{all_tags_json(@all_tags)}", data-present-tags: "#{present_tags_json(@present_tags)}"}
         %tr
-          %td{colspan: 4}
-            = link "Add", to: "#", class: "js-add-tag test-add-tag btn btn-default btn-sm"
+          %td{colspan: 10}
+            = link raw("<i class=\"ion-md-add-circle-outline\"></i> Add"), to: "#", class: "js-add-tag test-add-tag btn btn-link btn-sm"
       %input{type: "hidden", name: "coding[video_id]", value: "#{@video.id}"}
       = submit "Submit", class: "test-create-coding btn btn-primary"
 

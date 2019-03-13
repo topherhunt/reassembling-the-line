@@ -131,6 +131,6 @@ defmodule RTLWeb.Auth do
   end
 
   defp new_expiration_datetime_string do
-    Timex.now() |> Timex.shift(hours: +1) |> Timex.format!("{ISO:Extended}")
+    Timex.now() |> Timex.shift(hours: +24) |> Timex.format!("{ISO:Extended}")
   end
 end

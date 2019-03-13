@@ -67,23 +67,21 @@ defmodule RTL.Helpers do
   #
 
   def time_to_integer(input) do
-    string =
-      "#{input}"
-      |> String.replace(~r/[^\d\:]+/, "", global: true)
-      |> String.split(":")
-
-    case string do
-      [""] ->
+    string = String.replace("#{input}", " ", "")
+    cond do
+      string == "" ->
         nil
 
-      [minutes, seconds] ->
-        String.to_integer(minutes) * 60 + String.to_integer(seconds)
+      matches = Regex.run(~r/\A(\d\d?):(\d\d)\z/, string) ->
+        [_, min, sec] = matches
+        String.to_integer(min) * 60 + String.to_integer(sec)
 
-      [seconds] ->
-        String.to_integer(seconds)
+      matches = Regex.run(~r/\A(\d\d?)\z/, string) ->
+        [_, sec] = matches
+        String.to_integer(sec)
 
-      _default ->
-        raise "Don't know how to parse human time: #{input}"
+      true ->
+        raise "Don't know how to parse time string: #{stringify(input)}"
     end
   end
 

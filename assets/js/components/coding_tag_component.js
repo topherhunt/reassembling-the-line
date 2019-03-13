@@ -29,12 +29,13 @@ var CodingTagComponent = {
 
   time_window_html: function(tag) {
     return '' +
-      '<td><input class="css-tag-time-field test-tag-time-field form-control" type="text" name="'+tag.name_root+'[starts_at]" value="'+(tag.starts_at || '')+'" placeholder="mm:ss" style="width: 70px;" /></td>' +
-      '<td><input class="css-tag-time-field test-tag-time-field form-control" type="text" name="'+tag.name_root+'[ends_at]" value="'+(tag.ends_at || '')+'" placeholder="mm:ss" style="width: 70px;" /></td>';
+      '<td><input class="js-start-time-field form-control" type="text" name="'+tag.name_root+'[starts_at]" value="'+(tag.starts_at || '')+'" placeholder="mm:ss" style="width: 70px;" /></td>' +
+      '<td><input class="js-end-time-field form-control" type="text" name="'+tag.name_root+'[ends_at]" value="'+(tag.ends_at || '')+'" placeholder="mm:ss" style="width: 70px;" /></td>';
   },
 
   preview_button_html: function() {
-    return '<td><a href="#" class="js-preview-tag text-info btn btn-light"><i class="ion-md-search"></i></a></td>';
+    // TODO: Bootstrap Jquery tooltips don't play well with my hand-rolled component system. Once I rewrite on Vue, try tooltips again.
+    return '<td><a href="#" class="js-preview-tag text-info btn btn-light" alt="Preview this tag"><i class="ion-md-eye"></i></a></td>';
   },
 
   remove_button_html: function() {

@@ -74,7 +74,8 @@ var PlaylistHelper = {
 
   start_player: function() {
     if (window.document.hasFocus()) {
-      $('video.js-explore-video-player')[0].play();
+      var video = $('video.js-explore-video-player')[0];
+      video.play();
     }
   },
 

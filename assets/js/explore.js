@@ -43,8 +43,7 @@ $(document).ready(function() {
     PlaylistHelper.update_scroll_shadows();
   });
 
-  // Every 0.1 seconds, check if we should move on to the next video
-  window.setInterval(function() {
+  function proceedToNextSegmentIfReady() {
     if (PlaylistHelper.is_clip_done()) {
       var current_segment_id = $('.js-explore-video-player').data('segment-id');
       var current_playlist_row  = $('.js-playlist-row[data-segment-id="'+current_segment_id+'"]');
@@ -57,6 +56,9 @@ $(document).ready(function() {
         $('.js-explore-video-player')[0].pause();
       }
     }
-  }, 0.1);
+  }
+
+  // Every 0.1 seconds, check if we should move on to the next video
+  window.setInterval(proceedToNextSegmentIfReady, 100);
 
 });
