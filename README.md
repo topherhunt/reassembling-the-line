@@ -4,6 +4,8 @@ Record video interviews where people share first-hand experience on an important
 
 Check out the demo to see more: [https://rtl-demo1.herokuapp.com](https://rtl-demo1.herokuapp.com)
 
+If you're using this project, **please let us know** so we can learn what works well and how we can improve it! Our goal is to spread this concept as quickly as possible, and we can only do that with your feedback and input.
+
 ## Setting up the dev environment
 
   * Ensure Erlang, Kiex, Elixir (version in `mix.exs`), and Node are installed
