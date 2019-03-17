@@ -17,8 +17,8 @@ defmodule RTLWeb.ExploreControllerTest do
     summaries = Enum.map(segments, fn s -> summarize_segment(s) end)
 
     expected = [
-      "Video ##{video1.id} (40-72) [abc, def, ghi]",
-      "Video ##{video4.id} (55-60) [abc, ghi]"
+      "Video ##{video1.id} (40.0-72.0) [abc, def, ghi]",
+      "Video ##{video4.id} (55.0-60.0) [abc, ghi]"
     ]
 
     assert Enum.sort(summaries) == Enum.sort(expected)

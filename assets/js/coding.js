@@ -8,19 +8,38 @@ var CodingHelpers = {
     });
   },
 
-  time_to_integer: function(string) {
-    if (string.match(/^(\d\d?):(\d\d)$/)) {
-      var matches = string.match(/^(\d\d?):(\d\d)$/)
-      var mins = parseInt(matches[1]);
-      var secs = parseInt(matches[2]);
-      return mins * 60 + secs;
-    } else if (string.match(/^(\d\d?)$/)) {
-      var matches = string.match(/^(\d\d?)$/)
-      var secs = parseInt(matches[1]);
-      return secs;
-    } else {
-      return undefined;
+  ensurePreviewStoppedAtEndTime: function() {
+    var video = $('.js-coding-video-player');
+    var previewing = video.data('previewing');
+    var stop_at = video.data('stop_at');
+    var paused = video[0].paused;
+    var currentTime = video[0].currentTime;
+
+    if (previewing) {
+      if (paused) {
+        // If the user manually paused, clear previewing status.
+        video.data({previewing: undefined, stop_at: undefined});
+      } else if (currentTime > stop_at) {
+        // The preview window is over. Pause the video.
+        video[0].pause();
+        video.data({previewing: undefined, stop_at: undefined});
+      } else {
+        // The preview is still running. Nothing to do yet, wait until next tick.
+      }
     }
+  }
+};
+
+var TimeParser = {
+  string_to_float: function(string) {
+    // Verify that the string is in a  valid format (See time_parser.ex)
+    if (!string.match(/^(\d\d?:)?\d\d?(\.\d+)?$/)) { return undefined; }
+
+    var tokens = string.split(':').reverse();
+    var sec = +tokens[0];
+    var min = +tokens[1] || 0;
+
+    return (min * 60) + sec;
   }
 };
 
@@ -28,13 +47,22 @@ $(document).ready(function() {
 
   if ($('.js-coding-video-player').length == 0) { return; }
 
-  ////
-  // Coding controls
+  //
+  // Timers
   //
 
   setTimeout(function() {
     CodingHelpers.init_autocomplete();
   }, 1000);
+
+  // Every 0.1 seconds, check if we should move on to the next video
+  setInterval(function(){
+    CodingHelpers.ensurePreviewStoppedAtEndTime()
+  }, 100);
+
+  //
+  // Coding controls
+  //
 
   $('.js-add-tag').click(function(e) {
     e.preventDefault();
@@ -49,8 +77,8 @@ $(document).ready(function() {
     var tag_row = $(this).parents('tr');
     var starts_at = tag_row.find('.js-start-time-field').val();
     var ends_at = tag_row.find('.js-end-time-field').val();
-    var start_secs = CodingHelpers.time_to_integer(starts_at);
-    var end_secs = CodingHelpers.time_to_integer(ends_at);
+    var start_secs = TimeParser.string_to_float(starts_at);
+    var end_secs = TimeParser.string_to_float(ends_at);
 
     if (start_secs === undefined || end_secs === undefined) {
       alert("Your start or end time is invalid, so I can't preview this tag.");
@@ -85,7 +113,7 @@ $(document).ready(function() {
     });
   });
 
-  ////
+  //
   // Video playback
   //
 
@@ -94,28 +122,4 @@ $(document).ready(function() {
     var amount = $(this).data('amount');
     videoPlayer.currentTime += amount;
   });
-
-  function ensurePreviewStoppedAtEndTime() {
-    var video = $('.js-coding-video-player');
-    var previewing = video.data('previewing');
-    var stop_at = video.data('stop_at');
-    var paused = video[0].paused;
-    var currentTime = video[0].currentTime;
-
-    if (previewing) {
-      if (paused) {
-        // If the user manually paused, clear previewing status.
-        video.data({previewing: undefined, stop_at: undefined});
-      } else if (currentTime > stop_at) {
-        // The preview window is over. Pause the video.
-        video[0].pause();
-        video.data({previewing: undefined, stop_at: undefined});
-      } else {
-        // The preview is still running. Nothing to do yet, wait until next tick.
-      }
-    }
-  }
-
-  // Every 0.1 seconds, check if we should move on to the next video
-  window.setInterval(ensurePreviewStoppedAtEndTime, 100);
 });

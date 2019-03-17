@@ -3,7 +3,8 @@
 defmodule RTL.Videos do
   import Ecto.Query
   import Ecto.Changeset
-  import RTL.Helpers
+  alias RTL.Helpers
+  alias RTL.TimeParser
   alias RTL.Repo
   alias RTL.Videos.{Video, Coding, Tag, Tagging, Attachment}
 
@@ -119,8 +120,8 @@ defmodule RTL.Videos do
     Enum.map(taggings, fn tagging ->
       %{
         text: tagging.tag.text,
-        starts_at: integer_to_time(tagging.starts_at),
-        ends_at: integer_to_time(tagging.ends_at)
+        starts_at: TimeParser.float_to_string(tagging.starts_at),
+        ends_at: TimeParser.float_to_string(tagging.ends_at)
       }
     end)
   end
@@ -156,7 +157,7 @@ defmodule RTL.Videos do
     # TODO: Validate the tags_params format
     invalid_tags =
       tags_params
-      |> Enum.reject(fn params -> is_blank?(params["text"]) end)
+      |> Enum.reject(fn params -> Helpers.is_blank?(params["text"]) end)
       |> Enum.map(fn tag_params -> tag_changeset(%Tag{}, tag_params) end)
       |> Enum.reject(fn changeset -> changeset.valid? end)
       |> Enum.map(fn changeset -> Ecto.Changeset.get_field(changeset, :text) end)
@@ -174,15 +175,15 @@ defmodule RTL.Videos do
     coding |> Ecto.assoc(:taggings) |> Repo.delete_all()
 
     tags_list
-    |> Enum.reject(fn params -> is_blank?(params["text"]) end)
+    |> Enum.reject(&Helpers.is_blank?(&1["text"]))
     |> Enum.each(fn params ->
       tag = find_or_create_tag(params)
 
       insert_tagging!(%{
         coding_id: coding.id,
         tag_id: tag.id,
-        starts_at: time_to_integer(params["starts_at"]),
-        ends_at: time_to_integer(params["ends_at"])
+        starts_at: TimeParser.string_to_float(params["starts_at"]),
+        ends_at: TimeParser.string_to_float(params["ends_at"])
       })
     end)
   end

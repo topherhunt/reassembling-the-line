@@ -2,7 +2,7 @@ defmodule RTLWeb.HomeController do
   use RTLWeb, :controller
 
   def index(conn, _params) do
-    render(conn, "index.html", demo_coder: demo_coder)
+    render(conn, "index.html", demo_coder: demo_coder())
   end
 
   defp demo_coder do

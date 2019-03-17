@@ -29,8 +29,8 @@ var CodingTagComponent = {
 
   time_window_html: function(tag) {
     return '' +
-      '<td><input class="js-start-time-field form-control" type="text" name="'+tag.name_root+'[starts_at]" value="'+(tag.starts_at || '')+'" placeholder="mm:ss" style="width: 70px;" /></td>' +
-      '<td><input class="js-end-time-field form-control" type="text" name="'+tag.name_root+'[ends_at]" value="'+(tag.ends_at || '')+'" placeholder="mm:ss" style="width: 70px;" /></td>';
+      '<td><input class="js-start-time-field form-control" type="text" name="'+tag.name_root+'[starts_at]" value="'+(tag.starts_at || '')+'" placeholder="mm:ss" style="width: 90px;" /></td>' +
+      '<td><input class="js-end-time-field form-control" type="text" name="'+tag.name_root+'[ends_at]" value="'+(tag.ends_at || '')+'" placeholder="mm:ss" style="width: 90px;" /></td>';
   },
 
   preview_button_html: function() {

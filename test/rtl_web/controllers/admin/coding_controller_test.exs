@@ -124,7 +124,7 @@ defmodule RTLWeb.Admin.CodingControllerTest do
   def valid_tag_params do
     %{
       "1" => %{"text" => "abc", "starts_at" => nil, "ends_at" => nil},
-      "2" => %{"text" => "def", "starts_at" => 45, "ends_at" => 65},
+      "2" => %{"text" => "def", "starts_at" => "45", "ends_at" => "65"},
       "3" => %{"text" => "ghi", "starts_at" => nil, "ends_at" => nil}
     }
   end

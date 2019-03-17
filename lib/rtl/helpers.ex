@@ -61,35 +61,4 @@ defmodule RTL.Helpers do
   #     end
   #   end)
   # end
-
-  #
-  # Time
-  #
-
-  def time_to_integer(input) do
-    string = String.replace("#{input}", " ", "")
-    cond do
-      string == "" ->
-        nil
-
-      matches = Regex.run(~r/\A(\d\d?):(\d\d)\z/, string) ->
-        [_, min, sec] = matches
-        String.to_integer(min) * 60 + String.to_integer(sec)
-
-      matches = Regex.run(~r/\A(\d\d?)\z/, string) ->
-        [_, sec] = matches
-        String.to_integer(sec)
-
-      true ->
-        raise "Don't know how to parse time string: #{stringify(input)}"
-    end
-  end
-
-  def integer_to_time(integer) do
-    if integer do
-      minutes = div(integer, 60)
-      seconds = rem(integer, 60) |> Integer.to_string() |> String.pad_leading(2, "0")
-      "#{minutes}:#{seconds}"
-    end
-  end
 end
