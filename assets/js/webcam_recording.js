@@ -49,6 +49,8 @@ $(function(){
     })
     .catch(function(error) {
       console.log("getUserMedia failed:", error);
+      $('.js-webcam-recording-container').hide();
+      $('.js-init-failed-alert').show();
     });
 
   //
@@ -83,7 +85,6 @@ $(function(){
 
   function initializeRecording(stream) {
     mediaStream = stream;
-
     playLiveVideoPreview();
 
     // TODO: Is there sense in explicitly setting the mimetype options?
@@ -95,6 +96,9 @@ $(function(){
       recordingChunks.push(e.data);
       console.log("Receiving data...");
     };
+
+    $('.js-setting-up-recording').hide();
+    $('.js-start-recording').show();
   }
 
   function startRecording() {
