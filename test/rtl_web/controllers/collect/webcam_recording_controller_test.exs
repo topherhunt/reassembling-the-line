@@ -19,7 +19,7 @@ defmodule RTLWeb.Collect.WebcamRecordingControllerTest do
     }
     conn = post(conn, collect_webcam_recording_path(conn, :create), params)
 
-    assert redirected_to(conn) == home_path(conn, :index)
+    assert redirected_to(conn) == collect_webcam_recording_path(conn, :thank_you)
     video = Videos.get_newest_video()
     assert video.source_name == "Elmer Fudd"
     assert video.title == "Interview with Elmer Fudd"

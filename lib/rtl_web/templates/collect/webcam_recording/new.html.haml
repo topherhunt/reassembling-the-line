@@ -3,15 +3,15 @@
 
 .row
   .col-sm-8
-    <strong>Thank you thank you</strong> for taking the time to share your experience! I hope you find it rewarding. And we'll do our best to enable your voice to inspire change on issues that matter to you.
+    %div
+      Thank you for taking the time to share your experience! I hope you find it rewarding. And we'll do our best to enable your voice to inspire change on issues that matter to you.
 
     .pb-4
 
   .col-sm-4
-    .alert.alert-info
-      If you have any questions or problems with this page, please
-      = link "tell us", to: "#", class: "btn btn-info btn-sm"
-      so we can help!
+    %div
+      %p= link icon_and_text("videocam", "Watch instructions video"), to: "https://www.youtube.com/watch?v=qc8IFlTTtKc", target: "_blank", class: "btn btn-outline-primary"
+      %p.mb-0= link icon_and_text("alert", "Report a technical problem"), to: "https://docs.google.com/forms/d/e/1FAIpQLSfssoCcvKgVx6Aj9RtdF16lfKVJiFHpy0G9zDXuZx1Wn5fUAw/viewform?usp=sf_link", target: "_blank", class: "btn btn-outline-danger"
 
 %h4 Our questions for you:
 
@@ -91,10 +91,10 @@
             %span.text-danger (required)
           %label
             = radio_button f, :permission, "public"
-            %span.pl-2 I give permission for RTL to share my interview with <strong>everyone</strong>.
+            %span.pl-2 I give permission to share this interview with <strong>everyone</strong>.
           %label
             = radio_button f, :permission, "researchers"
-            %span.pl-2 I give permission for RTL to share my interview with <strong>researchers on this project, but no one else</strong>.
+            %span.pl-2 I give permission to share this interview with <strong>researchers on this project, but no one else</strong>.
 
         = hidden_input f, :thumbnail_filename, value: @thumbnail_filename
         = hidden_input f, :recording_filename, value: @recording_filename

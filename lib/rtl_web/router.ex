@@ -35,6 +35,7 @@ defmodule RTLWeb.Router do
 
       resources("/webcam_recordings", Collect.WebcamRecordingController,
         only: [:new, :create])
+      get("/webcam_recordings/thank_you", Collect.WebcamRecordingController, :thank_you)
     end
 
     # TODO: I shouldn't organize my controllers based on shared attributes / privilege level. Rather, group controllers based on functional area of the app, e.g. collect, code, explore, manage.
