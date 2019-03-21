@@ -1,83 +1,97 @@
-.centered-800
 
-  %h1 Online interview: Life in northern Netherlands
+%h1 Online interview: Life in northern Netherlands
 
-  %p <strong>Thank you thank you</strong> for taking the time to share your experience! I hope it's a rewarding experience. And we'll do our best to enable your voice to inspire change on issues that matter to you.
+.row
+  .col-sm-8
+    <strong>Thank you thank you</strong> for taking the time to share your experience! I hope you find it rewarding. And we'll do our best to enable your voice to inspire change on issues that matter to you.
 
-  .card
-    .card-body
-      %p.strong Instructions
+    .pb-4
 
-      %ol
-        %li <span class="text-danger">Requirements:</span> Chrome or Firefox web browser, and a webcam.
-        %li Read the questions below and consider what you'd like to say.
-        %li Check the webcam preview below to make sure you can see your face.
-        %li When you're ready, click on <strong>Start recording</strong>. Once you start, you'll have <span class="text-warning">up to 5 minutes</span> to share your experiences. If you're not confident expressing your ideas in English, feel free to speak in Dutch.
-        %li When you're done, click <strong>Stop recording</strong> to stop. Your recording will be played back for you. If you don't like it, you can re-record it.
-        %li A form will appear below the video. Fill in the questions, then click <strong>Submit this interview</strong>.
+  .col-sm-4
+    .alert.alert-info
+      If you have any questions or problems with this page, please
+      = link "tell us", to: "#", class: "btn btn-info btn-sm"
+      so we can help!
 
-      %div If you have any questions or problems using this page, please click here to tell us so we can fix it. (<strong>TODO:</strong> link to a Google form)
+%h4 Our questions for you:
 
-  .gap-20
+.row
 
-  .card
-    .card-body
-      %h4 The questions
+  .col-sm-8
+    %ul{style: "margin-bottom: 0; font-size: 1.25em; color: #1c7931;"}
+      %li Who are you?
+      %li What <strong>challenges</strong> do you experience in your life here?
+      %li What do you need in order to <strong>thrive</strong> here?
 
-      %p.text-muted{style: "margin-bottom: 5px;"} Please share your thoughts and experiences on these questions:
+  .col-sm-4
+    .alert.alert-info
+      Read the questions and consider what you'd like to say.
 
-      %ol{style: "margin-bottom: 0; font-size: 1.25em; color: #1c7931;"}
-        %li Who are you?
-        %li What <strong>challenges</strong> do you experience in your life here?
-        %li What do you need in order to <strong>thrive</strong> here?
+.pb-4
 
-  .interview-prompt
+.row
 
-  .gap-10
+  .col-sm-8
 
-  %p.text-muted.text-center
-    Make sure you can see your face in the window below, then click <strong>Start recording</strong> when you're ready.
-    %br
-    Once you start, you'll have <span class="text-warning">up to 5 minutes</span> to share your experiences.
+    .js-webcam-recording-container.box-shadow{style: "width: 640px; height: 480px; margin: 0 auto 0 auto; position: relative; border-radius: 10px;overflow: hidden;"}
+      -# The video preview box will be bright red until the stream starts successfully.
+      %video.js-recording-preview-video{controls: "", autoplay: "", style: "width: 100%; background-color: #ff0000;"}
+      .js-recording-controls{style: "position: absolute; top: 10px; left: 10px;"}
+        = link icon_and_text("play", "Start recording"), to: "#", class: "js-start-recording btn btn-success"
+        = link icon_and_text("square", "Stop recording"), to: "#", class: "js-stop-recording js-hidden btn btn-danger"
+        = link icon_and_text("refresh", "Start over"), to: "#", class: "js-restart-recording js-hidden btn btn-warning"
+        %span.js-time-remaining.js-hidden{style: "padding: 5px; color: #fff; background-color: #000; opacity: 0.5;"}
 
-  .js-incompatible-browser-alert.alert.alert-danger.js-hidden
-    Sorry, online recording requires Chrome or Firefox web browser. Please load this page in Chrome or Firefox and try again.
+    -# for rendering & capturing the thumbnail
+    %canvas.js-thumbnail-canvas.js-hidden
 
-  .js-webcam-recording-container{style: "width: 640px; height: 480px; margin: 0 auto 0 auto; position: relative;"}
-    -# The video preview box will be bright red until the stream starts successfully.
-    %video.js-recording-preview-video{controls: "", autoplay: "", style: "width: 100%; background-color: #ff0000;"}
-    .js-recording-controls{style: "position: absolute; top: 10px; left: 10px;"}
-      = link icon_and_text("play", "Start recording"), to: "#", class: "js-start-recording btn btn-success"
-      = link icon_and_text("square", "Stop recording"), to: "#", class: "js-stop-recording js-hidden btn btn-danger"
-      = link icon_and_text("refresh", "Re-record"), to: "#", class: "js-restart-recording js-hidden btn btn-warning"
-      %span.js-time-remaining.js-hidden{style: "padding: 5px; color: #fff; background-color: #000; opacity: 0.5;"}
+    .js-incompatible-browser-alert.alert.alert-danger.js-hidden
+      Sorry, online recording requires Chrome or Firefox web browser. Please load this page in Chrome or Firefox and try again.
 
-  -# for rendering & capturing the thumbnail
-  %canvas.js-thumbnail-canvas.js-hidden
+  .col-sm-4
+    .js-recording-instructions-part-1.alert.alert-info
+      %p.mb-2 Make sure you can see your face in the preview window. When you're ready, click <strong>Start recording</strong>.
+      %ul.m-0{style: "padding-left: 20px;"}
+        %li If you're not confident speaking in English, feel free to speak in Dutch.
+        %li You'll have <span class="text-warning">up to 5 minutes</span> to speak.
+        %li Click <strong>Stop recording</strong> when you're done.
 
-  .gap-20
+    .js-recording-instructions-part-2.alert.alert-info.js-hidden
+      %p Your recording is done! Now you can watch it, or start over if you'd like to try again.
 
-  .js-interview-form-container.js-hidden
-    - form_for @changeset, collect_webcam_recording_path(@conn, :create), fn(f) ->
-      %p Your video is done! We have a couple quick questions, then click the button below to complete the interview.
+      %p.mb-0 When you're happy, <strong>scroll down</strong> to answer a couple more questions and then submit your interview.
 
-      .form-group
-        = label f, :source_name, "If you'd like your name to be shown next to your video, please enter your name here. (optional)"
-        = text_input f, :source_name, class: "form-control", placeholder: "Your name"
+.pb-4
 
-      %p <strong>Legal note:</strong> By recording your interview and submitting this form, you're giving <span class="text-success">Reassembling the Line</span> permission to share your interview (both the whole thing and selected segments), as well as your name if you provide it, with the public.
+.js-interview-form-container.js-hiddenx
 
-      = hidden_input f, :thumbnail_filename, value: @thumbnail_filename
-      = hidden_input f, :recording_filename, value: @recording_filename
-      = link "Submit this interview", to: "#", class: "js-upload-and-submit-btn btn btn-primary"
+  %h4 Submit your interview
 
-      = submit "SUBMIT_INTERVIEW_BUTTON", class: "js-submit-form-btn js-hidden", style: "display: none;"
+  .row
 
-  .js-upload-data-container{data-thumbnail-presigned-s3-url: @thumbnail_presigned_s3_url, data-recording-presigned-s3-url: @recording_presigned_s3_url}
+    .col-sm-8
 
-  .js-upload-progress-container.js-hidden
-    %p <strong>We're saving your recording.</strong> Do not close or refresh the page until the upload is complete.
-    .progress
-      .progress-bar.progress-bar-striped.active{role: "progressbar" style: "width: 0%;"}
+      - form_for @changeset, collect_webcam_recording_path(@conn, :create), fn(f) ->
 
-  %div{style: "height: 100px;"}
+        .form-group
+          = label f, :source_name, raw("If you'd like your name to be shown next to your video, please write it here. <span class=\"em text-muted\">(optional)</span>")
+          = text_input f, :source_name, class: "form-control", placeholder: "Your name"
+
+        %p <strong>Legal note:</strong> By recording your interview and submitting this form, you're giving <span class="text-success">Reassembling the Line</span> permission to share your interview (both the whole thing and selected segments), as well as your name if you provide it, with the public.
+
+        = hidden_input f, :thumbnail_filename, value: @thumbnail_filename
+        = hidden_input f, :recording_filename, value: @recording_filename
+        = link "Submit this interview", to: "#", class: "js-upload-and-submit-btn btn btn-primary"
+
+        = submit "SUBMIT_INTERVIEW_BUTTON", class: "js-submit-form-btn js-hidden", style: "display: none;"
+
+      .js-upload-data-container{data-thumbnail-presigned-s3-url: @thumbnail_presigned_s3_url, data-recording-presigned-s3-url: @recording_presigned_s3_url}
+
+      .js-upload-progress-container.js-hidden
+        %p <strong>We're saving your recording.</strong> Do not close or refresh the page until the upload is complete.
+        .progress
+          .progress-bar.progress-bar-striped.active{role: "progressbar" style: "width: 0%;"}
+
+    .col-sm-4
+
+%div{style: "height: 100px;"}

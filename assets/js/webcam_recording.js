@@ -115,7 +115,9 @@ $(function(){
     $('.js-time-remaining').hide();
     $('.js-stop-recording').hide();
     $('.js-restart-recording').show();
+    $('.js-recording-instructions-part-1').fadeOut();
     setTimeout(function(){
+      $('.js-recording-instructions-part-2').fadeIn();
       $('.js-interview-form-container').fadeIn();
     }, 1000);
 
