@@ -10,6 +10,6 @@ defmodule RTLWeb.IconHelpers do
   def icon_and_text(icon, unsafe_text) do
     # Sanitize the accompanying text to protect against user data injection risk
     {:safe, safe_text} = html_escape(unsafe_text)
-    raw("<i class=\"ion-md-#{icon}\"></i> #{safe_text}")
+    raw("<i class=\"ion-md-#{icon}\"></i>&nbsp; #{safe_text}")
   end
 end

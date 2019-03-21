@@ -23,17 +23,29 @@
       #navbar-content.collapse.navbar-collapse
         %ul.navbar-nav.mr-auto
         %ul.navbar-nav
+
           %li.nav-item
             = link icon_and_text("eye", "Explore"), to: explore_path(@conn, :index), class: "nav-link text-success"
+
           - if @current_user do
+
             %li.nav-item
-              = link icon_and_text("pricetags", "Code videos"), to: admin_video_path(@conn, :index), class: "nav-link text-primary"
+              = link icon_and_text("pricetags", "Coding"), to: admin_video_path(@conn, :index), class: "nav-link"
+
+            %li.nav-item.dropdown
+              %a.nav-link.dropdown-toggle{href: "#", data-toggle: "dropdown"}
+                = icon("settings")
+                Admin
+                %span.caret
+              .dropdown-menu.dropdown-menu-right
+                = link "Video collection", to: collect_hub_path(@conn, :index), class: "dropdown-item"
+
             %li.nav-item.dropdown
               %a.nav-link.dropdown-toggle{href: "#", data-toggle: "dropdown"}
                 = icon("person")
-                = @current_user.full_name
                 %span.caret
               .dropdown-menu.dropdown-menu-right
+                .dropdown-item Logged in as #{@current_user.full_name}
                 = link icon_and_text("power", "Log out"), to: session_path(@conn, :logout), class: "dropdown-item text-danger test-logout-link"
 
     %main
@@ -47,5 +59,7 @@
         = render @view_module, @view_template, assigns
 
     .footer
-      .text-center
-        = link "Github", to: "https://github.com/topherhunt/reassembling-the-line", target: "_blank"
+      .text-center.small
+        %span.text-muted Built by Whitney Hunter-Thomson and Topher Hunt.
+        &nbsp;
+        = link "Source code on Github", to: "https://github.com/topherhunt/reassembling-the-line", target: "_blank"

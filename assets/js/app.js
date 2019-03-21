@@ -21,3 +21,4 @@ import "./utilities";
 import "./video";
 import "./coding";
 import "./explore";
+import "./webcam_recording";

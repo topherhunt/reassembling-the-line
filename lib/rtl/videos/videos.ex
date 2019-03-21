@@ -24,11 +24,20 @@ defmodule RTL.Videos do
   #
 
   def get_video!(id), do: Video |> Repo.get!(id)
+
+  def get_newest_video, do: from(v in Video, order_by: [desc: v.id]) |> Repo.first()
+
   def next_video_to_code, do: Video.uncoded() |> Video.sort_by_oldest() |> Repo.first()
+
   def count_all_videos, do: Repo.count(Video)
+
   def count_videos_where(constraints), do: Video |> where(^constraints) |> Repo.count()
-  def insert_video!(%{} = params), do: video_changeset(%Video{}, params) |> Repo.insert!()
-  def video_changeset(video \\ %Video{}, changes), do: Video.changeset(video, changes)
+
+  def insert_video(params), do: new_video_changeset(params) |> Repo.insert()
+
+  def insert_video!(params), do: new_video_changeset(params) |> Repo.insert!()
+
+  def new_video_changeset(changes), do: Video.changeset(%Video{}, changes)
 
   def all_videos_with_preloads do
     Video
@@ -46,9 +55,13 @@ defmodule RTL.Videos do
   #
 
   def url_to_hash(url), do: :crypto.hash(:md5, url) |> Base.encode16()
+
   def upload_recording(file_path), do: Attachment.store({file_path, "recording"})
+
   def upload_thumbnail(file_path), do: Attachment.store({file_path, "thumbnail"})
+
   def recording_url(v), do: Attachment.url({v.recording_filename, "recording"})
+
   def thumbnail_url(v), do: Attachment.url({v.thumbnail_filename, "thumbnail"})
 
   #
@@ -56,8 +69,11 @@ defmodule RTL.Videos do
   #
 
   def get_coding!(coding_id), do: Repo.get!(Coding, coding_id)
+
   def get_coding_by!(params), do: Repo.get_by!(Coding, params)
+
   def get_coding_preloads(coding), do: Repo.preload(coding, [:video, [taggings: :tag]])
+
   def coding_changeset(coding \\ %Coding{}, changes), do: Coding.changeset(coding, changes)
 
   def insert_coding(%{video_id: video_id, coder_id: coder_id, tags: tags_params}) do

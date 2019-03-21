@@ -58,7 +58,8 @@ defmodule RTL.Mixfile do
       # file uploads
       {:arc, "~> 0.11"},
       # :arc S3 integration
-      {:ex_aws, "~> 2.1"},
+      # Downgraded to avoid presigned url bug: https://github.com/ex-aws/ex_aws/issues/602
+      {:ex_aws, "2.0.1"},
       # :arc S3 integration
       {:ex_aws_s3, "~> 2.0"},
       # for fetching S3 files in tests

@@ -27,13 +27,25 @@ defmodule RTLWeb.Router do
     get("/explore", ExploreController, :index)
     get("/explore/playlist", ExploreController, :playlist)
 
-    resources("/videos", VideoController, only: [:show])
+    resources("/videos", VideoController,
+      only: [:show])
 
+    scope "/collect", as: :collect do
+      get("/hub", Collect.HubController, :index)
+
+      resources("/webcam_recordings", Collect.WebcamRecordingController,
+        only: [:new, :create])
+    end
+
+    # TODO: I shouldn't organize my controllers based on shared attributes / privilege level. Rather, group controllers based on functional area of the app, e.g. collect, code, explore, manage.
     scope "/admin", as: :admin do
       pipe_through(:admin_area)
 
-      resources("/videos", Admin.VideoController, only: [:index])
-      resources("/codings", Admin.CodingController, only: [:new, :create, :edit, :update])
+      resources("/videos", Admin.VideoController,
+        only: [:index])
+
+      resources("/codings", Admin.CodingController,
+        only: [:new, :create, :edit, :update])
     end
   end
 end
