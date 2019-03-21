@@ -6,7 +6,8 @@
 
     %p All videos are listed below, with the most recently coded first. Uncoded videos are at the bottom.
   .col-sm-6
-    = link icon_and_text("pricetags", "Code the next video"), to: admin_coding_path(@conn, :new, video_id: @next_uncoded_video.id), class: "btn btn-primary"
+    - if @next_uncoded_video do
+      = link icon_and_text("pricetags", "Code the next video"), to: admin_coding_path(@conn, :new, video_id: @next_uncoded_video.id), class: "btn btn-primary"
 
 %table.table.table-striped
   %tr

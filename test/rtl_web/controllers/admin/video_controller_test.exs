@@ -19,11 +19,21 @@ defmodule RTLWeb.Admin.VideoControllerTest do
     Factory.insert_video()
 
     conn = get(conn, admin_video_path(conn, :index))
+
+    assert html_response(conn, 200) =~ "Code videos"
+  end
+
+  test "#index renders correctly when no videos", %{conn: conn} do
+    {conn, _user} = login_as_new_user(conn)
+
+    conn = get(conn, admin_video_path(conn, :index))
+
     assert html_response(conn, 200) =~ "Code videos"
   end
 
   test "#index redirects when logged out", %{conn: conn} do
     conn = get(conn, admin_video_path(conn, :index))
+
     assert redirected_to(conn) == home_path(conn, :index)
   end
 end
