@@ -105,9 +105,12 @@ $(function(){
     $('.js-interview-form-container').hide();
     $('.js-start-recording').hide();
     $('.js-restart-recording').hide();
-    $('.js-stop-recording').show();
-    $('.js-time-remaining').show();
-    showRecordingTimer(60 * 5);
+
+    setTimeout(function(){
+      $('.js-stop-recording').fadeIn();
+      $('.js-time-remaining').fadeIn();
+      showRecordingTimer(60 * 5);
+    }, 1000);
 
     recordingChunks = []; // ensure any stale recording data is cleared out
     mediaRecorder.start(100); // send chunk every 100 ms
@@ -131,6 +134,11 @@ $(function(){
   }
 
   function submitInterview() {
+    if (!$('#video_permission_researchers').is(':checked') && !$('#video_permission_public').is(':checked')) {
+      alert("Please give permission for us to use this interview first.");
+      return;
+    }
+
     $('.js-interview-form-container').hide();
     $('.js-upload-progress-container').fadeIn();
     $('.progress-bar').animate({width: "95%"}, 10000);

@@ -42,7 +42,7 @@
         = link icon_and_text("play", "Start recording"), to: "#", class: "js-start-recording btn btn-success js-hidden"
         = link icon_and_text("square", "Stop recording"), to: "#", class: "js-stop-recording btn btn-danger js-hidden"
         = link icon_and_text("refresh", "Start over"), to: "#", class: "js-restart-recording btn btn-warning js-hidden"
-        %span.js-time-remaining.js-hidden{style: "padding: 5px; color: #fff; background-color: #000; opacity: 0.5;"}
+        %span.js-time-remaining.js-hidden{style: "padding: 5px; color: #fff; background-color: #000; opacity: 0.5; border-radius: 5px;"}
 
     -# for rendering & capturing the thumbnail
     %canvas.js-thumbnail-canvas.js-hidden
@@ -68,7 +68,7 @@
 
 .pb-4
 
-.js-interview-form-container.js-hiddenx
+.js-interview-form-container.js-hidden
 
   %h4 Submit your interview
 
@@ -79,24 +79,37 @@
       - form_for @changeset, collect_webcam_recording_path(@conn, :create), fn(f) ->
 
         .form-group
-          = label f, :source_name, raw("If you'd like your name to be shown next to your video, please write it here. <span class=\"em text-muted\">(optional)</span>")
+          %div
+            %strong Name
+            %span.em.text-muted (optional)
+          = label f, :source_name, raw("If you'd like your name to be shown next to your video, please write it here.")
           = text_input f, :source_name, class: "form-control", placeholder: "Your name"
 
-        %p <strong>Legal note:</strong> By recording your interview and submitting this form, you're giving <span class="text-success">Reassembling the Line</span> permission to share your interview (both the whole thing and selected segments), as well as your name if you provide it, with the public.
+        .form-group
+          %div
+            %strong Permission
+            %span.text-danger (required)
+          %label
+            = radio_button f, :permission, "public"
+            %span.pl-2 I give permission for RTL to share my interview with <strong>everyone</strong>.
+          %label
+            = radio_button f, :permission, "researchers"
+            %span.pl-2 I give permission for RTL to share my interview with <strong>researchers on this project, but no one else</strong>.
 
         = hidden_input f, :thumbnail_filename, value: @thumbnail_filename
         = hidden_input f, :recording_filename, value: @recording_filename
-        = link "Submit this interview", to: "#", class: "js-upload-and-submit-btn btn btn-primary"
+        = link "Submit your interview", to: "#", class: "js-upload-and-submit-btn btn btn-primary"
 
         = submit "SUBMIT_INTERVIEW_BUTTON", class: "js-submit-form-btn js-hidden", style: "display: none;"
 
-      .js-upload-data-container{data-thumbnail-presigned-s3-url: @thumbnail_presigned_s3_url, data-recording-presigned-s3-url: @recording_presigned_s3_url}
+.row
+  .col-sm-8
 
-      .js-upload-progress-container.js-hidden
-        %p <strong>We're saving your recording.</strong> Do not close or refresh the page until the upload is complete.
-        .progress
-          .progress-bar.progress-bar-striped.active{role: "progressbar" style: "width: 0%;"}
+    .js-upload-data-container{data-thumbnail-presigned-s3-url: @thumbnail_presigned_s3_url, data-recording-presigned-s3-url: @recording_presigned_s3_url}
 
-    .col-sm-4
+    .js-upload-progress-container.js-hidden
+      %p <strong>We're saving your recording.</strong> Do not close or refresh the page until the upload is complete.
+      .progress
+        .progress-bar.progress-bar-striped.active{role: "progressbar" style: "width: 0%;"}
 
 %div{style: "height: 100px;"}

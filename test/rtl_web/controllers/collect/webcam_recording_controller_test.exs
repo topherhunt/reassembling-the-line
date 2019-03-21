@@ -5,13 +5,14 @@ defmodule RTLWeb.Collect.WebcamRecordingControllerTest do
   test "#new renders correctly", %{conn: conn} do
     conn = get(conn, collect_webcam_recording_path(conn, :new, %{}))
 
-    assert html_response(conn, 200) =~ "Read the question below"
+    assert html_response(conn, 200) =~ "Read the questions and consider what you'd like to say."
   end
 
   test "#create inserts the video and redirects", %{conn: conn} do
     params = %{
       "video" => %{
         "source_name" => "Elmer Fudd",
+        "permission" => "researchers",
         "thumbnail_filename" => "abc.jpg",
         "recording_filename" => "abc.webm"
       }
@@ -22,6 +23,7 @@ defmodule RTLWeb.Collect.WebcamRecordingControllerTest do
     video = Videos.get_newest_video()
     assert video.source_name == "Elmer Fudd"
     assert video.title == "Interview with Elmer Fudd"
+    assert video.permission == "researchers"
     assert video.thumbnail_filename == "abc.jpg"
     assert video.recording_filename == "abc.webm"
   end

@@ -8,6 +8,8 @@ defmodule RTL.Videos.Video do
     field(:title, :string)
     field(:source_name, :string)
     field(:source_url, :string)
+    # Permission values: "researchers", "public". May be null.
+    field(:permission, :string)
     field(:recording_filename, :string)
     field(:thumbnail_filename, :string)
     timestamps()
@@ -17,8 +19,9 @@ defmodule RTL.Videos.Video do
 
   def changeset(struct, params \\ %{}) do
     struct
-    |> cast(params, [:title, :source_name, :source_url, :recording_filename, :thumbnail_filename])
+    |> cast(params, [:title, :source_name, :source_url, :permission, :recording_filename, :thumbnail_filename])
     |> validate_required([:title, :recording_filename, :thumbnail_filename])
+    |> validate_inclusion(:permission, ["public", "researchers"])
   end
 
   #

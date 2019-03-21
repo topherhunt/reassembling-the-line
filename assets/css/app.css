@@ -40,6 +40,7 @@ body { margin-bottom: 60px; }
 
 /* Bootstrap fixes */
 
+label { cursor: pointer; }
 .label a { color: #fff !important; }
 .text-info { color: #275972; } /* original: #31708f. TODO: maybe revisit this now? */
 /* TODO: Replace bootstrap.css with the scss version so we can override color vars */
