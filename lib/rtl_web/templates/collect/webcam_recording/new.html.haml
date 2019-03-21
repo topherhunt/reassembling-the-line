@@ -10,8 +10,9 @@
 
       %ol
         %li <span class="text-danger">Requirements:</span> Chrome or Firefox web browser, and a webcam.
-        %li Read the question below and consider what you'd like to say.
-        %li Click the <strong>Start recording</strong> button to start recording video. You'll see your live video in the box below. Once you start, you'll have up to 5 minutes to share your experiences.
+        %li Read the questions below and consider what you'd like to say.
+        %li Check the webcam preview below to make sure you can see your face.
+        %li When you're ready, click on <strong>Start recording</strong>. Once you start, you'll have <span class="text-warning">up to 5 minutes</span> to share your experiences. If you're not confident expressing your ideas in English, feel free to speak in Dutch.
         %li When you're done, click <strong>Stop recording</strong> to stop. Your recording will be played back for you. If you don't like it, you can re-record it.
         %li A form will appear below the video. Fill in the questions, then click <strong>Submit this interview</strong>.
 
@@ -19,10 +20,25 @@
 
   .gap-20
 
-  .interview-prompt{style: "padding-top: 10px; padding-bottom: 10px;"}
-    .text-muted.text-center Please share your thoughts and experiences regarding this question:
-    %h4.text-success.text-center
-      How much wood could a woodchuck chuck?
+  .card
+    .card-body
+      %h4 The questions
+
+      %p.text-muted{style: "margin-bottom: 5px;"} Please share your thoughts and experiences on these questions:
+
+      %ol{style: "margin-bottom: 0; font-size: 1.25em; color: #1c7931;"}
+        %li Who are you?
+        %li What <strong>challenges</strong> do you experience in your life here?
+        %li What do you need in order to <strong>thrive</strong> here?
+
+  .interview-prompt
+
+  .gap-10
+
+  %p.text-muted.text-center
+    Make sure you can see your face in the window below, then click <strong>Start recording</strong> when you're ready.
+    %br
+    Once you start, you'll have <span class="text-warning">up to 5 minutes</span> to share your experiences.
 
   .js-incompatible-browser-alert.alert.alert-danger.js-hidden
     Sorry, online recording requires Chrome or Firefox web browser. Please load this page in Chrome or Firefox and try again.
