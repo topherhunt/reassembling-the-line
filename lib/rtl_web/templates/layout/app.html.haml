@@ -24,13 +24,10 @@
         %ul.navbar-nav.mr-auto
         %ul.navbar-nav
 
-          %li.nav-item
-            = link icon_and_text("eye", "Explore"), to: explore_path(@conn, :index), class: "nav-link text-success"
-
           - if @current_user do
 
             %li.nav-item
-              = link icon_and_text("pricetags", "Coding"), to: admin_video_path(@conn, :index), class: "nav-link"
+              = link raw("<i class=\"ion-md-eye\"></i>&nbsp; Explore <span class=\"text-danger\">(<i class=\"ion-md-lock\"></i>)</span>"), to: explore_path(@conn, :index), class: "nav-link"
 
             %li.nav-item.dropdown
               %a.nav-link.dropdown-toggle{href: "#", data-toggle: "dropdown"}
@@ -38,14 +35,15 @@
                 Admin
                 %span.caret
               .dropdown-menu.dropdown-menu-right
-                = link "Video collection", to: collect_hub_path(@conn, :index), class: "dropdown-item"
+                = link icon_and_text("cloud-upload", "Import videos"), to: collect_hub_path(@conn, :index), class: "dropdown-item"
+                = link icon_and_text("pricetags", "Code videos"), to: admin_video_path(@conn, :index), class: "dropdown-item"
 
             %li.nav-item.dropdown
               %a.nav-link.dropdown-toggle{href: "#", data-toggle: "dropdown"}
                 = icon("person")
                 %span.caret
               .dropdown-menu.dropdown-menu-right
-                .dropdown-item Logged in as #{@current_user.full_name}
+                .dropdown-item.em.small Logged in as #{@current_user.full_name}
                 = link icon_and_text("power", "Log out"), to: session_path(@conn, :logout), class: "dropdown-item text-danger test-logout-link"
 
     %main
@@ -61,6 +59,8 @@
     .footer
       .text-center.small
         %span.text-muted
-        Built by Whitney Hunter-Thomson and #{link "Topher Hunt", to: "http://topherhunt.com", target: "_blank"}.
-        &nbsp;
-        = link "Open source on Github.", to: "https://github.com/topherhunt/reassembling-the-line", target: "_blank"
+        Built by Whitney Hunter-Thomson and #{link "Topher Hunt", to: "http://topherhunt.com", target: "_blank"}
+        &nbsp; &nbsp;
+        = link "Open source on Github", to: "https://github.com/topherhunt/reassembling-the-line", target: "_blank"
+        &nbsp; &nbsp;
+        = link "Contact us", to: "https://docs.google.com/forms/d/e/1FAIpQLScFmkgOIWIN3QKIT1TI6e2A440ixtfMsAQ04kVoh85TLDmbXw/viewform?usp=sf_link", target: "_blank"
