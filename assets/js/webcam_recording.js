@@ -109,7 +109,7 @@ $(function(){
     setTimeout(function(){
       $('.js-stop-recording').fadeIn();
       $('.js-time-remaining').fadeIn();
-      showRecordingTimer(60 * 5);
+      showRecordingTimer(60 * 0.5);
     }, 1000);
 
     recordingChunks = []; // ensure any stale recording data is cleared out
@@ -119,6 +119,11 @@ $(function(){
   }
 
   function stopRecording() {
+    if (mediaRecorder.state != 'recording') {
+      console.log("Suppressing stopRecording call because mediaRecorder is already stopped.");
+      return;
+    }
+
     $('.js-time-remaining').hide();
     $('.js-stop-recording').hide();
     $('.js-restart-recording').show();
