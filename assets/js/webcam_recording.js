@@ -109,7 +109,7 @@ $(function(){
     setTimeout(function(){
       $('.js-stop-recording').fadeIn();
       $('.js-time-remaining').fadeIn();
-      showRecordingTimer(60 * 0.5);
+      showRecordingTimer(60 * 5);
     }, 1000);
 
     recordingChunks = []; // ensure any stale recording data is cleared out
