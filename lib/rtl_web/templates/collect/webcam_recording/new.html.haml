@@ -10,8 +10,9 @@
 
   .col-sm-4
     %div
-      %p= link icon_and_text("videocam", "Watch instructions video"), to: "https://www.youtube.com/watch?v=qc8IFlTTtKc", target: "_blank", class: "btn btn-outline-primary"
-      %p.mb-0= link icon_and_text("alert", "Report a technical problem"), to: "https://docs.google.com/forms/d/e/1FAIpQLSfssoCcvKgVx6Aj9RtdF16lfKVJiFHpy0G9zDXuZx1Wn5fUAw/viewform?usp=sf_link", target: "_blank", class: "btn btn-outline-danger"
+      %p.mb-1= link raw("<i class=\"ion-logo-youtube\"></i>&nbsp; How to use this page"), to: "https://www.youtube.com/watch?v=qc8IFlTTtKc", target: "_blank", class: "text-primary"
+      %p.mb-1= link raw("<i class=\"ion-logo-youtube\"></i>&nbsp; Tips on making your video look good"), to: "https://www.youtube.com/watch?v=rQwanxQmFnc&feature=youtu.be", target: "_blank", class: "text-primary"
+      %p.mb-0= link icon_and_text("alert", "Report a technical problem"), to: "https://docs.google.com/forms/d/e/1FAIpQLSfssoCcvKgVx6Aj9RtdF16lfKVJiFHpy0G9zDXuZx1Wn5fUAw/viewform?usp=sf_link", target: "_blank", class: "text-danger"
 
 %h4 Our questions for you:
 
