@@ -15,6 +15,13 @@ config :rtl, RTLWeb.Endpoint,
 
 config :rtl, RTL.Repo, ssl: true
 
+config :logger, level: :info
+
+config :rollbax,
+  access_token: Helpers.env("ROLLBAR_ACCESS_TOKEN"),
+  environment: "prod"
+
+# Mailer config: disabled for now
 # config :rtl, RTL.Mailer,
 #   adapter: Bamboo.SMTPAdapter,
 #   server: System.get_env("SMTP_SERVER"),
@@ -24,5 +31,3 @@ config :rtl, RTL.Repo, ssl: true
 #   tls: :if_available, # other options: :always or :never
 #   ssl: false,
 #   retries: 1
-
-config :logger, level: :info

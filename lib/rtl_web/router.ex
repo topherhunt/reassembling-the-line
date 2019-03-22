@@ -1,6 +1,8 @@
 # Docs: http://www.phoenixframework.org/docs/routing#section-the-endpoint-plugs
 defmodule RTLWeb.Router do
   use RTLWeb, :router
+  # See https://hexdocs.pm/rollbax/using-rollbax-in-plug-based-applications.html
+  use Plug.ErrorHandler
   import RTLWeb.Auth, only: [load_current_user: 2, must_be_logged_in: 2]
 
   pipeline :browser do
@@ -20,6 +22,7 @@ defmodule RTLWeb.Router do
     pipe_through(:browser)
 
     get("/", HomeController, :index)
+    get("/test_error", HomeController, :test_error)
 
     get("/sessions/logout", SessionController, :logout)
     get("/sessions/login_from_uuid/:uuid", SessionController, :login_from_uuid)
@@ -48,5 +51,33 @@ defmodule RTLWeb.Router do
       resources("/codings", Admin.CodingController,
         only: [:new, :create, :edit, :update])
     end
+  end
+
+  # See https://hexdocs.pm/rollbax/using-rollbax-in-plug-based-applications.html
+  # and file:///Users/topher/.hex/docs/hexpm/rollbax/0.10.0/Rollbax.html#report/5
+  defp handle_errors(conn, %{kind: kind, reason: reason, stack: stacktrace}) do
+    conn =
+      conn
+      |> Plug.Conn.fetch_cookies()
+      |> Plug.Conn.fetch_query_params()
+
+    params =
+      case conn.params do
+        %Plug.Conn.Unfetched{aspect: :params} -> "unfetched"
+        other -> other
+      end
+
+    request_data = %{
+      "request" => %{
+        "cookies" => conn.req_cookies,
+        "url" => "#{conn.scheme}://#{conn.host}:#{conn.port}#{conn.request_path}",
+        "user_ip" => List.to_string(:inet.ntoa(conn.remote_ip)),
+        "headers" => Enum.into(conn.req_headers, %{}),
+        "method" => conn.method,
+        "params" => params,
+      }
+    }
+
+    Rollbax.report(kind, reason, stacktrace, _custom_data = %{}, request_data)
   end
 end

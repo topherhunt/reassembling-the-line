@@ -42,6 +42,7 @@ defmodule RTL.Mixfile do
       {:plug_cowboy, "~> 2.0"},
       {:postgrex, "~> 0.13"},
       {:gettext, "~> 0.16"},
+      {:rollbax, "~> 0.10"},
 
       # Auth
       {:comeonin, "~> 5.1"},

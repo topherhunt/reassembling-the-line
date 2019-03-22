@@ -37,3 +37,5 @@ config :logger, level: :debug
 
 # higher stack depth (impairs performance)
 config :phoenix, :stacktrace_depth, 20
+
+config :rollbax, enabled: false
