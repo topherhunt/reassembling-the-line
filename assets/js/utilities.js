@@ -9,4 +9,13 @@ $(function(){
     });
   });
 
+  $('[data-confirmation]').each(function(){
+    var question = $(this).data('confirmation');
+    $(this).click(function(e){
+      if (!confirm(question)) {
+        e.preventDefault();
+      }
+    });
+  });
+
 });

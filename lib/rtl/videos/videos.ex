@@ -21,9 +21,38 @@ defmodule RTL.Videos do
 
   #
   # Videos
+  # TODO: Find a more consistent languaging for this context api boundary.
+  # Maybe something like:
+  # - video_changeset(changes)
+  # - insert_video(params)
+  # - insert_video!(params)
+  # - update_video!(video, params)
+  # - delete_video!(id)
+  # - find_video(id: id)
+  # - find_video!(id: id)
+  # - any_video(newest: true)
+  # - any_video(coded: false, oldest: true)
+  # - all_videos(coded: false)
+  # - all_videos(coded: true, has_all_tags: [tags])
+  # - count_videos(filters)
+  #
+  # Ideas:
+  # - Some standard way to process "any_" and "all_" function params (which are
+  #   either filters or sorts)
+  # - Maybe find_ and any_ can be combined into `one_video` and `one_video!`
   #
 
+  def new_video_changeset(changes), do: Video.changeset(%Video{}, changes)
+
+  def insert_video(params), do: new_video_changeset(params) |> Repo.insert()
+
+  def insert_video!(params), do: new_video_changeset(params) |> Repo.insert!()
+
+  def get_video(id), do: Video |> Repo.get(id)
+
   def get_video!(id), do: Video |> Repo.get!(id)
+
+  def delete_video!(video), do: Repo.delete!(video)
 
   def get_newest_video, do: from(v in Video, order_by: [desc: v.id]) |> Repo.first()
 
@@ -32,12 +61,6 @@ defmodule RTL.Videos do
   def count_all_videos, do: Repo.count(Video)
 
   def count_videos_where(constraints), do: Video |> where(^constraints) |> Repo.count()
-
-  def insert_video(params), do: new_video_changeset(params) |> Repo.insert()
-
-  def insert_video!(params), do: new_video_changeset(params) |> Repo.insert!()
-
-  def new_video_changeset(changes), do: Video.changeset(%Video{}, changes)
 
   def all_videos_with_preloads do
     Video
@@ -68,17 +91,22 @@ defmodule RTL.Videos do
   # Codings
   #
 
+  def get_coding(coding_id), do: Repo.get(Coding, coding_id)
+
   def get_coding!(coding_id), do: Repo.get!(Coding, coding_id)
 
   def get_coding_by!(params), do: Repo.get_by!(Coding, params)
 
   def get_coding_preloads(coding), do: Repo.preload(coding, [:video, [taggings: :tag]])
 
-  def coding_changeset(coding \\ %Coding{}, changes), do: Coding.changeset(coding, changes)
+  def coding_changeset(changes), do: Coding.changeset(%Coding{}, changes)
+
+  def coding_changeset(struct, changes), do: Coding.changeset(struct, changes)
 
   def insert_coding(%{video_id: video_id, coder_id: coder_id, tags: tags_params}) do
     # TODO: Validate format of tag_params list
-    changeset = coding_changeset(%Coding{}, %{video_id: video_id, updated_by_user_id: coder_id})
+
+    changeset = coding_changeset(%{video_id: video_id, updated_by_user_id: coder_id})
 
     case validate_tags(tags_params) do
       {:ok} ->
@@ -93,6 +121,7 @@ defmodule RTL.Videos do
 
   def update_coding(%{coding: coding, tags: tags_params, coder_id: coder_id}) do
     # TODO: Validate format of tag_params list
+
     changeset = coding_changeset(coding, %{updated_by_user_id: coder_id})
 
     case validate_tags(tags_params) do

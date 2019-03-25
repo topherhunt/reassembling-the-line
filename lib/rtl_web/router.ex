@@ -30,8 +30,7 @@ defmodule RTLWeb.Router do
     get("/explore", ExploreController, :index)
     get("/explore/playlist", ExploreController, :playlist)
 
-    resources("/videos", VideoController,
-      only: [:show])
+    resources("/videos", VideoController, only: [:show])
 
     scope "/collect", as: :collect do
       get("/hub", Collect.HubController, :index)
@@ -45,14 +44,15 @@ defmodule RTLWeb.Router do
     scope "/admin", as: :admin do
       pipe_through(:admin_area)
 
-      resources("/videos", Admin.VideoController,
-        only: [:index])
+      resources("/videos", Admin.VideoController, only: [:index])
+      get("/videos/:id/delete", Admin.VideoController, :delete)
 
       resources("/codings", Admin.CodingController,
         only: [:new, :create, :edit, :update])
     end
   end
 
+  # Rollbax request error reporter
   # See https://hexdocs.pm/rollbax/using-rollbax-in-plug-based-applications.html
   # and file:///Users/topher/.hex/docs/hexpm/rollbax/0.10.0/Rollbax.html#report/5
   defp handle_errors(conn, %{kind: kind, reason: reason, stack: stacktrace}) do
