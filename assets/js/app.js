@@ -22,3 +22,7 @@ import "./video";
 import "./coding";
 import "./explore";
 import "./webcam_recording";
+
+import LiveSocket from "phoenix_live_view";
+let liveSocket = new LiveSocket("/live");
+liveSocket.connect();

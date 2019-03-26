@@ -27,7 +27,8 @@ config :rtl, RTLWeb.Endpoint,
       ~r{priv/static/.*(js|css|png|jpeg|jpg|gif|svg)$},
       ~r{priv/gettext/.*(po)$},
       ~r{lib/rtl_web/views/.*(ex)$},
-      ~r{lib/rtl_web/templates/.*(eex|haml)$}
+      ~r{lib/rtl_web/templates/.*(eex|haml)$},
+      ~r{lib/rtl_web/live/*.(ex)$}
     ]
   ]
 

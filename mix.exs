@@ -33,7 +33,8 @@ defmodule RTL.Mixfile do
   defp deps do
     [
       # Core
-      {:phoenix, "~> 1.4"},
+      # Set override: true for beta LiveView compatibility
+      {:phoenix, "~> 1.4", override: true},
       {:phoenix_pubsub, "~> 1.1"},
       {:phoenix_ecto, "~> 3.6"},
       {:phoenix_html, "~> 2.13"},
@@ -43,6 +44,7 @@ defmodule RTL.Mixfile do
       {:postgrex, "~> 0.13"},
       {:gettext, "~> 0.16"},
       {:rollbax, "~> 0.10"},
+      {:phoenix_live_view, github: "phoenixframework/phoenix_live_view"},
 
       # Auth
       {:comeonin, "~> 5.1"},
