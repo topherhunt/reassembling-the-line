@@ -9,8 +9,8 @@
 
     %title RTL
 
-    %link{rel: "stylesheet", href: "#{static_path(@conn, "/css/app.css")}"}
-    %script{src: "#{static_path(@conn, "/js/app.js")}"}
+    %link{rel: "stylesheet", href: "#{Routes.static_path(@conn, "/css/app.css")}"}
+    %script{src: "#{Routes.static_path(@conn, "/js/app.js")}"}
 
   %body
 
@@ -27,7 +27,7 @@
           - if @current_user do
 
             %li.nav-item
-              = link raw("<i class=\"ion-md-eye\"></i>&nbsp; Explore <span class=\"text-danger\">(<i class=\"ion-md-lock\"></i>)</span>"), to: explore_path(@conn, :index), class: "nav-link"
+              = link raw("<i class=\"ion-md-eye\"></i>&nbsp; Explore <span class=\"text-danger\">(<i class=\"ion-md-lock\"></i>)</span>"), to: Routes.explore_path(@conn, :index), class: "nav-link"
 
             %li.nav-item.dropdown
               %a.nav-link.dropdown-toggle{href: "#", data-toggle: "dropdown"}
@@ -35,8 +35,8 @@
                 Admin
                 %span.caret
               .dropdown-menu.dropdown-menu-right
-                = link icon_and_text("cloud-upload", "Import videos"), to: collect_hub_path(@conn, :index), class: "dropdown-item"
-                = link icon_and_text("pricetags", "Code videos"), to: admin_video_path(@conn, :index), class: "dropdown-item"
+                = link icon_and_text("cloud-upload", "Import videos"), to: Routes.collect_hub_path(@conn, :index), class: "dropdown-item"
+                = link icon_and_text("pricetags", "Code videos"), to: Routes.admin_video_path(@conn, :index, []), class: "dropdown-item"
 
             %li.nav-item.dropdown
               %a.nav-link.dropdown-toggle{href: "#", data-toggle: "dropdown"}
@@ -44,7 +44,7 @@
                 %span.caret
               .dropdown-menu.dropdown-menu-right
                 .dropdown-item.em.small Logged in as #{@current_user.full_name}
-                = link icon_and_text("power", "Log out"), to: session_path(@conn, :logout), class: "dropdown-item text-danger test-logout-link"
+                = link icon_and_text("power", "Log out"), to: Routes.session_path(@conn, :logout), class: "dropdown-item text-danger test-logout-link"
 
     %main
       .container-fluid

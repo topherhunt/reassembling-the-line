@@ -11,6 +11,7 @@
 // If you no longer want to use a dependency, remember
 // to also remove its path from "config.paths.watched".
 import "phoenix_html";
+import "./live";
 
 // Import local files
 // Local files can be imported directly using relative
@@ -22,7 +23,3 @@ import "./video";
 import "./coding";
 import "./explore";
 import "./webcam_recording";
-
-import LiveSocket from "phoenix_live_view";
-let liveSocket = new LiveSocket("/live");
-liveSocket.connect();

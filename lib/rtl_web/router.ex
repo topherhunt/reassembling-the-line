@@ -45,8 +45,10 @@ defmodule RTLWeb.Router do
     scope "/admin", as: :admin do
       pipe_through(:admin_area)
 
+      # Instead of connecting the LiveView at the routing layer, I'll render to the LiveView from the controller.
+      # live "/videos", Live.Admin.VideosList
+      # get("/videos/:id/delete", Admin.VideoController, :delete)
       resources("/videos", Admin.VideoController, only: [:index])
-      get("/videos/:id/delete", Admin.VideoController, :delete)
 
       resources("/codings", Admin.CodingController,
         only: [:new, :create, :edit, :update])

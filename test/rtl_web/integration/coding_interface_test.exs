@@ -11,8 +11,8 @@ defmodule RTLWeb.CodingInterfaceTest do
     user = Factory.insert_user()
     video = Factory.insert_video()
 
-    navigate_to(session_path(conn, :login_from_uuid, user.uuid))
-    navigate_to(admin_coding_path(conn, :new, video_id: video.id))
+    navigate_to(Routes.session_path(conn, :login_from_uuid, user.uuid))
+    navigate_to(Routes.admin_coding_path(conn, :new, video_id: video.id))
 
     click_add_tag_link()
     click_add_tag_link()
@@ -31,7 +31,7 @@ defmodule RTLWeb.CodingInterfaceTest do
     row4 |> text_field |> fill_field("Alabama")
     find_element(:css, ".test-create-coding") |> click
 
-    assert current_path() == admin_video_path(conn, :index)
+    assert Routes.current_path() == Routes.admin_video_path(conn, :index)
     coding = Videos.get_coding_by!(video_id: video.id) |> Videos.get_coding_preloads()
     tags = Videos.summarize_taggings(coding.taggings) |> Enum.sort()
 
@@ -55,8 +55,8 @@ defmodule RTLWeb.CodingInterfaceTest do
 
     coding = Factory.insert_coding(tags: tag_attrs)
 
-    navigate_to(session_path(conn, :login_from_uuid, user.uuid))
-    navigate_to(admin_coding_path(conn, :edit, coding.id))
+    navigate_to(Routes.session_path(conn, :login_from_uuid, user.uuid))
+    navigate_to(Routes.admin_coding_path(conn, :edit, coding.id))
     assert Enum.count(tag_rows()) == 3
   end
 

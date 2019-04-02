@@ -9,12 +9,12 @@ defmodule RTLWeb.SessionController do
     conn
     |> Auth.login!(user, remember_me: false)
     |> put_flash(:info, "Welcome back, #{user.full_name}!")
-    |> redirect(to: home_path(conn, :index))
+    |> redirect(to: Routes.home_path(conn, :index))
   end
 
   def logout(conn, _params) do
     conn
     |> Auth.logout!()
-    |> redirect(to: home_path(conn, :index))
+    |> redirect(to: Routes.home_path(conn, :index))
   end
 end

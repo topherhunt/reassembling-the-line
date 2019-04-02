@@ -69,7 +69,7 @@ defmodule RTLWeb.AuthTest do
 
   test "#must_be_logged_in redirects and halts if no current_user", %{conn: conn} do
     conn = Auth.must_be_logged_in(conn, [])
-    assert redirected_to(conn) == home_path(conn, :index)
+    assert redirected_to(conn) == Routes.home_path(conn, :index)
     assert conn.halted
   end
 

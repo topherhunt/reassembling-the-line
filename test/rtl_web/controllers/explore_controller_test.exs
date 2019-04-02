@@ -2,7 +2,7 @@ defmodule RTLWeb.ExploreControllerTest do
   use RTLWeb.ConnCase, async: true
 
   test "#index renders the page (no login needed)", %{conn: conn} do
-    conn = get(conn, explore_path(conn, :index))
+    conn = get(conn, Routes.explore_path(conn, :index))
     assert html_response(conn, 200) =~ "Explore"
   end
 
@@ -12,7 +12,7 @@ defmodule RTLWeb.ExploreControllerTest do
     _video3 = insert_video_with_tags([])
     video4 = insert_video_with_tags(["def:15:38", "abc:30:60", "ghi:55:82"])
 
-    conn = get(conn, explore_path(conn, :playlist), tags: "abc,ghi")
+    conn = get(conn, Routes.explore_path(conn, :playlist), tags: "abc,ghi")
     segments = json_response(conn, 200)["playlist"]
     summaries = Enum.map(segments, fn s -> summarize_segment(s) end)
 

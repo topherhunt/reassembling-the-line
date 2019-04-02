@@ -21,8 +21,8 @@ defmodule RTLWeb.ConnCase do
       use Phoenix.ConnTest
       import RTL.DataHelpers
       import RTL.EmailHelpers
-      import RTLWeb.Router.Helpers
       import RTLWeb.ConnHelpers
+      alias RTLWeb.Router.Helpers, as: Routes
       alias RTL.Factory
 
       # The default endpoint for testing

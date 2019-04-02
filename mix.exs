@@ -34,7 +34,7 @@ defmodule RTL.Mixfile do
     [
       # Core
       # Set override: true for beta LiveView compatibility
-      {:phoenix, "~> 1.4", override: true},
+      {:phoenix, github: "phoenixframework/phoenix", override: true},
       {:phoenix_pubsub, "~> 1.1"},
       {:phoenix_ecto, "~> 3.6"},
       {:phoenix_html, "~> 2.13"},

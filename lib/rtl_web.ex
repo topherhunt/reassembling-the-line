@@ -22,9 +22,9 @@ defmodule RTLWeb do
       use Phoenix.Controller, namespace: RTLWeb
       import Phoenix.LiveView, only: [live_render: 2, live_render: 3]
       import Plug.Conn
-      import RTLWeb.Router.Helpers
       import RTLWeb.Gettext
       import RTLWeb.Auth, only: [must_be_logged_in: 2, must_not_be_logged_in: 2]
+      alias RTLWeb.Router.Helpers, as: Routes
       alias RTL.Helpers
     end
   end
@@ -35,9 +35,9 @@ defmodule RTLWeb do
       use Phoenix.HTML
       import Phoenix.Controller, only: [get_flash: 2, view_module: 1]
       import Phoenix.LiveView, only: [live_render: 2, live_render: 3]
-      import RTLWeb.Router.Helpers
       import RTLWeb.Gettext
       import RTLWeb.{DateHelpers, ErrorHelpers, IconHelpers}
+      alias RTLWeb.Router.Helpers, as: Routes
 
       # Rendered HTML will automatically use RTL.LayoutView "app.html"
       # unless I specify another layout using Phoenix.Controller.put_layout/2.

@@ -77,7 +77,7 @@
 
     .col-sm-8
 
-      - form_for @changeset, collect_webcam_recording_path(@conn, :create), fn(f) ->
+      - form_for @changeset, Routes.collect_webcam_recording_path(@conn, :create), fn(f) ->
 
         .form-group
           %div

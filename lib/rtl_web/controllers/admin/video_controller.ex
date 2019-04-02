@@ -3,10 +3,14 @@ defmodule RTLWeb.Admin.VideoController do
   alias RTL.Videos
 
   def index(conn, _params) do
-    render(conn, "index.html",
-      videos: Videos.all_videos_with_preloads(),
-      next_uncoded_video: Videos.next_video_to_code()
-    )
+    render(conn, "index_wrapper.html")
+    # render(conn, "index.html",
+    #   videos: Videos.all_videos_with_preloads(),
+    #   next_uncoded_video: Videos.next_video_to_code()
+    # )
+    #
+    # Phoenix.LiveView.Controller.live_render(...)
+    # live_render(conn, RTLWeb.Live.Admin.VideosList, session: %{})
   end
 
   def delete(conn, %{"id" => video_id}) do
@@ -14,6 +18,6 @@ defmodule RTLWeb.Admin.VideoController do
 
     conn
     |> put_flash(:info, "Video #{video_id} was deleted.")
-    |> redirect(to: admin_video_path(conn, :index))
+    |> redirect(to: Routes.admin_video_path(conn, :index, []))
   end
 end

@@ -4,13 +4,13 @@ defmodule RTLWeb.Admin.CodingControllerTest do
 
   test "all actions require logged-in user", %{conn: conn} do
     [
-      get(conn, admin_coding_path(conn, :new)),
-      post(conn, admin_coding_path(conn, :create)),
-      get(conn, admin_coding_path(conn, :edit, "123")),
-      patch(conn, admin_coding_path(conn, :update, "123"))
+      get(conn, Routes.admin_coding_path(conn, :new)),
+      post(conn, Routes.admin_coding_path(conn, :create)),
+      get(conn, Routes.admin_coding_path(conn, :edit, "123")),
+      patch(conn, Routes.admin_coding_path(conn, :update, "123"))
     ]
     |> Enum.each(fn conn ->
-      assert redirected_to(conn) == home_path(conn, :index)
+      assert redirected_to(conn) == Routes.home_path(conn, :index)
       assert conn.halted
     end)
   end
@@ -19,7 +19,7 @@ defmodule RTLWeb.Admin.CodingControllerTest do
     {conn, _} = login_as_new_user(conn)
     video = Factory.insert_video()
 
-    conn = get(conn, admin_coding_path(conn, :new, %{"video_id" => video.id}))
+    conn = get(conn, Routes.admin_coding_path(conn, :new, %{"video_id" => video.id}))
     assert html_response(conn, 200) =~ "Coding video:"
     assert conn.resp_body =~ video.title
   end
@@ -29,7 +29,7 @@ defmodule RTLWeb.Admin.CodingControllerTest do
     Factory.insert_video()
 
     assert_raise(Ecto.NoResultsError, fn ->
-      get(conn, admin_coding_path(conn, :new, %{"video_id" => "99999"}))
+      get(conn, Routes.admin_coding_path(conn, :new, %{"video_id" => "99999"}))
     end)
   end
 
@@ -39,9 +39,9 @@ defmodule RTLWeb.Admin.CodingControllerTest do
     v2 = Factory.insert_video()
 
     params = %{"coding" => create_params(v1.id)}
-    conn = post(conn, admin_coding_path(conn, :create), params)
+    conn = post(conn, Routes.admin_coding_path(conn, :create), params)
 
-    assert redirected_to(conn) == admin_coding_path(conn, :new, video_id: v2.id)
+    assert redirected_to(conn) == Routes.admin_coding_path(conn, :new, video_id: v2.id)
     coding = Videos.get_coding_by!(video_id: v1.id) |> Videos.get_coding_preloads()
     assert Videos.summarize_taggings(coding.taggings) == expected_tag_info()
   end
@@ -53,7 +53,7 @@ defmodule RTLWeb.Admin.CodingControllerTest do
 
     assert_raise(Ecto.InvalidChangesetError, fn ->
       params = %{"coding" => create_params(video.id)}
-      post(conn, admin_coding_path(conn, :create), params)
+      post(conn, Routes.admin_coding_path(conn, :create), params)
     end)
   end
 
@@ -63,7 +63,7 @@ defmodule RTLWeb.Admin.CodingControllerTest do
 
     assert_raise(Ecto.ConstraintError, fn ->
       params = %{"coding" => create_params("99999")}
-      post(conn, admin_coding_path(conn, :create), params)
+      post(conn, Routes.admin_coding_path(conn, :create), params)
     end)
   end
 
@@ -72,7 +72,7 @@ defmodule RTLWeb.Admin.CodingControllerTest do
     video = Factory.insert_video()
 
     params = %{"coding" => create_params(video.id, %{"1" => %{"text" => "Topher's"}})}
-    conn = post(conn, admin_coding_path(conn, :create), params)
+    conn = post(conn, Routes.admin_coding_path(conn, :create), params)
 
     assert html_response(conn, 200) =~ "Tags can only contain letters, numbers, and spaces."
   end
@@ -82,7 +82,7 @@ defmodule RTLWeb.Admin.CodingControllerTest do
     coding = Factory.insert_coding()
     video = Videos.get_video!(coding.video_id)
 
-    conn = get(conn, admin_coding_path(conn, :edit, coding.id))
+    conn = get(conn, Routes.admin_coding_path(conn, :edit, coding.id))
     assert html_response(conn, 200) =~ "Coding video:"
     assert conn.resp_body =~ video.title
   end
@@ -92,9 +92,9 @@ defmodule RTLWeb.Admin.CodingControllerTest do
     coding = Factory.insert_coding(tags: [%{"text" => "old_tag"}])
 
     params = %{"coding" => update_params()}
-    conn = patch(conn, admin_coding_path(conn, :update, coding.id), params)
+    conn = patch(conn, Routes.admin_coding_path(conn, :update, coding.id), params)
 
-    assert redirected_to(conn) == admin_video_path(conn, :index)
+    assert redirected_to(conn) == Routes.admin_video_path(conn, :index)
     reloaded_coding = Videos.get_coding!(coding.id) |> Videos.get_coding_preloads()
     assert Videos.summarize_taggings(reloaded_coding.taggings) == expected_tag_info()
   end
@@ -104,7 +104,7 @@ defmodule RTLWeb.Admin.CodingControllerTest do
     coding = Factory.insert_coding(tags: [%{"text" => "old1"}, %{"text" => "old2"}])
 
     params = %{"coding" => %{"tags" => %{"1" => %{"text" => "Topher's"}}}}
-    conn = patch(conn, admin_coding_path(conn, :update, coding.id), params)
+    conn = patch(conn, Routes.admin_coding_path(conn, :update, coding.id), params)
 
     assert html_response(conn, 200) =~ "Tags can only contain letters, numbers, and spaces."
     reloaded_coding = Videos.get_coding!(coding.id) |> Videos.get_coding_preloads()

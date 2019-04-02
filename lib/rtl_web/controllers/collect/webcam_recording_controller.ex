@@ -26,7 +26,7 @@ defmodule RTLWeb.Collect.WebcamRecordingController do
 
     conn
     |> put_flash(:info, "Thank you! We've received your interview and we're looking forward to learning from your experience.")
-    |> redirect(to: collect_webcam_recording_path(conn, :thank_you))
+    |> redirect(to: Routes.collect_webcam_recording_path(conn, :thank_you))
   end
 
   def thank_you(conn, _params) do

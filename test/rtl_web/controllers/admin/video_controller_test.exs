@@ -4,11 +4,11 @@ defmodule RTLWeb.Admin.VideoControllerTest do
 
   test "all actions require logged-in user", %{conn: conn} do
     [
-      get(conn, admin_video_path(conn, :index)),
-      get(conn, admin_video_path(conn, :delete, "1")),
+      get(conn, Routes.admin_video_path(conn, :index)),
+      get(conn, Routes.admin_video_path(conn, :delete, "1")),
     ]
     |> Enum.each(fn conn ->
-      assert redirected_to(conn) == home_path(conn, :index)
+      assert redirected_to(conn) == Routes.home_path(conn, :index)
       assert conn.halted
     end)
   end
@@ -21,7 +21,7 @@ defmodule RTLWeb.Admin.VideoControllerTest do
       Factory.insert_video()
       Factory.insert_video()
 
-      conn = get(conn, admin_video_path(conn, :index))
+      conn = get(conn, Routes.admin_video_path(conn, :index))
 
       assert html_response(conn, 200) =~ "Code videos"
     end
@@ -29,7 +29,7 @@ defmodule RTLWeb.Admin.VideoControllerTest do
     test "renders correctly when no videos", %{conn: conn} do
       {conn, _user} = login_as_new_user(conn)
 
-      conn = get(conn, admin_video_path(conn, :index))
+      conn = get(conn, Routes.admin_video_path(conn, :index))
 
       assert html_response(conn, 200) =~ "Code videos"
     end
@@ -41,9 +41,9 @@ defmodule RTLWeb.Admin.VideoControllerTest do
       video = Factory.insert_video()
       coding = Factory.insert_coding(video_id: video.id)
 
-      conn = get(conn, admin_video_path(conn, :delete, video.id))
+      conn = get(conn, Routes.admin_video_path(conn, :delete, video.id))
 
-      assert redirected_to(conn) == admin_video_path(conn, :index)
+      assert redirected_to(conn) == Routes.admin_video_path(conn, :index)
       assert Videos.get_video(video.id) == nil
       assert Videos.get_coding(coding.id) == nil
     end

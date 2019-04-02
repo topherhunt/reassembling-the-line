@@ -54,7 +54,7 @@ defmodule RTLWeb.Admin.CodingController do
       {:ok, _} ->
         conn
         |> put_flash(:info, "Updates are saved.")
-        |> redirect(to: admin_video_path(conn, :index))
+        |> redirect(to: Routes.admin_video_path(conn, :index, []))
 
       {:error, changeset, invalid_tags} ->
         video = Videos.get_video!(coding.video_id)
@@ -70,11 +70,11 @@ defmodule RTLWeb.Admin.CodingController do
     if video = Videos.next_video_to_code() do
       conn
       |> put_flash(:info, "Updates are saved! Here's another video to code.")
-      |> redirect(to: admin_coding_path(conn, :new, video_id: video.id))
+      |> redirect(to: Routes.admin_coding_path(conn, :new, video_id: video.id))
     else
       conn
       |> put_flash(:info, "Updates are saved! There are no more videos to code.")
-      |> redirect(to: admin_video_path(conn, :index))
+      |> redirect(to: Routes.admin_video_path(conn, :index, []))
     end
   end
 
