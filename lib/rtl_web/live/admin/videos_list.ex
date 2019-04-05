@@ -12,7 +12,7 @@ defmodule RTLWeb.Live.Admin.VideosList do
   end
 
   def render(assigns) do
-    RTLWeb.Admin.VideoView.render("live_index.html", assigns)
+    RTLWeb.Admin.VideoView.render("index.html", assigns)
   end
 
   def handle_event("delete_video" = type, id, socket) do

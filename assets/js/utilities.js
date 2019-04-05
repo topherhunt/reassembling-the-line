@@ -11,32 +11,6 @@ $(function(){
     });
   });
 
-  // I drop to vanilla addEventListener here to make use of the `capture=true` flag.
-  // It's critical that this listener be invoked before any others I define.
-  // window.addEventListener("click", function(e){
-  //   var target = e.target;
-  //   var confirmation = target.dataset && target.dataset.confirmation;
-
-  //   if (!confirmation) { return; }
-  //   console.log('This target has data-confirmation.');
-  //   if (confirm(confirmation)) {
-  //     console.log("data-confirmation approved.");
-  //   } else {
-  //     console.log("data-confirmation rejected. Event suppressed.");
-  //     e.preventDefault();
-  //   }
-  // }, true);
-
-  // $(document).on("click", "[data-confirmation]", function(e){
-  //   var question = $(this).data("confirmation");
-  //   if (!confirm(question)) {
-  //     console.log("data-confirmation rejected. Event suppressed.");
-  //     e.stopPropagation();
-  //   } else {
-  //     console.log("data-confirmation approved.");
-  //   }
-  // });
-
   $(document).on("click", "[phx-click-after-confirmation]", function(e){
     e.preventDefault();
     var question = $(this).attr("phx-click-after-confirmation");

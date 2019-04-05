@@ -10,7 +10,7 @@ defmodule RTLWeb.Admin.VideoController do
     # )
     #
     # Phoenix.LiveView.Controller.live_render(...)
-    # live_render(conn, RTLWeb.Live.Admin.VideosList, session: %{})
+    # Phoenix.LiveView.Controller.live_render(conn, RTLWeb.Live.Admin.VideosList, session: %{})
   end
 
   def delete(conn, %{"id" => video_id}) do

@@ -3,11 +3,12 @@
 #
 # This configuration file is loaded before any dependency and
 # is restricted to this project.
+
+use Mix.Config
+
 defmodule Helpers do
   def env(key), do: System.get_env(key) || raise("Env var '#{key}' is missing!")
 end
-
-use Mix.Config
 
 # Automatically load sensitive environment variables for dev and test
 if File.exists?("config/secrets.exs"), do: import_config("secrets.exs")
