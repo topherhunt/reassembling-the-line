@@ -40,6 +40,9 @@
           = link icon("trash"), to: admin_video_path(@conn, :delete, video.id), class: "text-danger", "data-tooltip": "Delete this video", "data-confirmation": "Are you sure you want to delete this video and its coding data?"
       - else
         %td.text-muted Not coded
-        %td= link "code", to: admin_coding_path(@conn, :new, video_id: video.id), class: "btn btn-sm btn-outline-primary"
+        %td
+          = link "code", to: admin_coding_path(@conn, :new, video_id: video.id), class: "btn btn-sm btn-outline-primary"
+          &nbsp;
+          = link icon("trash"), to: admin_video_path(@conn, :delete, video.id), class: "text-danger", "data-tooltip": "Delete this video", "data-confirmation": "Are you sure you want to delete this video and its coding data?"
         %td
 
