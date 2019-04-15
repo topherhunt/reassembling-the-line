@@ -58,7 +58,7 @@
         &nbsp;
         <span>
           <%= link icon("trash"), to: "#", class: "text-danger", "phx-click-after-confirmation": "Are you sure you want to delete \"#{video.title}\" and its coding data?" %>
-          <a href="#" class="js-hiddenx test-delete-video-<%= video.id %>" phx-click="delete_video" phx-value="<%= video.id %>">the hidden phx-click link</a>
+          <a href="#" class="js-hidden" phx-click="delete_video" phx-value="<%= video.id %>">the hidden phx-click link</a>
         </span>
       </td>
     </tr>
