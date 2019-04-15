@@ -71,6 +71,7 @@ defmodule RTL.Videos do
   # - find_video!(id: id)
   # - any_video(newest: true)
   # - any_video(coded: false, oldest: true)
+  #   ^ Or maybe find_ and first_
   # - all_videos(coded: false)
   # - all_videos(coded: true, has_all_tags: [tags])
   # - count_videos(filters)
@@ -78,7 +79,9 @@ defmodule RTL.Videos do
   # Ideas:
   # - Some standard way to process "any_" and "all_" function params (which are
   #   either filters or sorts)
-  # - Maybe find_ and any_ can be combined into `one_video` and `one_video!`
+  # - Maybe find_ and any_ can be combined into `one_video` and `one_video!`,
+  #  or settle on `get_video()` (only one) and `get_videos()` (multiple or all)
+  #  or maybe `get_video` (only by id), `get_any_video`, and `get_videos`?
   #
 
   def new_video_changeset(changes), do: Video.changeset(%Video{}, changes)

@@ -9,6 +9,7 @@
     field: :*,
     has_one: :*,
     belongs_to: :*,
-    log: :*
+    log: :*,
+    navigate_to: :*
   ]
 ]

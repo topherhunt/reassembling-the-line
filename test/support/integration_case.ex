@@ -8,7 +8,7 @@ defmodule RTLWeb.IntegrationCase do
       use Hound.Helpers
       import RTL.DataHelpers
       import RTL.EmailHelpers
-      import RTLWeb.ExtraHoundHelpers
+      import RTLWeb.IntegrationHelpers
       alias RTLWeb.Router.Helpers, as: Routes
       alias RTL.Factory
 

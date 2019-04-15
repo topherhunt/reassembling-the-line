@@ -15,6 +15,7 @@ defmodule RTL.Factory do
     })
   end
 
+  # TODO: These should all be ! bang functions since they raise on errors
   def insert_video(params \\ %{}) do
     hex = Helpers.random_hex()
 
