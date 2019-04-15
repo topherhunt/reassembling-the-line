@@ -25,8 +25,8 @@ defmodule RTLWeb.Collect.WebcamRecordingController do
     Videos.insert_video!(populate_title(video_params))
 
     conn
-    |> put_flash(:info, "Thank you! We've received your interview and we're looking forward to learning from your experience.")
-    |> redirect(to: collect_webcam_recording_path(conn, :thank_you))
+    |> put_flash(:info, submission_confirmation_message())
+    |> redirect(to: Routes.collect_webcam_recording_path(conn, :thank_you))
   end
 
   def thank_you(conn, _params) do
@@ -40,19 +40,27 @@ defmodule RTLWeb.Collect.WebcamRecordingController do
   defp presigned_url(path) do
     # See https://stackoverflow.com/a/42211543/1729692
     bucket = System.get_env("S3_BUCKET")
-    {:ok, url} = ExAws.S3.presigned_url(ExAws.Config.new(:s3), :put, bucket, path,
-      query_params: [{"x-amz-acl", "public-read"}, {"contentType", "binary/octet-stream"}]
-    )
+
+    {:ok, url} =
+      ExAws.S3.presigned_url(ExAws.Config.new(:s3), :put, bucket, path,
+        query_params: [{"x-amz-acl", "public-read"}, {"contentType", "binary/octet-stream"}]
+      )
+
     url
   end
 
   defp populate_title(params) do
-    title = if is_present?(params["source_name"]) do
-      "Interview with #{params["source_name"]}"
-    else
-      "Anonymous interview"
-    end
+    title =
+      if is_present?(params["source_name"]) do
+        "Interview with #{params["source_name"]}"
+      else
+        "Anonymous interview"
+      end
 
     Map.merge(params, %{"title" => title})
+  end
+
+  defp submission_confirmation_message do
+    "Thank you! We've received your interview and we're looking forward to learning from your experience."
   end
 end

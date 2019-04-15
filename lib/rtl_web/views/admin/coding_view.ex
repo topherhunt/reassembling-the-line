@@ -8,9 +8,9 @@ defmodule RTLWeb.Admin.CodingView do
 
   def create_or_update_path(conn, changeset) do
     if changeset.data.id do
-      admin_coding_path(conn, :update, changeset.data.id)
+      Routes.admin_coding_path(conn, :update, changeset.data.id)
     else
-      admin_coding_path(conn, :create)
+      Routes.admin_coding_path(conn, :create)
     end
   end
 end

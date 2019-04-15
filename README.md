@@ -50,7 +50,7 @@ More documentation at: https://hexdocs.pm/phoenix/heroku.html
 
 ### How to deploy to a new Heroku app
 
-Assumes you're familiar with and set up with Git, Heroku CLI, Elixir, and Amazon S3.
+Assumes you're familiar with and set up with Git, Heroku CLI, Elixir, and Amazon S3. See also the official guide: https://hexdocs.pm/phoenix/heroku.html
 
 * Clone this repository to your local machine
 * `heroku create rtl-demo1 --buildpack "https://github.com/HashNuke/heroku-buildpack-elixir.git"`

@@ -9,6 +9,43 @@ defmodule RTL.Videos do
   alias RTL.Videos.{Video, Coding, Tag, Tagging, Attachment}
 
   #
+  # Pubsub notifications
+  #
+
+  def subscribe_to(:all) do
+    # RTL.Videos context will emit notifications whenever videos are changed.
+    # Each notification consumer's handle_info will be called with that payload.
+    Phoenix.PubSub.subscribe(RTL.PubSub, "RTL.Videos")
+  end
+
+  # notify_subscribers_if_succeeded/2 expects an Ecto repo result tuple.
+  # On :ok it will emit the notification; on :error it won't do anything.
+  def notify_subscribers_if_succeeded({:ok, _} = piped_result, event) do
+    notify_subscribers(event)
+    piped_result
+  end
+
+  def notify_subscribers_if_succeeded({:error, _} = piped_result, _event) do
+    piped_result
+  end
+
+  # notify_subscribers/2 always sends the notification and returns the piped param.
+  def notify_subscribers(piped_result, event) do
+    notify_subscribers(event)
+    piped_result
+  end
+
+  def notify_subscribers(event_string) do
+    # For now, I'll just use one channel global to the context.
+    # In the future I'll probably also want channels specific to each schema
+    # so consumers can e.g. subscribe to only tagging-related notifications.
+    # The notification payload should contain a) the originating module and
+    # b) the specific message.
+    # (The consumer's handle_info doesn't know which channel the message came from.
+    Phoenix.PubSub.broadcast(RTL.PubSub, "RTL.Videos", {RTL.Videos, event_string})
+  end
+
+  #
   # Global
   #
 
@@ -17,6 +54,8 @@ defmodule RTL.Videos do
     Repo.delete_all(Coding)
     Repo.delete_all(Tagging)
     Repo.delete_all(Tag)
+
+    notify_subscribers("videos.deleted_all")
   end
 
   #
@@ -32,6 +71,7 @@ defmodule RTL.Videos do
   # - find_video!(id: id)
   # - any_video(newest: true)
   # - any_video(coded: false, oldest: true)
+  #   ^ Or maybe find_ and first_
   # - all_videos(coded: false)
   # - all_videos(coded: true, has_all_tags: [tags])
   # - count_videos(filters)
@@ -39,20 +79,36 @@ defmodule RTL.Videos do
   # Ideas:
   # - Some standard way to process "any_" and "all_" function params (which are
   #   either filters or sorts)
-  # - Maybe find_ and any_ can be combined into `one_video` and `one_video!`
+  # - Maybe find_ and any_ can be combined into `one_video` and `one_video!`,
+  #  or settle on `get_video()` (only one) and `get_videos()` (multiple or all)
+  #  or maybe `get_video` (only by id), `get_any_video`, and `get_videos`?
   #
 
   def new_video_changeset(changes), do: Video.changeset(%Video{}, changes)
 
-  def insert_video(params), do: new_video_changeset(params) |> Repo.insert()
+  def insert_video(params) do
+    params
+    |> new_video_changeset()
+    |> Repo.insert()
+    |> notify_subscribers_if_succeeded("videos.inserted")
+  end
 
-  def insert_video!(params), do: new_video_changeset(params) |> Repo.insert!()
+  def insert_video!(params) do
+    params
+    |> new_video_changeset()
+    |> Repo.insert!()
+    |> notify_subscribers("videos.inserted")
+  end
 
   def get_video(id), do: Video |> Repo.get(id)
 
   def get_video!(id), do: Video |> Repo.get!(id)
 
-  def delete_video!(video), do: Repo.delete!(video)
+  def delete_video!(video) do
+    video
+    |> Repo.delete!()
+    |> notify_subscribers("videos.deleted.#{video.id}")
+  end
 
   def get_newest_video, do: from(v in Video, order_by: [desc: v.id]) |> Repo.first()
 
@@ -112,6 +168,7 @@ defmodule RTL.Videos do
       {:ok} ->
         coding = Repo.insert!(changeset)
         apply_tags_to_coding(coding, tags_params)
+        notify_subscribers("coding.inserted")
         {:ok, coding}
 
       {:error, invalid_tags} ->
@@ -128,6 +185,7 @@ defmodule RTL.Videos do
       {:ok} ->
         coding = Repo.update!(changeset)
         apply_tags_to_coding(coding, tags_params)
+        notify_subscribers("coding.updated.#{coding.id}")
         {:ok, coding}
 
       {:error, invalid_tags} ->

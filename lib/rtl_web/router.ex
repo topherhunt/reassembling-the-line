@@ -6,12 +6,13 @@ defmodule RTLWeb.Router do
   import RTLWeb.Auth, only: [load_current_user: 2, must_be_logged_in: 2]
 
   pipeline :browser do
-    plug(:accepts, ["html"])
-    plug(:fetch_session)
-    plug(:fetch_flash)
-    plug(:protect_from_forgery)
-    plug(:put_secure_browser_headers)
-    plug(:load_current_user)
+    plug :accepts, ["html"]
+    plug :fetch_session
+    plug :fetch_flash
+    plug Phoenix.LiveView.Flash
+    plug :protect_from_forgery
+    plug :put_secure_browser_headers
+    plug :load_current_user
   end
 
   pipeline :admin_area do
@@ -19,36 +20,35 @@ defmodule RTLWeb.Router do
   end
 
   scope "/", RTLWeb do
-    pipe_through(:browser)
+    pipe_through :browser
 
-    get("/", HomeController, :index)
-    get("/test_error", HomeController, :test_error)
+    get "/", HomeController, :index
+    get "/test_error", HomeController, :test_error
 
-    get("/sessions/logout", SessionController, :logout)
-    get("/sessions/login_from_uuid/:uuid", SessionController, :login_from_uuid)
+    get "/sessions/logout", SessionController, :logout
+    get "/sessions/login_from_uuid/:uuid", SessionController, :login_from_uuid
 
-    get("/explore", ExploreController, :index)
-    get("/explore/playlist", ExploreController, :playlist)
+    get "/explore", ExploreController, :index
+    get "/explore/playlist", ExploreController, :playlist
 
-    resources("/videos", VideoController, only: [:show])
+    resources "/videos", VideoController, only: [:show]
 
     scope "/collect", as: :collect do
-      get("/hub", Collect.HubController, :index)
+      get "/hub", Collect.HubController, :index
 
-      resources("/webcam_recordings", Collect.WebcamRecordingController,
-        only: [:new, :create])
-      get("/webcam_recordings/thank_you", Collect.WebcamRecordingController, :thank_you)
+      resources "/webcam_recordings", Collect.WebcamRecordingController, only: [:new, :create]
+      get "/webcam_recordings/thank_you", Collect.WebcamRecordingController, :thank_you
     end
 
-    # TODO: I shouldn't organize my controllers based on shared attributes / privilege level. Rather, group controllers based on functional area of the app, e.g. collect, code, explore, manage.
+    # TODO: I shouldn't organize my controllers based on shared attributes /
+    # privilege level. Rather, group controllers based on functional area of
+    # the app, e.g. collect, code, explore, manage.
     scope "/admin", as: :admin do
-      pipe_through(:admin_area)
+      pipe_through :admin_area
 
-      resources("/videos", Admin.VideoController, only: [:index])
-      get("/videos/:id/delete", Admin.VideoController, :delete)
+      resources "/videos", Admin.VideoController, only: [:index]
 
-      resources("/codings", Admin.CodingController,
-        only: [:new, :create, :edit, :update])
+      resources "/codings", Admin.CodingController, only: [:new, :create, :edit, :update]
     end
   end
 
@@ -74,7 +74,7 @@ defmodule RTLWeb.Router do
         "user_ip" => List.to_string(:inet.ntoa(conn.remote_ip)),
         "headers" => Enum.into(conn.req_headers, %{}),
         "method" => conn.method,
-        "params" => params,
+        "params" => params
       }
     }
 

@@ -3,7 +3,7 @@ defmodule RTLWeb.Collect.WebcamRecordingControllerTest do
   alias RTL.Videos
 
   test "#new renders correctly", %{conn: conn} do
-    conn = get(conn, collect_webcam_recording_path(conn, :new, %{}))
+    conn = get(conn, Routes.collect_webcam_recording_path(conn, :new, %{}))
 
     assert html_response(conn, 200) =~ "Read the questions and consider what you'd like to say."
   end
@@ -17,9 +17,10 @@ defmodule RTLWeb.Collect.WebcamRecordingControllerTest do
         "recording_filename" => "abc.webm"
       }
     }
-    conn = post(conn, collect_webcam_recording_path(conn, :create), params)
 
-    assert redirected_to(conn) == collect_webcam_recording_path(conn, :thank_you)
+    conn = post(conn, Routes.collect_webcam_recording_path(conn, :create), params)
+
+    assert redirected_to(conn) == Routes.collect_webcam_recording_path(conn, :thank_you)
     video = Videos.get_newest_video()
     assert video.source_name == "Elmer Fudd"
     assert video.title == "Interview with Elmer Fudd"
@@ -36,7 +37,8 @@ defmodule RTLWeb.Collect.WebcamRecordingControllerTest do
         "recording_filename" => "def.webm"
       }
     }
-    post(conn, collect_webcam_recording_path(conn, :create), params)
+
+    post(conn, Routes.collect_webcam_recording_path(conn, :create), params)
 
     video = Videos.get_newest_video()
     assert video.source_name == nil

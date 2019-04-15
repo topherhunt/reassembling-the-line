@@ -3,11 +3,12 @@
 #
 # This configuration file is loaded before any dependency and
 # is restricted to this project.
+
+use Mix.Config
+
 defmodule Helpers do
   def env(key), do: System.get_env(key) || raise("Env var '#{key}' is missing!")
 end
-
-use Mix.Config
 
 # Automatically load sensitive environment variables for dev and test
 if File.exists?("config/secrets.exs"), do: import_config("secrets.exs")
@@ -22,11 +23,14 @@ config :rtl, RTL.Repo,
 
 config :rtl, RTLWeb.Endpoint,
   url: [host: "localhost"],
-  secret_key_base: Helpers.env("SECRET_KEY_BASE"),
   render_errors: [view: RTLWeb.ErrorView, accepts: ~w(html json)],
-  pubsub: [name: RTL.PubSub, adapter: Phoenix.PubSub.PG2]
+  pubsub: [name: RTL.PubSub, adapter: Phoenix.PubSub.PG2],
+  secret_key_base: Helpers.env("SECRET_KEY_BASE"),
+  live_view: [signing_salt: Helpers.env("SIGNING_SALT")]
 
-config :phoenix, :template_engines, haml: PhoenixHaml.Engine
+config :phoenix, :template_engines,
+  haml: PhoenixHaml.Engine,
+  leex: Phoenix.LiveView.Engine
 
 config :phoenix, :json_library, Jason
 

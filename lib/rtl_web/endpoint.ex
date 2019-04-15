@@ -2,6 +2,7 @@ defmodule RTLWeb.Endpoint do
   use Phoenix.Endpoint, otp_app: :rtl
 
   socket("/socket", RTLWeb.UserSocket)
+  socket("/live", Phoenix.LiveView.Socket)
 
   # Serve at "/" the static files from "priv/static" directory.
   # You should set gzip to true if you are running phoenix.digest
