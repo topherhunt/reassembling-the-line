@@ -20,7 +20,8 @@ defmodule RTLWeb do
   def controller do
     quote do
       use Phoenix.Controller, namespace: RTLWeb
-      import Phoenix.LiveView, only: [live_render: 2, live_render: 3]
+      # Make sure we get live_render from P.LV.Controller, not Phoenix.LiveView
+      import Phoenix.LiveView.Controller, only: [live_render: 3]
       import Plug.Conn
       import RTLWeb.Gettext
       import RTLWeb.Auth, only: [must_be_logged_in: 2, must_not_be_logged_in: 2]

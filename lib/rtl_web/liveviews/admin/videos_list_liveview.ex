@@ -1,4 +1,4 @@
-defmodule RTLWeb.Live.Admin.VideosList do
+defmodule RTLWeb.Admin.VideosListLiveview do
   use Phoenix.LiveView
   use Phoenix.HTML
   alias RTL.Videos

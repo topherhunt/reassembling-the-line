@@ -3,14 +3,9 @@ defmodule RTLWeb.Admin.VideoController do
   alias RTL.Videos
 
   def index(conn, _params) do
-    render(conn, "index_wrapper.html")
-    # render(conn, "index.html",
-    #   videos: Videos.all_videos_with_preloads(),
-    #   next_uncoded_video: Videos.next_video_to_code()
-    # )
-    #
-    # Phoenix.LiveView.Controller.live_render(...)
-    # Phoenix.LiveView.Controller.live_render(conn, RTLWeb.Live.Admin.VideosList, session: %{})
+    # Instead of rendering a normal view template, we render a Liveview here.
+    # The Liveview process is responsible for fetching all needed data.
+    live_render(conn, RTLWeb.Admin.VideosListLiveview, session: %{})
   end
 
   def delete(conn, %{"id" => video_id}) do
