@@ -17,6 +17,7 @@ defmodule RTLWeb.Collect.WebcamRecordingControllerTest do
         "recording_filename" => "abc.webm"
       }
     }
+
     conn = post(conn, Routes.collect_webcam_recording_path(conn, :create), params)
 
     assert redirected_to(conn) == Routes.collect_webcam_recording_path(conn, :thank_you)
@@ -36,6 +37,7 @@ defmodule RTLWeb.Collect.WebcamRecordingControllerTest do
         "recording_filename" => "def.webm"
       }
     }
+
     post(conn, Routes.collect_webcam_recording_path(conn, :create), params)
 
     video = Videos.get_newest_video()

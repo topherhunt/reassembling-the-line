@@ -30,6 +30,7 @@ defmodule RTLWeb.Admin.VideosListLiveview do
 
   defp fetch_latest_data(socket) do
     log "fetch_latest_data called."
+
     assign(socket,
       videos: Videos.all_videos_with_preloads(),
       # next_uncoded_video is unnecessary. We could just have the button there

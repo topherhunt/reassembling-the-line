@@ -5,7 +5,7 @@ defmodule RTLWeb.Admin.VideoControllerTest do
   test "all actions require logged-in user", %{conn: conn} do
     [
       get(conn, Routes.admin_video_path(conn, :index)),
-      get(conn, Routes.admin_video_path(conn, :delete, "1")),
+      get(conn, Routes.admin_video_path(conn, :delete, "1"))
     ]
     |> Enum.each(fn conn ->
       assert redirected_to(conn) == Routes.home_path(conn, :index)
