@@ -1,0 +1,46 @@
+<h3>
+  <span style="font-weight: normal;">Coding video:</span>
+  <%= @video.title %>
+</h3>
+
+<div class="row">
+  <div class="col-sm-9">
+    <video class="js-coding-video-player" src="<%= Videos.recording_url(@video) %>" poster="<%= Videos.thumbnail_url(@video) %>" style="display: block; width: 100%; height: 480px; background-color: #222;" controls=""></video>
+  </div>
+  <div class="col-sm-3">
+    <p class="text-secondary">As you watch the video, add tags to mark interesting sections using the form below. Enter each tag's start time and end time in <code>mm:ss</code> format, such as <code>1:06</code> for 1 minute and 06 seconds.</p>
+    <p>Video: <strong><%= @video.title %></strong></p>
+    <p>Source: <%= RTLWeb.Admin.VideoView.link_to_source(@video) %></p>
+    <p>
+      Skip forward / backward:
+      <br>
+      <a class="js-time-skip btn btn-light" data-amount="-15"><%= icon("rewind") %></a>
+      <a class="js-time-skip btn btn-light" data-amount="-3" style="transform: rotate(180deg);"><%= icon("play") %></a>
+      <a class="js-time-skip btn btn-light" data-amount="3"><%= icon("play") %></a>
+      <a class="js-time-skip btn btn-light" data-amount="15"><%= icon("fastforward") %></a>
+    </p>
+  </div>
+</div>
+<hr>
+<div class="row">
+  <div class="col-sm-6">
+    <%= form_for @changeset, create_or_update_path(@conn, @changeset), fn(f) -> %>
+      <h3>Tags</h3>
+      <table class="table js-tags-table test-tags-table" data-autocompletes="<%= all_tags_json(@all_tags) %>" data-present-tags="<%= present_tags_json(@present_tags) %>">
+        <tr>
+          <td colspan='<%= 10 %>'>
+            <%= link raw("<i class=\"ion-md-add-circle-outline\"></i> Add"), to: "#", class: "js-add-tag test-add-tag btn btn-link btn-sm" %>
+          </td>
+        </tr>
+      </table>
+      <input type="hidden" name="coding[video_id]" value="<%= @video.id %>">
+      <%= submit "Submit", class: "test-create-coding btn btn-primary" %>
+    <% end %>
+  </div>
+  <div class="col-sm-6">
+    Recent tags:
+    <%= Enum.map @most_recent_tags, fn tag -> %>
+      <span class="badge badge-secondary"><%= tag.text %></span>
+    <% end %>
+  </div>
+</div>

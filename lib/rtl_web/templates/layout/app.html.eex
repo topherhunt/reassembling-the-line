@@ -1,0 +1,90 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>RTL</title>
+    <link rel="stylesheet" href="<%= Routes.static_path(@conn, "/css/app.css") %>">
+    <script src="<%= Routes.static_path(@conn, "/js/app.js") %>"></script>
+  </head>
+
+  <body>
+    <nav class="navbar navbar-expand-sm navbar-light bg-light">
+      <a class="navbar-brand text-info" href="/">
+        <%= icon("barcode") %>
+        RTL
+      </a>
+
+      <button class="navbar-toggler" data-toggle="collapse" data-target="#navbar-content">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div id="navbar-content" class="collapse navbar-collapse">
+        <ul class="navbar-nav mr-auto"></ul>
+        <ul class="navbar-nav">
+          <%= if @current_user do %>
+            <li class="nav-item">
+              <%= link raw("<i class=\"ion-md-eye\"></i>&nbsp; Explore <span class=\"text-danger\">(<i class=\"ion-md-lock\"></i>)</span>"), to: Routes.explore_path(@conn, :index), class: "nav-link" %>
+            </li>
+
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">
+                <%= icon("settings") %>
+                Admin
+                <span class="caret"></span>
+              </a>
+
+              <div class="dropdown-menu dropdown-menu-right">
+                <%= link icon_and_text("cloud-upload", "Import videos"), to: Routes.collect_hub_path(@conn, :index), class: "dropdown-item" %>
+                <%= link icon_and_text("pricetags", "Code videos"), to: Routes.admin_video_path(@conn, :index, []), class: "dropdown-item" %>
+              </div>
+            </li>
+
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">
+                <%= icon("person") %>
+                <span class="caret"></span>
+              </a>
+              <div class="dropdown-menu dropdown-menu-right">
+                <div class="dropdown-item em small">Logged in as <%= @current_user.full_name %></div>
+                <%= link icon_and_text("power", "Log out"), to: Routes.auth_path(@conn, :logout), class: "dropdown-item text-danger test-logout-link" %>
+              </div>
+            </li>
+          <% else %>
+            <li class="nav-item">
+              <%= link "Log in", to: Routes.auth_path(@conn, :login), class: "nav-link" %>
+            </li>
+          <% end %>
+        </ul>
+      </div>
+    </nav>
+    <main>
+      <div class="container-fluid">
+        <%= if get_flash(@conn, :info) do %>
+          <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
+        <% end %>
+
+        <%= if get_flash(@conn, :error) do %>
+          <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>
+        <% end %>
+
+        <%= render @view_module, @view_template, assigns %>
+      </div>
+    </main>
+
+    <div class="footer">
+      <div class="text-center small">
+        <span class="text-muted"></span>
+        Built by Whitney Hunter-Thomson and <%= link "Topher Hunt", to: "http://topherhunt.com", target: "_blank" %>
+        &nbsp; &nbsp;
+        <%= link "Open source on Github", to: "https://github.com/topherhunt/reassembling-the-line", target: "_blank" %>
+        &nbsp; &nbsp;
+        <%= link "Contact us", to: "https://docs.google.com/forms/d/e/1FAIpQLScFmkgOIWIN3QKIT1TI6e2A440ixtfMsAQ04kVoh85TLDmbXw/viewform?usp=sf_link", target: "_blank" %>
+      </div>
+    </div>
+  </body>
+</html>

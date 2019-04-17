@@ -1,7 +1,10 @@
-= content_tag(@container, id: @id)
+<%= content_tag(@container, id: @id) %>
 
-:javascript
+<script type="text/javascript">
   $(document).ready(function() {
+
     var inner_html = #{@component_name}.render(#{Jason.encode!(@props)});
     $('##{@id}').html(inner_html);
+
   });
+</script>

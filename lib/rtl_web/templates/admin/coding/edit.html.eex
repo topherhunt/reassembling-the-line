@@ -1,0 +1,7 @@
+<%= render "_form.html",
+  conn: @conn,
+  video: @video,
+  changeset: @changeset,
+  present_tags: @present_tags,
+  all_tags: @all_tags,
+  most_recent_tags: @most_recent_tags %>

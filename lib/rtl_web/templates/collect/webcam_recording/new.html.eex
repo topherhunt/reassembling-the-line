@@ -1,0 +1,130 @@
+<h1>Online interview: Life in northern Netherlands</h1>
+
+<div class="row">
+  <div class="col-sm-8">
+    <div>
+      Thank you for taking the time to share your experience! I hope you find it rewarding. And we'll do our best to enable your voice to inspire change on issues that matter to you.
+    </div>
+    <div class="pb-4"></div>
+  </div>
+  <div class="col-sm-4">
+    <div>
+      <p class="mb-1"><%= link raw("<i class=\"ion-logo-youtube\"></i>&nbsp; How to use this page"), to: "https://www.youtube.com/watch?v=qc8IFlTTtKc", target: "_blank", class: "text-primary" %></p>
+      <p class="mb-1"><%= link raw("<i class=\"ion-logo-youtube\"></i>&nbsp; Tips on making your video look good"), to: "https://www.youtube.com/watch?v=rQwanxQmFnc&feature=youtu.be", target: "_blank", class: "text-primary" %></p>
+      <p class="mb-0"><%= link icon_and_text("alert", "Report a technical problem"), to: "https://docs.google.com/forms/d/e/1FAIpQLSfssoCcvKgVx6Aj9RtdF16lfKVJiFHpy0G9zDXuZx1Wn5fUAw/viewform?usp=sf_link", target: "_blank", class: "text-danger" %></p>
+    </div>
+  </div>
+</div>
+
+<h4>Our questions for you:</h4>
+<div class="row">
+  <div class="col-sm-8">
+    <ul style="margin-bottom: 0; font-size: 1.25em; color: #1c7931;">
+      <li><strong>Who are you?</strong> What do you love to do?</li>
+      <li>What <strong>challenges</strong> do you experience in your life here?</li>
+      <li>What do you need in order to <strong>thrive</strong> here?</li>
+    </ul>
+  </div>
+  <div class="col-sm-4">
+    <div class="alert alert-info">
+      Read the questions and consider what you'd like to say.
+    </div>
+  </div>
+</div>
+
+<div class="pb-4"></div>
+
+<div class="row">
+  <div class="col-sm-8">
+    <div class="js-webcam-recording-container box-shadow" style="width: 640px; height: 480px; margin: 0 auto 0 auto; position: relative; border-radius: 10px;overflow: hidden;">
+      <video class="js-recording-preview-video" controls="" autoplay="" style="width: 100%; height: 100%;"></video>
+      <div class="js-recording-controls" style="position: absolute; top: 10px; left: 10px;">
+        <span class="js-setting-up-recording btn btn-warning disabled">
+          Setting up video. Please wait...
+        </span>
+        <%= link icon_and_text("play", "Start recording"), to: "#", class: "js-start-recording btn btn-success js-hidden" %>
+        <%= link icon_and_text("square", "Stop recording"), to: "#", class: "js-stop-recording btn btn-danger js-hidden" %>
+        <%= link icon_and_text("refresh", "Start over"), to: "#", class: "js-restart-recording btn btn-warning js-hidden" %>
+        <span class="js-time-remaining js-hidden" style="padding: 5px; color: #fff; background-color: #000; opacity: 0.5; border-radius: 5px;"></span>
+      </div>
+    </div>
+    <canvas class="js-thumbnail-canvas js-hidden"></canvas>
+    <div class="js-incompatible-browser-alert alert alert-danger js-hidden">
+      Sorry, online recording requires Chrome or Firefox web browser. Please load this page in Chrome or Firefox and try again.
+    </div>
+    <div class="js-init-failed-alert alert alert-danger js-hidden">
+      We were unable to access your webcam for recording. Please check your browser's settings to allow this page to use your webcam and microphone.
+    </div>
+  </div>
+
+  <div class="col-sm-4">
+    <div class="js-recording-instructions-part-1 alert alert-info">
+      <p class="mb-2">Make sure you can see your face in the preview window. When you're ready, click <strong>Start recording</strong>.</p>
+      <ul class="m-0" style="padding-left: 20px;">
+        <li>If you're not confident speaking in English, feel free to speak in Dutch.</li>
+        <li>You'll have <span class="text-warning">up to 5 minutes</span> to speak.</li>
+        <li>Click <strong>Stop recording</strong> when you're done.</li>
+      </ul>
+    </div>
+    <div class="js-recording-instructions-part-2 alert alert-info js-hidden">
+      <p>Your recording is done! Now you can watch it, or start over if you'd like to try again.</p>
+      <p class="mb-0">When you're happy, <strong>scroll down</strong> to answer a couple more questions and then submit your interview.</p>
+    </div>
+  </div>
+</div>
+
+<div class="pb-4"></div>
+
+<div class="js-interview-form-container js-hidden">
+  <h4>Submit your interview</h4>
+  <div class="row">
+    <div class="col-sm-8">
+      <%= form_for @changeset, Routes.collect_webcam_recording_path(@conn, :create), fn(f) -> %>
+
+        <div class="form-group">
+          <div>
+            <strong>Name</strong>
+            <span class="em text-muted">(optional)</span>
+          </div>
+          <%= label f, :source_name, raw("If you'd like your name to be shown next to your video, please write it here.") %>
+          <%= text_input f, :source_name, class: "form-control", placeholder: "Your name" %>
+        </div>
+
+        <div class="form-group">
+          <div>
+            <strong>Permission</strong>
+            <span class="text-danger">(required)</span>
+          </div>
+          <label>
+            <%= radio_button f, :permission, "public" %>
+            <span class="pl-2">I give permission to share this interview with <strong>everyone</strong>.</span>
+          </label>
+          <label>
+            <%= radio_button f, :permission, "researchers" %>
+            <span class="pl-2">I give permission to share this interview with <strong>researchers on this project, but no one else</strong>.</span>
+          </label>
+        </div>
+
+        <%= hidden_input f, :thumbnail_filename, value: @thumbnail_filename %>
+        <%= hidden_input f, :recording_filename, value: @recording_filename %>
+        <%= link "Submit your interview", to: "#", class: "js-upload-and-submit-btn btn btn-primary" %>
+        <%= submit "SUBMIT_INTERVIEW_BUTTON", class: "js-submit-form-btn js-hidden", style: "display: none;" %>
+
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-sm-8">
+    <div class="js-upload-data-container" data-thumbnail-presigned-s3-url='<%= @thumbnail_presigned_s3_url %>' data-recording-presigned-s3-url='<%= @recording_presigned_s3_url %>'></div>
+    <div class="js-upload-progress-container js-hidden">
+      <p><strong>We're saving your recording.</strong> Do not close or refresh the page until the upload is complete.</p>
+      <div class="progress">
+        <div class="progress-bar progress-bar-striped active" role="progressbar" style="width: 0%;"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div style="height: 100px;"></div>

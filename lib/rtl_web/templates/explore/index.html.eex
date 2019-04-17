@@ -1,0 +1,42 @@
+<div class="alert alert-danger">
+  <%= icon("lock") %>
+  <strong>This page is currently hidden.</strong>
+  Only admins can see the link, so people don't stumble on a partial list of results before we've coded all of them.
+</div>
+
+<h1>Explore all clips</h1>
+
+<p>This page shows a playlist of all coded video clips, shuffled randomly to make each visit unique. Use the filter to limit the playlist to certain tags or topics.</p>
+
+<div class="row">
+  <div class="col-sm-8">
+    <video
+      class="js-explore-video-player"
+      style="display: block; width: 100%; height: 480px; background-color: #222;"
+      controls="" />
+    <a class="js-hear-more-link" href="#" style="display: none;">Hear more from this person</a>
+  </div>
+
+  <div class="col-sm-4">
+    <h4>Filter by tag</h4>
+
+    <select
+      class="js-chosen-select js-filter-tag"
+      multiple=""
+      data-placeholder="Click to add a filter">
+      <%= Enum.map(@tag_options, fn(tag) -> %>
+        <option value="<%= tag.value %>"><%= tag.label %></option>
+      <% end) %>
+    </select>
+
+    <div class="gap-10"></div>
+
+    <h4>Playlist</h4>
+
+    <div class="js-playlist-container-outer">
+      <div class="js-playlist-container"></div>
+      <div class="top-shadow"></div>
+      <div class="bottom-shadow"></div>
+    </div>
+  </div>
+</div>
