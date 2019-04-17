@@ -33,15 +33,10 @@ defmodule RTL.Mixfile do
   defp deps do
     [
       # Core
-      # LiveView appears to require Phoenix to source from GH for now
-      # Override phoenix_haml's preference for the Hex package
-      # I get "undefined function Phoenix.Template.hash" errors when I use the
-      # v1.4 branch, so I'm using GH master for now (unsafe)
-      {:phoenix, github: "phoenixframework/phoenix", override: true},
+      {:phoenix, "~> 1.4.3"},
       {:phoenix_pubsub, "~> 1.1"},
       {:phoenix_ecto, "~> 3.6"},
       {:phoenix_html, "~> 2.13"},
-      {:phoenix_haml, "~> 0.2"},
       {:phoenix_live_reload, "~> 1.2", only: :dev},
       {:plug_cowboy, "~> 2.0"},
       {:postgrex, "~> 0.13"},

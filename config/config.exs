@@ -29,7 +29,6 @@ config :rtl, RTLWeb.Endpoint,
   live_view: [signing_salt: H.env!("SIGNING_SALT")]
 
 config :phoenix, :template_engines,
-  haml: PhoenixHaml.Engine,
   leex: Phoenix.LiveView.Engine
 
 config :phoenix, :json_library, Jason

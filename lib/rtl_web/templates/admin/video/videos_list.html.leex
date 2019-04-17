@@ -56,10 +56,12 @@
           <%= link "code", to: Routes.admin_coding_path(RTLWeb.Endpoint, :new, video_id: video.id), class: "btn btn-sm btn-outline-primary" %>
         <% end %>
         &nbsp;
-        <span>
-          <%= link icon("trash"), to: "#", class: "text-danger", "phx-click-after-confirmation": "Are you sure you want to delete \"#{video.title}\" and its coding data?" %>
-          <a href="#" class="js-hidden" phx-click="delete_video" phx-value="<%= video.id %>">the hidden phx-click link</a>
-        </span>
+        <a href="#" class="btn btn-link text-danger"
+          phx-click="delete_video"
+          phx-value="<%= video.id %>"
+          data-confirm="Are you sure you want to delete &quot;<%= video.title %>&quot; and its coding data?">
+          <%= icon("trash") %>
+        </a>
       </td>
     </tr>
   <% end %>
