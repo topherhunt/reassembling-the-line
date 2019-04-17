@@ -24,7 +24,7 @@
           %p This is a demo instance of Reassembling the Line. Click the button below to log in as a coder so you can get a feel for how coding works.
 
           %p.text-center
-            = link "Log in as a coder", to: Routes.session_path(@conn, :login_from_uuid, @demo_coder.uuid), class: "btn btn-primary"
+            = link "Log in as a coder", to: Routes.auth_path(@conn, :login_from_uuid, @demo_coder.uuid), class: "btn btn-primary"
 
           %p Or click this button to record your own interview video, which will be added to the queue for coding:
 

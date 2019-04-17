@@ -1,8 +1,9 @@
 defmodule RTL.Videos.AttachmentTest do
   use RTL.DataCase, async: true
   alias RTL.Videos.Attachment
+  alias RTL.Helpers, as: H
 
-  def bucket, do: RTL.Helpers.env("S3_BUCKET")
+  def bucket, do: H.env!("S3_BUCKET")
 
   # TODO: Ideally create a new file each time with a random name, so writing to
   # S3 is truly exercised

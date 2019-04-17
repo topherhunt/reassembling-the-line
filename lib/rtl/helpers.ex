@@ -3,7 +3,7 @@ defmodule RTL.Helpers do
   # Env vars
   #
 
-  def env(key), do: System.get_env(key) || raise("Env var '#{key}' is missing!")
+  def env!(key), do: System.get_env(key) || raise("Env var '#{key}' is missing!")
 
   #
   # Pipes
@@ -45,20 +45,4 @@ defmodule RTL.Helpers do
               "The list: #{stringify(list)}"
     end
   end
-
-  # TODO: It would be nice to have some helpers to assert that each item in a list
-  # pattern-matches the expected format. After some brief testing, this didn't seem
-  # to be easy.
-  #
-  # def each_matches?(list, pattern) do
-  #   Enum.all?(list, fn(item) -> match?(pattern, item) end)
-  # end
-  #
-  # def assert_each_matches(list, pattern) do
-  #   Enum.each(list, fn(item) ->
-  #     unless match?(pattern, item) do
-  #       raise "Found an item in the list that doesn't match the pattern! The pattern: #{pattern}, the item: #{item}"
-  #     end
-  #   end)
-  # end
 end

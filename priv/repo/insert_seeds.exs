@@ -40,6 +40,6 @@ IO.puts "- #{Repo.count(Tagging)} Taggings"
 IO.puts "- #{Repo.count(Tag)} tags"
 IO.puts "Login paths:"
 Enum.each(Accounts.get_all_users, fn(user) ->
-  path = Router.Helpers.session_path(Endpoint, :login_from_uuid, user.uuid)
+  path = Router.Helpers.auth_path(Endpoint, :login_from_uuid, user.uuid)
   IO.puts "* #{user.full_name} logs in with: #{path}"
 end)

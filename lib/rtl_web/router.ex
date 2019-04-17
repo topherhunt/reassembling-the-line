@@ -3,7 +3,7 @@ defmodule RTLWeb.Router do
   use RTLWeb, :router
   # See https://hexdocs.pm/rollbax/using-rollbax-in-plug-based-applications.html
   use Plug.ErrorHandler
-  import RTLWeb.Auth, only: [load_current_user: 2, must_be_logged_in: 2]
+  import RTLWeb.SessionPlugs, only: [load_current_user: 2, must_be_logged_in: 2]
 
   pipeline :browser do
     plug :accepts, ["html"]
@@ -16,7 +16,7 @@ defmodule RTLWeb.Router do
   end
 
   pipeline :admin_area do
-    plug(:must_be_logged_in)
+    plug :must_be_logged_in
   end
 
   scope "/", RTLWeb do
@@ -25,8 +25,12 @@ defmodule RTLWeb.Router do
     get "/", HomeController, :index
     get "/test_error", HomeController, :test_error
 
-    get "/sessions/logout", SessionController, :logout
-    get "/sessions/login_from_uuid/:uuid", SessionController, :login_from_uuid
+    # The Ueberauth login route redirects to Auth0's login page
+    get "/auth/login", AuthController, :login
+    # Auth0 redirects back here after successful auth
+    get "/auth/auth0_callback", AuthController, :auth0_callback
+    get "/auth/logout", AuthController, :logout
+    get "/auth/login_from_uuid/:uuid", AuthController, :login_from_uuid
 
     get "/explore", ExploreController, :index
     get "/explore/playlist", ExploreController, :playlist

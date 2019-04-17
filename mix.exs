@@ -50,9 +50,8 @@ defmodule RTL.Mixfile do
       {:phoenix_live_view, github: "phoenixframework/phoenix_live_view"},
 
       # Auth
-      {:comeonin, "~> 5.1"},
-      # :comeonin hashing algorithm
-      {:argon2_elixir, "~> 2.0"},
+      {:ueberauth, "~> 0.6"},
+      {:ueberauth_auth0, "~> 0.3"},
 
       # Logic
       {:csv, "~> 2.2"},

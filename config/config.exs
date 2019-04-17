@@ -6,8 +6,8 @@
 
 use Mix.Config
 
-defmodule Helpers do
-  def env(key), do: System.get_env(key) || raise("Env var '#{key}' is missing!")
+defmodule H do
+  def env!(key), do: System.get_env(key) || raise("Env var '#{key}' is missing!")
 end
 
 # Automatically load sensitive environment variables for dev and test
@@ -18,15 +18,15 @@ config :rtl,
 
 config :rtl, RTL.Repo,
   adapter: Ecto.Adapters.Postgres,
-  url: Helpers.env("DATABASE_URL"),
-  pool_size: Helpers.env("POOL_SIZE")
+  url: H.env!("DATABASE_URL"),
+  pool_size: H.env!("POOL_SIZE")
 
 config :rtl, RTLWeb.Endpoint,
   url: [host: "localhost"],
   render_errors: [view: RTLWeb.ErrorView, accepts: ~w(html json)],
   pubsub: [name: RTL.PubSub, adapter: Phoenix.PubSub.PG2],
-  secret_key_base: Helpers.env("SECRET_KEY_BASE"),
-  live_view: [signing_salt: Helpers.env("SIGNING_SALT")]
+  secret_key_base: H.env!("SECRET_KEY_BASE"),
+  live_view: [signing_salt: H.env!("SIGNING_SALT")]
 
 config :phoenix, :template_engines,
   haml: PhoenixHaml.Engine,
@@ -38,19 +38,37 @@ config :logger, :console,
   format: "$date $time $metadata[$level] $message\n",
   metadata: [:request_id]
 
+# Avoid Poison dependency
+config :oauth2, serializers: %{"application/json" => Jason}
+
+config :ueberauth, Ueberauth, providers: [
+  auth0: {
+    Ueberauth.Strategy.Auth0,
+    [
+      request_path: "/auth/login",
+      callback_path: "/auth/auth0_callback"
+    ]
+  }
+]
+
+config :ueberauth, Ueberauth.Strategy.Auth0.OAuth,
+  domain: H.env!("AUTH0_DOMAIN"),
+  client_id: H.env!("AUTH0_CLIENT_ID"),
+  client_secret: H.env!("AUTH0_CLIENT_SECRET")
+
 config :ex_aws,
-  access_key_id: Helpers.env("AWS_ACCESS_KEY_ID"),
-  secret_access_key: Helpers.env("AWS_SECRET_ACCESS_KEY"),
-  region: Helpers.env("S3_REGION"),
+  access_key_id: H.env!("AWS_ACCESS_KEY_ID"),
+  secret_access_key: H.env!("AWS_SECRET_ACCESS_KEY"),
+  region: H.env!("S3_REGION"),
   s3: [
     scheme: "https://",
     host: "s3.amazonaws.com",
-    region: Helpers.env("S3_REGION")
+    region: H.env!("S3_REGION")
   ]
 
 config :arc,
   storage: Arc.Storage.S3,
-  bucket: Helpers.env("S3_BUCKET"),
+  bucket: H.env!("S3_BUCKET"),
   version_timeout: 600_000
 
 # Import environment specific config. This must remain at the bottom

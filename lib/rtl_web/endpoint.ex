@@ -1,5 +1,6 @@
 defmodule RTLWeb.Endpoint do
   use Phoenix.Endpoint, otp_app: :rtl
+  alias RTL.Helpers, as: H
 
   socket("/socket", RTLWeb.UserSocket)
   socket("/live", Phoenix.LiveView.Socket)
@@ -39,7 +40,7 @@ defmodule RTLWeb.Endpoint do
   plug(Plug.Session,
     store: :cookie,
     key: "_rtl_key",
-    signing_salt: RTL.Helpers.env("SESSION_SALT")
+    signing_salt: H.env!("SESSION_SALT")
   )
 
   plug(RTLWeb.Router)

@@ -1,9 +1,9 @@
-defmodule RTLWeb.SessionControllerTest do
+defmodule RTLWeb.AuthControllerTest do
   use RTLWeb.ConnCase, async: true
 
   test "#login_from_uuid logs me in if uuid matches", %{conn: conn} do
     user = Factory.insert_user()
-    conn = get(conn, Routes.session_path(conn, :login_from_uuid, user.uuid))
+    conn = get(conn, Routes.auth_path(conn, :login_from_uuid, user.uuid))
     assert redirected_to(conn) == Routes.home_path(conn, :index)
     assert_logged_in(conn, user)
   end
@@ -12,7 +12,7 @@ defmodule RTLWeb.SessionControllerTest do
     user = Factory.insert_user()
 
     assert_error_sent(404, fn ->
-      get(conn, Routes.session_path(conn, :login_from_uuid, user.uuid <> "9"))
+      get(conn, Routes.auth_path(conn, :login_from_uuid, user.uuid <> "9"))
     end)
 
     assert_not_logged_in(conn)
@@ -20,9 +20,9 @@ defmodule RTLWeb.SessionControllerTest do
 
   test "#delete logs me out", %{conn: conn} do
     user = Factory.insert_user(email: "a@b.c")
-    conn = get(conn, Routes.session_path(conn, :login_from_uuid, user.uuid))
+    conn = get(conn, Routes.auth_path(conn, :login_from_uuid, user.uuid))
     assert_logged_in(conn, user)
-    conn = get(conn, Routes.session_path(conn, :logout))
+    conn = get(conn, Routes.auth_path(conn, :logout))
     assert_not_logged_in(conn)
   end
 

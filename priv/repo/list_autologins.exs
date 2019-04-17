@@ -5,6 +5,6 @@ alias RTL.Accounts
 
 IO.puts "Autologin paths:"
 Accounts.get_all_users |> Enum.each(fn(user) ->
-  path = Router.Helpers.session_path(Endpoint, :login_from_uuid, user.uuid)
+  path = Router.Helpers.auth_path(Endpoint, :login_from_uuid, user.uuid)
   IO.puts "* #{user.full_name}: http://#{System.get_env("HOST_NAME")}#{path}"
 end)

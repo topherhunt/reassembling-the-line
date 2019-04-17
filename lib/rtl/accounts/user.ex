@@ -3,22 +3,22 @@ defmodule RTL.Accounts.User do
   import Ecto.Changeset
 
   schema "users" do
-    field(:full_name, :string)
-    field(:email, :string)
-    field(:uuid, :string)
-    field(:last_signed_in_at, Timex.Ecto.DateTime)
+    field :full_name, :string
+    field :email, :string
+    field :uuid, :string
+    field :auth0_uid, :string
+    field :last_signed_in_at, Timex.Ecto.DateTime
     timestamps()
   end
 
-  # === Changesets ===
-
   def changeset(struct, params \\ %{}) do
     struct
-    |> cast(params, [:full_name, :email, :last_signed_in_at])
+    |> cast(params, [:full_name, :email, :auth0_uid, :last_signed_in_at])
     |> validate_required([:full_name, :email])
-    |> unique_constraint(:email)
     |> populate_uuid(struct)
     |> unique_constraint(:uuid)
+    |> unique_constraint(:email)
+    |> unique_constraint(:auth0_uid)
   end
 
   defp populate_uuid(changeset, struct) do

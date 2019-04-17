@@ -44,7 +44,12 @@
                 %span.caret
               .dropdown-menu.dropdown-menu-right
                 .dropdown-item.em.small Logged in as #{@current_user.full_name}
-                = link icon_and_text("power", "Log out"), to: Routes.session_path(@conn, :logout), class: "dropdown-item text-danger test-logout-link"
+                = link icon_and_text("power", "Log out"), to: Routes.auth_path(@conn, :logout), class: "dropdown-item text-danger test-logout-link"
+
+          - else
+
+            %li.nav-item
+              = link "Log in", to: Routes.auth_path(@conn, :login), class: "nav-link"
 
     %main
       .container-fluid
