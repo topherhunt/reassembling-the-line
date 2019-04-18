@@ -5,16 +5,16 @@ defmodule RTL.Videos.Video do
   alias RTL.Videos.{Video, Coding}
 
   schema "videos" do
-    field(:title, :string)
-    field(:source_name, :string)
-    field(:source_url, :string)
+    field :title, :string
+    field :source_name, :string
+    field :source_url, :string
     # Permission values: "researchers", "public". May be null.
-    field(:permission, :string)
-    field(:recording_filename, :string)
-    field(:thumbnail_filename, :string)
+    field :permission, :string
+    field :recording_filename, :string
+    field :thumbnail_filename, :string
     timestamps()
 
-    has_one(:coding, Coding)
+    has_one :coding, Coding
   end
 
   def changeset(struct, params \\ %{}) do

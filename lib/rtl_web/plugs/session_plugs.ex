@@ -9,6 +9,7 @@ defmodule RTLWeb.SessionPlugs do
     ]
 
   import Phoenix.Controller, only: [put_flash: 3, redirect: 2]
+  alias RTLWeb.Router.Helpers, as: Routes
   alias RTL.Accounts
 
   #
@@ -38,7 +39,7 @@ defmodule RTLWeb.SessionPlugs do
     else
       conn
       |> put_flash(:error, "You must be logged in to access that page.")
-      |> redirect(to: RTLWeb.Router.Helpers.home_path(conn, :index))
+      |> redirect(to: Routes.home_path(conn, :index))
       |> halt()
     end
   end
@@ -47,10 +48,21 @@ defmodule RTLWeb.SessionPlugs do
     if current_user_assigned?(conn) do
       conn
       |> put_flash(:error, "You are already logged in.")
-      |> redirect(to: RTLWeb.Router.Helpers.home_path(conn, :index))
+      |> redirect(to: Routes.home_path(conn, :index))
       |> halt()
     else
       conn
+    end
+  end
+
+  def must_be_superadmin(conn, _opts) do
+    if Accounts.is_superadmin?(conn.assigns.current_user) do
+      conn
+    else
+      conn
+      |> put_flash(:error, "You don't have permission to access that page.")
+      |> redirect(to: Routes.home_path(conn, :index))
+      |> halt()
     end
   end
 

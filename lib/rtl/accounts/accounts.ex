@@ -5,6 +5,7 @@ defmodule RTL.Accounts do
   import Ecto.Query, warn: false
   alias RTL.Repo
   alias RTL.Accounts.User
+  alias RTL.Helpers, as: H
 
   def get_user!(id), do: Repo.get!(User, id)
 
@@ -25,4 +26,9 @@ defmodule RTL.Accounts do
   def delete_all_users, do: Repo.delete_all(User)
 
   def user_changeset(user, changes), do: User.changeset(user, changes)
+
+  def is_superadmin?(user) do
+    superadmin_emails = H.env!("SUPERADMIN_EMAILS") |> String.split(" ")
+    user.email in superadmin_emails
+  end
 end
