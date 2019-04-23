@@ -1,23 +1,35 @@
 # I was using ExMachina but found these hand-rolled factories simple to set up
 # and more transparent vis-a-vis Ecto association handling.
 defmodule RTL.Factory do
-  alias RTL.Helpers
-  alias RTL.Accounts
-  alias RTL.Videos
+  alias RTL.Helpers, as: H
+  alias RTL.{Accounts, Projects, Videos}
 
   def insert_user(params \\ %{}) do
-    hex = Helpers.random_hex()
+    hex = H.random_hex()
 
     Accounts.insert_user!(%{
       full_name: params[:full_name] || "User #{hex}",
       email: params[:email] || "user_#{hex}@example.com",
-      uuid: params[:uuid] || Helpers.random_hex() <> Helpers.random_hex()
+      uuid: params[:uuid] || random_uuid()
     })
+  end
+
+  def insert_project(params \\ %{}) do
+    hex = H.random_hex()
+
+    Projects.insert_project!(%{
+      name: params[:name] || "Project #{hex}",
+      uuid: params[:uuid] || random_uuid()
+    })
+  end
+
+  def insert_project_admin_join(project, admin) do
+    Projects.insert_project_admin_join!(project, admin)
   end
 
   # TODO: These should all be ! bang functions since they raise on errors
   def insert_video(params \\ %{}) do
-    hex = Helpers.random_hex()
+    hex = H.random_hex()
 
     Videos.insert_video!(%{
       title: params[:title] || "Video #{hex}",
@@ -51,6 +63,8 @@ defmodule RTL.Factory do
   end
 
   def insert_tag(params \\ %{}) do
-    Videos.find_or_create_tag(%{text: params[:text] || "tag_#{Helpers.random_hex()}"})
+    Videos.find_or_create_tag(%{text: params[:text] || "tag_#{H.random_hex()}"})
   end
+
+  defp random_uuid(), do: H.random_hex() <> H.random_hex()
 end

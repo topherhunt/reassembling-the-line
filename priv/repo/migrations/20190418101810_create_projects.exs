@@ -5,7 +5,6 @@ defmodule RTL.Repo.Migrations.CreateProjects do
     create table(:projects) do
       add :uuid, :string, null: false
       add :name, :string, null: false
-      add :deactivated, :boolean, default: false
       timestamps()
     end
 

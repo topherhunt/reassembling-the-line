@@ -2,8 +2,14 @@ defmodule RTLWeb.ErrorHelpers do
   use Phoenix.HTML
 
   def error_tag(form, field) do
-    if error = form.errors[field] do
-      content_tag(:span, translate_error(error), class: "help-block")
+    case form.errors[field] do
+      {message, _metadata} ->
+        content_tag(:span, raw("#{field} #{message}"), class: "formField__error")
+        # Can also use translate_error(error) for i18n
+
+      _ ->
+        nil
+
     end
   end
 

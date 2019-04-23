@@ -10,7 +10,7 @@ defmodule RTL.Accounts.User do
     field :last_signed_in_at, Timex.Ecto.DateTime
     timestamps()
 
-    has_many :project_admin_joins, RTL.Projects.ProjectAdminJoin
+    has_many :project_admin_joins, RTL.Projects.ProjectAdminJoin, foreign_key: :admin_id
     has_many :projects, through: [:project_admin_joins, :project]
   end
 

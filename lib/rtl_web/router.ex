@@ -3,7 +3,11 @@ defmodule RTLWeb.Router do
   use RTLWeb, :router
   # See https://hexdocs.pm/rollbax/using-rollbax-in-plug-based-applications.html
   use Plug.ErrorHandler
-  import RTLWeb.SessionPlugs, only: [load_current_user: 2, must_be_logged_in: 2]
+  import RTLWeb.SessionPlugs, only: [
+    load_current_user: 2,
+    must_be_logged_in: 2,
+    must_be_superadmin: 2
+  ]
 
   pipeline :browser do
     plug :accepts, ["html"]
@@ -15,8 +19,12 @@ defmodule RTLWeb.Router do
     plug :load_current_user
   end
 
-  pipeline :admin_area do
+  pipeline :require_user do
     plug :must_be_logged_in
+  end
+
+  pipeline :require_superadmin do
+    plug :must_be_superadmin
   end
 
   scope "/", RTLWeb do
@@ -25,12 +33,14 @@ defmodule RTLWeb.Router do
     get "/", HomeController, :index
     get "/test_error", HomeController, :test_error
 
-    # The Ueberauth login route redirects to Auth0's login page
-    get "/auth/login", AuthController, :login
-    # Auth0 redirects back here after successful auth
-    get "/auth/auth0_callback", AuthController, :auth0_callback
-    get "/auth/logout", AuthController, :logout
-    get "/auth/login_from_uuid/:uuid", AuthController, :login_from_uuid
+    scope "/auth" do
+      # The Ueberauth login route redirects to Auth0's login page
+      get "/login", AuthController, :login
+      # Auth0 redirects back here after successful auth
+      get "/auth0_callback", AuthController, :auth0_callback
+      get "/logout", AuthController, :logout
+      get "/login_from_uuid/:uuid", AuthController, :login_from_uuid
+    end
 
     get "/explore", ExploreController, :index
     get "/explore/playlist", ExploreController, :playlist
@@ -48,40 +58,21 @@ defmodule RTLWeb.Router do
     # privilege level. Rather, group controllers based on functional area of
     # the app, e.g. collect, code, explore, manage.
     scope "/admin", as: :admin do
-      pipe_through :admin_area
+      pipe_through :require_user
 
       resources "/videos", Admin.VideoController, only: [:index]
 
       resources "/codings", Admin.CodingController, only: [:new, :create, :edit, :update]
     end
+
+    scope "/manage", as: :manage do
+      pipe_through :require_user
+
+      resources "/projects", Manage.ProjectController
+    end
   end
 
-  # Rollbax request error reporter
-  # See https://hexdocs.pm/rollbax/using-rollbax-in-plug-based-applications.html
-  # and file:///Users/topher/.hex/docs/hexpm/rollbax/0.10.0/Rollbax.html#report/5
-  defp handle_errors(conn, %{kind: kind, reason: reason, stack: stacktrace}) do
-    conn =
-      conn
-      |> Plug.Conn.fetch_cookies()
-      |> Plug.Conn.fetch_query_params()
-
-    params =
-      case conn.params do
-        %Plug.Conn.Unfetched{aspect: :params} -> "unfetched"
-        other -> other
-      end
-
-    request_data = %{
-      "request" => %{
-        "cookies" => conn.req_cookies,
-        "url" => "#{conn.scheme}://#{conn.host}:#{conn.port}#{conn.request_path}",
-        "user_ip" => List.to_string(:inet.ntoa(conn.remote_ip)),
-        "headers" => Enum.into(conn.req_headers, %{}),
-        "method" => conn.method,
-        "params" => params
-      }
-    }
-
-    Rollbax.report(kind, reason, stacktrace, _custom_data = %{}, request_data)
+  defp handle_errors(conn, data) do
+    RTLWeb.RollbarPlugs.handle_errors(conn, data)
   end
 end

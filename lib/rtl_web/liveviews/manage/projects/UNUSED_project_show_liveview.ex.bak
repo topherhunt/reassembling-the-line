@@ -1,0 +1,53 @@
+defmodule RTLWeb.Manage.ProjectShowLiveview do
+  use Phoenix.LiveView
+  use Phoenix.HTML
+  require Logger
+  alias RTLWeb.Router.Helpers, as: Routes
+
+  def mount(%{current_user: current_user, id: id}, socket) do
+    if connected?(socket), do: RTL.Projects.subscribe_to_project(id)
+    socket = assign(socket, %{current_user: current_user, id: id})
+
+    # TODO: Why am I putting so much effort into handling the possibility that
+    # the resource no longer exists, when that's a very rare edge case?
+    if project = get_project(socket) do
+      {:ok, assign(socket, :project, project)}
+    else
+      {:stop, show_error_and_redirect(socket)}
+    end
+  end
+
+  def render(assigns) do
+    RTLWeb.Manage.ProjectView.render("show.html", assigns)
+  end
+
+  # def handle_event("delete_video" = type, id, socket) do
+  #   log "handle_event called with #{type}, #{id}."
+  #   Videos.get_video!(id) |> Videos.delete_video!()
+  #   {:noreply, socket}
+  # end
+
+  # Listen for any relevant pubsub notifications
+  def handle_info({RTL.Projects, _event} = payload, socket) do
+    log "handle_info called with #{inspect(payload)}."
+
+    if project = get_project(socket) do
+      {:noreply, assign(socket, :project, project)}
+    else
+      {:stop, show_error_and_redirect(socket)}
+    end
+  end
+
+  defp get_project(socket) do
+    user = socket.assigns.current_user
+    RTL.Projects.get_project(socket.assigns.id, visible_to: user)
+  end
+
+  defp show_error_and_redirect(socket) do
+    socket
+    |> put_flash(:error, "This project is no longer available.")
+    |> redirect(to: Routes.manage_project_path(socket, :index))
+  end
+
+  defp log(message), do: Logger.info("Manage.ProjectShowLiveview: #{message}")
+end

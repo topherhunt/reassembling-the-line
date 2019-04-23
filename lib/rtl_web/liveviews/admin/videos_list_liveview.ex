@@ -12,7 +12,7 @@ defmodule RTLWeb.Admin.VideosListLiveview do
   end
 
   def render(assigns) do
-    RTLWeb.Admin.VideoView.render("videos_list.html", assigns)
+    RTLWeb.Admin.VideoView.render("list.html", assigns)
   end
 
   def handle_event("delete_video" = type, id, socket) do
@@ -24,7 +24,6 @@ defmodule RTLWeb.Admin.VideosListLiveview do
   # Listen for any notifications from the Videos context
   def handle_info({RTL.Videos = source, event_string}, socket) do
     log "handle_info called with #{source}, #{event_string}."
-    # TODO: What happens if we return an invalid option like :ok?
     {:noreply, fetch_latest_data(socket)}
   end
 

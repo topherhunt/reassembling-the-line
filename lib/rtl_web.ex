@@ -26,10 +26,11 @@ defmodule RTLWeb do
       import RTLWeb.Gettext
       import RTLWeb.SessionPlugs, only: [
         must_be_logged_in: 2,
-        must_not_be_logged_in: 2
+        must_not_be_logged_in: 2,
+        redirect_with_permission_error: 1
       ]
       alias RTLWeb.Router.Helpers, as: Routes
-      alias RTL.Helpers
+      # alias RTL.Helpers
     end
   end
 

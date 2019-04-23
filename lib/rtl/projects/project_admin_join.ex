@@ -4,7 +4,7 @@ defmodule RTL.Projects.ProjectAdminJoin do
 
   schema "project_admin_joins" do
     belongs_to :project, RTL.Projects.Project
-    belongs_to :admin, RTL.Accounts. User
+    belongs_to :admin, RTL.Accounts.User
     timestamps()
   end
 

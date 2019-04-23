@@ -10,7 +10,7 @@ defmodule RTLWeb.SessionPlugs do
 
   import Phoenix.Controller, only: [put_flash: 3, redirect: 2]
   alias RTLWeb.Router.Helpers, as: Routes
-  alias RTL.Accounts
+  alias RTL.{Accounts, Sentry}
 
   #
   # Plugs
@@ -56,13 +56,10 @@ defmodule RTLWeb.SessionPlugs do
   end
 
   def must_be_superadmin(conn, _opts) do
-    if Accounts.is_superadmin?(conn.assigns.current_user) do
+    if Sentry.is_superadmin?(conn.assigns.current_user) do
       conn
     else
-      conn
-      |> put_flash(:error, "You don't have permission to access that page.")
-      |> redirect(to: Routes.home_path(conn, :index))
-      |> halt()
+      redirect_with_permission_error(conn)
     end
   end
 
@@ -88,6 +85,13 @@ defmodule RTLWeb.SessionPlugs do
     |> put_session(:user_id, nil)
     |> configure_session(drop: true)
     # But we don't halt the conn. Later plugs can decide what response to give.
+  end
+
+  def redirect_with_permission_error(conn) do
+    conn
+    |> put_flash(:error, "You don't have permission to access that page.")
+    |> redirect(to: Routes.home_path(conn, :index))
+    |> halt()
   end
 
   #

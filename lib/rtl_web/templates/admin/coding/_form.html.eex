@@ -24,7 +24,7 @@
 <hr>
 <div class="row">
   <div class="col-sm-6">
-    <%= form_for @changeset, create_or_update_path(@conn, @changeset), fn(f) -> %>
+    <%= form_for @changeset, create_or_update_path(@conn, @changeset), fn(_f) -> %>
       <h3>Tags</h3>
       <table class="table js-tags-table test-tags-table" data-autocompletes="<%= all_tags_json(@all_tags) %>" data-present-tags="<%= present_tags_json(@present_tags) %>">
         <tr>

@@ -38,7 +38,7 @@ defmodule RTLWeb.ConnCase do
     end
 
     RTL.DataHelpers.empty_database()
-
+    System.put_env("SUPERADMIN_EMAILS", "superadmin@example.com")
     {:ok, conn: Phoenix.ConnTest.build_conn()}
   end
 end

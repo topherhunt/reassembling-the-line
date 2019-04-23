@@ -25,6 +25,7 @@ defmodule RTLWeb.IntegrationCase do
 
     RTL.DataHelpers.empty_database()
     ensure_phantomjs_running()
+    System.put_env("SUPERADMIN_EMAILS", "superadmin@example.com")
     {:ok, conn: Phoenix.ConnTest.build_conn()}
   end
 

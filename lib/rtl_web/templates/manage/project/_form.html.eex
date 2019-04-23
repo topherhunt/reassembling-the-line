@@ -1,0 +1,11 @@
+<%= form_for @changeset, @path, [class: "projectForm"], fn(f) -> %>
+  <div class="form-group">
+    <%= label f, :name %>
+    <%= text_input f, :name, class: "form-control" %>
+    <%= error_tag f, :name %>
+  </div>
+
+  <div class="form-group">
+    <%= submit "Save", class: "btn btn-primary" %>
+  </div>
+<% end %>

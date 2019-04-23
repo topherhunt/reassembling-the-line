@@ -100,9 +100,9 @@ defmodule RTL.Videos do
     |> notify_subscribers("videos.inserted")
   end
 
-  def get_video(id), do: Video |> Repo.get(id)
+  def get_video(id), do: Repo.get(Video, id)
 
-  def get_video!(id), do: Video |> Repo.get!(id)
+  def get_video!(id), do: Repo.get!(Video, id)
 
   def delete_video!(video) do
     video

@@ -1,0 +1,19 @@
+.projectRow {
+  padding: 5px;
+  border: 1px solid #eee;
+  border-radius: 5px;
+}
+
+.projectRow__title {
+  font-weight: bold;
+}
+
+//
+// Forms
+//
+
+.formField__error {
+  color: #a00;
+  background-color: #fee;
+  padding: 5px;
+}

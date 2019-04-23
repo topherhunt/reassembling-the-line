@@ -9,6 +9,9 @@
     get: :*,
     resources: :*,
 
+    # Controller
+    render: :*,
+
     # Schemas
     field: :*,
     has_one: :*,

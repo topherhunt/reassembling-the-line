@@ -1,0 +1,15 @@
+<h1>Projects</h1>
+
+<%= Enum.map(@projects, fn(project) -> %>
+
+  <div class="projectRow">
+    <div class="projectRow__title">
+      <%= link project.name, to: Routes.manage_project_path(@conn, :show, project) %>
+    </div>
+
+    <div>TODO: List current admins & basic stats</div>
+  </div>
+
+<% end) %>
+
+<%= link "New project", to: Routes.manage_project_path(@conn, :new) %>
