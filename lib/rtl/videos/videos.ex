@@ -3,7 +3,7 @@
 defmodule RTL.Videos do
   import Ecto.Query
   import Ecto.Changeset
-  alias RTL.Helpers
+  alias RTL.Helpers, as: H
   alias RTL.TimeParser
   alias RTL.Repo
   alias RTL.Videos.{Video, Coding, Tag, Tagging, Attachment}
@@ -260,7 +260,7 @@ defmodule RTL.Videos do
     # TODO: Validate the tags_params format
     invalid_tags =
       tags_params
-      |> Enum.reject(fn params -> Helpers.is_blank?(params["text"]) end)
+      |> Enum.reject(fn params -> H.is_blank?(params["text"]) end)
       |> Enum.map(fn tag_params -> tag_changeset(%Tag{}, tag_params) end)
       |> Enum.reject(fn changeset -> changeset.valid? end)
       |> Enum.map(fn changeset -> Ecto.Changeset.get_field(changeset, :text) end)
@@ -273,12 +273,12 @@ defmodule RTL.Videos do
 
   defp apply_tags_to_coding(%Coding{} = coding, tags_list) do
     # TODO: Validate the format of tags_list?
-    # eg. Helpers.assert_each_matches(tags_list, %{"text" => _, "starts_at" => _, "ends_at" => _})
+    # eg. H.assert_each_matches(tags_list, %{"text" => _, "starts_at" => _, "ends_at" => _})
     # Clear out existing tags
     coding |> Ecto.assoc(:taggings) |> Repo.delete_all()
 
     tags_list
-    |> Enum.reject(&Helpers.is_blank?(&1["text"]))
+    |> Enum.reject(&H.is_blank?(&1["text"]))
     |> Enum.each(fn params ->
       tag = find_or_create_tag(params)
 

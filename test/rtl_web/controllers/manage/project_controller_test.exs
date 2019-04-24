@@ -2,20 +2,29 @@ defmodule RTLWeb.Manage.ProjectControllerTest do
   use RTLWeb.ConnCase, async: true
   alias RTL.Projects
 
-  test "all actions require logged-in user", %{conn: conn} do
-    [
-      get(conn, Routes.manage_project_path(conn, :index)),
-      get(conn, Routes.manage_project_path(conn, :show, "123")),
-      get(conn, Routes.manage_project_path(conn, :new)),
-      post(conn, Routes.manage_project_path(conn, :create)),
-      get(conn, Routes.manage_project_path(conn, :edit, "123")),
-      patch(conn, Routes.manage_project_path(conn, :update, "123")),
-      delete(conn, Routes.manage_project_path(conn, :delete, "123"))
-    ]
-    |> Enum.each(fn conn ->
+  describe "plugs" do
+    test "all actions reject if no user is logged in", %{conn: conn} do
+      conn = get(conn, Routes.manage_project_path(conn, :index))
       assert redirected_to(conn) == Routes.home_path(conn, :index)
       assert conn.halted
-    end)
+    end
+
+    test "project-specific actions reject if user isn't admin", %{conn: conn} do
+      # I'm logged in, but I'm not an admin on this project
+      {conn, _user} = login_as_new_user(conn)
+      p = Factory.insert_project()
+
+      [
+        get(conn, Routes.manage_project_path(conn, :show, p)),
+        get(conn, Routes.manage_project_path(conn, :edit, p)),
+        patch(conn, Routes.manage_project_path(conn, :update, p)),
+        delete(conn, Routes.manage_project_path(conn, :delete, p)),
+      ]
+      |> Enum.each(fn conn ->
+        assert redirected_to(conn) == Routes.home_path(conn, :index)
+        assert conn.halted
+      end)
+    end
   end
 
   describe "#index" do
@@ -61,15 +70,6 @@ defmodule RTLWeb.Manage.ProjectControllerTest do
 
       assert html_response(conn, 200) =~ project.name
     end
-
-    test "rejects non-admin", %{conn: conn} do
-      {conn, _user} = login_as_new_user(conn)
-      project = Factory.insert_project()
-
-      conn = get(conn, Routes.manage_project_path(conn, :show, project))
-
-      assert redirected_to(conn) == Routes.home_path(conn, :index)
-    end
   end
 
   describe "#new" do
@@ -89,7 +89,7 @@ defmodule RTLWeb.Manage.ProjectControllerTest do
       params = %{"project" => %{"name" => "My Little Project"}}
       conn = post(conn, Routes.manage_project_path(conn, :create), params)
 
-      project = Projects.first_project!(order: :newest)
+      project = Projects.get_project_by!(order: :newest)
       assert project.name == "My Little Project"
       assert Projects.is_user_admin_of_project?(user, project)
       assert redirected_to(conn) == Routes.manage_project_path(conn, :show, project.id)
@@ -115,15 +115,6 @@ defmodule RTLWeb.Manage.ProjectControllerTest do
 
       assert html_response(conn, 200) =~ "Edit project: #{project.name}"
     end
-
-    test "rejects if I'm not a project admin", %{conn: conn} do
-      {conn, _user} = login_as_new_user(conn)
-      project = Factory.insert_project()
-
-      conn = get(conn, Routes.manage_project_path(conn, :edit, project))
-
-      assert redirected_to(conn) == Routes.home_path(conn, :index)
-    end
   end
 
   describe "#update" do
@@ -137,17 +128,6 @@ defmodule RTLWeb.Manage.ProjectControllerTest do
 
       assert Projects.get_project!(project.id).name == "New name"
       assert redirected_to(conn) == Routes.manage_project_path(conn, :show, project)
-    end
-
-    test "rejects if I'm not a project admin", %{conn: conn} do
-      {conn, _user} = login_as_new_user(conn)
-      project = Factory.insert_project()
-
-      params = %{"project" => %{"name" => "New name"}}
-      conn = patch(conn, Routes.manage_project_path(conn, :update, project), params)
-
-      assert Projects.get_project!(project.id).name == project.name
-      assert redirected_to(conn) == Routes.home_path(conn, :index)
     end
 
     test "rejects changes if invalid", %{conn: conn} do
@@ -173,16 +153,6 @@ defmodule RTLWeb.Manage.ProjectControllerTest do
 
       assert Projects.get_project(project.id) == nil
       assert redirected_to(conn) == Routes.manage_project_path(conn, :index)
-    end
-
-    test "rejects if I'm not a project admin", %{conn: conn} do
-      {conn, _user} = login_as_new_user(conn)
-      project = Factory.insert_project()
-
-      conn = delete(conn, Routes.manage_project_path(conn, :delete, project))
-
-      assert Projects.get_project(project.id) != nil
-      assert redirected_to(conn) == Routes.home_path(conn, :index)
     end
   end
 end

@@ -1,6 +1,10 @@
 
 <%= if @current_user && is_superadmin?(@current_user) do %>
   <li class="nav-item">
+    <%= link "Users", to: Routes.manage_user_path(@conn, :index), class: "nav-link" %>
+  </li>
+
+  <li class="nav-item">
     <%= link "Projects", to: Routes.manage_project_path(@conn, :index), class: "nav-link" %>
   </li>
 <% end %>

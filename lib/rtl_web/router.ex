@@ -5,8 +5,7 @@ defmodule RTLWeb.Router do
   use Plug.ErrorHandler
   import RTLWeb.SessionPlugs, only: [
     load_current_user: 2,
-    must_be_logged_in: 2,
-    must_be_superadmin: 2
+    must_be_logged_in: 2
   ]
 
   pipeline :browser do
@@ -19,12 +18,8 @@ defmodule RTLWeb.Router do
     plug :load_current_user
   end
 
-  pipeline :require_user do
+  pipeline :require_login do
     plug :must_be_logged_in
-  end
-
-  pipeline :require_superadmin do
-    plug :must_be_superadmin
   end
 
   scope "/", RTLWeb do
@@ -58,16 +53,16 @@ defmodule RTLWeb.Router do
     # privilege level. Rather, group controllers based on functional area of
     # the app, e.g. collect, code, explore, manage.
     scope "/admin", as: :admin do
-      pipe_through :require_user
+      pipe_through :require_login
 
       resources "/videos", Admin.VideoController, only: [:index]
-
       resources "/codings", Admin.CodingController, only: [:new, :create, :edit, :update]
     end
 
     scope "/manage", as: :manage do
-      pipe_through :require_user
+      pipe_through :require_login
 
+      resources "/users", Manage.UserController
       resources "/projects", Manage.ProjectController
     end
   end

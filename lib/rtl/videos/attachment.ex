@@ -1,5 +1,5 @@
 defmodule RTL.Videos.Attachment do
-  alias RTL.Helpers
+  alias RTL.Helpers, as: H
   use Arc.Definition
 
   # Include ecto support (requires package arc_ecto installed):
@@ -29,7 +29,7 @@ defmodule RTL.Videos.Attachment do
   # Override the storage directory:
   def storage_dir(_version, {_file, scope}) do
     # TODO: What's this "text" scope for? Can I get rid of it?
-    Helpers.assert_list_contains(["recording", "thumbnail", "text"], scope)
+    H.assert_list_contains(["recording", "thumbnail", "text"], scope)
     "uploads/#{scope}"
   end
 

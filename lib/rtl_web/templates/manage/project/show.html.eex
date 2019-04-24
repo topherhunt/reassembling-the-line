@@ -4,7 +4,7 @@
   <h3>Basic info</h3>
 
   <ul>
-    <li>Created <%= @project.inserted_at %></li>
+    <li>Created: <%= @project.inserted_at %></li>
   </ul>
 
   <%= link "Edit", to: Routes.manage_project_path(@conn, :edit, @project) %>

@@ -8,31 +8,15 @@ defmodule RTL.Projects do
   # Project schema
   #
 
-  def get_project(id, filters \\ []) do
-    Keyword.merge([id: id], filters) |> first_project()
-  end
+  def get_project(id), do: Repo.get(Project, id)
 
-  def get_project!(id, filters \\ []) do
-    Keyword.merge([id: id], filters) |> first_project!()
-  end
+  def get_project!(id), do: Repo.get!(Project, id)
 
-  def first_project(filters \\ []) do
-    Project |> apply_filters(filters) |> Repo.first()
-  end
+  def get_project_by(filt \\ []), do: Project |> Project.filter(filt) |> Repo.first()
 
-  def first_project!(filters \\ []) do
-    Project |> apply_filters(filters) |> Repo.first!()
-  end
+  def get_project_by!(filt \\ []), do: Project |> Project.filter(filt) |> Repo.first!()
 
-  def get_projects(filters \\ []) do
-    Project |> apply_filters(filters) |> Repo.all()
-  end
-
-  defp apply_filters(starting_query, filters) do
-    Enum.reduce(filters, starting_query, fn({k, v}, q) ->
-      Project.filter_query(q, k, v)
-    end)
-  end
+  def get_projects(filt \\ []), do: Project |> Project.filter(filt) |> Repo.all()
 
   def insert_project(params), do: new_project_changeset(params) |> Repo.insert()
 

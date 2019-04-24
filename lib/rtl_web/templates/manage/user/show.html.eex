@@ -1,0 +1,18 @@
+<h1>User: <%= @user.full_name %></h1>
+
+<div>
+  <h3>Basic info</h3>
+
+  <ul>
+    <li>Created: <%= @user.inserted_at %></li>
+    <li>Last signed in: <%= @user.last_signed_in_at %></li>
+  </ul>
+
+  <%= link "Edit", to: Routes.manage_user_path(@conn, :edit, @user) %>
+</div>
+
+<div>
+  <h3>Has access to projects:</h3>
+
+  TODO
+</div>

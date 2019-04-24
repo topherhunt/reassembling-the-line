@@ -15,12 +15,12 @@ defmodule RTLWeb.Manage.ProjectController do
     # doesn't need the added layers of LV.
     # live_render(conn, RTLWeb.Manage.ProjectShowLiveview,
     #   session: %{current_user: conn.assigns.current_user, id: id})
-    render conn, "show.html", project: conn.assigns.project
+    render conn, "show.html"
   end
 
   def new(conn, _params) do
     changeset = Projects.new_project_changeset()
-    render(conn, "new.html", changeset: changeset)
+    render conn, "new.html", changeset: changeset
   end
 
   def create(conn, %{"project" => project_params}) do
@@ -39,23 +39,21 @@ defmodule RTLWeb.Manage.ProjectController do
   end
 
   def edit(conn, _params) do
-    project = conn.assigns.project
-    changeset = Projects.project_changeset(project)
-    render(conn, "edit.html", project: project, changeset: changeset)
+    changeset = Projects.project_changeset(conn.assigns.project)
+    render conn, "edit.html", changeset: changeset
   end
 
   def update(conn, %{"project" => project_params}) do
-    project = conn.assigns.project
-    case Projects.update_project(project, project_params) do
-      {:ok, _project} ->
+    case Projects.update_project(conn.assigns.project, project_params) do
+      {:ok, project} ->
         conn
-        |> put_flash(:info, "Your changes were saved.")
+        |> put_flash(:info, "Project updated.")
         |> redirect(to: Routes.manage_project_path(conn, :show, project.id))
 
       {:error, changeset} ->
         conn
         |> put_flash(:error, "Please see errors below.")
-        |> render("edit.html", project: project, changeset: changeset)
+        |> render("edit.html", changeset: changeset)
     end
   end
 

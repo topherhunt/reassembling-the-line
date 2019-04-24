@@ -41,6 +41,8 @@ defmodule RTLWeb.Manage.ProjectShowLiveview do
   defp get_project(socket) do
     user = socket.assigns.current_user
     RTL.Projects.get_project(socket.assigns.id, visible_to: user)
+    # TODO: The get_project api simplified. Now we need to use Sentry to
+    # check visibility status as a next step.
   end
 
   defp show_error_and_redirect(socket) do

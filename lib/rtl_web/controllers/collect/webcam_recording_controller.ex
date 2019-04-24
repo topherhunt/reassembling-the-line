@@ -1,13 +1,13 @@
 defmodule RTLWeb.Collect.WebcamRecordingController do
   use RTLWeb, :controller
+  alias RTL.Helpers, as: H
   alias RTL.Videos
-  import RTL.Helpers, only: [is_present?: 1]
 
   # For now, we don't require a logged-in user nor any sort of voucher code.
   # Anyone can record and upload an interview as many times as they want.
   def new(conn, _params) do
     changeset = Videos.new_video_changeset(%{})
-    uuid = RTL.Helpers.random_hex()
+    uuid = H.random_hex()
     thumbnail_filename = "#{uuid}.jpg"
     recording_filename = "#{uuid}.webm"
 
@@ -51,7 +51,7 @@ defmodule RTLWeb.Collect.WebcamRecordingController do
 
   defp populate_title(params) do
     title =
-      if is_present?(params["source_name"]) do
+      if H.is_present?(params["source_name"]) do
         "Interview with #{params["source_name"]}"
       else
         "Anonymous interview"

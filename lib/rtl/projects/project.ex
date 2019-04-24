@@ -40,23 +40,22 @@ defmodule RTL.Projects.Project do
   # Filters
   #
 
-  def filter_query(query, :id, id) do
-    from p in query, where: p.id == ^id
+  def filter(starting_query, filters) do
+    Enum.reduce(filters, starting_query, fn({k, v}, q) -> filter(q, k, v) end)
   end
 
-  def filter_query(query, :visible_to, user) do
+  def filter(query, :id, id), do: where(query, [p], p.id == ^id)
+  def filter(query, :order, :newest), do: order_by(query, [p], desc: p.id)
+
+  def filter(query, :visible_to, user) do
     if RTL.Sentry.is_superadmin?(user),
       do: query,
-      else: filter_query(query, :having_admin, user)
+      else: filter(query, :having_admin, user)
   end
 
-  def filter_query(query, :having_admin, user) do
+  def filter(query, :having_admin, user) do
     from p in query,
       join: a in assoc(p, :admins),
       where: a.id == ^user.id
-  end
-
-  def filter_query(query, :order, :newest) do
-    from p in query, order_by: [desc: :id]
   end
 end

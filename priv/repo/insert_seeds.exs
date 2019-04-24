@@ -1,7 +1,8 @@
 # Script for populating the database. You can run it as:
 # > mix run priv/repo/seeds.exs
 
-alias RTLWeb.{Endpoint, Router}
+alias RTLWeb.Endpoint
+alias RTLWeb.Router.Helpers, as: Routes
 alias RTL.Factory
 alias RTL.Repo
 alias RTL.Accounts
@@ -38,8 +39,10 @@ IO.puts "- #{Repo.count(Video)} videos"
 IO.puts "- #{Repo.count(Coding)} codings"
 IO.puts "- #{Repo.count(Tagging)} Taggings"
 IO.puts "- #{Repo.count(Tag)} tags"
+
+# TODO: Is it possible to invoke a second mix task from a first?
 IO.puts "Login paths:"
-Enum.each(Accounts.get_all_users, fn(user) ->
-  path = Router.Helpers.auth_path(Endpoint, :login_from_uuid, user.uuid)
+Enum.each(Accounts.get_users, fn(user) ->
+  path = Routes.auth_path(Endpoint, :login_from_uuid, user.uuid)
   IO.puts "* #{user.full_name} logs in with: #{path}"
 end)

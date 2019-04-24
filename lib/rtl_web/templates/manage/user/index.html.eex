@@ -1,0 +1,19 @@
+<h1>Users</h1>
+
+<%= Enum.map(@users, fn(user) -> %>
+
+  <div class="userRow">
+    <div class="userRow__title">
+      <%= link user.full_name, to: Routes.manage_user_path(@conn, :show, user) %>
+    </div>
+
+    <div>Created: <%= user.inserted_at %></div>
+
+    <div>Last signed in: <%= user.last_signed_in_at %></div>
+
+    <div><%= length(user.projects) %> projects</div>
+  </div>
+
+<% end) %>
+
+<%= link "New user", to: Routes.manage_user_path(@conn, :new) %>

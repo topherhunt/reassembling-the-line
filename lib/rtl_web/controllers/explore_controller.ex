@@ -24,7 +24,7 @@ defmodule RTLWeb.ExploreController do
   defp tags_from_params(params) do
     (params["tags"] || "")
     |> String.split(",")
-    |> Enum.reject(&Helpers.is_blank?(&1))
+    |> Enum.reject(&H.is_blank?(&1))
     |> Enum.map(&%{text: &1})
   end
 end
