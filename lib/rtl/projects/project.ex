@@ -46,6 +46,8 @@ defmodule RTL.Projects.Project do
 
   def filter(query, :id, id), do: where(query, [p], p.id == ^id)
   def filter(query, :order, :newest), do: order_by(query, [p], desc: p.id)
+  def filter(query, :order, :name), do: order_by(query, [p], asc: p.name)
+  def filter(query, :preload, :admins), do: preload(query, :admins)
 
   def filter(query, :visible_to, user) do
     if RTL.Sentry.is_superadmin?(user),
@@ -54,8 +56,10 @@ defmodule RTL.Projects.Project do
   end
 
   def filter(query, :having_admin, user) do
-    from p in query,
-      join: a in assoc(p, :admins),
-      where: a.id == ^user.id
+    where(query, [p], fragment("EXISTS (SELECT * FROM project_admin_joins WHERE project_id = ? AND admin_id = ?)", p.id, ^user.id))
+  end
+
+  def filter(query, :not_having_admin, user) do
+    where(query, [p], fragment("NOT EXISTS (SELECT * FROM project_admin_joins WHERE project_id = ? AND admin_id = ?)", p.id, ^user.id))
   end
 end

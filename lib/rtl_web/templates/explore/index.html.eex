@@ -29,7 +29,7 @@
       <% end) %>
     </select>
 
-    <div class="gap-10"></div>
+    <div class="u-gap-10"></div>
 
     <h4>Playlist</h4>
 

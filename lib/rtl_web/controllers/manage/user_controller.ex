@@ -1,6 +1,6 @@
 defmodule RTLWeb.Manage.UserController do
   use RTLWeb, :controller
-  alias RTL.Accounts
+  alias RTL.{Accounts, Projects}
 
   plug :load_user when action in [:show, :edit, :update, :delete]
   plug :must_be_superadmin
@@ -11,8 +11,9 @@ defmodule RTLWeb.Manage.UserController do
   end
 
   def show(conn, _params) do
-    # conn.assigns.user is already loaded
-    render conn, "show.html"
+    user = conn.assigns.user
+    addable_projects = Projects.get_projects(not_having_admin: user, order: :name)
+    render conn, "show.html", addable_projects: addable_projects
   end
 
   def new(conn, _params) do
@@ -67,6 +68,6 @@ defmodule RTLWeb.Manage.UserController do
 
   defp load_user(conn, _) do
     id = conn.params["id"]
-    assign(conn, :user, Accounts.get_user!(id))
+    assign(conn, :user, Accounts.get_user!(id, preload: :projects))
   end
 end

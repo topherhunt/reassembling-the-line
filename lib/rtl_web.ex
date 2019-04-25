@@ -42,7 +42,7 @@ defmodule RTLWeb do
       import Phoenix.Controller, only: [get_flash: 2, view_module: 1]
       import Phoenix.LiveView, only: [live_render: 2, live_render: 3]
       import RTLWeb.Gettext
-      import RTLWeb.{DateHelpers, ErrorHelpers, IconHelpers}
+      import RTLWeb.{DateHelpers, UserHelpers, ErrorHelpers, IconHelpers}
       alias RTLWeb.Router.Helpers, as: Routes
 
       # Rendered HTML will automatically use RTL.LayoutView "app.html"

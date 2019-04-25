@@ -1,17 +1,44 @@
-<h1>Project: <%= @project.name %></h1>
+<h2>Project: <%= @project.name %></h2>
 
-<div>
-  <h3>Basic info</h3>
+<div class="u-card">
+  <h4>Basic info</h4>
 
   <ul>
-    <li>Created: <%= @project.inserted_at %></li>
+    <li>Created: <%= print_date(@project.inserted_at) %></li>
   </ul>
 
   <%= link "Edit", to: Routes.manage_project_path(@conn, :edit, @project) %>
 </div>
 
-<div>
-  <h3>Admins</h3>
+<div class="u-card">
+  <h4>Admins</h4>
 
-  TODO
+  <ul>
+    <%= for join <- @project.project_admin_joins do %>
+      <li>
+        <%= join.admin.full_name %>
+        <%= if is_superadmin?(@current_user) do %>
+          &nbsp;
+          <%= link "details", to: Routes.manage_user_path(@conn, :show, join.admin) %>
+          &nbsp;
+          <%= link "remove", 
+            to: Routes.manage_project_admin_join_path(@conn, :delete, join, project_id: @project.id, admin_id: join.admin.id, return_to: @conn.request_path), 
+            method: :delete,
+            class: "text-danger", 
+            data_confirm: "Really remove this admin?" %>
+        <% end %>
+      </li>
+    <% end %>
+  </ul>
+  
+  <%= if is_superadmin?(@current_user) do %>
+    <%= form_for @conn, Routes.manage_project_admin_join_path(@conn, :create), [method: :post], fn(f) -> %>
+      Add an admin:
+      <%= hidden_input f, :return_to, value: @conn.request_path %>
+      <%= hidden_input f, :project_id, value: @project.id %>
+      <%= select f, :admin_id, id_and_label_for(@addable_admins), class: "js-chosen-select" %>
+      &nbsp;
+      <%= submit("Add", class: "btn btn-primary btn-sm") %>
+    <% end %>
+  <% end %>
 </div>

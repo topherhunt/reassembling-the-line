@@ -10,20 +10,17 @@ defmodule RTL.Accounts do
   # User schema
   #
 
-  # TODO: Something is weird about this boundary. Maybe try `get_user(id)` (no
-  # filters allowed) and `get_user_by(filters)`.
+  def get_user(id, filt \\ []), do: get_user_by(Keyword.merge([id: id], filt))
 
-  def get_user(id), do: Repo.get(User, id)
+  def get_user!(id, filt \\ []), do: get_user_by!(Keyword.merge([id: id], filt))
 
-  def get_user!(id), do: Repo.get!(User, id)
+  def get_user_by(filt \\ []), do: User |> User.filter(filt) |> Repo.first()
 
-  def get_user_by(filters \\ []), do: User |> User.filter(filters) |> Repo.first()
+  def get_user_by!(filt \\ []), do: User |> User.filter(filt) |> Repo.first!()
 
-  def get_user_by!(filters \\ []), do: User |> User.filter(filters) |> Repo.first!()
+  def get_users(filt \\ []), do:  User |> User.filter(filt) |> Repo.all()
 
-  def get_users(filters \\ []), do:  User |> User.filter(filters) |> Repo.all()
-
-  def count_users(filters \\ []), do: User |> User.filter(filters) |> Repo.count()
+  def count_users(filt \\ []), do: User |> User.filter(filt) |> Repo.count()
 
   def insert_user(params), do: new_user_changeset(params) |> Repo.insert()
 

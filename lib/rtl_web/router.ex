@@ -64,6 +64,7 @@ defmodule RTLWeb.Router do
 
       resources "/users", Manage.UserController
       resources "/projects", Manage.ProjectController
+      resources "/project_admin_joins", Manage.ProjectAdminJoinController, only: [:create, :delete]
     end
   end
 

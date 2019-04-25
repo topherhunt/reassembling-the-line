@@ -3,14 +3,14 @@ defmodule RTLWeb.Manage.ProjectShowLiveview do
   use Phoenix.HTML
   require Logger
   alias RTLWeb.Router.Helpers, as: Routes
+  alias RTL.Projects
 
   def mount(%{current_user: current_user, id: id}, socket) do
-    if connected?(socket), do: RTL.Projects.subscribe_to_project(id)
+    if connected?(socket), do: Projects.subscribe_to_project(id)
     socket = assign(socket, %{current_user: current_user, id: id})
 
-    # TODO: Why am I putting so much effort into handling the possibility that
-    # the resource no longer exists, when that's a very rare edge case?
-    if project = get_project(socket) do
+    # We may fail to retrieve the project because we no longer have access to it
+    if project = get_and_auth_project(socket) do
       {:ok, assign(socket, :project, project)}
     else
       {:stop, show_error_and_redirect(socket)}
@@ -31,6 +31,7 @@ defmodule RTLWeb.Manage.ProjectShowLiveview do
   def handle_info({RTL.Projects, _event} = payload, socket) do
     log "handle_info called with #{inspect(payload)}."
 
+    # We may fail to retrieve the project because we no longer have access to it
     if project = get_project(socket) do
       {:noreply, assign(socket, :project, project)}
     else
@@ -38,11 +39,9 @@ defmodule RTLWeb.Manage.ProjectShowLiveview do
     end
   end
 
-  defp get_project(socket) do
+  defp get_and_auth_project(socket) do
     user = socket.assigns.current_user
-    RTL.Projects.get_project(socket.assigns.id, visible_to: user)
-    # TODO: The get_project api simplified. Now we need to use Sentry to
-    # check visibility status as a next step.
+    Projects.get_project(socket.assigns.id, preload: :admins, visible_to: user)
   end
 
   defp show_error_and_redirect(socket) do

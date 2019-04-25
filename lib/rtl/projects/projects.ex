@@ -8,9 +8,9 @@ defmodule RTL.Projects do
   # Project schema
   #
 
-  def get_project(id), do: Repo.get(Project, id)
+  def get_project(id, filt \\ []), do: get_project_by(Keyword.merge([id: id], filt))
 
-  def get_project!(id), do: Repo.get!(Project, id)
+  def get_project!(id, filt \\ []), do: get_project_by!(Keyword.merge([id: id], filt))
 
   def get_project_by(filt \\ []), do: Project |> Project.filter(filt) |> Repo.first()
 
@@ -37,15 +37,20 @@ defmodule RTL.Projects do
   # ProjectAdminJoin schema
   #
 
-  def is_user_admin_of_project?(user, project) do
+  def is_project_admin?(project, user) do
     from(j in ProjectAdminJoin, where: [project_id: ^project.id, admin_id: ^user.id])
     |> Repo.any?()
   end
 
-  def insert_project_admin_join!(project, admin) do
-    %ProjectAdminJoin{}
-    |> ProjectAdminJoin.changeset(%{project_id: project.id, admin_id: admin.id})
+  def add_project_admin!(project, admin) do
+    %ProjectAdminJoin{} 
+    |> ProjectAdminJoin.changeset(%{project_id: project.id, admin_id: admin.id}) 
     |> Repo.insert!()
+  end
+
+  def remove_project_admin!(project, admin) do
+    from(j in ProjectAdminJoin, where: [project_id: ^project.id, admin_id: ^admin.id])
+    |> Repo.delete_all()
   end
 
   #

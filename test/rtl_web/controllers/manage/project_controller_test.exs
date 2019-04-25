@@ -48,8 +48,8 @@ defmodule RTLWeb.Manage.ProjectControllerTest do
       project2 = Factory.insert_project()
       project3 = Factory.insert_project()
       # Let's make this person admin of p1 and p3 but NOT p2
-      Factory.insert_project_admin_join(project1, user)
-      Factory.insert_project_admin_join(project3, user)
+      Projects.add_project_admin!(project1, user)
+      Projects.add_project_admin!(project3, user)
 
       conn = get(conn, Routes.manage_project_path(conn, :index))
 
@@ -64,7 +64,7 @@ defmodule RTLWeb.Manage.ProjectControllerTest do
     test "renders correctly", %{conn: conn} do
       {conn, user} = login_as_new_user(conn)
       project = Factory.insert_project()
-      Factory.insert_project_admin_join(project, user)
+      Projects.add_project_admin!(project, user)
 
       conn = get(conn, Routes.manage_project_path(conn, :show, project))
 
@@ -91,7 +91,7 @@ defmodule RTLWeb.Manage.ProjectControllerTest do
 
       project = Projects.get_project_by!(order: :newest)
       assert project.name == "My Little Project"
-      assert Projects.is_user_admin_of_project?(user, project)
+      assert Projects.is_project_admin?(project, user)
       assert redirected_to(conn) == Routes.manage_project_path(conn, :show, project.id)
     end
 
@@ -109,7 +109,7 @@ defmodule RTLWeb.Manage.ProjectControllerTest do
     test "renders correctly", %{conn: conn} do
       {conn, user} = login_as_new_user(conn)
       project = Factory.insert_project()
-      Factory.insert_project_admin_join(project, user)
+      Projects.add_project_admin!(project, user)
 
       conn = get(conn, Routes.manage_project_path(conn, :edit, project))
 
@@ -121,7 +121,7 @@ defmodule RTLWeb.Manage.ProjectControllerTest do
     test "saves changes and redirects", %{conn: conn} do
       {conn, user} = login_as_new_user(conn)
       project = Factory.insert_project()
-      Factory.insert_project_admin_join(project, user)
+      Projects.add_project_admin!(project, user)
 
       params = %{"project" => %{"name" => "New name"}}
       conn = patch(conn, Routes.manage_project_path(conn, :update, project.id), params)
@@ -133,7 +133,7 @@ defmodule RTLWeb.Manage.ProjectControllerTest do
     test "rejects changes if invalid", %{conn: conn} do
       {conn, user} = login_as_new_user(conn)
       project = Factory.insert_project()
-      Factory.insert_project_admin_join(project, user)
+      Projects.add_project_admin!(project, user)
 
       params = %{"project" => %{"name" => "        "}}
       conn = patch(conn, Routes.manage_project_path(conn, :update, project), params)
@@ -147,7 +147,7 @@ defmodule RTLWeb.Manage.ProjectControllerTest do
     test "deletes the project", %{conn: conn} do
       {conn, user} = login_as_new_user(conn)
       project = Factory.insert_project()
-      Factory.insert_project_admin_join(project, user)
+      Projects.add_project_admin!(project, user)
 
       conn = delete(conn, Routes.manage_project_path(conn, :delete, project))
 

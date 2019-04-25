@@ -1,6 +1,6 @@
 defmodule RTLWeb.Manage.ProjectController do
   use RTLWeb, :controller
-  alias RTL.Projects
+  alias RTL.{Accounts, Projects}
 
   plug :load_project when action in [:show, :edit, :update, :delete]
   plug :authorize_user when action in [:show, :edit, :update, :delete]
@@ -11,11 +11,13 @@ defmodule RTLWeb.Manage.ProjectController do
   end
 
   def show(conn, _params) do
-    # Even Show will be a static route for now. Most of this CRUD stuff just
-    # doesn't need the added layers of LV.
+    # I thought about making this a LV, but the limited UI needs really don't 
+    # justify the added layer. Plain server-rendered CRUD is fine.
     # live_render(conn, RTLWeb.Manage.ProjectShowLiveview,
     #   session: %{current_user: conn.assigns.current_user, id: id})
-    render conn, "show.html"
+    project = conn.assigns.project
+    addable_admins = Accounts.get_users(not_admin_on_project: project, order: :full_name)
+    render conn, "show.html", addable_admins: addable_admins
   end
 
   def new(conn, _params) do
@@ -26,7 +28,7 @@ defmodule RTLWeb.Manage.ProjectController do
   def create(conn, %{"project" => project_params}) do
     case Projects.insert_project(project_params) do
       {:ok, project} ->
-        Projects.insert_project_admin_join!(project, conn.assigns.current_user)
+        Projects.add_project_admin!(project, conn.assigns.current_user)
         conn
         |> put_flash(:info, "Project created.")
         |> redirect(to: Routes.manage_project_path(conn, :show, project.id))
@@ -72,7 +74,7 @@ defmodule RTLWeb.Manage.ProjectController do
 
   defp load_project(conn, _) do
     id = conn.params["id"]
-    assign(conn, :project, Projects.get_project!(id))
+    assign(conn, :project, Projects.get_project!(id, preload: :admins))
   end
 
   defp authorize_user(conn, _) do

@@ -36,7 +36,7 @@
 
 <div class="row">
   <div class="col-sm-8">
-    <div class="js-webcam-recording-container box-shadow" style="width: 640px; height: 480px; margin: 0 auto 0 auto; position: relative; border-radius: 10px;overflow: hidden;">
+    <div class="js-webcam-recording-container u-box-shadow" style="width: 640px; height: 480px; margin: 0 auto 0 auto; position: relative; border-radius: 10px;overflow: hidden;">
       <video class="js-recording-preview-video" controls="" autoplay="" style="width: 100%; height: 100%;"></video>
       <div class="js-recording-controls" style="position: absolute; top: 10px; left: 10px;">
         <span class="js-setting-up-recording btn btn-warning disabled">

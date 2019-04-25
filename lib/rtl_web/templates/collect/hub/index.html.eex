@@ -1,4 +1,4 @@
-<div class="centered-1000">
+<div class="u-centered-1000">
 
   <h1>Video collection</h1>
   <p>RTL gives you various ways to insert interview videos into the database.</p>
@@ -26,7 +26,7 @@
       </ul>
     </div>
     <div class="col-sm-4">
-      <img class="box-shadow" src="/images/webcam_recording_sample.jpg" style="width: 100%;">
+      <img class="u-box-shadow" src="/images/webcam_recording_sample.jpg" style="width: 100%;">
     </div>
   </div>
 

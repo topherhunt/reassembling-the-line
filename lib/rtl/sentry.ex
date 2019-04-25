@@ -8,6 +8,6 @@ defmodule RTL.Sentry do
   end
 
   def can_view_project?(user, project) do
-    is_superadmin?(user) || Projects.is_user_admin_of_project?(user, project)
+    is_superadmin?(user) || Projects.is_project_admin?(project, user)
   end
 end
