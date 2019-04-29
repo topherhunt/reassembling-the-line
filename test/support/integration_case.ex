@@ -32,8 +32,8 @@ defmodule RTLWeb.IntegrationCase do
   def ensure_phantomjs_running do
     {processes, _code} = System.cmd("ps", [])
 
-    unless processes =~ "phantomjs --wd" do
-      raise "Integration tests require PhantomJS. Run `phantomjs --wd` first."
+    unless processes =~ "chromedriver" do
+      raise "Integration tests require ChromeDriver. Run `chromedriver` first."
     end
   end
 end

@@ -1,0 +1,14 @@
+<div class="test-page-edit-prompt-<%= @prompt.id %>" />
+<h1>Edit prompt: <%= @prompt.html %></h1>
+
+<%= render "_form.html",
+  changeset: @changeset,
+  path: Routes.manage_project_prompt_path(@conn, :update, @project, @prompt) %>
+
+<hr />
+
+<%= link "Delete this prompt",
+  to: Routes.manage_project_prompt_path(@conn, :delete, @project, @prompt),
+  method: :delete,
+  data_confirm: "WARNING: This will irreversibly delete this prompt and all associated data. Proceed?",
+  class: "text-danger test-link-delete-prompt-#{@prompt.id}" %>

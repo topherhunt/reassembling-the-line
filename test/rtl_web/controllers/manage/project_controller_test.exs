@@ -18,7 +18,7 @@ defmodule RTLWeb.Manage.ProjectControllerTest do
         get(conn, Routes.manage_project_path(conn, :show, p)),
         get(conn, Routes.manage_project_path(conn, :edit, p)),
         patch(conn, Routes.manage_project_path(conn, :update, p)),
-        delete(conn, Routes.manage_project_path(conn, :delete, p)),
+        delete(conn, Routes.manage_project_path(conn, :delete, p))
       ]
       |> Enum.each(fn conn ->
         assert redirected_to(conn) == Routes.home_path(conn, :index)

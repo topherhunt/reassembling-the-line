@@ -9,23 +9,20 @@ defmodule RTL.Accounts.Services.FindOrCreateUserFromAuth do
 
     cond do
       user = Accounts.get_user_by(auth0_uid: uid) ->
-        Logger.info "Auth: Logged in existing user #{user.id} (#{user.email}) by auth0_uid #{uid}."
+        Logger.info "Auth: Logged in user #{user.id} (#{user.email}) by auth0_uid #{uid}."
+
         user
 
       user = Accounts.get_user_by(email: email) ->
         ensure_user_doesnt_have_auth0_uid(user, auth)
         user = Accounts.update_user!(user, %{auth0_uid: uid})
-        Logger.info "Auth: Mapped existing user #{user.id} (#{user.email}) to auth0_uid #{uid}."
+        Logger.info "Auth: Mapped user #{user.id} (#{user.email}) to auth0_uid #{uid}."
         user
 
       # No user was found, we'll have to create one.
       true ->
-        user = Accounts.insert_user!(%{
-          auth0_uid: uid,
-          full_name: name,
-          email: email
-        })
-        Logger.info "Auth: Created new user #{user.id} (#{user.email}) for auth0_uid #{uid}."
+        user = Accounts.insert_user!(%{auth0_uid: uid, full_name: name, email: email})
+        Logger.info "Auth: Created user #{user.id} (#{user.email}) for auth0_uid #{uid}."
         user
     end
   end

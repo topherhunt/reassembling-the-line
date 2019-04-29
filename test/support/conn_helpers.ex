@@ -2,10 +2,13 @@ defmodule RTLWeb.ConnHelpers do
   use Phoenix.ConnTest
   import RTL.Factory
 
-  # NOTE: Only works on functional tests, not integration tests.
   def login_as_new_user(conn, user_params \\ %{}) do
     user = insert_user(user_params)
     conn = conn |> assign(:current_user, user)
     {conn, user}
+  end
+
+  def login_as_superadmin(conn) do
+    login_as_new_user(conn, %{email: "superadmin@example.com"})
   end
 end

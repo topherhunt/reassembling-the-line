@@ -2,7 +2,6 @@
 [
   inputs: ["{mix,.formatter}.exs", "{config,lib,test}/**/*.{ex,exs}"],
   locals_without_parens: [
-
     # Router
     plug: :*,
     pipe_through: :*,
@@ -20,7 +19,7 @@
 
     # Other
     log: :*,
+    info: :*,
     navigate_to: :*
-
   ]
 ]

@@ -60,29 +60,9 @@ defmodule RTL.Videos do
 
   #
   # Videos
-  # TODO: Find a more consistent languaging for this context api boundary.
-  # Maybe something like:
-  # - video_changeset(changes)
-  # - insert_video(params)
-  # - insert_video!(params)
-  # - update_video!(video, params)
-  # - delete_video!(id)
-  # - find_video(id: id)
-  # - find_video!(id: id)
-  # - any_video(newest: true)
-  # - any_video(coded: false, oldest: true)
-  #   ^ Or maybe find_ and first_
-  # - all_videos(coded: false)
-  # - all_videos(coded: true, has_all_tags: [tags])
-  # - count_videos(filters)
   #
-  # Ideas:
-  # - Some standard way to process "any_" and "all_" function params (which are
-  #   either filters or sorts)
-  # - Maybe find_ and any_ can be combined into `one_video` and `one_video!`,
-  #  or settle on `get_video()` (only one) and `get_videos()` (multiple or all)
-  #  or maybe `get_video` (only by id), `get_any_video`, and `get_videos`?
-  #
+
+  # TODO: rewrite this using the new simplified context API
 
   def new_video_changeset(changes), do: Video.changeset(%Video{}, changes)
 
@@ -161,7 +141,6 @@ defmodule RTL.Videos do
 
   def insert_coding(%{video_id: video_id, coder_id: coder_id, tags: tags_params}) do
     # TODO: Validate format of tag_params list
-
     changeset = coding_changeset(%{video_id: video_id, updated_by_user_id: coder_id})
 
     case validate_tags(tags_params) do

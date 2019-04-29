@@ -84,6 +84,7 @@ defmodule RTLWeb.SessionPlugs do
     |> assign(:current_user, nil)
     |> put_session(:user_id, nil)
     |> configure_session(drop: true)
+
     # But we don't halt the conn. Later plugs can decide what response to give.
   end
 

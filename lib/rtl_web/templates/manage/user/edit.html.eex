@@ -10,4 +10,4 @@
   to: Routes.manage_user_path(@conn, :delete, @user.id),
   method: :delete,
   data_confirm: "WARNING: This will irreversibly delete the user \"#{@user.full_name}\". Any associated projects will NOT be deleted. Proceed?",
-  class: "text-danger" %>
+  class: "text-danger test-link-delete-user-#{@user.id}" %>

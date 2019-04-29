@@ -1,3 +1,4 @@
+<div class="test-page-list-users" />
 <h1>Users</h1>
 
 <%= Enum.map(@users, fn(user) -> %>
@@ -18,4 +19,4 @@
 
 <% end) %>
 
-<%= link "New user", to: Routes.manage_user_path(@conn, :new), class: "btn btn-outline-primary" %>
+<%= link "New user", to: Routes.manage_user_path(@conn, :new), class: "btn btn-outline-primary test-link-new-user" %>

@@ -5,6 +5,7 @@ defmodule RTL.Videos.Video do
   alias RTL.Videos.{Video, Coding}
 
   schema "videos" do
+    belongs_to :prompt, RTL.Projects.Prompt
     field :title, :string
     field :source_name, :string
     field :source_url, :string
@@ -20,6 +21,7 @@ defmodule RTL.Videos.Video do
   def changeset(struct, params \\ %{}) do
     struct
     |> cast(params, [
+      :prompt_id,
       :title,
       :source_name,
       :source_url,
@@ -27,13 +29,15 @@ defmodule RTL.Videos.Video do
       :recording_filename,
       :thumbnail_filename
     ])
-    |> validate_required([:title, :recording_filename, :thumbnail_filename])
+    |> validate_required([:prompt_id, :title, :recording_filename, :thumbnail_filename])
     |> validate_inclusion(:permission, ["public", "researchers"])
   end
 
   #
   # Query helpers
   #
+
+  # TODO: Replace these w the standard filters api
 
   def sort_by_last_coded(query) do
     query

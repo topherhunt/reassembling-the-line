@@ -28,8 +28,7 @@ config :rtl, RTLWeb.Endpoint,
   secret_key_base: H.env!("SECRET_KEY_BASE"),
   live_view: [signing_salt: H.env!("SIGNING_SALT")]
 
-config :phoenix, :template_engines,
-  leex: Phoenix.LiveView.Engine
+config :phoenix, :template_engines, leex: Phoenix.LiveView.Engine
 
 config :phoenix, :json_library, Jason
 
@@ -40,15 +39,16 @@ config :logger, :console,
 # Avoid Poison dependency
 config :oauth2, serializers: %{"application/json" => Jason}
 
-config :ueberauth, Ueberauth, providers: [
-  auth0: {
-    Ueberauth.Strategy.Auth0,
-    [
-      request_path: "/auth/login",
-      callback_path: "/auth/auth0_callback"
-    ]
-  }
-]
+config :ueberauth, Ueberauth,
+  providers: [
+    auth0: {
+      Ueberauth.Strategy.Auth0,
+      [
+        request_path: "/auth/login",
+        callback_path: "/auth/auth0_callback"
+      ]
+    }
+  ]
 
 config :ueberauth, Ueberauth.Strategy.Auth0.OAuth,
   domain: H.env!("AUTH0_DOMAIN"),

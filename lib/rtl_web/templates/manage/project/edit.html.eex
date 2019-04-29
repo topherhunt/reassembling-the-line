@@ -10,4 +10,4 @@
   to: Routes.manage_project_path(@conn, :delete, @project.id),
   method: :delete,
   data_confirm: "WARNING: This will irreversibly delete the project \"#{@project.name}\" and all of its data. Proceed?",
-  class: "text-danger" %>
+  class: "text-danger test-link-delete-project-#{@project.id}" %>

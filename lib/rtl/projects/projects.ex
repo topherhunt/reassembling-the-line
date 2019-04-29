@@ -2,7 +2,7 @@
 defmodule RTL.Projects do
   import Ecto.Query, warn: false
   alias RTL.Repo
-  alias RTL.Projects.{Project, ProjectAdminJoin}
+  alias RTL.Projects.{Project, Prompt, ProjectAdminJoin}
 
   #
   # Project schema
@@ -31,7 +31,37 @@ defmodule RTL.Projects do
 
   def new_project_changeset(params \\ %{}), do: Project.changeset(%Project{}, params)
 
-  def project_changeset(proj, params \\ %{}), do: Project.changeset(proj, params)
+  def project_changeset(project, params \\ %{}), do: Project.changeset(project, params)
+
+  #
+  # Prompt schema
+  #
+
+  def get_prompt(id, filt \\ []), do: get_prompt_by(Keyword.merge([id: id], filt))
+
+  def get_prompt!(id, filt \\ []), do: get_prompt_by!(Keyword.merge([id: id], filt))
+
+  def get_prompt_by(filt \\ []), do: Prompt |> Prompt.filter(filt) |> Repo.first()
+
+  def get_prompt_by!(filt \\ []), do: Prompt |> Prompt.filter(filt) |> Repo.first!()
+
+  def get_prompts(filt \\ []), do: Prompt |> Prompt.filter(filt) |> Repo.all()
+
+  def count_prompts(filt \\ []), do: Prompt |> Prompt.filter(filt) |> Repo.count()
+
+  def insert_prompt(params), do: new_prompt_changeset(params) |> Repo.insert()
+
+  def insert_prompt!(params), do: new_prompt_changeset(params) |> Repo.insert!()
+
+  def update_prompt(p, params), do: prompt_changeset(p, params) |> Repo.update()
+
+  def update_prompt!(p, params), do: prompt_changeset(p, params) |> Repo.update!()
+
+  def delete_prompt!(prompt), do: Repo.delete!(prompt)
+
+  def new_prompt_changeset(params \\ %{}), do: Prompt.changeset(%Prompt{}, params)
+
+  def prompt_changeset(prompt, params \\ %{}), do: Prompt.changeset(prompt, params)
 
   #
   # ProjectAdminJoin schema
@@ -43,8 +73,8 @@ defmodule RTL.Projects do
   end
 
   def add_project_admin!(project, admin) do
-    %ProjectAdminJoin{} 
-    |> ProjectAdminJoin.changeset(%{project_id: project.id, admin_id: admin.id}) 
+    %ProjectAdminJoin{}
+    |> ProjectAdminJoin.changeset(%{project_id: project.id, admin_id: admin.id})
     |> Repo.insert!()
   end
 

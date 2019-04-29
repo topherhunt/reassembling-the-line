@@ -1,0 +1,19 @@
+<div class="test-page-show-prompt-<%= @prompt.id %>" />
+<h2>Prompt: <%= @prompt.html %></h2>
+
+<div class="u-card">
+  <h4>Basic info</h4>
+
+  <ul>
+    <li>Project: <%= link @project.name, to: Routes.manage_project_path(@conn, :show, @project) %></li>
+    <li>Created: <%= print_date(@prompt.inserted_at) %></li>
+  </ul>
+
+  <%= link "Edit", to: Routes.manage_project_prompt_path(@conn, :edit, @project, @prompt), class: "test-link-edit-prompt-#{@prompt.id}" %>
+</div>
+
+<div class="u-card">
+  <h4>Video responses</h4>
+
+  TODO
+</div>

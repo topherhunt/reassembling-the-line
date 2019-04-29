@@ -20,7 +20,7 @@ If you're using this project, **please let us know** so we can learn what works 
 
 ## Running the app
 
-  * `mix test` (be sure to start `phantomjs --wd` in another tab first)
+  * `mix test` (be sure to start `chromedriver` in another tab first)
   * `mix phoenix.server`
   * `mix run priv/repo/autologins.exs` - list all autologin URLs
 
@@ -36,7 +36,7 @@ I've written scripts to help with batch importing videos from YouTube. Here's ho
 
 ## Test
 
-  * Run `phantomjs --wd` before running `mix test` (integration tests require this service to be running)
+  * A current version of ChromeDriver must be running in order for integration tests to pass.
 
 
 ## Heroku

@@ -43,7 +43,7 @@ defmodule RTL.Accounts.User do
   #
 
   def filter(starting_query, filters) do
-    Enum.reduce(filters, starting_query, fn({k, v}, q) -> filter(q, k, v) end)
+    Enum.reduce(filters, starting_query, fn {k, v}, q -> filter(q, k, v) end)
   end
 
   def filter(query, :id, id), do: where(query, [u], u.id == ^id)
@@ -55,6 +55,14 @@ defmodule RTL.Accounts.User do
   def filter(query, :order, :full_name), do: order_by(query, [u], asc: u.full_name)
 
   def filter(query, :not_admin_on_project, project) do
-    where(query, [u], fragment("NOT EXISTS (SELECT * FROM project_admin_joins WHERE project_id = ? AND admin_id = ?)", ^project.id, u.id))
+    where(
+      query,
+      [u],
+      fragment(
+        "NOT EXISTS (SELECT * FROM project_admin_joins WHERE project_id = ? AND admin_id = ?)",
+        ^project.id,
+        u.id
+      )
+    )
   end
 end

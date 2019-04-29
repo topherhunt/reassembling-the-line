@@ -2,11 +2,6 @@ defmodule RTLWeb.Manage.ProjectAdminJoinControllerTest do
   use RTLWeb.ConnCase, async: true
   alias RTL.Projects
 
-  defp login_as_superadmin(conn) do
-    {conn, _user} = login_as_new_user(conn, %{email: "superadmin@example.com"})
-    conn
-  end
-
   describe "plugs" do
     test "all actions reject non-logged-in user", %{conn: conn} do
       conn = get(conn, Routes.manage_user_path(conn, :index))
@@ -27,7 +22,7 @@ defmodule RTLWeb.Manage.ProjectAdminJoinControllerTest do
 
   describe "#create" do
     test "inserts the join and redirects", %{conn: conn} do
-      conn = login_as_superadmin(conn)
+      {conn, _user} = login_as_superadmin(conn)
       project = Factory.insert_project()
       user = Factory.insert_user()
       assert !Projects.is_project_admin?(project, user)
@@ -42,7 +37,7 @@ defmodule RTLWeb.Manage.ProjectAdminJoinControllerTest do
 
   describe "#delete" do
     test "deletes the join and redirects", %{conn: conn} do
-      conn = login_as_superadmin(conn)
+      {conn, _user} = login_as_superadmin(conn)
       project = Factory.insert_project()
       user = Factory.insert_user()
       Projects.add_project_admin!(project, user)

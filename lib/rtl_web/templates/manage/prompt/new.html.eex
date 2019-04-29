@@ -1,0 +1,6 @@
+<div class="test-page-new-prompt" />
+<h1>New prompt</h1>
+
+<%= render "_form.html",
+  changeset: @changeset,
+  path: Routes.manage_project_prompt_path(@conn, :create, @project) %>

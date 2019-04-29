@@ -5,11 +5,11 @@ defmodule RTLWeb.ErrorHelpers do
     case form.errors[field] do
       {message, _metadata} ->
         content_tag(:span, raw("#{field} #{message}"), class: "formField__error")
-        # Can also use translate_error(error) for i18n
+
+      # Can also use translate_error(error) for i18n
 
       _ ->
         nil
-
     end
   end
 

@@ -1,3 +1,4 @@
+<div class="test-page-show-user-<%= @user.id %>" />
 <h1>User: <%= @user.full_name %></h1>
 
 <div class="u-card">
@@ -8,7 +9,7 @@
     <li>Last signed in: <%= @user.last_signed_in_at %></li>
   </ul>
 
-  <%= link "edit", to: Routes.manage_user_path(@conn, :edit, @user), class: "text-warning" %>
+  <%= link "edit", to: Routes.manage_user_path(@conn, :edit, @user), class: "text-warning test-link-edit-user-#{@user.id}" %>
 </div>
 
 <div class="u-card">
@@ -21,10 +22,10 @@
         &nbsp;
         <%= link "details", to: Routes.manage_project_path(@conn, :show, join.project) %>
         &nbsp;
-        <%= link "remove", 
-          to: Routes.manage_project_admin_join_path(@conn, :delete, join, project_id: join.project.id, admin_id: @user.id, return_to: @conn.request_path), 
+        <%= link "remove",
+          to: Routes.manage_project_admin_join_path(@conn, :delete, join, project_id: join.project.id, admin_id: @user.id, return_to: @conn.request_path),
           method: :delete,
-          class: "text-danger", 
+          class: "text-danger",
           data_confirm: "Really revoke my access on this project?" %>
       </li>
     <% end %>

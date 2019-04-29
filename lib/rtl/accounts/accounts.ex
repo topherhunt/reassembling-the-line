@@ -18,7 +18,7 @@ defmodule RTL.Accounts do
 
   def get_user_by!(filt \\ []), do: User |> User.filter(filt) |> Repo.first!()
 
-  def get_users(filt \\ []), do:  User |> User.filter(filt) |> Repo.all()
+  def get_users(filt \\ []), do: User |> User.filter(filt) |> Repo.all()
 
   def count_users(filt \\ []), do: User |> User.filter(filt) |> Repo.count()
 

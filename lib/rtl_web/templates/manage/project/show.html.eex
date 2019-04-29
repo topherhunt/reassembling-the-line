@@ -1,3 +1,4 @@
+<div class="test-page-show-project-<%= @project.id %>" />
 <h2>Project: <%= @project.name %></h2>
 
 <div class="u-card">
@@ -7,7 +8,7 @@
     <li>Created: <%= print_date(@project.inserted_at) %></li>
   </ul>
 
-  <%= link "Edit", to: Routes.manage_project_path(@conn, :edit, @project) %>
+  <%= link "Edit", to: Routes.manage_project_path(@conn, :edit, @project), class: "btn btn-outline-warning test-link-edit-project-#{@project.id}" %>
 </div>
 
 <div class="u-card">
@@ -21,16 +22,16 @@
           &nbsp;
           <%= link "details", to: Routes.manage_user_path(@conn, :show, join.admin) %>
           &nbsp;
-          <%= link "remove", 
-            to: Routes.manage_project_admin_join_path(@conn, :delete, join, project_id: @project.id, admin_id: join.admin.id, return_to: @conn.request_path), 
+          <%= link "remove",
+            to: Routes.manage_project_admin_join_path(@conn, :delete, join, project_id: @project.id, admin_id: join.admin.id, return_to: @conn.request_path),
             method: :delete,
-            class: "text-danger", 
+            class: "text-danger",
             data_confirm: "Really remove this admin?" %>
         <% end %>
       </li>
     <% end %>
   </ul>
-  
+
   <%= if is_superadmin?(@current_user) do %>
     <%= form_for @conn, Routes.manage_project_admin_join_path(@conn, :create), [method: :post], fn(f) -> %>
       Add an admin:
@@ -41,4 +42,18 @@
       <%= submit("Add", class: "btn btn-primary btn-sm") %>
     <% end %>
   <% end %>
+</div>
+
+<div class="u-card">
+  <h4>Prompts</h4>
+
+  <%= for prompt <- @prompts do %>
+    <li>
+      <%= prompt.html %>
+      &nbsp;
+      <%= link "details", to: Routes.manage_project_prompt_path(@conn, :show, @project, prompt), class: "test-link-show-prompt-#{prompt.id}" %>
+    </li>
+  <% end %>
+
+  <%= link "New prompt", to: Routes.manage_project_prompt_path(@conn, :new, @project), class: "btn btn-outline-primary test-link-new-prompt" %>
 </div>

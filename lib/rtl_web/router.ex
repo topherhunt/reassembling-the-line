@@ -18,15 +18,21 @@ defmodule RTLWeb.Router do
     plug :load_current_user
   end
 
-  pipeline :require_login do
-    plug :must_be_logged_in
-  end
-
   scope "/", RTLWeb do
     pipe_through :browser
 
     get "/", HomeController, :index
     get "/test_error", HomeController, :test_error
+
+    # Routes are organized by functional contexts.
+    # Routes are NOT organized by user role, permissions, or scoped resources.
+    # The contexts are:
+    # - /auth (authentication & session)
+    # - /manage (admin & superadmin features)
+    # - /collect (tools for getting videos into the db)
+    # - /process (tools for coder / admin to code & explore videos)
+    # - /explore (tools for the end user to explore the coded results)
+    #
 
     scope "/auth" do
       # The Ueberauth login route redirects to Auth0's login page
@@ -37,34 +43,48 @@ defmodule RTLWeb.Router do
       get "/login_from_uuid/:uuid", AuthController, :login_from_uuid
     end
 
-    get "/explore", ExploreController, :index
-    get "/explore/playlist", ExploreController, :playlist
-
-    resources "/videos", VideoController, only: [:show]
-
-    scope "/collect", as: :collect do
-      get "/hub", Collect.HubController, :index
-
-      resources "/webcam_recordings", Collect.WebcamRecordingController, only: [:new, :create]
-      get "/webcam_recordings/thank_you", Collect.WebcamRecordingController, :thank_you
-    end
-
-    # TODO: I shouldn't organize my controllers based on shared attributes /
-    # privilege level. Rather, group controllers based on functional area of
-    # the app, e.g. collect, code, explore, manage.
-    scope "/admin", as: :admin do
-      pipe_through :require_login
-
-      resources "/videos", Admin.VideoController, only: [:index]
-      resources "/codings", Admin.CodingController, only: [:new, :create, :edit, :update]
-    end
-
     scope "/manage", as: :manage do
-      pipe_through :require_login
-
       resources "/users", Manage.UserController
       resources "/projects", Manage.ProjectController
-      resources "/project_admin_joins", Manage.ProjectAdminJoinController, only: [:create, :delete]
+
+      # Not scoped under /projects/:id so we can add a join from either direction
+      resources "/project_admin_joins", Manage.ProjectAdminJoinController,
+        only: [:create, :delete]
+
+      scope "/projects/:project_id", as: :project do
+        resources "/prompts", Manage.PromptController,
+          only: [:show, :new, :create, :edit, :update, :delete]
+      end
+    end
+
+    scope "/collect", as: :collect do
+      scope "/projects/:project_slug/" do
+        # The admin-facing page explaining how you can import videos
+        get "/instructions", Collect.InstructionsController, :index
+
+        scope "/prompts/:prompt_slug" do
+          resources "/from_webcam", Collect.FromWebcamController, only: [:new, :create]
+          get "/from_webcam/thank_you", Collect.FromWebcamController, :thank_you
+        end
+      end
+    end
+
+    scope "/process", as: :process do
+      scope "/projects/:project_slug" do
+        resources "/videos", Process.VideoController, only: [:index]
+
+        scope "/videos/:id", as: :video do
+          resources "/codings", Process.CodingController,
+            only: [:new, :create, :edit, :update]
+        end
+      end
+    end
+
+    scope "/explore/:project_slug", as: :explore do
+      get "/", ExploreController, :index
+      get "/playlist", ExploreController, :playlist
+
+      resources "/videos", VideoController, only: [:show]
     end
   end
 

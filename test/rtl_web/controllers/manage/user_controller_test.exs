@@ -2,11 +2,6 @@ defmodule RTLWeb.Manage.UserControllerTest do
   use RTLWeb.ConnCase, async: true
   alias RTL.Accounts
 
-  defp login_as_superadmin(conn) do
-    {conn, _user} = login_as_new_user(conn, %{email: "superadmin@example.com"})
-    conn
-  end
-
   describe "plugs" do
     test "all actions reject non-logged-in user", %{conn: conn} do
       conn = get(conn, Routes.manage_user_path(conn, :index))
@@ -27,7 +22,7 @@ defmodule RTLWeb.Manage.UserControllerTest do
 
   describe "#index" do
     test "lists all users", %{conn: conn} do
-      conn = login_as_superadmin(conn)
+      {conn, _user} = login_as_superadmin(conn)
       user1 = Factory.insert_user()
       user2 = Factory.insert_user()
 
@@ -41,7 +36,7 @@ defmodule RTLWeb.Manage.UserControllerTest do
 
   describe "#show" do
     test "renders correctly", %{conn: conn} do
-      conn = login_as_superadmin(conn)
+      {conn, _user} = login_as_superadmin(conn)
       user = Factory.insert_user()
 
       conn = get(conn, Routes.manage_user_path(conn, :show, user))
@@ -52,7 +47,7 @@ defmodule RTLWeb.Manage.UserControllerTest do
 
   describe "#new" do
     test "renders correctly", %{conn: conn} do
-      conn = login_as_superadmin(conn)
+      {conn, _user} = login_as_superadmin(conn)
 
       conn = get(conn, Routes.manage_user_path(conn, :new))
 
@@ -62,7 +57,7 @@ defmodule RTLWeb.Manage.UserControllerTest do
 
   describe "#create" do
     test "inserts the user and redirects", %{conn: conn} do
-      conn = login_as_superadmin(conn)
+      {conn, _user} = login_as_superadmin(conn)
       count = Accounts.count_users()
 
       params = %{"user" => %{"full_name" => "E. Fudd", "email" => "elmer@fudd.com"}}
@@ -76,7 +71,7 @@ defmodule RTLWeb.Manage.UserControllerTest do
     end
 
     test "rejects changes if invalid", %{conn: conn} do
-      conn = login_as_superadmin(conn)
+      {conn, _user} = login_as_superadmin(conn)
       count = Accounts.count_users()
 
       params = %{"user" => %{"full_name" => "   ", "email" => "elmer@fudd.com"}}
@@ -89,7 +84,7 @@ defmodule RTLWeb.Manage.UserControllerTest do
 
   describe "#edit" do
     test "renders correctly", %{conn: conn} do
-      conn = login_as_superadmin(conn)
+      {conn, _user} = login_as_superadmin(conn)
       user = Factory.insert_user()
 
       conn = get(conn, Routes.manage_user_path(conn, :edit, user))
@@ -100,7 +95,7 @@ defmodule RTLWeb.Manage.UserControllerTest do
 
   describe "#update" do
     test "saves changes and redirects", %{conn: conn} do
-      conn = login_as_superadmin(conn)
+      {conn, _user} = login_as_superadmin(conn)
       user = Factory.insert_user()
 
       params = %{"user" => %{"full_name" => "Daffy", "email" => "daffy@duck.com"}}
@@ -113,7 +108,7 @@ defmodule RTLWeb.Manage.UserControllerTest do
     end
 
     test "rejects changes if invalid", %{conn: conn} do
-      conn = login_as_superadmin(conn)
+      {conn, _user} = login_as_superadmin(conn)
       user = Factory.insert_user()
 
       params = %{"user" => %{"full_name" => " ", "email" => "daffy@duck.com"}}
@@ -127,7 +122,7 @@ defmodule RTLWeb.Manage.UserControllerTest do
 
   describe "#delete" do
     test "deletes the user", %{conn: conn} do
-      conn = login_as_superadmin(conn)
+      {conn, _user} = login_as_superadmin(conn)
       user = Factory.insert_user()
 
       conn = delete(conn, Routes.manage_user_path(conn, :delete, user))

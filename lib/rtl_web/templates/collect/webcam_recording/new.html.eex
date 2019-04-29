@@ -16,14 +16,15 @@
   </div>
 </div>
 
-<h4>Our questions for you:</h4>
+<h4>The topic:</h4>
 <div class="row">
   <div class="col-sm-8">
-    <ul style="margin-bottom: 0; font-size: 1.25em; color: #1c7931;">
+    <%= @prompt.html %>
+    <%# <ul style="margin-bottom: 0; font-size: 1.25em; color: #1c7931;">
       <li><strong>Who are you?</strong> What do you love to do?</li>
       <li>What <strong>challenges</strong> do you experience in your life here?</li>
       <li>What do you need in order to <strong>thrive</strong> here?</li>
-    </ul>
+    </ul> %>
   </div>
   <div class="col-sm-4">
     <div class="alert alert-info">
@@ -105,10 +106,11 @@
           </label>
         </div>
 
+        <%= hidden_input f, :prompt_id, value: @prompt.id %>
         <%= hidden_input f, :thumbnail_filename, value: @thumbnail_filename %>
         <%= hidden_input f, :recording_filename, value: @recording_filename %>
         <%= link "Submit your interview", to: "#", class: "js-upload-and-submit-btn btn btn-primary" %>
-        <%= submit "SUBMIT_INTERVIEW_BUTTON", class: "js-submit-form-btn js-hidden", style: "display: none;" %>
+        <%= submit " ", class: "js-submit-form-btn js-hidden", style: "display: none;" %>
 
       <% end %>
     </div>

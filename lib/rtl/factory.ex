@@ -5,6 +5,7 @@ defmodule RTL.Factory do
   alias RTL.{Accounts, Projects, Videos}
 
   def insert_user(params \\ %{}) do
+    assert_no_keys_except(params, [:full_name, :email, :uuid])
     hex = H.random_hex()
 
     Accounts.insert_user!(%{
@@ -15,19 +16,30 @@ defmodule RTL.Factory do
   end
 
   def insert_project(params \\ %{}) do
-    hex = H.random_hex()
+    assert_no_keys_except(params, [:name, :uuid])
 
     Projects.insert_project!(%{
-      name: params[:name] || "Project #{hex}",
+      name: params[:name] || "Project #{H.random_hex()}",
       uuid: params[:uuid] || random_uuid()
+    })
+  end
+
+  def insert_prompt(params \\ %{}) do
+    assert_no_keys_except(params, [:project_id, :html])
+
+    Projects.insert_prompt!(%{
+      project_id: params[:project_id] || insert_project().id,
+      html: params[:html] || "Prompt #{H.random_hex()}"
     })
   end
 
   # TODO: These should all be ! bang functions since they raise on errors
   def insert_video(params \\ %{}) do
+    assert_no_keys_except(params, [:prompt_id, :title, :recording_filename, :thumbnail_filename])
     hex = H.random_hex()
 
     Videos.insert_video!(%{
+      prompt_id: params[:prompt_id] || insert_prompt().id,
       title: params[:title] || "Video #{hex}",
       recording_filename: params[:recording_filename] || "#{hex}.webm",
       thumbnail_filename: params[:thumbnail_filename] || "#{hex}.jpg"
@@ -35,21 +47,24 @@ defmodule RTL.Factory do
   end
 
   def insert_coding(params \\ %{}) do
-    # TODO: For this and similar helpers, maybe assert param keys against a whitelist
-    # so consumers can't accidentally input invalid keys.
-    default_tags = [%{"text" => "tag1"}, %{"text" => "tag2"}]
+    tags_params = params[:tags] || [%{"text" => "tag1"}, %{"text" => "tag2"}]
+
+    assert_no_keys_except(params, [:video_id, :coder_id, :tags])
+    Enum.each(tags_params, & assert_no_keys_except(&1, ["text", "starts_at", "ends_at"]))
 
     {:ok, coding} =
       Videos.insert_coding(%{
         video_id: params[:video_id] || insert_video().id,
         coder_id: params[:coder_id] || insert_user().id,
-        tags: params[:tags] || default_tags
+        tags: tags_params
       })
 
     coding
   end
 
   def insert_tagging(params \\ %{}) do
+    assert_no_keys_except(params, [:coding_id, :tag_id, :starts_at, :ends_at])
+
     Videos.insert_tagging!(%{
       coding_id: params[:coding_id] || insert_coding().id,
       tag_id: params[:tag_id] || insert_tag().id,
@@ -59,8 +74,29 @@ defmodule RTL.Factory do
   end
 
   def insert_tag(params \\ %{}) do
+    assert_no_keys_except(params, [:text])
     Videos.find_or_create_tag(%{text: params[:text] || "tag_#{H.random_hex()}"})
   end
 
-  defp random_uuid(), do: H.random_hex() <> H.random_hex()
+  def random_uuid do
+    pool = String.codepoints("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890_-")
+    # 5 base64 chars gives us 1B combinations; that's plenty of entropy
+    1..5
+    |> Enum.map(fn _ -> Enum.random(pool) end)
+    |> Enum.join()
+  end
+
+  #
+  # Internal
+  #
+
+  defp assert_no_keys_except(params, allowed_keys) do
+    keys = Enum.into(params, %{}) |> Map.keys()
+
+    Enum.each(keys, fn(key) ->
+      unless key in allowed_keys do
+        raise "Unexpected key #{inspect(key)}."
+      end
+    end)
+  end
 end

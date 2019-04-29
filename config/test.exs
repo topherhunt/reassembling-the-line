@@ -24,6 +24,6 @@ config :rtl, RTL.Repo,
 
 config :rtl, RTL.Mailer, adapter: Bamboo.TestAdapter
 
-config :hound, driver: "phantomjs"
+config :hound, driver: "chrome_driver", browser: "chrome_headless"
 
 config :rollbax, enabled: false

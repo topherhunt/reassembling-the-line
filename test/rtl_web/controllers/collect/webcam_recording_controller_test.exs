@@ -5,7 +5,8 @@ defmodule RTLWeb.Collect.WebcamRecordingControllerTest do
   test "#new renders correctly", %{conn: conn} do
     conn = get(conn, Routes.collect_webcam_recording_path(conn, :new, %{}))
 
-    assert html_response(conn, 200) =~ "Read the questions and consider what you'd like to say."
+    assert html_response(conn, 200) =~
+      "Read the questions and consider what you'd like to say."
   end
 
   test "#create inserts the video and redirects", %{conn: conn} do
