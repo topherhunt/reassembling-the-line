@@ -1,8 +1,8 @@
-defmodule RTLWeb.Manage.ProjectAdminJoinController do
+defmodule RTLWeb.Admin.ProjectAdminJoinController do
   use RTLWeb, :controller
   alias RTL.{Accounts, Projects}
 
-  plug :must_be_superadmin
+  plug :ensure_superadmin
 
   def create(conn, %{"project_id" => project_id, "admin_id" => admin_id}) do
     project = Projects.get_project!(project_id)

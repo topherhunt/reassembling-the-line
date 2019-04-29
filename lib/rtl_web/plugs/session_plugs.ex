@@ -32,37 +32,6 @@ defmodule RTLWeb.SessionPlugs do
     end
   end
 
-  # Deny access to this page unless a user is logged in
-  def must_be_logged_in(conn, _opts) do
-    if current_user_assigned?(conn) do
-      conn
-    else
-      conn
-      |> put_flash(:error, "You must be logged in to access that page.")
-      |> redirect(to: Routes.home_path(conn, :index))
-      |> halt()
-    end
-  end
-
-  def must_not_be_logged_in(conn, _opts) do
-    if current_user_assigned?(conn) do
-      conn
-      |> put_flash(:error, "You are already logged in.")
-      |> redirect(to: Routes.home_path(conn, :index))
-      |> halt()
-    else
-      conn
-    end
-  end
-
-  def must_be_superadmin(conn, _opts) do
-    if Sentry.is_superadmin?(conn.assigns.current_user) do
-      conn
-    else
-      redirect_with_permission_error(conn)
-    end
-  end
-
   #
   # External helpers
   #
@@ -86,13 +55,6 @@ defmodule RTLWeb.SessionPlugs do
     |> configure_session(drop: true)
 
     # But we don't halt the conn. Later plugs can decide what response to give.
-  end
-
-  def redirect_with_permission_error(conn) do
-    conn
-    |> put_flash(:error, "You don't have permission to access that page.")
-    |> redirect(to: Routes.home_path(conn, :index))
-    |> halt()
   end
 
   #

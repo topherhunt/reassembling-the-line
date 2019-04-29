@@ -1,9 +1,11 @@
-defmodule RTLWeb.Manage.PromptController do
+defmodule RTLWeb.Admin.PromptController do
   use RTLWeb, :controller
   alias RTL.Projects
 
   plug :load_project
-  plug :authorize_user
+  plug :ensure_can_manage_project
+  # Convert :uuid param to :prompt_uuid for consistency / clarity
+  plug :rename_prompt_uuid when action in [:show, :edit, :update, :delete]
   plug :load_prompt when action in [:show, :edit, :update, :delete]
 
   def show(conn, _params) do
@@ -63,25 +65,8 @@ defmodule RTLWeb.Manage.PromptController do
   # Helpers
   #
 
-  defp load_project(conn, _) do
-    project = Projects.get_project!(conn.params["project_id"])
-    assign(conn, :project, project)
-  end
-
-  defp authorize_user(conn, _) do
-    user = conn.assigns.current_user
-    project = conn.assigns.project
-
-    if RTL.Sentry.can_view_project?(user, project) do
-      conn
-    else
-      redirect_with_permission_error(conn)
-    end
-  end
-
-  defp load_prompt(conn, _) do
-    prompt = Projects.get_prompt!(conn.params["id"])
-    assign(conn, :prompt, prompt)
+  defp rename_prompt_uuid(conn, _) do
+    Map.put_in(conn, [:params, "prompt_uuid"], conn.params["uuid"])
   end
 
   defp project_path(conn) do

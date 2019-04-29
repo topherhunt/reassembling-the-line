@@ -1,4 +1,4 @@
-defmodule RTLWeb.Manage.ProjectShowLiveview do
+defmodule RTLWeb.Admin.ProjectShowLiveview do
   use Phoenix.LiveView
   use Phoenix.HTML
   require Logger
@@ -18,7 +18,7 @@ defmodule RTLWeb.Manage.ProjectShowLiveview do
   end
 
   def render(assigns) do
-    RTLWeb.Manage.ProjectView.render("show.html", assigns)
+    RTLWeb.Admin.ProjectView.render("show.html", assigns)
   end
 
   # def handle_event("delete_video" = type, id, socket) do
@@ -50,5 +50,5 @@ defmodule RTLWeb.Manage.ProjectShowLiveview do
     |> redirect(to: Routes.manage_project_path(socket, :index))
   end
 
-  defp log(message), do: Logger.info("Manage.ProjectShowLiveview: #{message}")
+  defp log(message), do: Logger.info("Admin.ProjectShowLiveview: #{message}")
 end

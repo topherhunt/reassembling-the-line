@@ -1,7 +1,10 @@
-defmodule RTLWeb.Collect.WebcamRecordingController do
+defmodule RTLWeb.Share.FromWebcamController do
   use RTLWeb, :controller
   alias RTL.Helpers, as: H
   alias RTL.Videos
+
+  plug :load_project
+  plug :load_prompt
 
   # For now, we don't require a logged-in user nor any sort of voucher code.
   # Anyone can record and upload an interview as many times as they want.
@@ -26,7 +29,7 @@ defmodule RTLWeb.Collect.WebcamRecordingController do
 
     conn
     |> put_flash(:info, submission_confirmation_message())
-    |> redirect(to: Routes.collect_webcam_recording_path(conn, :thank_you))
+    |> redirect(to: Routes.collect_from_webcam_path(conn, :thank_you))
   end
 
   def thank_you(conn, _params) do

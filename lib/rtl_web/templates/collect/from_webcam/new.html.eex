@@ -80,7 +80,7 @@
   <h4>Submit your interview</h4>
   <div class="row">
     <div class="col-sm-8">
-      <%= form_for @changeset, Routes.collect_webcam_recording_path(@conn, :create), fn(f) -> %>
+      <%= form_for @changeset, Routes.collect_from_webcam_path(@conn, :create), fn(f) -> %>
 
         <div class="form-group">
           <div>

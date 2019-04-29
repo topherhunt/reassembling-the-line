@@ -29,7 +29,7 @@
           <p>Or click this button to record your own interview video, which will be added to the queue for coding:</p>
 
           <p class="text-center">
-            <%= link "Record your interview", to: Routes.collect_webcam_recording_path(@conn, :new), class: "btn btn-info" %>
+            <%= link "Record your interview", to: Routes.collect_from_webcam_path(@conn, :new), class: "btn btn-info" %>
           </p>
         </div>
       </div>

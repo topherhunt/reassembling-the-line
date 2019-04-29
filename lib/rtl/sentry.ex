@@ -7,7 +7,7 @@ defmodule RTL.Sentry do
     user.email in superadmin_emails
   end
 
-  def can_view_project?(user, project) do
+  def can_manage_project?(user, project) do
     is_superadmin?(user) || Projects.is_project_admin?(project, user)
   end
 end

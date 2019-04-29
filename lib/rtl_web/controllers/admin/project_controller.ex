@@ -1,11 +1,12 @@
-defmodule RTLWeb.Manage.ProjectController do
+defmodule RTLWeb.Admin.ProjectController do
   use RTLWeb, :controller
   alias RTL.{Accounts, Projects}
 
+  # Rename :uuid to :project_uuid for consistency
+  plug :rename_project_uuid when action in [:show, :edit, :update, :delete]
   plug :load_project when action in [:show, :edit, :update, :delete]
-  plug :authorize_user when action in [:show, :edit, :update, :delete]
-
-  # TODO: new and create should require superadmin.
+  plug :ensure_can_manage_project when action in [:show, :edit, :update, :delete]
+  plug :ensure_superadmin when action in [:new, :create]
 
   def index(conn, _params) do
     projects = get_projects(conn)
@@ -15,7 +16,7 @@ defmodule RTLWeb.Manage.ProjectController do
   def show(conn, _params) do
     # I thought about making this a LV, but the limited UI needs really don't
     # justify the added layer. Plain server-rendered CRUD is fine.
-    # live_render(conn, RTLWeb.Manage.ProjectShowLiveview,
+    # live_render(conn, RTLWeb.Admin.ProjectShowLiveview,
     #   session: %{current_user: conn.assigns.current_user, id: id})
     project = conn.assigns.project
     addable_admins = Accounts.get_users(not_admin_on_project: project, order: :full_name)
@@ -75,20 +76,8 @@ defmodule RTLWeb.Manage.ProjectController do
   # Helpers
   #
 
-  defp load_project(conn, _) do
-    id = conn.params["id"]
-    assign(conn, :project, Projects.get_project!(id, preload: :admins))
-  end
-
-  defp authorize_user(conn, _) do
-    user = conn.assigns.current_user
-    project = conn.assigns.project
-
-    if RTL.Sentry.can_view_project?(user, project) do
-      conn
-    else
-      redirect_with_permission_error(conn)
-    end
+  defp rename_project_uuid(conn, _) do
+    Map.put_in(conn, [:params, "project_uuid"], conn.params["uuid"])
   end
 
   defp get_projects(conn) do

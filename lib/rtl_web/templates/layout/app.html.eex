@@ -14,10 +14,16 @@
 
   <body>
     <nav class="navbar navbar-expand-sm navbar-light bg-light">
-      <a class="navbar-brand text-info" href="/">
-        <%= icon("barcode") %>
-        RTL
-      </a>
+      <%= if @current_project do %>
+        <%= if can_manage_project?(@current_project, @current_user) do %>
+          <%= link @current_project.name, to: Routes.manage_project_path(@conn, :show, @current_project), class: "navbar-brand" %>
+        <% else %>
+          <%= link @current_project.name, to: Routes.manage_project_path(@conn, :show, @current_project), class: "navbar-brand" %>
+          <span class="navbar-brand"><%= @current_project.name %></span>
+        <% end %>
+      <% else %>
+        <%= link icon_and_text("barcode", "Reassembling the Line"), to: home_path(@conn, :index), class: "navbar-brand text-info" %>
+      <% end %>
 
       <button class="navbar-toggler" data-toggle="collapse" data-target="#navbar-content">
         <span class="navbar-toggler-icon"></span>
@@ -26,7 +32,42 @@
       <div id="navbar-content" class="collapse navbar-collapse">
         <ul class="navbar-nav mr-auto"></ul>
         <ul class="navbar-nav">
-          <%= render "_nav_links.html", conn: @conn, current_user: @current_user %>
+
+          <%= if @current_user do %>
+
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">
+                <%= icon("settings") %>
+                <span class="caret"></span>
+              </a>
+              <div class="dropdown-menu dropdown-menu-right">
+                <%= if is_superadmin?(@current_user) do %>
+                  <%= link "Manage users", to: Routes.manage_user_path(@conn, :index), class: "dropdown-item" %>
+                <% end %>
+
+                <%= link "Manage projects", to: Routes.manage_project_path(@conn, :index), class: "dropdown-item" %>
+              </div>
+            </li>
+
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">
+                <%= icon("person") %>
+                <span class="caret"></span>
+              </a>
+              <div class="dropdown-menu dropdown-menu-right">
+                <div class="dropdown-item em small">Logged in as <%= @current_user.full_name %></div>
+                <%= link icon_and_text("power", "Log out"), to: Routes.auth_path(@conn, :logout), class: "dropdown-item text-danger test-logout-link" %>
+              </div>
+            </li>
+
+          <% else %>
+
+            <li class="nav-item">
+              <%= link "Log in", to: Routes.auth_path(@conn, :login), class: "nav-link" %>
+            </li>
+
+          <% end %>
+
         </ul>
       </div>
     </nav>

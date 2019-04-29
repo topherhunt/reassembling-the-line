@@ -25,12 +25,14 @@ defmodule RTLWeb do
       import Plug.Conn
       import RTLWeb.Gettext
 
-      import RTLWeb.SessionPlugs,
+      import RTLWeb.SentryPlugs,
         only: [
-          must_be_logged_in: 2,
-          must_not_be_logged_in: 2,
-          must_be_superadmin: 2,
-          redirect_with_permission_error: 1
+          load_project: 2,
+          load_prompt: 2,
+          ensure_logged_in: 2,
+          ensure_not_logged_in: 2,
+          ensure_superadmin: 2,
+          ensure_can_manage_project: 2
         ]
 
       alias RTLWeb.Router.Helpers, as: Routes

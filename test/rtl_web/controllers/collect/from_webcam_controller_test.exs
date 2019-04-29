@@ -1,9 +1,9 @@
-defmodule RTLWeb.Collect.WebcamRecordingControllerTest do
+defmodule RTLWeb.Collect.FromWebcamControllerTest do
   use RTLWeb.ConnCase, async: true
   alias RTL.Videos
 
   test "#new renders correctly", %{conn: conn} do
-    conn = get(conn, Routes.collect_webcam_recording_path(conn, :new, %{}))
+    conn = get(conn, Routes.collect_from_webcam_path(conn, :new, %{}))
 
     assert html_response(conn, 200) =~
       "Read the questions and consider what you'd like to say."
@@ -19,9 +19,9 @@ defmodule RTLWeb.Collect.WebcamRecordingControllerTest do
       }
     }
 
-    conn = post(conn, Routes.collect_webcam_recording_path(conn, :create), params)
+    conn = post(conn, Routes.collect_from_webcam_path(conn, :create), params)
 
-    assert redirected_to(conn) == Routes.collect_webcam_recording_path(conn, :thank_you)
+    assert redirected_to(conn) == Routes.collect_from_webcam_path(conn, :thank_you)
     video = Videos.get_newest_video()
     assert video.source_name == "Elmer Fudd"
     assert video.title == "Interview with Elmer Fudd"
@@ -39,7 +39,7 @@ defmodule RTLWeb.Collect.WebcamRecordingControllerTest do
       }
     }
 
-    post(conn, Routes.collect_webcam_recording_path(conn, :create), params)
+    post(conn, Routes.collect_from_webcam_path(conn, :create), params)
 
     video = Videos.get_newest_video()
     assert video.source_name == nil

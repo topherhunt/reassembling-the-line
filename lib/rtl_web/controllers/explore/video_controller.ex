@@ -1,4 +1,4 @@
-defmodule RTLWeb.VideoController do
+defmodule RTLWeb.Explore.VideoController do
   use RTLWeb, :controller
   alias RTL.Videos
 

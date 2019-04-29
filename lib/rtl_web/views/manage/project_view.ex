@@ -1,4 +1,4 @@
-defmodule RTLWeb.Manage.ProjectView do
+defmodule RTLWeb.Admin.ProjectView do
   use RTLWeb, :view
 
   def id_and_label_for(users) do

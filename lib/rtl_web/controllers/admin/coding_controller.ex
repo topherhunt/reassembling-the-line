@@ -2,6 +2,9 @@ defmodule RTLWeb.Admin.CodingController do
   use RTLWeb, :controller
   alias RTL.Videos
 
+  plug :load_project
+  plug :ensure_can_manage_project
+
   def new(conn, %{"video_id" => video_id}) do
     video = Videos.get_video!(video_id)
     changeset = Videos.coding_changeset(%{video_id: video.id})

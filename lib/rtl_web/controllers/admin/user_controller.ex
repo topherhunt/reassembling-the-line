@@ -1,9 +1,9 @@
-defmodule RTLWeb.Manage.UserController do
+defmodule RTLWeb.Admin.UserController do
   use RTLWeb, :controller
   alias RTL.{Accounts, Projects}
 
   plug :load_user when action in [:show, :edit, :update, :delete]
-  plug :must_be_superadmin
+  plug :ensure_superadmin
 
   def index(conn, _params) do
     users = Accounts.get_users(preload: :projects)
