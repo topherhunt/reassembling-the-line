@@ -4,8 +4,6 @@ defmodule RTLWeb.Admin.PromptController do
 
   plug :load_project
   plug :ensure_can_manage_project
-  # Convert :uuid param to :prompt_uuid for consistency / clarity
-  plug :rename_prompt_uuid when action in [:show, :edit, :update, :delete]
   plug :load_prompt when action in [:show, :edit, :update, :delete]
 
   def show(conn, _params) do
@@ -64,10 +62,6 @@ defmodule RTLWeb.Admin.PromptController do
   #
   # Helpers
   #
-
-  defp rename_prompt_uuid(conn, _) do
-    Map.put_in(conn, [:params, "prompt_uuid"], conn.params["uuid"])
-  end
 
   defp project_path(conn) do
     Routes.manage_project_path(conn, :show, conn.assigns.project)

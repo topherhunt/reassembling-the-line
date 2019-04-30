@@ -3,10 +3,7 @@ defmodule RTLWeb.Router do
   use RTLWeb, :router
   # Rollbax error handler - see #handle_errors()
   use Plug.ErrorHandler
-  import RTLWeb.SessionPlugs, only: [
-    load_current_user: 2,
-    ensure_logged_in: 2
-  ]
+  import RTLWeb.SessionPlugs, only: [load_current_user: 2]
 
   pipeline :browser do
     plug :accepts, ["html"]
@@ -24,13 +21,14 @@ defmodule RTLWeb.Router do
     get "/", HomeController, :index
     get "/test_error", HomeController, :test_error
 
-    # Routes are organized by functional contexts.
-    # Routes are NOT organized by user role, permissions, or scoped resources.
-    # The contexts are:
-    # - /auth (authentication & session)
-    # - /admin (admin & superadmin tools; coding interface)
-    # - /projects/:project_uuid/ (tools for getting videos into the db)
-    # - /explore (tools for the end user to explore the coded results)
+    # get "/foo/:uuid", HomeController, :foo
+    # resources "/foo", FooController
+
+    # How routes are organized:
+    # - All admin- or superadmin-only routes live under manage/
+    # - Most routes are scoped by project (making it a required param)
+    # - Some routes are similarly scoped by prompt
+    # - User-facing routes live under /project/:slug/share/, /project/:slug/explore/, etc.
 
     scope "/auth" do
       # The Ueberauth login route redirects to Auth0's login page
@@ -42,15 +40,15 @@ defmodule RTLWeb.Router do
     end
 
     #
-    # Admin-facing routes (manage structure, code videos, etc.)
+    # Admin UI (manage structure, code videos, etc.)
     #
 
-    scope "/admin", as: :admin do
+    scope "/manage", as: :manage do
       resources "/users", Admin.UserController
-      resources "/projects", Admin.ProjectController, param: :uuid
+      resources "/projects", Admin.ProjectController, param: "project_uuid"
 
-      scope "/projects/:project_uuid", as: :project do
-        resources "/prompts", Admin.PromptController, except: [:index]
+      scope "/projects/:project_uuid" do
+        resources "/prompts", Admin.PromptController, except: [:index], param: "prompt_uuid"
 
         resources "/videos", Admin.VideoController, only: [:index]
         scope "/videos/:video_id", as: :video do
@@ -65,7 +63,7 @@ defmodule RTLWeb.Router do
     end
 
     #
-    # Public-facing routes (interview recording, explore results, etc.)
+    # Public-facing UI (share your story, explore results, etc.)
     #
 
     scope "/projects/:project_uuid" do
@@ -80,13 +78,13 @@ defmodule RTLWeb.Router do
 
       scope "/explore", as: :explore do
         get "/", ExploreController, :index
-        get "/playlist_json", :playlist_json
+        get "/playlist", ExploreController, :playlist
 
         get "/videos/:id", Explore.VideoController, :show
       end
     end
 
-    scope "/help", as: :help do
+    scope "/help" do
       get "/collecting_videos", HelpController, :collecting_videos
     end
 

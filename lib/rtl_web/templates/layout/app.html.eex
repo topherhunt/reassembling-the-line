@@ -22,7 +22,7 @@
           <span class="navbar-brand"><%= @current_project.name %></span>
         <% end %>
       <% else %>
-        <%= link icon_and_text("barcode", "Reassembling the Line"), to: home_path(@conn, :index), class: "navbar-brand text-info" %>
+        <%= link icon_and_text("barcode", "Reassembling the Line"), to: Routes.home_path(@conn, :index), class: "navbar-brand text-info" %>
       <% end %>
 
       <button class="navbar-toggler" data-toggle="collapse" data-target="#navbar-content">

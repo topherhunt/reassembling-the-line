@@ -46,8 +46,10 @@ defmodule RTLWeb do
       use Phoenix.HTML
       import Phoenix.Controller, only: [get_flash: 2, view_module: 1]
       import Phoenix.LiveView, only: [live_render: 2, live_render: 3]
+      import RTL.Sentry, only: [is_superadmin?: 1, can_manage_project?: 2]
       import RTLWeb.Gettext
-      import RTLWeb.{DateHelpers, UserHelpers, ErrorHelpers, IconHelpers}
+      import RTLWeb.{ErrorHelpers, DateHelpers, IconHelpers}
+
       alias RTLWeb.Router.Helpers, as: Routes
 
       # Rendered HTML will automatically use RTL.LayoutView "app.html"

@@ -3,6 +3,9 @@ defmodule RTL.Projects.Project do
   import Ecto.Changeset
   import Ecto.Query
 
+  # Tells Router helpers to use project uuid instead of id in all routes.
+  @derive {Phoenix.Param, key: :uuid}
+
   schema "projects" do
     field :name, :string
     field :uuid, :string

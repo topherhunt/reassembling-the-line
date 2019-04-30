@@ -2,8 +2,6 @@ defmodule RTLWeb.Admin.ProjectController do
   use RTLWeb, :controller
   alias RTL.{Accounts, Projects}
 
-  # Rename :uuid to :project_uuid for consistency
-  plug :rename_project_uuid when action in [:show, :edit, :update, :delete]
   plug :load_project when action in [:show, :edit, :update, :delete]
   plug :ensure_can_manage_project when action in [:show, :edit, :update, :delete]
   plug :ensure_superadmin when action in [:new, :create]
@@ -75,10 +73,6 @@ defmodule RTLWeb.Admin.ProjectController do
   #
   # Helpers
   #
-
-  defp rename_project_uuid(conn, _) do
-    Map.put_in(conn, [:params, "project_uuid"], conn.params["uuid"])
-  end
 
   defp get_projects(conn) do
     Projects.get_projects(visible_to: conn.assigns.current_user)

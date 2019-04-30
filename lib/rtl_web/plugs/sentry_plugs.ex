@@ -1,27 +1,21 @@
 defmodule RTLWeb.SentryPlugs do
   import Plug.Conn,
-    only: [
-      assign: 3,
-      halt: 1,
-      get_session: 2,
-      put_session: 3,
-      configure_session: 2
-    ]
+    only: [assign: 3, halt: 1]
 
   import Phoenix.Controller, only: [put_flash: 3, redirect: 2]
   alias RTLWeb.Router.Helpers, as: Routes
-  alias RTL.{Accounts, Sentry}
+  alias RTL.{Sentry, Accounts, Projects}
 
   #
   # Plugs
   #
 
-  defp load_project(conn, _) do
+  def load_project(conn, _) do
     uuid = conn.params["project_uuid"]
     assign(conn, :project, Projects.get_project_by!(uuid: uuid))
   end
 
-  defp load_prompt(conn, _) do
+  def load_prompt(conn, _) do
     uuid = conn.params["prompt_uuid"]
     assign(conn, :prompt, Projects.get_prompt_by!(uuid: uuid))
   end
