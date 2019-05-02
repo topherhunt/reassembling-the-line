@@ -39,6 +39,7 @@ defmodule RTL.Projects.Project do
   end
 
   def filter(query, :id, id), do: where(query, [p], p.id == ^id)
+  def filter(query, :uuid, uuid), do: where(query, [p], p.uuid == ^uuid)
   def filter(query, :order, :newest), do: order_by(query, [p], desc: p.id)
   def filter(query, :order, :name), do: order_by(query, [p], asc: p.name)
   def filter(query, :preload, :admins), do: preload(query, :admins)

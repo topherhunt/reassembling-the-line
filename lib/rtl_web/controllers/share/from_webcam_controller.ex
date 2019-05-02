@@ -33,7 +33,7 @@ defmodule RTLWeb.Share.FromWebcamController do
 
     conn
     |> put_flash(:info, submission_confirmation_message())
-    |> redirect(to: Routes.share_from_webcam_path(conn, project, prompt, :thank_you))
+    |> redirect(to: Routes.share_from_webcam_path(conn, :thank_you, project, prompt))
   end
 
   def thank_you(conn, _params) do

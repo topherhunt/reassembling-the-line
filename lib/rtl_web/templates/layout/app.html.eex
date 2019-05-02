@@ -14,7 +14,7 @@
 
   <body>
     <nav class="navbar navbar-expand-sm navbar-light bg-light">
-      <%= if @project do %>
+      <%= if @conn.assigns[:project] do %>
         <%= link @project.name, to: manage_or_view_project_path(@conn), class: "navbar-brand" %>
       <% else %>
         <%= link icon_and_text("barcode", "Reassembling the Line"), to: Routes.home_path(@conn, :index), class: "navbar-brand text-info" %>

@@ -4,6 +4,7 @@ defmodule RTLWeb.Router do
   # Rollbax error handler - see #handle_errors()
   use Plug.ErrorHandler
   import RTLWeb.SessionPlugs, only: [load_current_user: 2]
+  import RTLWeb.SentryPlugs, only: [ensure_logged_in: 2]
 
   pipeline :browser do
     plug :accepts, ["html"]
@@ -13,6 +14,10 @@ defmodule RTLWeb.Router do
     plug :protect_from_forgery
     plug :put_secure_browser_headers
     plug :load_current_user
+  end
+
+  pipeline :require_login do
+    plug :ensure_logged_in
   end
 
   scope "/", RTLWeb do
@@ -39,6 +44,8 @@ defmodule RTLWeb.Router do
     #
 
     scope "/manage", as: :manage do
+      pipe_through :require_login
+
       resources "/users", Manage.UserController
       resources "/projects", Manage.ProjectController, param: "project_uuid"
 
@@ -47,7 +54,7 @@ defmodule RTLWeb.Router do
 
         resources "/videos", Manage.VideoController, only: [:index]
         scope "/videos/:video_id", as: :video do
-          resources "/codings", Process.CodingController,
+          resources "/codings", Manage.CodingController,
             only: [:new, :create, :edit, :update]
         end
       end
@@ -64,8 +71,8 @@ defmodule RTLWeb.Router do
     scope "/projects/:project_uuid" do
       scope "/share", as: :share do
         scope "/prompts/:prompt_uuid" do
-          resources "/from_webcam", Collect.FromWebcamController, only: [:new, :create]
-          get "/from_webcam/thank_you", Collect.FromWebcamController, :thank_you
+          resources "/from_webcam", Share.FromWebcamController, only: [:new, :create]
+          get "/from_webcam/thank_you", Share.FromWebcamController, :thank_you
         end
       end
 

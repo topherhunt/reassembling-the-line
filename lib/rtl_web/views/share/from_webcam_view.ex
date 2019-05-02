@@ -1,3 +1,3 @@
-defmodule RTLWeb.Collect.FromWebcamView do
+defmodule RTLWeb.Share.FromWebcamView do
   use RTLWeb, :view
 end

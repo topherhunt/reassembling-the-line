@@ -1,3 +1,5 @@
+<div class="test-page-edit-coding"/>
+
 <%= render "_form.html",
   conn: @conn,
   video: @video,

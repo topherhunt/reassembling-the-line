@@ -33,11 +33,11 @@ defmodule RTLWeb.Manage.ProjectController do
   def create(conn, %{"project" => project_params}) do
     case Projects.insert_project(project_params) do
       {:ok, project} ->
-        Projects.add_project_admin!(project, conn.assigns.current_user)
+        Projects.add_project_admin!(conn.assigns.current_user, project)
 
         conn
         |> put_flash(:info, "Project created.")
-        |> redirect(to: Routes.manage_project_path(conn, :show, project.id))
+        |> redirect(to: Routes.manage_project_path(conn, :show, project))
 
       {:error, changeset} ->
         conn
@@ -56,7 +56,7 @@ defmodule RTLWeb.Manage.ProjectController do
       {:ok, project} ->
         conn
         |> put_flash(:info, "Project updated.")
-        |> redirect(to: Routes.manage_project_path(conn, :show, project.id))
+        |> redirect(to: Routes.manage_project_path(conn, :show, project))
 
       {:error, changeset} ->
         conn

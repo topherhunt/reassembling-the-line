@@ -36,7 +36,7 @@ defmodule RTLWeb.Manage.PromptControllerTest do
       {conn, user} = login_as_new_user(conn)
       proj = Factory.insert_project()
       prompt = Factory.insert_prompt()
-      Projects.add_project_admin!(proj, user)
+      Projects.add_project_admin!(user, proj)
 
       conn = get(conn, prompt_path(conn, :show, proj, prompt))
 

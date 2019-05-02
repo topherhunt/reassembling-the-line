@@ -5,7 +5,7 @@ defmodule RTLWeb.LayoutView do
     project = conn.assigns.project
     current_user = conn.assigns.current_user
 
-    if can_manage_project?(project, current_user),
+    if can_manage_project?(current_user, project),
       do: Routes.manage_project_path(conn, :show, project),
       else: Routes.explore_project_path(conn, :show, project)
   end

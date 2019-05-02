@@ -1,5 +1,7 @@
 <h1>Online interview: Life in northern Netherlands</h1>
 
+<div class="test-page-new-from-webcam"/>
+
 <div class="row">
   <div class="col-sm-8">
     <div>
@@ -80,7 +82,7 @@
   <h4>Submit your interview</h4>
   <div class="row">
     <div class="col-sm-8">
-      <%= form_for @changeset, Routes.share_from_webcam_path(@conn, @project, @prompt, :create), fn(f) -> %>
+      <%= form_for @changeset, Routes.share_from_webcam_path(@conn, :create, @project, @prompt), fn(f) -> %>
 
         <div class="form-group">
           <div>

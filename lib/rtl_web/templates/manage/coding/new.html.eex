@@ -1,3 +1,5 @@
+<div class="test-page-new-coding"/>
+
 <%= render "_form.html",
   conn: @conn,
   video: @video,

@@ -25,12 +25,12 @@ defmodule RTLWeb.Manage.ProjectAdminJoinControllerTest do
       {conn, _user} = login_as_superadmin(conn)
       project = Factory.insert_project()
       user = Factory.insert_user()
-      assert !Projects.is_project_admin?(project, user)
+      assert !Projects.is_project_admin?(user, project)
 
       params = %{"project_id" => project.id, "admin_id" => user.id, "return_to" => "/abcdef"}
       conn = post(conn, Routes.manage_project_admin_join_path(conn, :create), params)
 
-      assert Projects.is_project_admin?(project, user)
+      assert Projects.is_project_admin?(user, project)
       assert redirected_to(conn) == "/abcdef"
     end
   end
@@ -40,13 +40,14 @@ defmodule RTLWeb.Manage.ProjectAdminJoinControllerTest do
       {conn, _user} = login_as_superadmin(conn)
       project = Factory.insert_project()
       user = Factory.insert_user()
-      Projects.add_project_admin!(project, user)
-      assert Projects.is_project_admin?(project, user)
+      Projects.add_project_admin!(user, project)
+      assert Projects.is_project_admin?(user, project)
 
+      delete_path = Routes.manage_project_admin_join_path(conn, :delete, "blah")
       params = %{"project_id" => project.id, "admin_id" => user.id, "return_to" => "/abcdef"}
-      conn = delete(conn, Routes.manage_project_admin_join_path(conn, :delete, "blah"), params)
+      conn = delete(conn, delete_path, params)
 
-      assert !Projects.is_project_admin?(project, user)
+      assert !Projects.is_project_admin?(user, project)
       assert redirected_to(conn) == "/abcdef"
     end
   end

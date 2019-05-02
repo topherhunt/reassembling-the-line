@@ -39,7 +39,7 @@ defmodule RTLWeb.ManageProjectsTest do
   test "Project admin can list, view, edit, and delete projects", %{conn: conn} do
     user = login_as_new_user(conn)
     project = Factory.insert_project()
-    Projects.add_project_admin!(project, user)
+    Projects.add_project_admin!(user, project)
 
     # Listing projects
     find_element(".test-link-list-projects") |> click()

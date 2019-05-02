@@ -7,7 +7,7 @@ defmodule RTLWeb.Manage.ProjectAdminJoinController do
   def create(conn, %{"project_id" => project_id, "admin_id" => admin_id}) do
     project = Projects.get_project!(project_id)
     admin = Accounts.get_user!(admin_id)
-    Projects.add_project_admin!(project, admin)
+    Projects.add_project_admin!(admin, project)
 
     conn
     |> put_flash(:info, "Made #{admin.full_name} admin of project #{project.name}.")
@@ -17,7 +17,7 @@ defmodule RTLWeb.Manage.ProjectAdminJoinController do
   def delete(conn, %{"project_id" => project_id, "admin_id" => admin_id}) do
     project = Projects.get_project!(project_id)
     admin = Accounts.get_user!(admin_id)
-    Projects.remove_project_admin!(project, admin)
+    Projects.remove_project_admin!(admin, project)
 
     conn
     |> put_flash(:info, "Removed #{admin.full_name}'s access to project #{project.name}.")

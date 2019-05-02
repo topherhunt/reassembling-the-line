@@ -22,7 +22,7 @@ defmodule RTLWeb.Manage.PromptController do
       {:ok, prompt} ->
         conn
         |> put_flash(:info, "Prompt created.")
-        |> redirect(to: Routes.manage_prompt_path(conn, conn.assigns.project, prompt))
+        |> redirect(to: Routes.manage_prompt_path(conn, :show, conn.assigns.project, prompt))
 
       {:error, changeset} ->
         conn
@@ -42,7 +42,7 @@ defmodule RTLWeb.Manage.PromptController do
       {:ok, prompt} ->
         conn
         |> put_flash(:info, "Prompt updated.")
-        |> redirect(to: Routes.manage_prompt_path(conn, conn.assigns.project, prompt))
+        |> redirect(to: Routes.manage_prompt_path(conn, :show, conn.assigns.project, prompt))
 
       {:error, changeset} ->
         conn
