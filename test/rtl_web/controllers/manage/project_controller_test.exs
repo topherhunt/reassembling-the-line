@@ -1,4 +1,4 @@
-defmodule RTLWeb.Admin.ProjectControllerTest do
+defmodule RTLWeb.Manage.ProjectControllerTest do
   use RTLWeb.ConnCase, async: true
   alias RTL.Projects
 

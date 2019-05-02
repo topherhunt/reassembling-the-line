@@ -1,4 +1,4 @@
-defmodule RTLWeb.Admin.UserControllerTest do
+defmodule RTLWeb.Manage.UserControllerTest do
   use RTLWeb.ConnCase, async: true
   alias RTL.Accounts
 

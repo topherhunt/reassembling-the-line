@@ -1,4 +1,4 @@
-defmodule RTLWeb.Admin.PromptController do
+defmodule RTLWeb.Manage.PromptController do
   use RTLWeb, :controller
   alias RTL.Projects
 
@@ -22,7 +22,7 @@ defmodule RTLWeb.Admin.PromptController do
       {:ok, prompt} ->
         conn
         |> put_flash(:info, "Prompt created.")
-        |> redirect(to: prompt_path(conn, prompt))
+        |> redirect(to: Routes.manage_prompt_path(conn, conn.assigns.project, prompt))
 
       {:error, changeset} ->
         conn
@@ -42,7 +42,7 @@ defmodule RTLWeb.Admin.PromptController do
       {:ok, prompt} ->
         conn
         |> put_flash(:info, "Prompt updated.")
-        |> redirect(to: prompt_path(conn, prompt))
+        |> redirect(to: Routes.manage_prompt_path(conn, conn.assigns.project, prompt))
 
       {:error, changeset} ->
         conn
@@ -56,18 +56,6 @@ defmodule RTLWeb.Admin.PromptController do
 
     conn
     |> put_flash(:info, "Prompt deleted.")
-    |> redirect(to: project_path(conn))
-  end
-
-  #
-  # Helpers
-  #
-
-  defp project_path(conn) do
-    Routes.manage_project_path(conn, :show, conn.assigns.project)
-  end
-
-  defp prompt_path(conn, prompt) do
-    Routes.manage_project_prompt_path(conn, :show, conn.assigns.project, prompt)
+    |> redirect(to: Routes.manage_project_path(conn, :show, conn.assigns.project))
   end
 end

@@ -8,7 +8,7 @@
   </div>
   <div class="col-sm-6">
     <%= if @next_uncoded_video do %>
-      <%= link icon_and_text("pricetags", "Code the next video"), to: Routes.admin_coding_path(RTLWeb.Endpoint, :new, video_id: @next_uncoded_video.id), class: "btn btn-primary" %>
+      <%= link icon_and_text("pricetags", "Code the next video"), to: Routes.manage_video_coding_path(RTLWeb.Endpoint, :new, @project, @next_uncoded_video), class: "btn btn-primary" %>
     <% end %>
   </div>
 </div>
@@ -51,9 +51,13 @@
 
       <td>
         <%= if video.coding do %>
-          <%= link "recode", to: Routes.admin_coding_path(RTLWeb.Endpoint, :edit, video.coding.id), class: "text-warning" %>
+          <%= link "recode",
+            to: Routes.manage_video_coding_path(RTLWeb.Endpoint, :edit, @project, video, video.coding),
+            class: "text-warning" %>
         <% else %>
-          <%= link "code", to: Routes.admin_coding_path(RTLWeb.Endpoint, :new, video_id: video.id), class: "btn btn-sm btn-outline-primary" %>
+          <%= link "code",
+            to: Routes.manage_video_coding_path(RTLWeb.Endpoint, :new, @project, video),
+            class: "btn btn-sm btn-outline-primary" %>
         <% end %>
         &nbsp;
         <a href="#" class="btn btn-link text-danger"

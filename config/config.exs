@@ -6,6 +6,7 @@
 
 use Mix.Config
 
+# Duplicate since I don't think I can easily include modules from lib/ here
 defmodule H do
   def env!(key), do: System.get_env(key) || raise("Env var '#{key}' is missing!")
 end

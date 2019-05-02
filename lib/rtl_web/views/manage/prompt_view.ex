@@ -1,3 +1,3 @@
-defmodule RTLWeb.Admin.PromptView do
+defmodule RTLWeb.Manage.PromptView do
   use RTLWeb, :view
 end

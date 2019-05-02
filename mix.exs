@@ -41,6 +41,7 @@ defmodule RTL.Mixfile do
       {:plug_cowboy, "~> 2.0"},
       {:postgrex, "~> 0.13"},
       {:gettext, "~> 0.16"},
+      {:jason, "~> 1.1"},
       {:rollbax, "~> 0.10"},
       {:phoenix_live_view, github: "phoenixframework/phoenix_live_view"},
 
@@ -50,8 +51,8 @@ defmodule RTL.Mixfile do
 
       # Logic
       {:csv, "~> 2.2"},
-      {:jason, "~> 1.1"},
       {:timex, "~> 3.5"},
+      # Incompatible w Ecto v3. I'll have to relearn how to do datetimes in Ecto.
       {:timex_ecto, "~> 3.3"},
 
       # File storage & HTTP requests

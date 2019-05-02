@@ -1,4 +1,4 @@
-defmodule RTLWeb.Admin.VideosListLiveview do
+defmodule RTLWeb.Manage.VideosListLiveview do
   use Phoenix.LiveView
   use Phoenix.HTML
   alias RTL.Videos
@@ -6,13 +6,14 @@ defmodule RTLWeb.Admin.VideosListLiveview do
 
   # The session is for data that won't change for the duration of this process,
   # data that "defines" this view. e.g. the id of the video it's rendering for.
-  def mount(_session, socket) do
+  def mount(%{project: project}, socket) do
     if connected?(socket), do: RTL.Videos.subscribe_to(:all)
+    socket = assign(socket, :project, project)
     {:ok, fetch_latest_data(socket)}
   end
 
   def render(assigns) do
-    RTLWeb.Admin.VideoView.render("list.html", assigns)
+    RTLWeb.Manage.VideoView.render("list.html", assigns)
   end
 
   def handle_event("delete_video" = type, id, socket) do

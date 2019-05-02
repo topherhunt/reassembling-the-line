@@ -1,4 +1,4 @@
-defmodule RTLWeb.Admin.VideoController do
+defmodule RTLWeb.Manage.VideoController do
   use RTLWeb, :controller
 
   plug :load_project
@@ -7,7 +7,7 @@ defmodule RTLWeb.Admin.VideoController do
   def index(conn, _params) do
     # Instead of rendering a normal view template, we render a Liveview here.
     # The Liveview process is responsible for fetching all needed data.
-    live_render(conn, RTLWeb.Admin.VideosListLiveview,
+    live_render(conn, RTLWeb.Manage.VideosListLiveview,
       session: %{project: conn.assigns.project})
   end
 end

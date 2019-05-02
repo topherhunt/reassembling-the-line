@@ -1,4 +1,4 @@
-defmodule RTLWeb.Admin.ProjectController do
+defmodule RTLWeb.Manage.ProjectController do
   use RTLWeb, :controller
   alias RTL.{Accounts, Projects}
 
@@ -14,12 +14,15 @@ defmodule RTLWeb.Admin.ProjectController do
   def show(conn, _params) do
     # I thought about making this a LV, but the limited UI needs really don't
     # justify the added layer. Plain server-rendered CRUD is fine.
-    # live_render(conn, RTLWeb.Admin.ProjectShowLiveview,
+    # live_render(conn, RTLWeb.Manage.ProjectShowLiveview,
     #   session: %{current_user: conn.assigns.current_user, id: id})
-    project = conn.assigns.project
+    project = conn.assigns.project |> RTL.Repo.preload(:admins)
     addable_admins = Accounts.get_users(not_admin_on_project: project, order: :full_name)
     prompts = Projects.get_prompts(project: project)
-    render conn, "show.html", addable_admins: addable_admins, prompts: prompts
+    render conn, "show.html",
+      project: project,
+      addable_admins: addable_admins,
+      prompts: prompts
   end
 
   def new(conn, _params) do

@@ -1,11 +1,11 @@
-defmodule RTLWeb.Admin.VideosListLiveviewTest do
+defmodule RTLWeb.Manage.VideosListLiveviewTest do
   use RTL.DataCase
 
   # Docs: https://github.com/phoenixframework/phoenix_live_view/blob/master/lib/phoenix_live_view/test/live_view_test.ex
   import Phoenix.LiveViewTest
 
   defp mount_the_view(session: session) do
-    mount(RTLWeb.Endpoint, RTLWeb.Admin.VideosListLiveview, session: session)
+    mount(RTLWeb.Endpoint, RTLWeb.Manage.VideosListLiveview, session: session)
   end
 
   test "renders correctly" do

@@ -16,24 +16,36 @@
       <li>Depending on what topic you're concerned about, we remix those segments into a customized stream of personal experience about that topic.</li>
     </ol>
 
-    <%= if @demo_coder do %>
+    <%#
+    Commented out the demo links.
+    TODO: Rewrite the demo links scoped to a particular demo project.
+    One possibility:
+    - query for a project having title "Demo project" or slug == "demo"
+    - find a user named "Demo admin" associated with that project
+    - Link to record video for the first prompt of that project
+    - Or maybe once we have editable fields, I can just write these links in the HTML
+      and don't need to hardcode any of it
+
+    <%= if @demo_coder do %#>
       <div class="card">
         <h3 class="card-header">Demo</h3>
         <div class="card-body">
           <p>This is a demo instance of Reassembling the Line. Click the button below to log in as a coder so you can get a feel for how coding works.</p>
 
           <p class="text-center">
-            <%= link "Log in as a coder", to: Routes.auth_path(@conn, :login_from_uuid, @demo_coder.uuid), class: "btn btn-primary" %>
+            <%= link "Log in as a coder", to: Routes.auth_path(@conn, :login_from_uuid, @demo_coder.uuid), class: "btn btn-primary" %#>
           </p>
 
           <p>Or click this button to record your own interview video, which will be added to the queue for coding:</p>
 
           <p class="text-center">
-            <%= link "Record your interview", to: Routes.collect_from_webcam_path(@conn, :new), class: "btn btn-info" %>
+            <%= link "Record your interview", to: Routes.share_from_webcam_path(@conn, @project, @prompt, :new), class: "btn btn-info" %#>
           </p>
         </div>
       </div>
-    <% end %>
+    <% end %#>
+
+    %>
   </div>
 
   <div class="col-md-4">

@@ -44,13 +44,13 @@ defmodule RTLWeb.Router do
     #
 
     scope "/manage", as: :manage do
-      resources "/users", Admin.UserController
-      resources "/projects", Admin.ProjectController, param: "project_uuid"
+      resources "/users", Manage.UserController
+      resources "/projects", Manage.ProjectController, param: "project_uuid"
 
       scope "/projects/:project_uuid" do
-        resources "/prompts", Admin.PromptController, except: [:index], param: "prompt_uuid"
+        resources "/prompts", Manage.PromptController, except: [:index], param: "prompt_uuid"
 
-        resources "/videos", Admin.VideoController, only: [:index]
+        resources "/videos", Manage.VideoController, only: [:index]
         scope "/videos/:video_id", as: :video do
           resources "/codings", Process.CodingController,
             only: [:new, :create, :edit, :update]
@@ -58,7 +58,7 @@ defmodule RTLWeb.Router do
       end
 
       # Not scoped under /projects/:id so we can add a join from either direction
-      resources "/project_admin_joins", Admin.ProjectAdminJoinController,
+      resources "/project_admin_joins", Manage.ProjectAdminJoinController,
         only: [:create, :delete]
     end
 

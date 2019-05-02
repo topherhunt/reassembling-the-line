@@ -1,4 +1,4 @@
-defmodule RTLWeb.Admin.VideoControllerTest do
+defmodule RTLWeb.Manage.VideoControllerTest do
   use RTLWeb.ConnCase, async: true
 
   test "all actions require logged-in user", %{conn: conn} do

@@ -64,6 +64,8 @@ defmodule RTL.Videos do
 
   # TODO: rewrite this using the new simplified context API
 
+
+
   def new_video_changeset(changes), do: Video.changeset(%Video{}, changes)
 
   def insert_video(params) do

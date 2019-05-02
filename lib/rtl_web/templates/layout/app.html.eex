@@ -14,12 +14,12 @@
 
   <body>
     <nav class="navbar navbar-expand-sm navbar-light bg-light">
-      <%= if @current_project do %>
-        <%= if can_manage_project?(@current_project, @current_user) do %>
-          <%= link @current_project.name, to: Routes.manage_project_path(@conn, :show, @current_project), class: "navbar-brand" %>
+      <%= if @project do %>
+        <%= if can_manage_project?(@project, @current_user) do %>
+          <%= link @project.name, to: Routes.manage_project_path(@conn, :show, @project), class: "navbar-brand" %>
         <% else %>
-          <%= link @current_project.name, to: Routes.manage_project_path(@conn, :show, @current_project), class: "navbar-brand" %>
-          <span class="navbar-brand"><%= @current_project.name %></span>
+          <%= link @project.name, to: Routes.manage_project_path(@conn, :show, @project), class: "navbar-brand" %>
+          <span class="navbar-brand"><%= @project.name %></span>
         <% end %>
       <% else %>
         <%= link icon_and_text("barcode", "Reassembling the Line"), to: Routes.home_path(@conn, :index), class: "navbar-brand text-info" %>

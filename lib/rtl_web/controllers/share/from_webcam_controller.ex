@@ -24,12 +24,14 @@ defmodule RTLWeb.Share.FromWebcamController do
   end
 
   def create(conn, %{"video" => video_params}) do
+    project = conn.assigns.project
+    prompt = conn.assigns.prompt
     # For now, assume that there's no risk of validation errors
     Videos.insert_video!(populate_title(video_params))
 
     conn
     |> put_flash(:info, submission_confirmation_message())
-    |> redirect(to: Routes.collect_from_webcam_path(conn, :thank_you))
+    |> redirect(to: Routes.share_from_webcam_path(conn, project, prompt, :thank_you))
   end
 
   def thank_you(conn, _params) do

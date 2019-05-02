@@ -1,36 +1,34 @@
-defmodule RTLWeb.Admin.CodingController do
+defmodule RTLWeb.Manage.CodingController do
   use RTLWeb, :controller
   alias RTL.Videos
 
   plug :load_project
   plug :ensure_can_manage_project
+  plug :load_video
 
   def new(conn, %{"video_id" => video_id}) do
-    video = Videos.get_video!(video_id)
+    video = conn.assigns.video
     changeset = Videos.coding_changeset(%{video_id: video.id})
 
-    render(conn, "new.html",
-      video: video,
+    render conn, "new.html",
       changeset: changeset,
       present_tags: [],
       all_tags: Videos.all_tags(),
       most_recent_tags: Videos.most_recent_tags(20)
-    )
   end
 
   def create(conn, %{"coding" => params}) do
-    video_id = params["video_id"]
+    video = conn.assigns.video
     # Tags is an index-keyed map (or nil)
     tags = Map.values(params["tags"] || %{})
     coder_id = conn.assigns.current_user.id
 
-    case Videos.insert_coding(%{video_id: video_id, tags: tags, coder_id: coder_id}) do
+    case Videos.insert_coding(%{video_id: video.id, tags: tags, coder_id: coder_id}) do
       {:ok, _} ->
         redirect_to_code_next(conn)
 
       {:error, changeset, invalid_tags} ->
-        video = Videos.get_video!(video_id)
-        render_error(conn, "new", changeset, video, tags, invalid_tags)
+        render_error(conn, "new", changeset, tags, invalid_tags)
     end
   end
 
@@ -38,16 +36,16 @@ defmodule RTLWeb.Admin.CodingController do
     coding = Videos.get_coding!(coding_id) |> Videos.get_coding_preloads()
     changeset = Videos.coding_changeset(coding, %{})
 
-    render(conn, "edit.html",
-      video: coding.video,
+    render conn, "edit.html",
       changeset: changeset,
       present_tags: Videos.summarize_taggings(coding.taggings),
       all_tags: Videos.all_tags(),
       most_recent_tags: Videos.most_recent_tags(20)
-    )
   end
 
   def update(conn, %{"id" => coding_id, "coding" => params}) do
+    project = conn.assigns.project
+    video = conn.assigns.video
     coding = Videos.get_coding!(coding_id)
     # Tags is an index-keyed map (or nil)
     tags = Map.values(params["tags"] || %{})
@@ -57,11 +55,11 @@ defmodule RTLWeb.Admin.CodingController do
       {:ok, _} ->
         conn
         |> put_flash(:info, "Updates are saved.")
-        |> redirect(to: Routes.admin_video_path(conn, :index, []))
+        |> redirect(to: Routes.manage_video_path(conn, :index, project))
 
       {:error, changeset, invalid_tags} ->
         video = Videos.get_video!(coding.video_id)
-        render_error(conn, "edit", changeset, video, tags, invalid_tags)
+        render_error(conn, "edit", changeset, tags, invalid_tags)
     end
   end
 
@@ -69,23 +67,30 @@ defmodule RTLWeb.Admin.CodingController do
   # Helpers
   #
 
+  defp load_video(conn, _opts) do
+    video = Videos.get_video!(conn.params["video_id"])
+    assign(conn, :video, video)
+  end
+
   defp redirect_to_code_next(conn) do
+    project = conn.assigns.project
+
     if video = Videos.next_video_to_code() do
       conn
       |> put_flash(:info, "Updates are saved! Here's another video to code.")
-      |> redirect(to: Routes.admin_coding_path(conn, :new, video_id: video.id))
+      |> redirect(to: Routes.manage_video_coding_path(conn, :new, project, video))
     else
       conn
       |> put_flash(:info, "Updates are saved! There are no more videos to code.")
-      |> redirect(to: Routes.admin_video_path(conn, :index, []))
+      |> redirect(to: Routes.manage_video_path(conn, :index, project))
     end
   end
 
-  defp render_error(conn, view, changeset, video, tags_params, invalid_tags) do
+  defp render_error(conn, view, changeset, tags_params, invalid_tags) do
     conn
     |> put_flash(:error, invalid_tags_message(invalid_tags))
     |> render("#{view}.html",
-      video: video,
+      # project and video are already assigned
       changeset: changeset,
       present_tags: summarize_tags_from_params(tags_params),
       all_tags: Videos.all_tags(),

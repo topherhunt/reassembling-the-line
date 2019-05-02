@@ -1,4 +1,4 @@
-defmodule RTLWeb.Admin.VideoView do
+defmodule RTLWeb.Manage.VideoView do
   use RTLWeb, :view
 
   def tag_list(video) do

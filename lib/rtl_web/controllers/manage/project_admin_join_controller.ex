@@ -1,4 +1,4 @@
-defmodule RTLWeb.Admin.ProjectAdminJoinController do
+defmodule RTLWeb.Manage.ProjectAdminJoinController do
   use RTLWeb, :controller
   alias RTL.{Accounts, Projects}
 
