@@ -7,6 +7,6 @@ defmodule RTLWeb.LayoutView do
 
     if can_manage_project?(project, current_user),
       do: Routes.manage_project_path(conn, :show, project),
-      else: Routes.project_path(conn, :show, project)
+      else: Routes.explore_project_path(conn, :show, project)
   end
 end

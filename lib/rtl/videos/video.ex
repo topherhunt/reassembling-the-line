@@ -15,6 +15,8 @@ defmodule RTL.Videos.Video do
     timestamps()
 
     has_one :coding, RTL.Videos.Coding
+    has_many :taggings, through: [:coding, :taggings]
+    has_many :tags, through: [:coding, :tags]
   end
 
   def changeset(struct, params \\ %{}) do

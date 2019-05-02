@@ -12,8 +12,8 @@ defmodule RTL.DataHelpers do
 
   # Usage: `video4 = insert_video_with_tags(["abc:30:60", "Def:15:49", "ghi:65:82"])`
   # TODO: I feel like this belongs in the factory?
-  def insert_video_with_tags(tag_strings) do
-    video = Factory.insert_video()
+  def insert_video_with_tags(video_params \\ %{}, tag_strings) do
+    video = Factory.insert_video(video_params)
     Factory.insert_coding(video_id: video.id, tags: tag_strings_to_maps(tag_strings))
     video
   end
