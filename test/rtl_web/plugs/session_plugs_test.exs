@@ -59,20 +59,6 @@ defmodule RTLWeb.SessionPlugsTest do
     end
   end
 
-  describe "#ensure_logged_in" do
-    test "does nothing if current_user exists", %{conn: conn} do
-      conn = assign(conn, :current_user, "something truthy")
-      conn = SessionPlugs.ensure_logged_in(conn, [])
-      refute conn.halted
-    end
-
-    test "redirects and halts if no current_user", %{conn: conn} do
-      conn = SessionPlugs.ensure_logged_in(conn, [])
-      assert redirected_to(conn) == Routes.home_path(conn, :index)
-      assert conn.halted
-    end
-  end
-
   describe "#login!" do
     test "logs in this user", %{conn: conn} do
       user = Factory.insert_user()
