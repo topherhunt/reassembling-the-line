@@ -9,7 +9,7 @@
     <li>Created: <%= print_date(@prompt.inserted_at) %></li>
   </ul>
 
-  <%= link "Edit", to: Routes.manage_project_prompt_path(@conn, :edit, @project, @prompt), class: "test-link-edit-prompt-#{@prompt.id}" %>
+  <%= link "Edit", to: Routes.manage_prompt_path(@conn, :edit, @project, @prompt), class: "test-link-edit-prompt-#{@prompt.id}" %>
 </div>
 
 <div class="u-card">

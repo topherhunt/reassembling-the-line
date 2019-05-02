@@ -26,8 +26,10 @@ defmodule RTLWeb.Share.FromWebcamController do
   def create(conn, %{"video" => video_params}) do
     project = conn.assigns.project
     prompt = conn.assigns.prompt
-    # For now, assume that there's no risk of validation errors
-    Videos.insert_video!(populate_title(video_params))
+
+    video_params
+    |> Map.put("title", generate_title(video_params))
+    |> Videos.insert_video!()
 
     conn
     |> put_flash(:info, submission_confirmation_message())
@@ -45,24 +47,18 @@ defmodule RTLWeb.Share.FromWebcamController do
   defp presigned_url(path) do
     # See https://stackoverflow.com/a/42211543/1729692
     bucket = System.get_env("S3_BUCKET")
-
-    {:ok, url} =
-      ExAws.S3.presigned_url(ExAws.Config.new(:s3), :put, bucket, path,
-        query_params: [{"x-amz-acl", "public-read"}, {"contentType", "binary/octet-stream"}]
-      )
-
+    config = ExAws.Config.new(:s3)
+    params = [{"x-amz-acl", "public-read"}, {"contentType", "binary/octet-stream"}]
+    {:ok, url} = ExAws.S3.presigned_url(config, :put, bucket, path, query_params: params)
     url
   end
 
-  defp populate_title(params) do
-    title =
-      if H.is_present?(params["source_name"]) do
-        "Interview with #{params["source_name"]}"
-      else
-        "Anonymous interview"
-      end
-
-    Map.merge(params, %{"title" => title})
+  defp generate_title(params) do
+    if H.is_present?(params["source_name"]) do
+      "Interview with #{params["source_name"]}"
+    else
+      "Anonymous interview"
+    end
   end
 
   defp submission_confirmation_message do

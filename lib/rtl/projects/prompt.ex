@@ -34,7 +34,7 @@ defmodule RTL.Projects.Prompt do
   #
 
   def filter(starting_query, filters) do
-    Enum.reduce(filters, starting_query, fn {k, v}, q -> filter(q, k, v) end)
+    Enum.reduce(filters, starting_query, fn {k, v}, query -> filter(query, k, v) end)
   end
 
   def filter(query, :id, id), do: where(query, [p], p.id == ^id)

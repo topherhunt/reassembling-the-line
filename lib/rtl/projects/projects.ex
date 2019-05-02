@@ -12,9 +12,9 @@ defmodule RTL.Projects do
 
   def get_project!(id, filt \\ []), do: get_project_by!(Keyword.merge([id: id], filt))
 
-  def get_project_by(filt \\ []), do: Project |> Project.filter(filt) |> Repo.first()
+  def get_project_by(filt), do: Project |> Project.filter(filt) |> Repo.first()
 
-  def get_project_by!(filt \\ []), do: Project |> Project.filter(filt) |> Repo.first!()
+  def get_project_by!(filt), do: Project |> Project.filter(filt) |> Repo.first!()
 
   def get_projects(filt \\ []), do: Project |> Project.filter(filt) |> Repo.all()
 
@@ -41,9 +41,9 @@ defmodule RTL.Projects do
 
   def get_prompt!(id, filt \\ []), do: get_prompt_by!(Keyword.merge([id: id], filt))
 
-  def get_prompt_by(filt \\ []), do: Prompt |> Prompt.filter(filt) |> Repo.first()
+  def get_prompt_by(filt), do: Prompt |> Prompt.filter(filt) |> Repo.first()
 
-  def get_prompt_by!(filt \\ []), do: Prompt |> Prompt.filter(filt) |> Repo.first!()
+  def get_prompt_by!(filt), do: Prompt |> Prompt.filter(filt) |> Repo.first!()
 
   def get_prompts(filt \\ []), do: Prompt |> Prompt.filter(filt) |> Repo.all()
 

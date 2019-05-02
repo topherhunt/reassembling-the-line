@@ -12,7 +12,8 @@
         Give your interviewees the following link (for example, by sending the link to a mailing list) so they can record and submit their own interview online using their webcam. Each submitted interview will appear in the list of videos to code. Click the link to test it out yourself.
       </p>
       <p class="text-center">
-        <%= link Routes.share_from_webcam_url(@conn, :new, @project, @prompt), to: Routes.share_from_webcam_url(@conn, :new, @project, @prompt) %>
+        <strong>TODO</strong>
+        <%#= link Routes.share_from_webcam_url(@conn, :new, @project, @prompt), to: Routes.share_from_webcam_url(@conn, :new, @project, @prompt) %>
       </p>
       <div>Notes:</div>
       <ul>

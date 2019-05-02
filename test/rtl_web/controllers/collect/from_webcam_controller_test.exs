@@ -22,7 +22,7 @@ defmodule RTLWeb.Collect.FromWebcamControllerTest do
     conn = post(conn, Routes.collect_from_webcam_path(conn, :create), params)
 
     assert redirected_to(conn) == Routes.collect_from_webcam_path(conn, :thank_you)
-    video = Videos.get_newest_video()
+    video = Videos.get_video_by(order: :newest)
     assert video.source_name == "Elmer Fudd"
     assert video.title == "Interview with Elmer Fudd"
     assert video.permission == "researchers"
@@ -41,7 +41,7 @@ defmodule RTLWeb.Collect.FromWebcamControllerTest do
 
     post(conn, Routes.collect_from_webcam_path(conn, :create), params)
 
-    video = Videos.get_newest_video()
+    video = Videos.get_video_by(order: :newest)
     assert video.source_name == nil
     assert video.title == "Anonymous interview"
   end

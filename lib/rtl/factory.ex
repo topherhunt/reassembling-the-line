@@ -79,11 +79,9 @@ defmodule RTL.Factory do
   end
 
   def random_uuid do
-    pool = String.codepoints("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890_-")
-    # 5 base64 chars gives us 1B combinations; that's plenty of entropy
-    1..5
-    |> Enum.map(fn _ -> Enum.random(pool) end)
-    |> Enum.join()
+    pool = String.codepoints("ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz123456789")
+    # 5 base64 chars gives us 600M combinations; that's plenty of entropy
+    Enum.map(1..5, fn _ -> Enum.random(pool) end) |> Enum.join()
   end
 
   #

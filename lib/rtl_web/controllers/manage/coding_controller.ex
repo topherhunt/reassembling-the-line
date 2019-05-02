@@ -6,7 +6,7 @@ defmodule RTLWeb.Manage.CodingController do
   plug :ensure_can_manage_project
   plug :load_video
 
-  def new(conn, %{"video_id" => video_id}) do
+  def new(conn, _params) do
     video = conn.assigns.video
     changeset = Videos.coding_changeset(%{video_id: video.id})
 
@@ -45,7 +45,6 @@ defmodule RTLWeb.Manage.CodingController do
 
   def update(conn, %{"id" => coding_id, "coding" => params}) do
     project = conn.assigns.project
-    video = conn.assigns.video
     coding = Videos.get_coding!(coding_id)
     # Tags is an index-keyed map (or nil)
     tags = Map.values(params["tags"] || %{})
@@ -58,7 +57,6 @@ defmodule RTLWeb.Manage.CodingController do
         |> redirect(to: Routes.manage_video_path(conn, :index, project))
 
       {:error, changeset, invalid_tags} ->
-        video = Videos.get_video!(coding.video_id)
         render_error(conn, "edit", changeset, tags, invalid_tags)
     end
   end
@@ -74,11 +72,12 @@ defmodule RTLWeb.Manage.CodingController do
 
   defp redirect_to_code_next(conn) do
     project = conn.assigns.project
+    next_to_code = Videos.get_video_by(coded: false, order: :oldest)
 
-    if video = Videos.next_video_to_code() do
+    if next_to_code do
       conn
       |> put_flash(:info, "Updates are saved! Here's another video to code.")
-      |> redirect(to: Routes.manage_video_coding_path(conn, :new, project, video))
+      |> redirect(to: Routes.manage_video_coding_path(conn, :new, project, next_to_code))
     else
       conn
       |> put_flash(:info, "Updates are saved! There are no more videos to code.")

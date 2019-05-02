@@ -35,7 +35,7 @@ defmodule RTL.Projects.Project do
   #
 
   def filter(starting_query, filters) do
-    Enum.reduce(filters, starting_query, fn {k, v}, q -> filter(q, k, v) end)
+    Enum.reduce(filters, starting_query, fn {k, v}, query -> filter(query, k, v) end)
   end
 
   def filter(query, :id, id), do: where(query, [p], p.id == ^id)
@@ -50,26 +50,10 @@ defmodule RTL.Projects.Project do
   end
 
   def filter(query, :having_admin, user) do
-    where(
-      query,
-      [p],
-      fragment(
-        "EXISTS (SELECT * FROM project_admin_joins WHERE project_id = ? AND admin_id = ?)",
-        p.id,
-        ^user.id
-      )
-    )
+    where(query, [p], fragment("EXISTS (SELECT * FROM project_admin_joins WHERE project_id = ? AND admin_id = ?)", p.id, ^user.id))
   end
 
   def filter(query, :not_having_admin, user) do
-    where(
-      query,
-      [p],
-      fragment(
-        "NOT EXISTS (SELECT * FROM project_admin_joins WHERE project_id = ? AND admin_id = ?)",
-        p.id,
-        ^user.id
-      )
-    )
+    where(query, [p], fragment("NOT EXISTS (SELECT * FROM project_admin_joins WHERE project_id = ? AND admin_id = ?)", p.id, ^user.id))
   end
 end

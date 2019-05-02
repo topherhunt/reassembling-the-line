@@ -3,4 +3,4 @@
 
 <%= render "_form.html",
   changeset: @changeset,
-  path: Routes.manage_project_prompt_path(@conn, :create, @project) %>
+  path: Routes.manage_prompt_path(@conn, :create, @project) %>

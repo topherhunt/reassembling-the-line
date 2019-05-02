@@ -39,7 +39,7 @@ defmodule RTL.Importing.YoutubeImporter do
   end
 
   def already_imported?(url) do
-    Videos.count_videos_where(source_url: url) > 0
+    Videos.count_videos(source_url: url) > 0
   end
 
   def import_video(title, url) do

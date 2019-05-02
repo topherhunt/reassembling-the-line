@@ -14,9 +14,9 @@ defmodule RTL.Accounts do
 
   def get_user!(id, filt \\ []), do: get_user_by!(Keyword.merge([id: id], filt))
 
-  def get_user_by(filt \\ []), do: User |> User.filter(filt) |> Repo.first()
+  def get_user_by(filt), do: User |> User.filter(filt) |> Repo.first()
 
-  def get_user_by!(filt \\ []), do: User |> User.filter(filt) |> Repo.first!()
+  def get_user_by!(filt), do: User |> User.filter(filt) |> Repo.first!()
 
   def get_users(filt \\ []), do: User |> User.filter(filt) |> Repo.all()
 

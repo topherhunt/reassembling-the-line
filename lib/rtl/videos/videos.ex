@@ -12,37 +12,25 @@ defmodule RTL.Videos do
   # Pubsub notifications
   #
 
+  # Makes the caller process listen for any notifications on this channel.
+  # On any events, the caller module's handle_info/2 will be called with the payload.
   def subscribe_to(:all) do
-    # RTL.Videos context will emit notifications whenever videos are changed.
-    # Each notification consumer's handle_info will be called with that payload.
     Phoenix.PubSub.subscribe(RTL.PubSub, "RTL.Videos")
   end
 
-  # notify_subscribers_if_succeeded/2 expects an Ecto repo result tuple.
-  # On :ok it will emit the notification; on :error it won't do anything.
-  def notify_subscribers_if_succeeded({:ok, _} = piped_result, event) do
-    notify_subscribers(event)
+  # Expects an Ecto result tuple {:ok, _} or {:error, _}
+  def notify_subscribers_if_succeeded({code, _} = piped_result, event) do
+    if code == :ok, do: notify_subscribers(event)
     piped_result
   end
 
-  def notify_subscribers_if_succeeded({:error, _} = piped_result, _event) do
+  def notify_subscribers(piped_result \\ nil, event) do
+    # For now, I'll just broadcast to one channel global to the context.
+    # In the future I might want specific channels for each schema or even each id.
+    # The recipient doesn't see what channel a message came from,
+    # so the payload must redundantly declare the source module.
+    Phoenix.PubSub.broadcast(RTL.PubSub, "RTL.Videos", {RTL.Videos, event})
     piped_result
-  end
-
-  # notify_subscribers/2 always sends the notification and returns the piped param.
-  def notify_subscribers(piped_result, event) do
-    notify_subscribers(event)
-    piped_result
-  end
-
-  def notify_subscribers(event_string) do
-    # For now, I'll just use one channel global to the context.
-    # In the future I'll probably also want channels specific to each schema
-    # so consumers can e.g. subscribe to only tagging-related notifications.
-    # The notification payload should contain a) the originating module and
-    # b) the specific message.
-    # (The consumer's handle_info doesn't know which channel the message came from.
-    Phoenix.PubSub.broadcast(RTL.PubSub, "RTL.Videos", {RTL.Videos, event_string})
   end
 
   #
@@ -62,53 +50,35 @@ defmodule RTL.Videos do
   # Videos
   #
 
-  # TODO: rewrite this using the new simplified context API
+  def get_video(id, filt \\ []), do: get_video_by(Keyword.merge([id: id], filt))
 
+  def get_video!(id, filt \\ []), do: get_video_by!(Keyword.merge([id: id], filt))
 
+  def get_video_by(filt), do: Video |> Video.filter(filt) |> Repo.first()
 
-  def new_video_changeset(changes), do: Video.changeset(%Video{}, changes)
+  def get_video_by!(filt), do: Video |> Video.filter(filt) |> Repo.first!()
+
+  def get_videos(filt \\ []), do: Video |> Video.filter(filt) |> Repo.all()
+
+  def count_videos(filt \\ []), do: Video |> Video.filter(filt) |> Repo.count()
+
+  def new_video_changeset(params \\ %{}), do: Video.changeset(%Video{}, params)
 
   def insert_video(params) do
-    params
-    |> new_video_changeset()
+    new_video_changeset(params)
     |> Repo.insert()
     |> notify_subscribers_if_succeeded("videos.inserted")
   end
 
   def insert_video!(params) do
-    params
-    |> new_video_changeset()
+    new_video_changeset(params)
     |> Repo.insert!()
     |> notify_subscribers("videos.inserted")
   end
 
-  def get_video(id), do: Repo.get(Video, id)
-
-  def get_video!(id), do: Repo.get!(Video, id)
-
   def delete_video!(video) do
-    video
-    |> Repo.delete!()
+    Repo.delete!(video)
     |> notify_subscribers("videos.deleted.#{video.id}")
-  end
-
-  def get_newest_video, do: from(v in Video, order_by: [desc: v.id]) |> Repo.first()
-
-  def next_video_to_code, do: Video.uncoded() |> Video.sort_by_oldest() |> Repo.first()
-
-  def count_all_videos, do: Repo.count(Video)
-
-  def count_videos_where(constraints), do: Video |> where(^constraints) |> Repo.count()
-
-  def all_videos_with_preloads do
-    Video
-    |> Video.sort_by_last_coded()
-    |> preload(coding: [:updated_by_user, :tags])
-    |> Repo.all()
-  end
-
-  def coded_videos_tagged_with(tags) do
-    Video.coded() |> Video.tagged_with(tags) |> Video.preload_tags() |> Repo.all()
   end
 
   #

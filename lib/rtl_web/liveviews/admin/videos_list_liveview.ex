@@ -32,10 +32,13 @@ defmodule RTLWeb.Manage.VideosListLiveview do
     log "fetch_latest_data called."
 
     assign(socket,
-      videos: Videos.all_videos_with_preloads(),
-      # next_uncoded_video is unnecessary. We could just have the button there
-      # and when you click it, it looks up the next video to code, if any.
-      next_uncoded_video: Videos.next_video_to_code()
+      videos:
+        Videos.get_videos(
+          project: socket.assigns.project,
+          order: :last_coded,
+          preload: [coding: [:updated_by_user, :tags]]
+        ),
+      next_uncoded_video: Videos.get_video_by(coded: false, order: :oldest)
     )
   end
 

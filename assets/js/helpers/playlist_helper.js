@@ -3,15 +3,21 @@ import { PlaylistRowComponent } from '../components/playlist_row_component';
 
 var PlaylistHelper = {
   refresh_playlist: function() {
-    var current_tags = TagHelper.get_from_select_elements();
     var player = $('.js-explore-video-player');
+    var current_tags = TagHelper.get_from_select_elements();
+    var project_id = $('.js-explore-video-player').data('project-id');
+    var tags_query = TagHelper.to_query_string(current_tags);
+
     $('.js-playlist-container').html('Loading...');
     $('.js-hear-more-link').hide();
     player.attr('src', '');
     player[0].pause();
+
     $.ajax({
       method: 'GET',
-      url: '/explore/playlist?tags=' + TagHelper.to_query_string(current_tags),
+      // TODO: There should be a client-side RouteHelper that has the authoritative
+      // list of all valid routes.
+      url: '/projects/'+project_id+'/explore/clips/playlist?tags='+tags_query,
       success: function(data) {
         this.handle_new_playlist_data(data.playlist);
       }.bind(this),

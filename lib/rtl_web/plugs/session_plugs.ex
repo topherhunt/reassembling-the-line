@@ -6,7 +6,6 @@ defmodule RTLWeb.SessionPlugs do
       put_session: 3,
       configure_session: 2
     ]
-  alias RTLWeb.Router.Helpers, as: Routes
   alias RTL.Accounts
 
   #

@@ -3,11 +3,11 @@ defmodule RTLWeb.Manage.PromptControllerTest do
   alias RTL.Projects
 
   defp prompt_path(conn, action, proj, prompt) do
-    Routes.manage_project_prompt_path(conn, action, proj, prompt)
+    Routes.manage_prompt_path(conn, action, proj, prompt)
   end
 
   defp prompt_path(conn, action, proj) do
-    Routes.manage_project_prompt_path(conn, action, proj)
+    Routes.manage_prompt_path(conn, action, proj)
   end
 
   describe "plugs" do

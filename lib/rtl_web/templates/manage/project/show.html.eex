@@ -51,9 +51,9 @@
     <li>
       <%= prompt.html %>
       &nbsp;
-      <%= link "details", to: Routes.manage_project_prompt_path(@conn, :show, @project, prompt), class: "test-link-show-prompt-#{prompt.id}" %>
+      <%= link "details", to: Routes.manage_prompt_path(@conn, :show, @project, prompt), class: "test-link-show-prompt-#{prompt.id}" %>
     </li>
   <% end %>
 
-  <%= link "New prompt", to: Routes.manage_project_prompt_path(@conn, :new, @project), class: "btn btn-outline-primary test-link-new-prompt" %>
+  <%= link "New prompt", to: Routes.manage_prompt_path(@conn, :new, @project), class: "btn btn-outline-primary test-link-new-prompt" %>
 </div>

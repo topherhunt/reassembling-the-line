@@ -30,12 +30,9 @@ defmodule RTL.Accounts.User do
   end
 
   defp populate_uuid(changeset) do
-    if get_field(changeset, :uuid) do
-      changeset
-    else
-      random_uuid = :crypto.strong_rand_bytes(8) |> Base.encode16()
-      put_change(changeset, :uuid, random_uuid)
-    end
+    if get_field(changeset, :uuid),
+      do: changeset,
+      else: put_change(changeset, :uuid, RTL.Factory.random_uuid())
   end
 
   #
@@ -43,7 +40,7 @@ defmodule RTL.Accounts.User do
   #
 
   def filter(starting_query, filters) do
-    Enum.reduce(filters, starting_query, fn {k, v}, q -> filter(q, k, v) end)
+    Enum.reduce(filters, starting_query, fn {k, v}, query -> filter(query, k, v) end)
   end
 
   def filter(query, :id, id), do: where(query, [u], u.id == ^id)

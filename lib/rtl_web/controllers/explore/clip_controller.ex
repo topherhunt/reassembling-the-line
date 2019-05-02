@@ -1,6 +1,8 @@
-defmodule RTLWeb.ExploreController do
+defmodule RTLWeb.Explore.ClipController do
   use RTLWeb, :controller
   alias RTL.Videos
+
+  plug :load_project
 
   def index(conn, _params) do
     render(conn, "index.html", tag_options: tag_options())

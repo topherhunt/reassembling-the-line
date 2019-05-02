@@ -24,9 +24,9 @@ IO.puts "Importing Youtube videos into the local DB and the S3 bucket #{System.g
 tsv_filename = System.argv() |> Enum.at(0)
 System.cmd("mkdir", ["tmp"])
 
-original_videos_count = Videos.count_all_videos
+orig_videos_count = Videos.count_videos()
 results = YoutubeImporter.process_tsv(tsv_filename)
-new_videos_count = Videos.count_all_videos - original_videos_count
+new_videos_count = Videos.count_videos() - orig_videos_count
 
 oks    = results[:ok]    || []
 skips  = results[:skip]  || []

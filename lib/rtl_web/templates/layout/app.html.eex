@@ -15,12 +15,7 @@
   <body>
     <nav class="navbar navbar-expand-sm navbar-light bg-light">
       <%= if @project do %>
-        <%= if can_manage_project?(@project, @current_user) do %>
-          <%= link @project.name, to: Routes.manage_project_path(@conn, :show, @project), class: "navbar-brand" %>
-        <% else %>
-          <%= link @project.name, to: Routes.manage_project_path(@conn, :show, @project), class: "navbar-brand" %>
-          <span class="navbar-brand"><%= @project.name %></span>
-        <% end %>
+        <%= link @project.name, to: manage_or_view_project_path(@conn), class: "navbar-brand" %>
       <% else %>
         <%= link icon_and_text("barcode", "Reassembling the Line"), to: Routes.home_path(@conn, :index), class: "navbar-brand text-info" %>
       <% end %>
@@ -48,6 +43,14 @@
                 <%= link "Manage projects", to: Routes.manage_project_path(@conn, :index), class: "dropdown-item" %>
               </div>
             </li>
+
+          <% end %>
+
+          <li class="nav-item">
+            <%= link "Help", to: Routes.help_path(@conn, :index), class: "nav-link" %>
+          </li>
+
+          <%= if @current_user do %>
 
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">

@@ -45,7 +45,7 @@ defmodule RTLWeb.Manage.CodingControllerTest do
     {proj, _, _vid} = insert_project_prompt_video(admin: user)
 
     assert_raise(Ecto.NoResultsError, fn ->
-      get(conn, Routes.manage_video_coding_path(conn, :new, proj, "999"}))
+      get(conn, Routes.manage_video_coding_path(conn, :new, proj, "999"))
     end)
   end
 

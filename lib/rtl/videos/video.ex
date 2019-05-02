@@ -2,7 +2,6 @@ defmodule RTL.Videos.Video do
   use Ecto.Schema
   import Ecto.Changeset
   import Ecto.Query
-  alias RTL.Videos.{Video, Coding}
 
   schema "videos" do
     belongs_to :prompt, RTL.Projects.Prompt
@@ -15,7 +14,7 @@ defmodule RTL.Videos.Video do
     field :thumbnail_filename, :string
     timestamps()
 
-    has_one :coding, Coding
+    has_one :coding, RTL.Videos.Coding
   end
 
   def changeset(struct, params \\ %{}) do
@@ -37,37 +36,49 @@ defmodule RTL.Videos.Video do
   # Query helpers
   #
 
-  # TODO: Replace these w the standard filters api
-
-  def sort_by_last_coded(query) do
-    query
-    |> join(:left, [v], c in assoc(v, :coding))
-    |> order_by([v, c],
-      asc: fragment("? IS NULL", c.id),
-      desc: c.inserted_at,
-      asc: v.inserted_at
-    )
+  def filter(starting_query, filters) do
+    Enum.reduce(filters, starting_query, fn({k, v}, query) -> filter(query, k, v) end)
   end
 
-  def sort_by_oldest(query), do: query |> order_by([v], asc: v.inserted_at)
+  def filter(query, :id, id), do: where(query, [v], v.id == ^id)
+  def filter(query, :preload, preloads), do: preload(query, ^preloads)
+  def filter(query, :order, :oldest), do: order_by(query, [v], asc: v.id)
+  def filter(query, :order, :newest), do: order_by(query, [v], desc: v.id)
 
-  def preload_tags(query), do: query |> preload(coding: [taggings: :tag])
-
-  def coded(query \\ Video) do
-    query |> where([v], fragment("EXISTS (SELECT * FROM codings WHERE video_id = ?)", v.id))
+  def filter(query, :project, proj) do
+    from v in query,
+      join: pm in assoc(v, :prompt),
+      join: pj in assoc(pm, :project),
+      where: pj.id == ^proj.id
   end
 
-  def uncoded(query \\ Video) do
-    query |> where([v], fragment("NOT EXISTS (SELECT * FROM codings WHERE video_id = ?)", v.id))
+  def filter(query, :coded, true) do
+    where(query, [v], fragment("EXISTS (SELECT * FROM codings WHERE video_id = ?)", v.id))
   end
 
-  def tagged_with(orig_query \\ Video, tags) do
-    Enum.reduce(tags, orig_query, fn tag, query ->
-      query |> where([v], fragment("EXISTS (
+  def filter(query, :coded, false) do
+    where(query, [v], fragment("NOT EXISTS (SELECT * FROM codings WHERE video_id = ?)", v.id))
+  end
+
+  def filter(query, :order, :last_coded) do
+    from v in query,
+      left_join: c in assoc(v, :coding),
+      order_by: [
+        asc: fragment("? IS NULL", c.id),
+        desc: c.inserted_at,
+        asc: v.inserted_at
+      ]
+  end
+
+  def filter(orig_query, :having_tags, tag_maps) do
+    tag_names = Enum.map(tag_maps, & &1.text)
+
+    Enum.reduce(tag_names, orig_query, fn tag_name, query ->
+      where(query, [v], fragment("EXISTS (
         SELECT * FROM codings c
           JOIN taggings ti ON c.id = ti.coding_id
           JOIN tags t ON ti.tag_id = t.id
-        WHERE c.video_id = ? AND t.text = ?)", v.id, ^tag.text))
+        WHERE c.video_id = ? AND t.text = ?)", v.id, ^tag_name))
     end)
   end
 end

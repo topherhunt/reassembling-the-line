@@ -21,14 +21,9 @@ defmodule RTLWeb.Router do
     get "/", HomeController, :index
     get "/test_error", HomeController, :test_error
 
-    # get "/foo/:uuid", HomeController, :foo
-    # resources "/foo", FooController
-
-    # How routes are organized:
-    # - All admin- or superadmin-only routes live under manage/
-    # - Most routes are scoped by project (making it a required param)
-    # - Some routes are similarly scoped by prompt
-    # - User-facing routes live under /project/:slug/share/, /project/:slug/explore/, etc.
+    #
+    # Auth & session related routes
+    #
 
     scope "/auth" do
       # The Ueberauth login route redirects to Auth0's login page
@@ -67,8 +62,6 @@ defmodule RTLWeb.Router do
     #
 
     scope "/projects/:project_uuid" do
-      get "/", ProjectController, :show
-
       scope "/share", as: :share do
         scope "/prompts/:prompt_uuid" do
           resources "/from_webcam", Collect.FromWebcamController, only: [:new, :create]
@@ -77,14 +70,17 @@ defmodule RTLWeb.Router do
       end
 
       scope "/explore", as: :explore do
-        get "/", ExploreController, :index
-        get "/playlist", ExploreController, :playlist
+        get "/", Explore.ProjectController, :show
+
+        get "/clips/", Explore.ClipController, :index
+        get "/clips/playlist", Explore.ClipController, :playlist
 
         get "/videos/:id", Explore.VideoController, :show
       end
     end
 
     scope "/help" do
+      get "/index", HelpController, :index
       get "/collecting_videos", HelpController, :collecting_videos
     end
 

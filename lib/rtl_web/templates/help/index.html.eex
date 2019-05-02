@@ -1,0 +1,9 @@
+<div class="u-centered-1000">
+
+  <h1>Help</h1>
+
+  <ul>
+    <li><%= link "Collecting videos", to: Routes.help_path(@conn, :collecting_videos) %></li>
+  </ul>
+
+</div>

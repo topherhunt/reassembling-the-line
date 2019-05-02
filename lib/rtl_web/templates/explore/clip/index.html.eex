@@ -12,6 +12,7 @@
   <div class="col-sm-8">
     <video
       class="js-explore-video-player"
+      data-project-id="<%= @project.id %>"
       style="display: block; width: 100%; height: 480px; background-color: #222;"
       controls="" />
     <a class="js-hear-more-link" href="#" style="display: none;">Hear more from this person</a>

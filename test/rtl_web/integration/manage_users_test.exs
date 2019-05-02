@@ -9,7 +9,6 @@ defmodule RTLWeb.ManageUsersTest do
     user2 = Factory.insert_user()
 
     # Listing users
-    take_screenshot()
     find_element(".test-link-list-users") |> click()
 
     assert_selector(".test-page-list-users")
