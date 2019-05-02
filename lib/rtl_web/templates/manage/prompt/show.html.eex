@@ -1,5 +1,6 @@
 <div class="test-page-show-prompt-<%= @prompt.id %>" />
-<h2>Prompt: <%= @prompt.html %></h2>
+<%# TODO: Ellipse the prompt title %>
+<h2>Prompt: <%= HtmlSanitizeEx.strip_tags(@prompt.html) %></h2>
 
 <div class="u-card">
   <h4>Basic info</h4>

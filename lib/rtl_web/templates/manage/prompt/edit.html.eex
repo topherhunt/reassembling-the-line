@@ -1,5 +1,5 @@
 <div class="test-page-edit-prompt-<%= @prompt.id %>" />
-<h1>Edit prompt: <%= @prompt.html %></h1>
+<h1>Edit prompt: <%= HtmlSanitizeEx.strip_tags(@prompt.html) %></h1>
 
 <%= render "_form.html",
   changeset: @changeset,

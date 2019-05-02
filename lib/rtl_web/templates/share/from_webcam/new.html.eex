@@ -19,7 +19,7 @@
 <h4>The topic:</h4>
 <div class="row">
   <div class="col-sm-8">
-    <%= @prompt.html %>
+    <%= HtmlSanitizeEx.basic_html(@prompt.html) %>
     <%# <ul style="margin-bottom: 0; font-size: 1.25em; color: #1c7931;">
       <li><strong>Who are you?</strong> What do you love to do?</li>
       <li>What <strong>challenges</strong> do you experience in your life here?</li>

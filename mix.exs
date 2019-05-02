@@ -44,6 +44,7 @@ defmodule RTL.Mixfile do
       {:jason, "~> 1.1"},
       {:rollbax, "~> 0.10"},
       {:phoenix_live_view, github: "phoenixframework/phoenix_live_view"},
+      {:html_sanitize_ex, "~> 1.3"},
 
       # Auth
       {:ueberauth, "~> 0.6"},

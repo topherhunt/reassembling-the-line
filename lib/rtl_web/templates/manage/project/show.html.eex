@@ -49,7 +49,8 @@
 
   <%= for prompt <- @prompts do %>
     <li>
-      <%= prompt.html %>
+      <%# TODO: ellipse this in case it's too long %>
+      <%= HtmlSanitizeEx.strip_tags(prompt.html) %>
       &nbsp;
       <%= link "details", to: Routes.manage_prompt_path(@conn, :show, @project, prompt), class: "test-link-show-prompt-#{prompt.id}" %>
     </li>
