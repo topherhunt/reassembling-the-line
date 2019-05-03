@@ -4,8 +4,6 @@ defmodule RTLWeb.Manage.VideosListLiveview do
   alias RTL.Videos
   require Logger
 
-  # The session is for data that won't change for the duration of this process,
-  # data that "defines" this view. e.g. the id of the video it's rendering for.
   def mount(%{project: project}, socket) do
     if connected?(socket), do: RTL.Videos.subscribe_to(:all)
     socket = assign(socket, :project, project)

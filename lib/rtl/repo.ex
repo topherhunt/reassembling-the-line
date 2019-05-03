@@ -3,7 +3,6 @@ defmodule RTL.Repo do
   import Ecto.Query
   alias RTL.Repo
 
-  # Simplify count queries where no join tables exist
   def count(query), do: query |> select([t], count(t.id)) |> Repo.one()
 
   def any?(query), do: count(query) >= 1

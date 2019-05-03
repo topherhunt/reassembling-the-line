@@ -3,8 +3,8 @@ defmodule RTL.Videos.Coding do
   import Ecto.Changeset
 
   schema "codings" do
-    belongs_to(:video, RTL.Videos.Video)
-    belongs_to(:updated_by_user, RTL.Accounts.User)
+    belongs_to :video, RTL.Videos.Video
+    belongs_to :updated_by_user, RTL.Accounts.User
     timestamps()
 
     has_many(:taggings, RTL.Videos.Tagging)

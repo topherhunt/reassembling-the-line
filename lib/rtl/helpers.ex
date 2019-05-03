@@ -24,10 +24,7 @@ defmodule RTL.Helpers do
     |> Enum.join("")
   end
 
-  def is_blank?(value) do
-    value == nil ||
-      (is_binary(value) && String.trim(value) == "")
-  end
+  def is_blank?(value), do: value == nil || (is_binary(value) && String.trim(value) == "")
 
   def is_present?(value), do: !is_blank?(value)
 

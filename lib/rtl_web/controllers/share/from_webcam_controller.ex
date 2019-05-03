@@ -10,7 +10,7 @@ defmodule RTLWeb.Share.FromWebcamController do
   # Anyone can record and upload an interview as many times as they want.
   def new(conn, _params) do
     changeset = Videos.new_video_changeset(%{})
-    uuid = H.random_hex()
+    uuid = Factory.random_uuid()
     thumbnail_filename = "#{uuid}.jpg"
     recording_filename = "#{uuid}.webm"
 
