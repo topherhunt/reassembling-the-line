@@ -5,6 +5,10 @@ defmodule RTLWeb.IntegrationHelpers do
   alias RTL.Factory
   alias RTLWeb.Router.Helpers, as: Routes
 
+  #
+  # High-level
+  #
+
   def login_as_new_user(conn, params \\ %{}) do
     user = Factory.insert_user(params)
     navigate_to Routes.auth_path(conn, :login_from_uuid, user.uuid)
@@ -14,6 +18,14 @@ defmodule RTLWeb.IntegrationHelpers do
   def login_as_superadmin(conn) do
     login_as_new_user(conn, %{email: "superadmin@example.com"})
   end
+
+  def open_manage_dropdown do
+    find_element(".test-link-open-manage-dropdown") |> click()
+  end
+
+  #
+  # DOM
+  #
 
   # I always use css selectors, so I can simplify the helpers a bit
   def find_element(selector), do: find_element(:css, selector)
@@ -39,6 +51,10 @@ defmodule RTLWeb.IntegrationHelpers do
     actual = length(find_all_elements(selector))
     assert actual == 0, "Expected NOT to find selector \"#{selector}\", but found #{actual}."
   end
+
+  #
+  # Debugging
+  #
 
   def print_page_source() do
     IO.puts("<<<<<<< Page source: >>>>>>")

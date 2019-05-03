@@ -9,8 +9,9 @@ defmodule RTLWeb.ManageProjectsTest do
     _existing_project = Factory.insert_project()
 
     # Listing projects
-    find_element(".test-link-list-projects") |> click()
-    assert_selector(".test-page-list-projects")
+    open_manage_dropdown()
+    find_element(".test-link-manage-project-list") |> click()
+    assert_selector(".test-page-manage-project-list")
 
     # Creating a project
     find_element(".test-link-new-project") |> click()
@@ -32,7 +33,7 @@ defmodule RTLWeb.ManageProjectsTest do
     find_element(".test-link-edit-project-#{project.id}") |> click()
     find_element(".test-link-delete-project-#{project.id}") |> click()
     accept_dialog()
-    assert_selector(".test-page-list-projects")
+    assert_selector(".test-page-manage-project-list")
     assert Projects.get_project(project.id) == nil
   end
 
@@ -42,8 +43,9 @@ defmodule RTLWeb.ManageProjectsTest do
     Projects.add_project_admin!(user, project)
 
     # Listing projects
-    find_element(".test-link-list-projects") |> click()
-    assert_selector(".test-page-list-projects")
+    open_manage_dropdown()
+    find_element(".test-link-manage-project-list") |> click()
+    assert_selector(".test-page-manage-project-list")
 
     # Showing the project
     find_element(".test-link-show-project-#{project.id}") |> click()
@@ -59,7 +61,7 @@ defmodule RTLWeb.ManageProjectsTest do
     find_element(".test-link-edit-project-#{project.id}") |> click()
     find_element(".test-link-delete-project-#{project.id}") |> click()
     accept_dialog()
-    assert_selector(".test-page-list-projects")
+    assert_selector(".test-page-manage-project-list")
     assert Projects.get_project(project.id) == nil
   end
 end

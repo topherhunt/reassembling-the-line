@@ -9,9 +9,10 @@ defmodule RTLWeb.ManageUsersTest do
     user2 = Factory.insert_user()
 
     # Listing users
-    find_element(".test-link-list-users") |> click()
+    open_manage_dropdown()
+    find_element(".test-link-manage-user-list") |> click()
 
-    assert_selector(".test-page-list-users")
+    assert_selector(".test-page-manage-user-list")
     assert_text(superadmin.full_name)
     assert_text(user2.full_name)
 
@@ -37,7 +38,7 @@ defmodule RTLWeb.ManageUsersTest do
     find_element(".test-link-edit-user-#{user3.id}") |> click()
     find_element(".test-link-delete-user-#{user3.id}") |> click()
     accept_dialog()
-    assert_selector(".test-page-list-users")
+    assert_selector(".test-page-manage-user-list")
     assert Accounts.get_user(user3.id) == nil
   end
 end

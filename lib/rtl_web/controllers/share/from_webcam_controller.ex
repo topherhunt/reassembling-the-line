@@ -1,7 +1,7 @@
 defmodule RTLWeb.Share.FromWebcamController do
   use RTLWeb, :controller
   alias RTL.Helpers, as: H
-  alias RTL.Videos
+  alias RTL.{Factory, Videos}
 
   plug :load_project
   plug :load_prompt

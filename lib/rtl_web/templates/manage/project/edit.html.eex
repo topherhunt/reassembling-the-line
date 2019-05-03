@@ -2,12 +2,12 @@
 
 <%= render "_form.html",
   changeset: @changeset,
-  path: Routes.manage_project_path(@conn, :update, @project.id) %>
+  path: Routes.manage_project_path(@conn, :update, @project) %>
 
 <hr />
 
 <%= link "Delete this project",
-  to: Routes.manage_project_path(@conn, :delete, @project.id),
+  to: Routes.manage_project_path(@conn, :delete, @project),
   method: :delete,
   data_confirm: "WARNING: This will irreversibly delete the project \"#{@project.name}\" and all of its data. Proceed?",
   class: "text-danger test-link-delete-project-#{@project.id}" %>
