@@ -21,3 +21,7 @@
 .strong { font-weight: bold; }
 .js-hidden { display: none; }
 .nowrap { white-space: nowrap; }
+
+.u-nowrap { white-space: nowrap; }
+.u-ellipsis { overflow: hidden; text-overflow: ellipsis; }
+.u-hidden { display: none; }

@@ -13,12 +13,13 @@ defmodule RTL.Projects.Project do
 
     has_many :project_admin_joins, RTL.Projects.ProjectAdminJoin
     has_many :admins, through: [:project_admin_joins, :admin]
-    has_many :propmts, RTL.Projects.Prompt
+    has_many :prompts, RTL.Projects.Prompt
   end
 
   def changeset(struct, params) do
     struct
-    |> cast(params, [:name])
+    # Allowing setting of uuid for admin convenience
+    |> cast(params, [:name, :uuid])
     |> populate_uuid()
     |> validate_required([:name, :uuid])
     |> unique_constraint(:uuid)

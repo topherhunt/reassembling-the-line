@@ -28,7 +28,7 @@ defmodule RTLWeb.AuthController do
     conn
     |> SessionPlugs.login!(user)
     |> put_flash(:info, "Welcome back, #{user.full_name}!")
-    |> redirect(to: "/")
+    |> redirect(to: Routes.manage_project_path(conn, :index))
   end
 
   def logout(conn, _params) do

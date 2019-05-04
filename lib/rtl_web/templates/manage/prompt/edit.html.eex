@@ -1,14 +1,19 @@
-<div class="test-page-edit-prompt-<%= @prompt.id %>" />
-<h1>Edit prompt: <%= HtmlSanitizeEx.strip_tags(@prompt.html) %></h1>
+<div class="test-page-edit-prompt-<%= @prompt.id %>" ></div>
+
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><%= link "Manage projects", to: Routes.manage_project_path(@conn, :index) %></li>
+    <li class="breadcrumb-item"><%= link @project.name, to: Routes.manage_project_path(@conn, :show, @project) %></li>
+    <li class="breadcrumb-item">
+      <%= link "Prompt: "<> ellipsis(HtmlSanitizeEx.strip_tags(@prompt.html), 30),
+        to: Routes.manage_prompt_path(@conn, :show, @project, @prompt) %>
+    </li>
+    <li class="breadcrumb-item active u-nowrap u-ellipsis" style="max-width: 300px;">Edit</li>
+  </ol>
+</nav>
+
+<h1>Edit prompt</h1>
 
 <%= render "_form.html",
   changeset: @changeset,
   path: Routes.manage_prompt_path(@conn, :update, @project, @prompt) %>
-
-<hr />
-
-<%= link "Delete this prompt",
-  to: Routes.manage_prompt_path(@conn, :delete, @project, @prompt),
-  method: :delete,
-  data_confirm: "WARNING: This will irreversibly delete this prompt and all associated data. Proceed?",
-  class: "text-danger test-link-delete-prompt-#{@prompt.id}" %>

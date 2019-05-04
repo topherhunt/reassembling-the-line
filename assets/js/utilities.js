@@ -12,5 +12,4 @@ $(function(){
   });
 
   $(".js-chosen-select").chosen();
-  
 });

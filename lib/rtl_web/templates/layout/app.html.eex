@@ -30,19 +30,15 @@
 
           <%= if @current_user do %>
 
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle test-link-open-manage-dropdown" href="#" data-toggle="dropdown">
-                <%= icon("settings") %>
-                <span class="caret"></span>
-              </a>
-              <div class="dropdown-menu dropdown-menu-right">
-                <%= if is_superadmin?(@current_user) do %>
-                  <%= link "Manage users", to: Routes.manage_user_path(@conn, :index), class: "dropdown-item test-link-manage-user-list" %>
-                <% end %>
-
-                <%= link "Manage projects", to: Routes.manage_project_path(@conn, :index), class: "dropdown-item test-link-manage-project-list" %>
-              </div>
+            <li class="nav-item">
+              <%= link "Projects", to: Routes.manage_project_path(@conn, :index), class: "nav-link test-link-manage-project-list" %>
             </li>
+
+            <%= if is_superadmin?(@current_user) do %>
+              <li class="nav-item">
+                <%= link "Users", to: Routes.manage_user_path(@conn, :index), class: "text-warning nav-link test-link-manage-user-list" %>
+              </li>
+            <% end %>
 
           <% end %>
 
@@ -95,7 +91,7 @@
         &nbsp; &nbsp;
         <%= link "Open source on Github", to: "https://github.com/topherhunt/reassembling-the-line", target: "_blank" %>
         &nbsp; &nbsp;
-        <%= link "Contact us", to: "https://docs.google.com/forms/d/e/1FAIpQLScFmkgOIWIN3QKIT1TI6e2A440ixtfMsAQ04kVoh85TLDmbXw/viewform?usp=sf_link", target: "_blank" %>
+        <%= link "Contact us", to: contact_us_url(), target: "_blank" %>
       </div>
     </div>
   </body>

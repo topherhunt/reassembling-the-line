@@ -6,7 +6,7 @@
 
 <h1>Explore all clips</h1>
 
-<div class="test-page-explore-clip-index"/>
+<div class="test-page-explore-clip-index"></div>
 
 <p>This page shows a playlist of all coded video clips, shuffled randomly to make each visit unique. Use the filter to limit the playlist to certain tags or topics.</p>
 

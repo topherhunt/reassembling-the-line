@@ -1,3 +1,22 @@
 <h1>Project: <%= @project.name %></h1>
 
-<strong>TODO</strong>
+<%# TODO: Once I have an editable field for project description, consider adding the demo links in there so they don't need to be hard-coded. %>
+<%= if @project.uuid == "demo" do %>
+  <div class="u-card">
+    <h3>Demo</h3>
+
+    <p>This is a demo project. Use the buttons below to get a feel for how RTL works and how you might be able to make use of it.</p>
+
+    <p>
+      <%= link "Record an interview (via webcam)",
+        to: Routes.share_from_webcam_path(@conn, :new, @project, @demo_prompt),
+        class: "btn btn-outline-primary" %>
+    </p>
+
+    <p>
+      <%= link "Log in as a project admin",
+        to: Routes.auth_path(@conn, :login_from_uuid, @demo_admin.uuid),
+        class: "btn btn-outline-primary" %>
+    </p>
+  </div>
+<% end %>

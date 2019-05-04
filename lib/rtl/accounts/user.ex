@@ -51,6 +51,18 @@ defmodule RTL.Accounts.User do
   def filter(query, :order, :newest), do: order_by(query, [u], desc: u.id)
   def filter(query, :order, :full_name), do: order_by(query, [u], asc: u.full_name)
 
+  def filter(query, :admin_on_project, project) do
+    where(
+      query,
+      [u],
+      fragment(
+        "EXISTS (SELECT * FROM project_admin_joins WHERE project_id = ? AND admin_id = ?)",
+        ^project.id,
+        u.id
+      )
+    )
+  end
+
   def filter(query, :not_admin_on_project, project) do
     where(
       query,

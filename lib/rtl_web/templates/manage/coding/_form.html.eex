@@ -1,7 +1,15 @@
-<h3>
-  <span style="font-weight: normal;">Coding video:</span>
-  <%= @video.title %>
-</h3>
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><%= link "Manage projects", to: Routes.manage_project_path(RTLWeb.Endpoint, :index) %></li>
+    <li class="breadcrumb-item"><%= link @project.name, to: Routes.manage_project_path(RTLWeb.Endpoint, :show, @project) %></li>
+    <li class="breadcrumb-item"><%= link "Videos", to: Routes.manage_video_path(RTLWeb.Endpoint, :index, @project) %></li>
+    <li class="breadcrumb-item active">Tag video: <%= ellipsis(@video.title, 30) %></li>
+  </ol>
+</nav>
+
+<h1>Tag video</h1>
+
+<h4><%= @video.title %></h4>
 
 <div class="row">
   <div class="col-sm-9">

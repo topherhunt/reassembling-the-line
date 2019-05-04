@@ -1,10 +1,18 @@
-<h1>Code videos</h1>
+<div class="test-page-manage-video-index"></div>
 
-<div class="test-page-list-videos"/>
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><%= link "Manage projects", to: Routes.manage_project_path(RTLWeb.Endpoint, :index) %></li>
+    <li class="breadcrumb-item"><%= link @project.name, to: Routes.manage_project_path(RTLWeb.Endpoint, :show, @project) %></li>
+    <li class="breadcrumb-item active">Videos</li>
+  </ol>
+</nav>
+
+<h1>Videos</h1>
 
 <div class="row">
   <div class="col-sm-6">
-    <p>We "code" each video by tagging any interesting segments so that viewers can easily jump to topics that they care about and don't need to watch each entire video.</p>
+    <p>We categorize each video by tagging any interesting segments so that viewers can easily jump to topics that they care about and don't need to watch each entire video.</p>
 
     <p>All videos are listed below, with the most recently coded first. Uncoded videos are at the bottom.</p>
   </div>

@@ -1,10 +1,11 @@
-<div class="test-page-show-user-<%= @user.id %>" />
+<div class="test-page-show-user-<%= @user.id %>"></div>
 <h1>User: <%= @user.full_name %></h1>
 
 <div class="u-card">
   <h4>Basic info</h4>
 
   <ul>
+    <li>Email: <%= @user.email %></li>
     <li>Created: <%= @user.inserted_at %></li>
     <li>Last signed in: <%= @user.last_signed_in_at %></li>
   </ul>

@@ -1,60 +1,102 @@
-<div class="test-page-show-project-<%= @project.id %>" />
-<h2>Project: <%= @project.name %></h2>
+<div class="test-page-show-project-<%= @project.id %>"></div>
 
-<div class="u-card">
-  <h4>Basic info</h4>
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><%= link "Manage projects", to: Routes.manage_project_path(@conn, :index) %></li>
+    <li class="breadcrumb-item active"><%= @project.name %></li>
+  </ol>
+</nav>
 
-  <ul>
-    <li>Created: <%= print_date(@project.inserted_at) %></li>
-  </ul>
+<h2>Project details</h2>
 
-  <%= link "Edit", to: Routes.manage_project_path(@conn, :edit, @project), class: "btn btn-outline-warning test-link-edit-project-#{@project.id}" %>
-</div>
+<div class="row">
+  <div class="col-md-6">
 
-<div class="u-card">
-  <h4>Admins</h4>
+    <div class="u-card">
+      <h4>Basic info</h4>
+      <table class="table">
+        <tr>
+          <th>Name</th>
+          <td><%= @project.name %></td>
+        </tr>
+        <tr>
+          <th>Date created</th>
+          <td><%= print_date(@project.inserted_at) %></td>
+        </tr>
+        <tr>
+          <td colspan="9">
+            <%= link "edit", to: Routes.manage_project_path(@conn, :edit, @project), class: "text-warning test-link-edit-project-#{@project.id}" %>
+            &nbsp;
+            <%= link "delete",
+              to: Routes.manage_project_path(@conn, :delete, @project),
+              method: :delete,
+              data_confirm: "WARNING: This will irreversibly delete the project \"#{@project.name}\" and all of its data. Proceed?",
+              class: "text-danger test-link-delete-project-#{@project.id}" %>
 
-  <ul>
-    <%= for join <- @project.project_admin_joins do %>
-      <li>
-        <%= join.admin.full_name %>
-        <%= if is_superadmin?(@current_user) do %>
-          &nbsp;
-          <%= link "details", to: Routes.manage_user_path(@conn, :show, join.admin) %>
-          &nbsp;
-          <%= link "remove",
-            to: Routes.manage_project_admin_join_path(@conn, :delete, join, project_id: @project.id, admin_id: join.admin.id, return_to: @conn.request_path),
-            method: :delete,
-            class: "text-danger",
-            data_confirm: "Really remove this admin?" %>
+          </td>
+          <td></td>
+        </tr>
+      </table>
+    </div>
+
+    <div class="u-card">
+      <h4>Admins</h4>
+      <table class="table">
+        <%= for join <- @project.project_admin_joins do %>
+          <tr>
+            <td><%= join.admin.full_name %></td>
+            <%= if is_superadmin?(@current_user) do %>
+              <td>
+                <%= link "details", to: Routes.manage_user_path(@conn, :show, join.admin) %>
+                &nbsp;
+                <%= link "remove",
+                  to: Routes.manage_project_admin_join_path(@conn, :delete, join, project_id: @project.id, admin_id: join.admin.id, return_to: @conn.request_path),
+                  method: :delete,
+                  class: "text-danger",
+                  data_confirm: "Really remove this admin?" %>
+              </td>
+            <% end %>
+          </tr>
         <% end %>
-      </li>
-    <% end %>
-  </ul>
+      </table>
 
-  <%= if is_superadmin?(@current_user) do %>
-    <%= form_for @conn, Routes.manage_project_admin_join_path(@conn, :create), [method: :post], fn(f) -> %>
-      Add an admin:
-      <%= hidden_input f, :return_to, value: @conn.request_path %>
-      <%= hidden_input f, :project_id, value: @project.id %>
-      <%= select f, :admin_id, id_and_label_for(@addable_admins), class: "js-chosen-select" %>
-      &nbsp;
-      <%= submit("Add", class: "btn btn-primary btn-sm") %>
-    <% end %>
-  <% end %>
-</div>
+      <%= if is_superadmin?(@current_user) do %>
+        <%= form_for @conn, Routes.manage_project_admin_join_path(@conn, :create), [method: :post], fn(f) -> %>
+          Add an admin: &nbsp;
+          <%= hidden_input f, :return_to, value: @conn.request_path %>
+          <%= hidden_input f, :project_id, value: @project.id %>
+          <%= select f, :admin_id, id_and_label_for(@addable_admins), class: "js-chosen-select", style: "max-width: 300px;" %>
+          &nbsp;
+          <%= submit("Add", class: "btn btn-primary btn-sm") %>
+        <% end %>
+      <% end %>
+    </div>
 
-<div class="u-card">
-  <h4>Prompts</h4>
+  </div>
+  <div class="col-md-6">
 
-  <%= for prompt <- @prompts do %>
-    <li>
-      <%# TODO: ellipse this in case it's too long %>
-      <%= HtmlSanitizeEx.strip_tags(prompt.html) %>
-      &nbsp;
-      <%= link "details", to: Routes.manage_prompt_path(@conn, :show, @project, prompt), class: "test-link-show-prompt-#{prompt.id}" %>
-    </li>
-  <% end %>
+    <div class="u-card">
+      <h4>Prompts</h4>
 
-  <%= link "New prompt", to: Routes.manage_prompt_path(@conn, :new, @project), class: "btn btn-outline-primary test-link-new-prompt" %>
+      <table class="table">
+        <%= for prompt <- @prompts do %>
+          <tr>
+            <td><%= HtmlSanitizeEx.strip_tags(prompt.html) %></td>
+            <td><%= link "details", to: Routes.manage_prompt_path(@conn, :show, @project, prompt), class: "test-link-show-prompt-#{prompt.id}" %></td>
+          </tr>
+        <% end %>
+        <tr>
+          <td colspan="9">
+            <%= link "add", to: Routes.manage_prompt_path(@conn, :new, @project), class: "test-link-new-prompt" %>
+          </td>
+        </tr>
+      </table>
+    </div>
+
+    <div class="u-card">
+      <h4>Videos</h4>
+      <p><%= link "See all videos", to: Routes.manage_video_path(@conn, :index, @project) %></p>
+    </div>
+
+  </div>
 </div>

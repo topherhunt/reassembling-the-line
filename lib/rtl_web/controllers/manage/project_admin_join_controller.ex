@@ -10,7 +10,7 @@ defmodule RTLWeb.Manage.ProjectAdminJoinController do
     Projects.add_project_admin!(admin, project)
 
     conn
-    |> put_flash(:info, "Made #{admin.full_name} admin of project #{project.name}.")
+    |> put_flash(:info, "#{admin.full_name} is now an admin on \"#{project.name}\".")
     |> redirect(to: conn.params["return_to"])
   end
 

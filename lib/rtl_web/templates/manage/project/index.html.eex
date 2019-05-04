@@ -1,4 +1,4 @@
-<div class="test-page-manage-project-list" />
+<div class="test-page-manage-project-list" ></div>
 <h1>Projects</h1>
 
 <%= for project <- @projects do %>

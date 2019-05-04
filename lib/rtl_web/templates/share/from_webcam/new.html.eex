@@ -1,6 +1,6 @@
 <h1>Online interview: Life in northern Netherlands</h1>
 
-<div class="test-page-new-from-webcam"/>
+<div class="test-page-new-from-webcam"></div>
 
 <div class="row">
   <div class="col-sm-8">
@@ -18,10 +18,12 @@
   </div>
 </div>
 
-<h4>The topic:</h4>
+<h5>The topic:</h5>
 <div class="row">
   <div class="col-sm-8">
-    <%= HtmlSanitizeEx.basic_html(@prompt.html) %>
+    <div class="u-card text-success" style="font-size: 1.1em;">
+      <%= raw HtmlSanitizeEx.basic_html(@prompt.html) %>
+    </div>
     <%# <ul style="margin-bottom: 0; font-size: 1.25em; color: #1c7931;">
       <li><strong>Who are you?</strong> What do you love to do?</li>
       <li>What <strong>challenges</strong> do you experience in your life here?</li>
@@ -79,7 +81,7 @@
 <div class="pb-4"></div>
 
 <div class="js-interview-form-container js-hidden">
-  <h4>Submit your interview</h4>
+  <h5>Submit your interview</h5>
   <div class="row">
     <div class="col-sm-8">
       <%= form_for @changeset, Routes.share_from_webcam_path(@conn, :create, @project, @prompt), fn(f) -> %>

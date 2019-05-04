@@ -22,4 +22,6 @@ label { cursor: pointer; }
 /* TODO: Replace bootstrap.css with the scss version so we can override color vars */
 .text-warning { color: #D07B0D !important; } /* #ffc107, which was way too light. */
 .text-danger { color: #a94442 !important; }
-table.table { width: auto; }
+table.table { width: auto; margin-bottom: 0px; }
+
+.navbar { box-shadow: 0px 0px 5px 0px #bbb; }

@@ -1,4 +1,4 @@
-<div class="test-page-manage-user-list" />
+<div class="test-page-manage-user-list"></div>
 <h1>Users</h1>
 
 <%= Enum.map(@users, fn(user) -> %>
