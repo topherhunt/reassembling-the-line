@@ -49,7 +49,7 @@ defmodule RTL.Factory do
     tags_params = params[:tags] || [%{"text" => "tag1"}, %{"text" => "tag2"}]
 
     assert_no_keys_except(params, [:video_id, :coder_id, :tags])
-    Enum.each(tags_params, & assert_no_keys_except(&1, ["text", "starts_at", "ends_at"]))
+    Enum.each(tags_params, &assert_no_keys_except(&1, ["text", "starts_at", "ends_at"]))
 
     {:ok, coding} =
       Videos.insert_coding(%{
@@ -89,7 +89,7 @@ defmodule RTL.Factory do
   defp assert_no_keys_except(params, allowed_keys) do
     keys = Enum.into(params, %{}) |> Map.keys()
 
-    Enum.each(keys, fn(key) ->
+    Enum.each(keys, fn key ->
       unless key in allowed_keys do
         raise "Unexpected key #{inspect(key)}."
       end

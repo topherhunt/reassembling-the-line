@@ -36,10 +36,12 @@ defmodule RTLWeb.IntegrationHelpers do
 
     if opts[:count] do
       assert actual == opts[:count],
-        "Expected to find selector \"#{selector}\" exactly #{opts[:count]} times, but found it #{actual} times."
+             "Expected to find selector \"#{selector}\" exactly #{opts[:count]} times, but found it #{
+               actual
+             } times."
     else
       assert actual >= 1,
-        "Expected to find selector \"#{selector}\" 1+ times, but found none."
+             "Expected to find selector \"#{selector}\" 1+ times, but found none."
     end
   end
 

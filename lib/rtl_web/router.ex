@@ -53,9 +53,9 @@ defmodule RTLWeb.Router do
         resources "/prompts", Manage.PromptController, except: [:index], param: "prompt_uuid"
 
         resources "/videos", Manage.VideoController, only: [:index]
+
         scope "/videos/:video_id", as: :video do
-          resources "/codings", Manage.CodingController,
-            only: [:new, :create, :edit, :update]
+          resources "/codings", Manage.CodingController, only: [:new, :create, :edit, :update]
         end
       end
 
@@ -90,7 +90,6 @@ defmodule RTLWeb.Router do
       get "/index", HelpController, :index
       get "/collecting_videos", HelpController, :collecting_videos
     end
-
   end
 
   defp handle_errors(conn, data), do: RTLWeb.RollbarPlugs.handle_errors(conn, data)

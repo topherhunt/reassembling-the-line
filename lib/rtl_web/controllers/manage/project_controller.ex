@@ -19,6 +19,7 @@ defmodule RTLWeb.Manage.ProjectController do
     project = conn.assigns.project |> RTL.Repo.preload(:admins)
     addable_admins = Accounts.get_users(not_admin_on_project: project, order: :full_name)
     prompts = Projects.get_prompts(project: project)
+
     render conn, "show.html",
       project: project,
       addable_admins: addable_admins,

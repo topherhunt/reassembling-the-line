@@ -39,7 +39,7 @@ defmodule RTL.Videos.Video do
   #
 
   def filter(starting_query, filters) do
-    Enum.reduce(filters, starting_query, fn({k, v}, query) -> filter(query, k, v) end)
+    Enum.reduce(filters, starting_query, fn {k, v}, query -> filter(query, k, v) end)
   end
 
   def filter(query, :id, id), do: where(query, [v], v.id == ^id)

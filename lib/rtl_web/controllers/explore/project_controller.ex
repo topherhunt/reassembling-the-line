@@ -18,6 +18,7 @@ defmodule RTLWeb.Explore.ProjectController do
 
   defp load_demo_prompt_and_admin(conn) do
     project = conn.assigns.project
+
     if project.uuid == "demo" do
       conn
       |> assign(:demo_prompt, Projects.get_prompt_by!(project: project))
