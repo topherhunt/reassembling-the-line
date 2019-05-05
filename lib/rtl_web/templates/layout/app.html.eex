@@ -9,7 +9,6 @@
     <meta name="author" content="">
     <title>RTL</title>
     <link rel="stylesheet" href="<%= Routes.static_path(@conn, "/css/app.css") %>">
-    <script src="<%= Routes.static_path(@conn, "/js/app.js") %>"></script>
   </head>
 
   <body>
@@ -39,5 +38,7 @@
         <%= link "Contact us", to: contact_us_url(), target: "_blank" %>
       </div>
     </footer>
+
+    <script src="<%= Routes.static_path(@conn, "/js/app.js") %>"></script>
   </body>
 </html>
