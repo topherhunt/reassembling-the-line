@@ -34,6 +34,9 @@ config :phoenix, :template_engines, leex: Phoenix.LiveView.Engine
 
 config :phoenix, :json_library, Jason
 
+# Scrub these params from the logs
+config :phoenix, :filter_parameters, ["password", "admin_password"]
+
 config :logger, :console,
   format: "$date $time $metadata[$level] $message\n",
   metadata: [:request_id]
