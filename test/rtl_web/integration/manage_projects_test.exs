@@ -9,7 +9,6 @@ defmodule RTLWeb.ManageProjectsTest do
     _existing_project = Factory.insert_project()
 
     # Listing projects
-    open_manage_dropdown()
     find_element(".test-link-manage-project-list") |> click()
     assert_selector(".test-page-manage-project-list")
 
@@ -30,7 +29,6 @@ defmodule RTLWeb.ManageProjectsTest do
     assert Projects.get_project(project.id).name == "District 9"
 
     # Deleting the project
-    find_element(".test-link-edit-project-#{project.id}") |> click()
     find_element(".test-link-delete-project-#{project.id}") |> click()
     accept_dialog()
     assert_selector(".test-page-manage-project-list")
@@ -43,7 +41,6 @@ defmodule RTLWeb.ManageProjectsTest do
     Projects.add_project_admin!(user, project)
 
     # Listing projects
-    open_manage_dropdown()
     find_element(".test-link-manage-project-list") |> click()
     assert_selector(".test-page-manage-project-list")
 
@@ -58,7 +55,6 @@ defmodule RTLWeb.ManageProjectsTest do
     assert Projects.get_project(project.id).name == "District 9"
 
     # Deleting the project
-    find_element(".test-link-edit-project-#{project.id}") |> click()
     find_element(".test-link-delete-project-#{project.id}") |> click()
     accept_dialog()
     assert_selector(".test-page-manage-project-list")

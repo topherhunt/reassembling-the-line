@@ -19,6 +19,6 @@ IO.puts "Login paths:"
 
 # TODO: Extract this logic to some helper module so I can de-duplicate
 Enum.each(all_users, fn(user) ->
-  path = Routes.auth_path(Endpoint, :login_from_uuid, user.uuid)
+  path = Routes.auth_path(Endpoint, :force_login, user.uuid)
   IO.puts "* #{user.full_name} logs in with: http://#{host_name}#{path}"
 end)

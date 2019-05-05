@@ -9,7 +9,6 @@ defmodule RTLWeb.ManageUsersTest do
     user2 = Factory.insert_user()
 
     # Listing users
-    open_manage_dropdown()
     find_element(".test-link-manage-user-list") |> click()
 
     assert_selector(".test-page-manage-user-list")

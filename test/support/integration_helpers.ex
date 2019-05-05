@@ -11,16 +11,12 @@ defmodule RTLWeb.IntegrationHelpers do
 
   def login_as_new_user(conn, params \\ %{}) do
     user = Factory.insert_user(params)
-    navigate_to Routes.auth_path(conn, :login_from_uuid, user.uuid)
+    navigate_to Routes.auth_path(conn, :force_login, user.uuid)
     user
   end
 
   def login_as_superadmin(conn) do
     login_as_new_user(conn, %{email: "superadmin@example.com"})
-  end
-
-  def open_manage_dropdown do
-    find_element(".test-link-open-manage-dropdown") |> click()
   end
 
   #

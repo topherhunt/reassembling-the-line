@@ -36,8 +36,6 @@ defmodule RTLWeb.Manage.CodingController do
     coding = Videos.get_coding!(coding_id) |> Videos.get_coding_preloads()
     changeset = Videos.coding_changeset(coding, %{})
 
-    IO.inspect(conn.assigns.project, label: "In controller")
-
     render conn, "edit.html",
       changeset: changeset,
       present_tags: Videos.summarize_taggings(coding.taggings),

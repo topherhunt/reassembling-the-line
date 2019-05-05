@@ -104,7 +104,7 @@ defmodule RTLWeb.Manage.CodingControllerTest do
       coding = Factory.insert_coding(video_id: vid.id)
 
       conn = get(conn, Routes.manage_video_coding_path(conn, :edit, proj, vid, coding))
-      assert conn.resp_body =~ "Coding video:"
+      assert conn.resp_body =~ "test-page-edit-coding"
       assert conn.resp_body =~ vid.title
     end
   end

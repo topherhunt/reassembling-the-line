@@ -34,7 +34,6 @@ defmodule RTLWeb.ManagePromptsTest do
     assert Projects.get_prompt(prompt3.id).html == "Why all the fuss?"
 
     # Deleting the prompt
-    find_element(".test-link-edit-prompt-#{prompt3.id}") |> click()
     find_element(".test-link-delete-prompt-#{prompt3.id}") |> click()
     accept_dialog()
     assert_selector(".test-page-show-project-#{project.id}")

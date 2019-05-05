@@ -11,14 +11,14 @@ defmodule RTLWeb.Manage.VideosListLiveviewTest do
   test "renders correctly" do
     project = Factory.insert_project()
     prompt = Factory.insert_prompt(project_id: project.id)
+    # Insert some videos: 1 uncoded, 1 coded, and 1 irrelevant (will be excluded)
     v1 = Factory.insert_video(prompt_id: prompt.id)
     v2 = insert_video_with_tags([prompt_id: prompt.id], ["abc:30:60"])
-    # Video from another project (shouldn't be shown)
     v3 = Factory.insert_video()
 
     {:ok, _view, html} = mount_the_view(session: %{project: project})
 
-    assert html =~ "Code videos"
+    assert html =~ "test-page-manage-video-index"
     assert html =~ v1.title
     assert html =~ v2.title
     assert !(html =~ v3.title)
@@ -29,7 +29,7 @@ defmodule RTLWeb.Manage.VideosListLiveviewTest do
 
     {:ok, _view, html} = mount_the_view(session: %{project: project})
 
-    assert html =~ "Code videos"
+    assert html =~ "test-page-manage-video-index"
   end
 
   test "delete_video works" do

@@ -36,7 +36,7 @@ defmodule RTLWeb.Router do
       # Auth0 redirects back here after successful auth
       get "/auth0_callback", AuthController, :auth0_callback
       get "/logout", AuthController, :logout
-      get "/login_from_uuid/:uuid", AuthController, :login_from_uuid
+      get "/force_login/:uuid", AuthController, :force_login
     end
 
     #

@@ -15,7 +15,7 @@
 
     <p>
       <%= link "Log in as a project admin",
-        to: Routes.auth_path(@conn, :login_from_uuid, @demo_admin.uuid),
+        to: Routes.auth_path(@conn, :force_login, @demo_admin.uuid),
         class: "btn btn-outline-primary" %>
     </p>
   </div>

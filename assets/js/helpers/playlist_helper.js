@@ -5,7 +5,7 @@ var PlaylistHelper = {
   refresh_playlist: function() {
     var player = $('.js-explore-video-player');
     var current_tags = TagHelper.get_from_select_elements();
-    var project_id = $('.js-explore-video-player').data('project-id');
+    var project_uuid = $('.js-explore-video-player').data('project-uuid');
     var tags_query = TagHelper.to_query_string(current_tags);
 
     $('.js-playlist-container').html('Loading...');
@@ -17,7 +17,7 @@ var PlaylistHelper = {
       method: 'GET',
       // TODO: There should be a client-side RouteHelper that has the authoritative
       // list of all valid routes.
-      url: '/projects/'+project_id+'/explore/clips/playlist?tags='+tags_query,
+      url: '/projects/'+project_uuid+'/explore/clips/playlist?tags='+tags_query,
       success: function(data) {
         this.handle_new_playlist_data(data.playlist);
       }.bind(this),

@@ -12,7 +12,7 @@ defmodule RTLWeb.CodingInterfaceTest do
   #   user = Factory.insert_user()
   #   video = Factory.insert_video()
 
-  #   navigate_to Routes.auth_path(conn, :login_from_uuid, user.uuid)
+  #   navigate_to Routes.auth_path(conn, :force_login, user.uuid)
   #   navigate_to Routes.admin_coding_path(conn, :new, video_id: video.id)
 
   #   click_add_tag_link()
@@ -56,7 +56,7 @@ defmodule RTLWeb.CodingInterfaceTest do
 
   #   coding = Factory.insert_coding(tags: tag_attrs)
 
-  #   navigate_to(Routes.auth_path(conn, :login_from_uuid, user.uuid))
+  #   navigate_to(Routes.auth_path(conn, :force_login, user.uuid))
   #   navigate_to(Routes.admin_coding_path(conn, :edit, coding.id))
   #   assert Enum.count(tag_rows()) == 3
   # end
@@ -86,7 +86,7 @@ defmodule RTLWeb.CodingInterfaceTest do
   # #
 
   # defp login(conn, user) do
-  #   navigate_to Routes.auth_path(conn, :login_from_uuid, user.uuid)
+  #   navigate_to Routes.auth_path(conn, :force_login, user.uuid)
   # end
 
   # defp click_add_tag_link do

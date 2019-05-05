@@ -20,7 +20,7 @@ defmodule RTLWeb.Manage.VideoControllerTest do
       conn = get(conn, Routes.manage_video_path(conn, :index, project))
 
       # This is a Liveview so we won't test it any further.
-      assert html_response(conn, 200) =~ "test-page-list-videos"
+      assert html_response(conn, 200) =~ "test-page-manage-video-index"
     end
 
     test "rejects non-admin", %{conn: conn} do

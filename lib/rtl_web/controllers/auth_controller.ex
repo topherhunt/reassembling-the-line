@@ -23,9 +23,9 @@ defmodule RTLWeb.AuthController do
   # only stored in the server env, not in the code or db.
   # Or maybe if I'm using a global secret pw, I don't need user uuid, just id.
   # TODO: Rename to force_login
-  def login_from_uuid(conn, %{"uuid" => uuid}) do
+  def force_login(conn, %{"uuid" => uuid}) do
     user = Accounts.get_user_by!(uuid: uuid)
-    Logger.warn("#login_from_uuid called; logging in as user #{user.id}.")
+    Logger.warn("#force_login called; logging in as user #{user.id}.")
 
     conn
     |> SessionPlugs.login!(user)
