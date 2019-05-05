@@ -1,11 +1,5 @@
 defmodule RTLWeb.SessionPlugs do
-  import Plug.Conn,
-    only: [
-      assign: 3,
-      get_session: 2,
-      put_session: 3,
-      configure_session: 2
-    ]
+  import Plug.Conn, only: [assign: 3, get_session: 2, put_session: 3, configure_session: 2]
   alias RTL.Accounts
 
   #
@@ -39,7 +33,7 @@ defmodule RTLWeb.SessionPlugs do
     conn
     |> assign(:current_user, user)
     |> put_session(:user_id, user.id)
-    |> put_session(:expires_at, new_expiration_datetime_string())
+    |> renew_session_lifetime()
     |> configure_session(renew: true)
   end
 
@@ -79,13 +73,11 @@ defmodule RTLWeb.SessionPlugs do
   end
 
   defp set_assigned_user(conn, user) do
-    conn
-    # Renew the session's lifetime
-    |> put_session(:expires_at, new_expiration_datetime_string())
-    |> assign(:current_user, user)
+    conn |> renew_session_lifetime() |> assign(:current_user, user)
   end
 
-  defp new_expiration_datetime_string do
-    Timex.now() |> Timex.shift(days: +30) |> Timex.format!("{ISO:Extended}")
+  defp renew_session_lifetime(conn) do
+    expires_at = Timex.now() |> Timex.shift(days: +30) |> Timex.format!("{ISO:Extended}")
+    put_session(conn, :expires_at, expires_at)
   end
 end

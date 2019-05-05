@@ -1,0 +1,14 @@
+/*
+  Overrides for Bootstrap's default styling
+*/
+
+label { cursor: pointer; }
+.label a { color: #fff !important; }
+table.table { width: auto; margin-bottom: 0px; }
+.navbar { box-shadow: 0px 0px 5px 0px #bbb; }
+
+/* Override certain colors. */
+/* TODO: Override the vars pre-compilation instead. */
+.text-info { color: #275972; } /* original: #31708f */
+.text-warning { color: #D07B0D !important; } /* original: #ffc107 */
+.text-danger { color: #a94442 !important; }

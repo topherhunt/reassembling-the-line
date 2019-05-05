@@ -10,7 +10,6 @@ defmodule RTL.Accounts.Services.FindOrCreateUserFromAuth do
     cond do
       user = Accounts.get_user_by(auth0_uid: uid) ->
         Logger.info "Auth: Logged in user #{user.id} (#{user.email}) by auth0_uid #{uid}."
-
         user
 
       user = Accounts.get_user_by(email: email) ->

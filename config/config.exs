@@ -20,7 +20,8 @@ config :rtl,
 config :rtl, RTL.Repo,
   adapter: Ecto.Adapters.Postgres,
   url: H.env!("DATABASE_URL"),
-  pool_size: H.env!("POOL_SIZE")
+  # Heroku PG hobby-dev allows max 20 db connections, so 10 is safe
+  pool_size: 10
 
 config :rtl, RTLWeb.Endpoint,
   url: [host: "localhost"],

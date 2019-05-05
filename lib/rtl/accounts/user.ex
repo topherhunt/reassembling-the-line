@@ -45,6 +45,7 @@ defmodule RTL.Accounts.User do
 
   def filter(query, :id, id), do: where(query, [u], u.id == ^id)
   def filter(query, :uuid, uuid), do: where(query, [u], u.uuid == ^uuid)
+  def filter(query, :email, email), do: where(query, [u], u.email == ^email)
   def filter(query, :auth0_uid, uid), do: where(query, [u], u.auth0_uid == ^uid)
   def filter(query, :full_name, name), do: where(query, [u], u.full_name == ^name)
   def filter(query, :preload, :projects), do: preload(query, :projects)

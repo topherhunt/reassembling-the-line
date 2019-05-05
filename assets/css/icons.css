@@ -1,0 +1,46 @@
+/*
+  Google Material Design iconset
+
+  * Usage: <i class="icon">face</i>
+  * Reference: https://material.io/tools/icons/?style=baseline
+  * Download the woff2 from: https://github.com/google/material-design-icons/
+    and save it in assets/static/fonts/ (see Plug.Static config for allowed paths)
+  * CSS is from: https://google.github.io/material-design-icons/#icon-font-for-the-web
+
+  TODO: Switch RTL from Ionicons to these material icons.
+*/
+
+@font-face {
+  font-family: 'Material Icons';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Material Icons'),
+    local('MaterialIcons-Regular'),
+    url(/fonts/MaterialIcons-Regular.woff2) format('woff2');
+}
+
+.icon {
+  font-family: 'Material Icons';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 1.2em; /* scale to the surrounding text */
+  display: inline-block;
+  line-height: 1;
+  vertical-align: text-bottom; /* Center icon to surrounding text (orig was too high) */
+  text-transform: none;
+  letter-spacing: normal;
+  word-wrap: normal;
+  white-space: nowrap;
+  direction: ltr;
+
+  /* Support for all WebKit browsers. */
+  -webkit-font-smoothing: antialiased;
+  /* Support for Safari and Chrome. */
+  text-rendering: optimizeLegibility;
+
+  /* Support for Firefox. */
+  -moz-osx-font-smoothing: grayscale;
+
+  /* Support for IE. */
+  font-feature-settings: 'liga';
+}

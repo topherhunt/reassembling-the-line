@@ -1,6 +1,5 @@
 defmodule RTLWeb.SentryPlugs do
-  import Plug.Conn,
-    only: [assign: 3, halt: 1]
+  import Plug.Conn, only: [assign: 3, halt: 1]
 
   import Phoenix.Controller, only: [put_flash: 3, redirect: 2]
   alias RTLWeb.Router.Helpers, as: Routes

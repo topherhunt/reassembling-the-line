@@ -24,12 +24,12 @@ defmodule RTLWeb.IntegrationCase do
     end
 
     RTL.DataHelpers.empty_database()
-    ensure_phantomjs_running()
+    ensure_driver_running()
     System.put_env("SUPERADMIN_EMAILS", "superadmin@example.com")
     {:ok, conn: Phoenix.ConnTest.build_conn()}
   end
 
-  def ensure_phantomjs_running do
+  def ensure_driver_running do
     {processes, _code} = System.cmd("ps", [])
 
     unless processes =~ "chromedriver" do

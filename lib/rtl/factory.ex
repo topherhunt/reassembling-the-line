@@ -1,16 +1,15 @@
 # I was using ExMachina but found these hand-rolled factories simple to set up
 # and more transparent vis-a-vis Ecto association handling.
 defmodule RTL.Factory do
-  alias RTL.Helpers, as: H
   alias RTL.{Accounts, Projects, Videos}
 
   def insert_user(params \\ %{}) do
     assert_no_keys_except(params, [:full_name, :email, :uuid])
-    hex = H.random_hex()
+    uuid = random_uuid()
 
     Accounts.insert_user!(%{
-      full_name: params[:full_name] || "User #{hex}",
-      email: params[:email] || "user_#{hex}@example.com",
+      full_name: params[:full_name] || "User #{uuid}",
+      email: params[:email] || "user_#{uuid}@example.com",
       uuid: params[:uuid] || random_uuid()
     })
   end
@@ -19,7 +18,7 @@ defmodule RTL.Factory do
     assert_no_keys_except(params, [:name, :uuid])
 
     Projects.insert_project!(%{
-      name: params[:name] || "Project #{H.random_hex()}",
+      name: params[:name] || "Project #{random_uuid()}",
       uuid: params[:uuid] || random_uuid()
     })
   end
@@ -29,14 +28,14 @@ defmodule RTL.Factory do
 
     Projects.insert_prompt!(%{
       project_id: params[:project_id] || insert_project().id,
-      html: params[:html] || "Prompt #{H.random_hex()}"
+      html: params[:html] || "Prompt #{random_uuid()}"
     })
   end
 
   # TODO: These should all be ! bang functions since they raise on errors
   def insert_video(params \\ %{}) do
     assert_no_keys_except(params, [:prompt_id, :title, :recording_filename, :thumbnail_filename])
-    hex = H.random_hex()
+    hex = random_uuid()
 
     Videos.insert_video!(%{
       prompt_id: params[:prompt_id] || insert_prompt().id,
@@ -75,13 +74,12 @@ defmodule RTL.Factory do
 
   def insert_tag(params \\ %{}) do
     assert_no_keys_except(params, [:text])
-    Videos.find_or_create_tag(%{text: params[:text] || "tag_#{H.random_hex()}"})
+    Videos.find_or_create_tag(%{text: params[:text] || "tag_#{random_uuid()}"})
   end
 
   def random_uuid do
     pool = String.codepoints("ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz123456789")
-    # 5 base64 chars gives us 600M combinations; that's plenty of entropy
-    Enum.map(1..5, fn _ -> Enum.random(pool) end) |> Enum.join()
+    Enum.map(1..6, fn _ -> Enum.random(pool) end) |> Enum.join()
   end
 
   #

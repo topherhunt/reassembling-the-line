@@ -13,63 +13,8 @@
   </head>
 
   <body>
-    <nav class="navbar navbar-expand-sm navbar-light bg-light">
-      <%= if @conn.assigns[:project] do %>
-        <%= link @project.name, to: manage_or_view_project_path(@conn), class: "navbar-brand" %>
-      <% else %>
-        <%= link icon_and_text("barcode", "Reassembling the Line"), to: Routes.home_path(@conn, :index), class: "navbar-brand text-info" %>
-      <% end %>
+    <%= render "_nav_links.html", Map.merge(%{conn: @conn}, @conn.assigns) %>
 
-      <button class="navbar-toggler" data-toggle="collapse" data-target="#navbar-content">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-
-      <div id="navbar-content" class="collapse navbar-collapse">
-        <ul class="navbar-nav mr-auto"></ul>
-        <ul class="navbar-nav">
-
-          <%= if @current_user do %>
-
-            <li class="nav-item">
-              <%= link "Projects", to: Routes.manage_project_path(@conn, :index), class: "nav-link test-link-manage-project-list" %>
-            </li>
-
-            <%= if is_superadmin?(@current_user) do %>
-              <li class="nav-item">
-                <%= link "Users", to: Routes.manage_user_path(@conn, :index), class: "text-warning nav-link test-link-manage-user-list" %>
-              </li>
-            <% end %>
-
-          <% end %>
-
-          <li class="nav-item">
-            <%= link "Help", to: Routes.help_path(@conn, :index), class: "nav-link" %>
-          </li>
-
-          <%= if @current_user do %>
-
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">
-                <%= icon("person") %>
-                <span class="caret"></span>
-              </a>
-              <div class="dropdown-menu dropdown-menu-right">
-                <div class="dropdown-item em small">Logged in as <%= @current_user.full_name %></div>
-                <%= link icon_and_text("power", "Log out"), to: Routes.auth_path(@conn, :logout), class: "dropdown-item text-danger test-logout-link" %>
-              </div>
-            </li>
-
-          <% else %>
-
-            <li class="nav-item">
-              <%= link "Log in", to: Routes.auth_path(@conn, :login), class: "nav-link" %>
-            </li>
-
-          <% end %>
-
-        </ul>
-      </div>
-    </nav>
     <main>
       <div class="container-fluid">
         <%= if get_flash(@conn, :info) do %>
@@ -84,7 +29,7 @@
       </div>
     </main>
 
-    <div class="footer">
+    <footer>
       <div class="text-center small">
         <span class="text-muted"></span>
         Built by Whitney Hunter-Thomson and <%= link "Topher Hunt", to: "http://topherhunt.com", target: "_blank" %>
@@ -93,6 +38,6 @@
         &nbsp; &nbsp;
         <%= link "Contact us", to: contact_us_url(), target: "_blank" %>
       </div>
-    </div>
+    </footer>
   </body>
 </html>
