@@ -9,6 +9,7 @@ defmodule RTL.Projects.Project do
   schema "projects" do
     field :name, :string
     field :uuid, :string
+    field :settings, :map
     timestamps()
 
     has_many :project_admin_joins, RTL.Projects.ProjectAdminJoin
