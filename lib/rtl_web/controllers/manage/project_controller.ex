@@ -1,6 +1,6 @@
 defmodule RTLWeb.Manage.ProjectController do
   use RTLWeb, :controller
-  alias RTL.{Accounts, Projects}
+  alias RTL.{Accounts, Projects, Videos}
 
   plug :load_project when action in [:show, :edit, :update, :delete]
   plug :ensure_can_manage_project when action in [:show, :edit, :update, :delete]
@@ -19,11 +19,15 @@ defmodule RTLWeb.Manage.ProjectController do
     project = conn.assigns.project |> RTL.Repo.preload(:admins)
     addable_admins = Accounts.get_users(not_admin_on_project: project, order: :full_name)
     prompts = Projects.get_prompts(project: project)
+    count_videos = Videos.count_videos(project: project)
+    count_videos_coded = Videos.count_videos(project: project, coded: true)
 
     render conn, "show.html",
       project: project,
       addable_admins: addable_admins,
-      prompts: prompts
+      prompts: prompts,
+      count_videos: count_videos,
+      count_videos_coded: count_videos_coded
   end
 
   def new(conn, _params) do

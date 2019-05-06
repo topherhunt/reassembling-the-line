@@ -95,6 +95,11 @@
 
     <div class="u-card">
       <h4>Videos</h4>
+      <ul>
+        <li><%= @count_videos %> videos collected</li>
+        <li><%= @count_videos_coded %> coded</li>
+        <li><%= @count_videos - @count_videos_coded %> left to code</li>
+      </ul>
       <p><%= link "See all videos", to: Routes.manage_video_path(@conn, :index, @project) %></p>
     </div>
 
