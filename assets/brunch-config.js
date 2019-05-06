@@ -19,6 +19,7 @@ exports.config = {
           "vendor/popper.js",
           "vendor/bootstrap.js",
           "vendor/jquery-ui.js",
+          "vendor/trix.js",
         ]
       }
     },
@@ -29,7 +30,8 @@ exports.config = {
           "vendor/bootstrap.css",
           "vendor/jquery-ui.structure.css",
           "vendor/jquery-ui.theme.css",
-          "vendor/chosen.css"
+          "vendor/chosen.css",
+          "vendor/trix.css"
         ],
         after: ["css/app.css"]
       }

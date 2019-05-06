@@ -1,6 +1,4 @@
-/*
-  Overrides for Bootstrap's default styling
-*/
+/* Bootstrap overrides */
 
 label { cursor: pointer; }
 .label a { color: #fff !important; }
@@ -12,3 +10,12 @@ table.table { width: auto; margin-bottom: 0px; }
 .text-info { color: #275972; } /* original: #31708f */
 .text-warning { color: #D07B0D !important; } /* original: #ffc107 */
 .text-danger { color: #a94442 !important; }
+
+/* Trix overrides */
+
+// trix-editor { min-height: 7em; }
+// trix-editor:empty:not(:focus)::before { color: #aaa; }
+// Make the toolbar buttons smaller thus less busy
+trix-toolbar { font-size: 80%; }
+// Blue highlight when focused
+trix-editor:focus { box-shadow: 0px 0px 5px 1px rgb(138, 192, 250); }

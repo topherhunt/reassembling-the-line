@@ -12,4 +12,9 @@ $(function(){
   });
 
   $(".js-chosen-select").chosen();
+
+  $("[data-focus-on-click]").click(function(){
+    var target_selector = $(this).data("focus-on-click");
+    $(target_selector).focus();
+  });
 });
