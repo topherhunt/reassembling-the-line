@@ -23,14 +23,7 @@
   </div>
 </div>
 
-<table class="table table-striped">
-  <tr>
-    <th></th>
-    <th>Title</th>
-    <th>Source</th>
-    <th>Status</th>
-    <th></th>
-  </tr>
+<table class="table table-striped" style="width: 100%;">
   <%= Enum.map @videos, fn(video) -> %>
     <tr>
       <td style="padding: 2px;">
@@ -40,8 +33,14 @@
           </div>
         </div>
       </td>
-      <td><%= video.title %></td>
-      <td><%= link_to_source(video) %></td>
+      <td>
+        <strong><%= video.title %></strong>
+        <div class="small">
+          from <%= link_to_source(video) %>
+          -
+          <%= link "download", to: RTL.Videos.recording_url(video), download: true %>
+        </div>
+      </td>
       <td>
         <%= if video.coding do %>
           <div class="small">
@@ -51,7 +50,9 @@
           <%= if length(tag_list(video)) > 0 do %>
             <div class="small">
               Tags:
-              <%= Enum.join(tag_list(video), ", ") %>
+              <%= for tag <- tag_list(video) do %>
+                <span class="u-box-shadow" style="background-color: #fff; border-radius: 15px; padding: 3px 5px 3px 5px; "><%= tag %></span>
+              <% end %>
             </div>
           <% end %>
         <% else %>
