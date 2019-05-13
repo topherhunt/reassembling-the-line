@@ -50,12 +50,19 @@ defmodule RTLWeb.Router do
       resources "/projects", Manage.ProjectController, param: "project_uuid"
 
       scope "/projects/:project_uuid" do
-        resources "/prompts", Manage.PromptController, except: [:index], param: "prompt_uuid"
+        get "/settings/:field/edit", Manage.ProjectSettingController, :edit
+        patch "/settings/:field/", Manage.ProjectSettingController, :update
+        patch "/settings/:field/clear", Manage.ProjectSettingController, :clear
+
+        resources "/prompts", Manage.PromptController,
+          except: [:index],
+          param: "prompt_uuid"
 
         resources "/videos", Manage.VideoController, only: [:index]
 
         scope "/videos/:video_id", as: :video do
-          resources "/codings", Manage.CodingController, only: [:new, :create, :edit, :update]
+          resources "/codings", Manage.CodingController,
+            only: [:new, :create, :edit, :update]
         end
       end
 

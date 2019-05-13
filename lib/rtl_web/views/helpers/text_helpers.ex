@@ -8,4 +8,12 @@ defmodule RTLWeb.TextHelpers do
       text
     end
   end
+
+  def project_setting(project, field) do
+    if field in Map.keys(project.settings || %{}) do
+      project.settings[field]
+    else
+      ProjectSetting.default(project, field)
+    end
+  end
 end

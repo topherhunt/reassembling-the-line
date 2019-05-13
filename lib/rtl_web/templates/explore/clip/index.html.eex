@@ -1,8 +1,10 @@
-<div class="alert alert-danger">
-  <%= icon("lock") %>
-  <strong>This page is currently hidden.</strong>
-  Only admins can see the link, so people don't stumble on a partial list of results before we've coded all of them.
-</div>
+<%= if project_setting(@project, "show_explore_link") != "true" do %>
+  <div class="alert alert-danger">
+    <%= icon("lock") %>
+    <strong>This page is currently hidden.</strong>
+    Only admins can see the link, so people don't stumble on a partial list of results before we've coded all of them.
+  </div>
+<% end %>
 
 <h1>Explore all clips</h1>
 

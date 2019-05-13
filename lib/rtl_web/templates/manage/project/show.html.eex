@@ -67,12 +67,35 @@
           <%= hidden_input f, :project_id, value: @project.id %>
           <%= select f, :admin_id, id_and_label_for(@addable_admins), class: "js-chosen-select", style: "max-width: 300px;" %>
           &nbsp;
-          <%= submit("Add", class: "btn btn-primary btn-sm") %>
+          <%= submit("Add", class: "btn btn-outline-primary btn-sm") %>
         <% end %>
       <% end %>
     </div>
 
+    <%= if is_superadmin?(@current_user) do %>
+      <div class="u-card">
+        <h4>Custom settings</h4>
+        <table class="table">
+          <%= for field <- Map.keys(ProjectSetting.valid_fields()) do %>
+            <tr>
+              <th><code><%= field %></code></th>
+              <td>
+                <%= if field in Map.keys(@project.settings || %{}) do %>
+                  <%= inspect(@project.settings[field]) |> ellipsis(30) %>
+                <% else %>
+                  <span class="em text-muted">default</span>
+                <% end %>
+              </td>
+              <td>
+                <%= link "edit", to: Routes.manage_project_setting_path(@conn, :edit, @project, field) %>
+              </td>
+            </tr>
+          <% end %>
+        </table>
+      </div>
+    <% end %>
   </div>
+
   <div class="col-md-6">
 
     <div class="u-card">

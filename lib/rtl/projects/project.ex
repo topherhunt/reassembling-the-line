@@ -20,7 +20,7 @@ defmodule RTL.Projects.Project do
   def changeset(struct, params) do
     struct
     # Allowing setting of uuid for admin convenience
-    |> cast(params, [:name, :uuid])
+    |> cast(params, [:name, :uuid, :settings])
     |> populate_uuid()
     |> validate_required([:name, :uuid])
     |> unique_constraint(:uuid)

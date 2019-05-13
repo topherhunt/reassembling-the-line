@@ -1,17 +1,3 @@
 <div class="u-centered-600">
-
-  <h1>Thank you</h1>
-
-  <p>Thank you for taking the time to share your experience! I hope you found it rewarding. And we'll do our best to enable your voice to inspire change on issues that matter to you.</p>
-
-  <p>We're currently collecting data for the <strong>Thrive in Northern Netherlands</strong> project. As soon as the results are ready to share, we'll announce it on our mailing list.</p>
-
-  <p class="text-center">
-    <%= link "Join our newsletter to get updates on this project", to: "https://www.northernnetherlands.life/subscribe", class: "btn btn-primary" %>
-  </p>
-
-  <p class="text-center">
-    <%= link "Contact us with any questions", to: "https://docs.google.com/forms/d/e/1FAIpQLScFmkgOIWIN3QKIT1TI6e2A440ixtfMsAQ04kVoh85TLDmbXw/viewform?usp=sf_link", target: "_blank" %>
-  </p>
-
+  <%= project_setting(@project, "thank_you_page") %>
 </div>

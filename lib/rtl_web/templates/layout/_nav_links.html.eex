@@ -16,7 +16,14 @@
           <%= link "Dashboard", to: Routes.manage_project_path(@conn, :show, @project), class: "nav-link #{active_if_current(@conn, Routes.manage_project_path(@conn, :show, @project))}" %>
         <% end %>
 
-        <%= link "Explore", to: Routes.explore_clip_path(@conn, :index, @project), class: "nav-link #{active_if_current(@conn, Routes.explore_clip_path(@conn, :index, @project))}" %>
+        <%= if project_setting(@project, "show_explore_link") == "true" do %>
+          <%= link "Explore", to: Routes.explore_clip_path(@conn, :index, @project), class: "nav-link #{active_if_current(@conn, Routes.explore_clip_path(@conn, :index, @project))}" %>
+        <% else %>
+          <%# TODO: Don't just validate that you've signed in, actually validate that you can manage this project %>
+          <%= if @current_user do %>
+            <%= link raw("Explore <i class='icon text-danger'>lock</i>"), to: Routes.explore_clip_path(@conn, :index, @project), class: "nav-link #{active_if_current(@conn, Routes.explore_clip_path(@conn, :index, @project))}" %>
+          <% end %>
+        <% end %>
       <% end %>
     </ul>
 

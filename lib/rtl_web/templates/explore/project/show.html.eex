@@ -1,4 +1,4 @@
-<h1>Project: <%= @project.name %></h1>
+<%= raw project_setting(@project, "intro_page") %>
 
 <%# TODO: Once I have an editable field for project description, consider adding the demo links in there so they don't need to be hard-coded. %>
 <%= if @project.uuid == "demo" do %>

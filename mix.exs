@@ -42,6 +42,8 @@ defmodule RTL.Mixfile do
       {:postgrex, "~> 0.13"},
       {:gettext, "~> 0.16"},
       {:jason, "~> 1.1"},
+      # Keeping poison for now bc it's easier to use with Ecto jsonb storage
+      {:poison, "~> 3.1"},
       {:rollbax, "~> 0.10"},
       {:phoenix_live_view, github: "phoenixframework/phoenix_live_view"},
       {:html_sanitize_ex, "~> 1.3"},

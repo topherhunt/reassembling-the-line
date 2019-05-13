@@ -17,4 +17,12 @@ $(function(){
     var target_selector = $(this).data("focus-on-click");
     $(target_selector).focus();
   });
+
+  $(".js-copy-input").click(function(e){
+    e.preventDefault()
+    var fromSel = $(this).data("from")
+    var toSel = $(this).data("to")
+    var valueToCopy = $(fromSel).val()
+    $(toSel).val(valueToCopy)
+  })
 });

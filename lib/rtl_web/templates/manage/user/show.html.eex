@@ -4,39 +4,56 @@
 <div class="u-card">
   <h4>Basic info</h4>
 
-  <ul>
-    <li>Email: <%= @user.email %></li>
-    <li>Created: <%= @user.inserted_at %></li>
-    <li>Last signed in: <%= @user.last_signed_in_at %></li>
-  </ul>
+  <table class="table">
+    <tr>
+      <th>Email</th>
+      <td><%= @user.email %></td>
+    </tr>
+    <tr>
+      <th>Date created</th>
+      <td><%= @user.inserted_at %></td>
+    </tr>
+    <tr>
+      <th>Last signed in</th>
+      <td><%= @user.last_signed_in_at %></td>
+    </tr>
+    <tr>
+      <td colspan="9">
+        <%= link "edit", to: Routes.manage_user_path(@conn, :edit, @user), class: "text-warning test-link-edit-user-#{@user.id}" %>
+      </td>
+    </tr>
+  </table>
 
-  <%= link "edit", to: Routes.manage_user_path(@conn, :edit, @user), class: "text-warning test-link-edit-user-#{@user.id}" %>
+
 </div>
 
 <div class="u-card">
   <h4>Projects I'm admin of:</h4>
 
-  <ul>
+  <table class="table">
     <%= for join <- @user.project_admin_joins do %>
-      <li>
-        <%= join.project.name %>
-        &nbsp;
-        <%= link "details", to: Routes.manage_project_path(@conn, :show, join.project) %>
-        &nbsp;
-        <%= link "remove",
-          to: Routes.manage_project_admin_join_path(@conn, :delete, join, project_id: join.project.id, admin_id: @user.id, return_to: @conn.request_path),
-          method: :delete,
-          class: "text-danger",
-          data_confirm: "Really revoke my access on this project?" %>
-      </li>
+      <tr>
+        <td>
+          <%= link join.project.name,
+            to: Routes.manage_project_path(@conn, :show, join.project) %></td>
+        <td>
+          <%= link "remove",
+            to: Routes.manage_project_admin_join_path(@conn, :delete, join, project_id: join.project.id, admin_id: @user.id, return_to: @conn.request_path),
+            method: :delete,
+            class: "text-danger",
+            data_confirm: "Really revoke my access on this project?" %>
+        </td>
+      </tr>
     <% end %>
-  </ul>
+  </table>
 
   <%= form_for @conn, Routes.manage_project_admin_join_path(@conn, :create), [method: :post], fn(f) -> %>
     Make me admin on a project:
+    &nbsp;
     <%= hidden_input f, :return_to, value: @conn.request_path %>
     <%= hidden_input f, :admin_id, value: @user.id %>
     <%= select f, :project_id, id_and_label_for_projects(@addable_projects), class: "js-chosen-select" %>
+    &nbsp;
     <%= submit("Add", class: "btn btn-outline-primary btn-sm") %>
   <% end %>
 </div>
