@@ -19,8 +19,7 @@
         <%= if project_setting(@project, "show_explore_link") == "true" do %>
           <%= link "Explore", to: Routes.explore_clip_path(@conn, :index, @project), class: "nav-link #{active_if_current(@conn, Routes.explore_clip_path(@conn, :index, @project))}" %>
         <% else %>
-          <%# TODO: Don't just validate that you've signed in, actually validate that you can manage this project %>
-          <%= if @current_user do %>
+          <%= if RTL.Sentry.can_manage_project?(@current_user, @project) do %>
             <%= link raw("Explore <i class='icon text-danger'>lock</i>"), to: Routes.explore_clip_path(@conn, :index, @project), class: "nav-link #{active_if_current(@conn, Routes.explore_clip_path(@conn, :index, @project))}" %>
           <% end %>
         <% end %>

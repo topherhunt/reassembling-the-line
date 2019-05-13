@@ -24,6 +24,7 @@ defmodule RTLWeb.Router do
     pipe_through :browser
 
     get "/", HomeController, :index
+    get "/your_data", HomeController, :your_data
     get "/test_error", HomeController, :test_error
 
     #

@@ -8,9 +8,8 @@ defmodule RTLWeb.Manage.ProjectSettingController do
 
   def edit(conn, %{"field" => field}) do
     value = (conn.assigns.project.settings || %{})[field]
-    default = ProjectSetting.default(conn.assigns.project, field)
     type = ProjectSetting.valid_fields[field]
-    render conn, "edit.html", field: field, value: value, default: default, type: type
+    render conn, "edit.html", field: field, value: value, type: type
   end
 
   def update(conn, %{"field" => field, "value" => value}) do
@@ -37,7 +36,7 @@ defmodule RTLWeb.Manage.ProjectSettingController do
   end
 
   defp update_setting(project, field, value) do
-    if value == "__DEFAULT__" do
+    if value == "nil" do
       Map.drop(project.settings || %{}, [field])
     else
       Map.put(project.settings || %{}, field, value)

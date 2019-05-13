@@ -5,11 +5,11 @@ defmodule RTLWeb.Explore.ProjectController do
   plug :load_project
 
   def show(conn, _params) do
-    count_videos = Videos.count_videos(project: conn.assigns.project)
+    owner = Accounts.get_user_by!(admin_on_project: conn.assigns.project)
 
     conn
     |> load_demo_prompt_and_admin()
-    |> render("show.html", count_videos: count_videos)
+    |> render("show.html", owner: owner)
   end
 
   #

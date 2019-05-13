@@ -8,58 +8,32 @@
 </nav>
 
 <div class="test-manage-project-setting-edit-path"></div>
-<h1>Edit setting: <code><%= @field %></code></h1>
-<p>Field type: <code><%= @type %></code></p>
 
-<% submit_path = Routes.manage_project_setting_path(@conn, :update, @project, @field) %>
+<div class="u-centered-800">
+  <h1>Edit setting: <code><%= @field %></code></h1>
+  <p>Field type: <code><%= @type %></code></p>
 
-<div class="row">
-  <div class="col-md-6">
-    <h4>Default value</h4>
-    <%= form_for @conn, submit_path, [method: :patch], fn(f) -> %>
-      <div class="form-group">
-        <%= case @type do %>
-          <% :html -> %>
-            <textarea id="default-value" class="form-control" rows=10 disabled><%= String.trim(@default) %></textarea>
-          <% :string -> %>
-            <textarea id="default-value" class="form-control" rows=3 disabled><%= @default %></textarea>
-          <% :bool -> %>
-            <code><%= if @default, do: "true", else: "false" %></code>
-        <% end %>
-      </div>
-      <div class="form-group">
-        <%= hidden_input f, :value, value: "__DEFAULT__" %>
-        <%= submit "Reset to default", class: "btn btn-outline-danger" %>
-        &nbsp;
-        <%= if @type != :bool do %>
-          <a href="#" class="btn btn-outline-info js-copy-input" data-from="#default-value" data-to="#custom-value">Copy default</a>
-        <% end %>
-      </div>
-    <% end %>
-  </div>
+  <%= form_for @conn, Routes.manage_project_setting_path(@conn, :update, @project, @field), [method: :patch], fn(f) -> %>
+    <div class="form-group">
+      <%= case @type do %>
+        <% :html -> %>
+          <%= textarea f, :value, value: @value, id: "custom-value", class: "form-control", autofocus: true, rows: 10 %>
+        <% :string -> %>
+          <%= textarea f, :value, value: @value, id: "custom-value", class: "form-control", autofocus: true, rows: 3 %>
+        <% :bool -> %>
+          <label class="form-check">
+            <%= radio_button f, :value, "true", class: "form-check-input" %> true
+          </label>
+          <label class="form-check">
+            <%= radio_button f, :value, "false", class: "form-check-input" %> false
+          </label>
+      <% end %>
+    </div>
 
-  <div class="col-md-6">
-    <h4>Custom value</h4>
-    <%= form_for @conn, submit_path, [method: :patch], fn(f) -> %>
-      <div class="form-group">
-        <%= case @type do %>
-          <% :html -> %>
-            <%= textarea f, :value, value: @value, id: "custom-value", class: "form-control", autofocus: true, rows: 10 %>
-          <% :string -> %>
-            <%= textarea f, :value, value: @value, id: "custom-value", class: "form-control", autofocus: true, rows: 3 %>
-          <% :bool -> %>
-            <label class="form-check">
-              <%= radio_button f, :value, "true", class: "form-check-input" %> true
-            </label>
-            <label class="form-check">
-              <%= radio_button f, :value, "false", class: "form-check-input" %> false
-            </label>
-        <% end %>
-      </div>
-
-      <div class="form-group">
-        <%= submit "Save", class: "btn btn-primary test-submit" %>
-      </div>
-    <% end %>
-  </div>
+    <div class="form-group">
+      <%= submit "Save", class: "btn btn-primary test-submit" %>
+      &nbsp;
+      <%= link "Clear setting", to: Routes.manage_project_setting_path(@conn, :update, @project, @field, value: "nil"), method: :patch, class: "btn btn-outline-danger" %>
+    </div>
+  <% end %>
 </div>

@@ -10,10 +10,11 @@ defmodule RTLWeb.TextHelpers do
   end
 
   def project_setting(project, field) do
-    if field in Map.keys(project.settings || %{}) do
-      project.settings[field]
-    else
-      ProjectSetting.default(project, field)
+    unless field in Map.keys(ProjectSetting.valid_fields()) do
+      raise "Unknown ProjectSetting field: #{field}"
     end
+
+    (project.settings || %{})[field]
+    # We don't fall back to a default value, the calling code can have default logic.
   end
 end

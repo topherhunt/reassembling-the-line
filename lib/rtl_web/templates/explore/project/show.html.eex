@@ -1,6 +1,11 @@
-<%= raw project_setting(@project, "intro_page") %>
+<% content = project_setting(@project, "intro_page") %>
+<%= if content do %>
+  <%= raw(content) %>
+<% else %>
+  <h1><%= @project.name %></h1>
+  <%# Other stock project description stuff can go here %>
+<% end %>
 
-<%# TODO: Once I have an editable field for project description, consider adding the demo links in there so they don't need to be hard-coded. %>
 <%= if @project.uuid == "demo" do %>
   <div class="u-card">
     <h3>Demo</h3>
@@ -20,3 +25,18 @@
     </p>
   </div>
 <% end %>
+
+<div class="u-card">
+  <h3>Contact information</h3>
+  <p>Please contact the project owner with any questions about this project.</p>
+  <table class="table">
+    <tr>
+      <th>Name</th>
+      <td><%= @owner.full_name %></td>
+    </tr>
+    <tr>
+      <th>Email address</th>
+      <td><%= @owner.email %></td>
+    </tr>
+  </table>
+</div>

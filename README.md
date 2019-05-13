@@ -1,6 +1,6 @@
 # Reassembling the Line
 
-Record video interviews where people share first-hand experience on an important topic. Code each segment of the video by theme. Explore the results using a novel filterable segment playback UI.
+Record video interviews where people share first-hand experience on an important topic. Code each segment of the video by theme. Explore the results using a novel filterable segment playback UI. Built by Whitney Hunter-Thomson and [Topher Hunt](topherhunt.com).
 
 Check out the demo to see more: [https://rtl-demo1.herokuapp.com](https://rtl-demo1.herokuapp.com)
 
@@ -39,7 +39,12 @@ I've written scripts to help with batch importing videos from YouTube. Here's ho
   * A current version of ChromeDriver must be running in order for integration tests to pass.
 
 
-## Heroku
+## Data privacy
+
+For more info on the GDPR, see: https://www.gdprsummary.com/gdpr-summary/
+
+
+## Heroku & deployment
 
 * `git push heroku-production master`
 * `heroku run -a rtl "POOL_SIZE=2 mix ecto.migrate"`

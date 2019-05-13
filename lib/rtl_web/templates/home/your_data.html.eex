@@ -1,0 +1,32 @@
+<div class="u-centered-800">
+  <h1>Data policy</h1>
+
+  <p>This page describes Reassembling the Line's data policy and your rights under the GDPR (General Data Protection Regulation). <%= link "Learn more about the GDPR here.", to: "https://www.gdprsummary.com/gdpr-summary/" %></p>
+
+  <h4>Who we are</h4>
+
+  <p>This site is <%= link "Reassembling the Line", to: "/" %>, a service that offers researchers a new way to understand complex social issues by collecting, categorizing, and learning from your personal experiences. It's run as a personal project by Topher Hunt; <%= link "click here to contact me", to: contact_us_url(), target: "_blank" %> with any questions.</p>
+
+  <p>Data on this website is grouped under <strong>projects</strong>, each project being run by a particular researcher or project owner. You can find the project owner's contact information on the project's landing page.</p>
+
+  <h4>What data we collect (and why we need it)</h4>
+
+  <ul>
+    <li><strong>Your name</strong> (optional). We use this both to give you credit when others hear your story, and to protect your data ownership rights in case you decide you'd like your story removed from this site in the future.</li>
+    <li><strong>Your video recording</strong> in which you tell your personal story regarding some particular topic (which depends on the project).</li>
+  </ul>
+
+  <h4>How we use your data</h4>
+
+  <p>If you've given permission for your video to be shared publicly, once the project owner has decided to release the project's information, selected "tagged" clips of your video will be included in an interactive database visible to a target group or to anyone who learns about the project.</p>
+
+  <p>If you haven't given permission for your video to be shared publicly, it will only be shown to the project researchers, who may use it in producing a summary of what they've learned, but won't share it with others directly.</p>
+
+  <h4>How long we keep it</h4>
+
+  <p>Any videos you submit will be kept in our database for the lifetime of the project, which may be indefinite. You can always contact the project owner for more information.</p>
+
+  <h4>Your rights</h4>
+
+  <p>The data you contribute to projects on Reassembling the Line belongs to you. You have the right to ask us for a copy of it, or ask us to remove it. <%= link "Contact us", to: contact_us_url(), target: "_blank" %> with any questions or requests.</p>
+</div>

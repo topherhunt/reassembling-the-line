@@ -6,6 +6,10 @@ defmodule RTLWeb.HomeController do
     render(conn, "index.html", demo_project: demo_project)
   end
 
+  def your_data(conn, _params) do
+    render conn, "your_data.html"
+  end
+
   def test_error(_conn, _params) do
     raise "Threw up!"
   end
