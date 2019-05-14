@@ -43,6 +43,8 @@ defmodule RTL.Videos.Video do
   end
 
   def filter(query, :id, id), do: where(query, [v], v.id == ^id)
+  def filter(query, :source_url, url), do: where(query, [v], v.source_url == ^url)
+  def filter(query, :prompt, prompt), do: where(query, [v], v.prompt_id == ^prompt.id)
   def filter(query, :preload, preloads), do: preload(query, ^preloads)
   def filter(query, :order, :oldest), do: order_by(query, [v], asc: v.id)
   def filter(query, :order, :newest), do: order_by(query, [v], desc: v.id)

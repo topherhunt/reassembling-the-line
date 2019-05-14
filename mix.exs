@@ -92,7 +92,14 @@ defmodule RTL.Mixfile do
         "test"
       ],
       login: ["run priv/repo/list_autologins.exs"],
-      create_user: ["run priv/repo/create_user.exs"]
+      create_user: ["run priv/repo/create_user.exs"],
+      resetdb: [
+        "ecto.drop",
+        "ecto.create",
+        "ecto.migrate",
+        "create_user \"Topher Hunt\" hunt.topher@gmail.com"
+      ],
+      import_youtube_videos: ["run priv/repo/import_youtube_videos.exs"]
     ]
   end
 end

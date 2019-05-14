@@ -124,6 +124,10 @@
         <li><%= @count_videos - @count_videos_coded %> left to code</li>
       </ul>
       <p><%= link "See all videos", to: Routes.manage_video_path(@conn, :index, @project) %></p>
+      <p>
+        <%= link "Export videos", to: Routes.manage_video_export_path(@conn, :new, @project), class: "text-warning" %> &nbsp;
+        <%= link "Import videos", to: Routes.manage_video_import_path(@conn, :new, @project), class: "text-warning" %>
+      </p>
     </div>
 
   </div>

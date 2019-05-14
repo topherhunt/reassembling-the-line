@@ -18,7 +18,7 @@
   </div>
   <div class="col-sm-6">
     <%= if @next_uncoded_video do %>
-      <%= link icon_and_text("pricetags", "Code the next video"), to: Routes.manage_video_coding_path(RTLWeb.Endpoint, :new, @project, @next_uncoded_video), class: "btn btn-primary" %>
+      <%= link icon_and_text("pricetags", "Tag the next video"), to: Routes.manage_video_coding_path(RTLWeb.Endpoint, :new, @project, @next_uncoded_video), class: "btn btn-primary" %>
     <% end %>
   </div>
 </div>
@@ -26,7 +26,7 @@
 <table class="table table-striped" style="width: 100%;">
   <%= Enum.map @videos, fn(video) -> %>
     <tr>
-      <td style="padding: 2px;">
+      <td style="padding: 2px; width: 80px;">
         <div style="height: 80px; width: 80px; overflow: hidden; border-radius: 5px;">
           <div style="height: 100%; width: 200%; margin-left: -50%;">
             <img src="<%= RTL.Videos.thumbnail_url(video) %>" style="display: block; height: 100%; margin: 0 auto 0 auto;" />

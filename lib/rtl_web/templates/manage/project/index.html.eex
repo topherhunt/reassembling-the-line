@@ -17,4 +17,4 @@
 
 <% end %>
 
-<%= link "New project", to: Routes.manage_project_path(@conn, :new), class: "btn btn-outline-primary test-link-new-project" %>
+<%= link "+ New project", to: Routes.manage_project_path(@conn, :new), class: "test-link-new-project" %>

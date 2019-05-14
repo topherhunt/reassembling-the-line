@@ -1,0 +1,34 @@
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><%= link "Manage projects", to: Routes.manage_project_path(@conn, :index) %></li>
+    <li class="breadcrumb-item"><%= link @project.name, to: Routes.manage_project_path(@conn, :show, @project) %></li>
+    <li class="breadcrumb-item active" style="max-width: 300px;">Import videos</li>
+  </ol>
+</nav>
+
+<div class="test-page-manage-video-import-new"></div>
+<h1>Import videos</h1>
+
+<p>This page lets you import videos in the same JSON format provided on the "Export videos" page.</p>
+
+<%= if length(@prompts) == 0 do %>
+  <div class="alert alert-danger"><strong>You don't have any prompts to import videos to.</strong> Create a prompt before importing videos.</div>
+<% end %>
+
+<%= if @error do %>
+  <div class="alert alert-danger"><strong>Error: </strong> <%= inspect(@error) %></div>
+<% end %>
+
+<%= form_for @conn, Routes.manage_video_import_path(@conn, :create, @project), [method: :post], fn(f) -> %>
+  <div class="form-group">
+    <%= label f, :prompt_id %>
+    <%= select f, :prompt_id, Enum.map(@prompts, & {HtmlSanitizeEx.strip_tags(&1.html), &1.id}), class: "form-control" %>
+  </div>
+
+  <div class="form-group">
+    <%= label f, :videos_json, "The videos JSON code" %>
+    <%= textarea f, :videos_json, class: "form-control", rows: 20, style: "font-size: 0.75em;" %>
+  </div>
+
+  <div class="form-group"><%= submit "Import", class: "btn btn-danger" %></div>
+<% end %>

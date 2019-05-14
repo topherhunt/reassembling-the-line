@@ -7,7 +7,8 @@ defmodule RTLWeb.Manage.PromptController do
   plug :load_prompt when action in [:show, :edit, :update, :delete]
 
   def show(conn, _params) do
-    render conn, "show.html"
+    videos = RTL.Videos.get_videos(prompt: conn.assigns.prompt)
+    render conn, "show.html", videos: videos
   end
 
   def new(conn, _params) do

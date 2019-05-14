@@ -60,6 +60,9 @@ defmodule RTLWeb.Router do
           param: "prompt_uuid"
 
         get "/videos", Manage.VideoController, :index
+        get "/export_videos", Manage.VideoExportController, :new
+        get "/import_videos", Manage.VideoImportController, :new
+        post "/import_videos", Manage.VideoImportController, :create
 
         scope "/videos/:video_id", as: :video do
           resources "/codings", Manage.CodingController,

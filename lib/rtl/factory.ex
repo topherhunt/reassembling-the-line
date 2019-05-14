@@ -32,7 +32,6 @@ defmodule RTL.Factory do
     })
   end
 
-  # TODO: These should all be ! bang functions since they raise on errors
   def insert_video(params \\ %{}) do
     assert_no_keys_except(params, [:prompt_id, :title, :recording_filename, :thumbnail_filename])
     hex = random_uuid()

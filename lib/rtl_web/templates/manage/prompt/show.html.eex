@@ -49,7 +49,8 @@
     <div class="u-card">
       <h4>Videos</h4>
 
-      TODO
+      <p>There are <%= length(@videos) %> video responses to this prompt.</p>
+      <p><%= link "List all videos (all prompts)", to: Routes.manage_video_path(@conn, :index, @project) %>
     </div>
 
   </div>

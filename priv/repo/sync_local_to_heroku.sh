@@ -23,7 +23,7 @@ heroku pg:backups:capture -a $heroku_app
 
 echo "Copying from localhost $local_db_name to Heroku $heroku_app..."
 heroku pg:reset -a $heroku_app --confirm=$heroku_app
-heroku pg:push $local_db_name DATABASE_URL -a $heroku_app
+heroku pg:push  -a $heroku_app $local_db_name DATABASE_URL
 
 echo "Done."
 
