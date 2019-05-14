@@ -2,7 +2,7 @@ use Mix.Config
 
 config :rtl, RTLWeb.Endpoint,
   # Heroku appears to set the PORT env automatically at startup time or something
-  http: [:inet6, port: H.env!("PORT")],
+  http: [:inet6, port: System.get_env("PORT") || 4000],
   url: [scheme: "https", host: H.env!("HOST_NAME"), port: 443],
   force_ssl: [rewrite_on: [:x_forwarded_proto]],
   cache_static_manifest: "priv/static/cache_manifest.json"
