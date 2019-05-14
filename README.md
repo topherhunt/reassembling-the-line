@@ -57,12 +57,16 @@ More documentation at: https://hexdocs.pm/phoenix/heroku.html
 
 Assumes you're familiar with and set up with Git, Heroku CLI, Elixir, and Amazon S3. See also the official guide: https://hexdocs.pm/phoenix/heroku.html
 
-* Clone this repository to your local machine
-* `heroku create rtl-demo1 --buildpack "https://github.com/HashNuke/heroku-buildpack-elixir.git"`
-* `heroku buildpacks:add -a rtl-demo1 https://github.com/gjaldon/heroku-buildpack-phoenix-static.git`
-* `heroku addons:create -a rtl-demo1 heroku-postgresql:hobby-dev`
-* Create an Amazon S3 bucket to hold files for this app. The AWS credentials you provide in the next step must have full R/W access to this bucket.
-* In the S3 bucket's Permissions page -> "CORS configuration" tab, enter the following CORS policy to support direct file uploads (part of the webcam recording feature), specifying your site's domain in the `AllowedOrigin` field.
+  * Clone this repository to your local machine
+  * `heroku create rtl-demo1 --buildpack "https://github.com/HashNuke/heroku-buildpack-elixir.git"`
+  * `heroku buildpacks:add -a rtl-demo1 https://github.com/gjaldon/heroku-buildpack-phoenix-static.git`
+  * `heroku addons:create -a rtl-demo1 heroku-postgresql:hobby-dev`
+  * `heroku addons:create -a rtl-demo1 rollbar:free`
+  * Create an Amazon S3 bucket to hold files for this app:
+    * Ensure public access is NOT blocked (ie. uncheck the default "Block public access..." settings).
+    * The AWS credentials you give to Heroku must have full R/W access to this bucket.
+    * In the S3 bucket's Permissions page -> "CORS configuration" tab, enter the following CORS policy to support direct file uploads (part of the webcam recording feature), specifying your site's domain in the `AllowedOrigin` field.
+
   ```
   <?xml version="1.0" encoding="UTF-8"?>
   <CORSConfiguration xmlns="http://s3.amazonaws.com/doc/2006-03-01/">
@@ -73,13 +77,14 @@ Assumes you're familiar with and set up with Git, Heroku CLI, Elixir, and Amazon
   </CORSRule>
   </CORSConfiguration>
   ```
-* Copy `config/secrets.exs.sample` to `config/secrets.exs`, then fill in real values for your app environment. The AWS credentials you specify must have access to the bucket you specify.
-* Set each environment variable: `heroku config:set -a rtl-demo1 KEY=value KEY2=value2`
-* `git push rtl-demo1 master`
-* `heroku run -a rtl-demo1 "mix ecto.migrate"`
-* Add a coder: `heroku run -a rtl-demo1 "mix run priv/repo/insert_coder.exs Bob bob@gmail.com"`
-* List all available autologin URLs: `heroku run -a rtl-thrive mix run priv/repo/list_autologins.exs`
-* Log in as the newly-created admin, and start adding content!
+
+  * Copy `config/secrets.exs.sample` to `config/secrets.exs`, then fill in real values for your app environment. The AWS credentials you specify must have access to the bucket you specify.
+  * Set each environment variable: `heroku config:set -a rtl-demo1 KEY=value KEY2=value2`
+  * `git push rtl-demo1 master`
+  * `heroku run -a rtl-demo1 "mix ecto.migrate"`
+  * Add a coder: `heroku run -a rtl-demo1 "mix run priv/repo/insert_coder.exs Bob bob@gmail.com"`
+  * List all available autologin URLs: `heroku run -a rtl-thrive mix run priv/repo/list_autologins.exs`
+  * Log in as the newly-created admin, and start adding content!
 
 
 ### Getting videos into the database; working with multiple databases
@@ -88,23 +93,23 @@ TODO: Fill these notes in later.
 
 In brief:
 
-- There's multiple ways to import videos into the database
-- There's a Youtube import script where you can provide a list of Youtube urls and the script will download each file, create a Video record for it, and upload the video & thumbnail to Youtube. But this only runs on OSX (ie your local machine), meaning you'll need to sync db state between your local dev site and a
-- In secrets.exs you could point to a deployed site's DATABASE_URL from your dev site
-- You can provide users a "record interview with my webcam" url
-- More import methods & helper features are in the works
+  * There's multiple ways to import videos into the database
+  * There's a Youtube import script where you can provide a list of Youtube urls and the script will download each file, create a Video record for it, and upload the video & thumbnail to Youtube. But this only runs on OSX (ie your local machine), meaning you'll need to sync db state between your local dev site and a
+  * In secrets.exs you could point to a deployed site's DATABASE_URL from your dev site
+  * You can provide users a "record interview with my webcam" url
+  * More import methods & helper features are in the works
 
 TODO: Move these notes on the Youtube video import process into another document, they're overspecific for here
 
-* Make a .tsv list of Youtube videos to import. (Currently we only have a YouTube import script.) See `priv/repo/videos_import_youtube.exs` for details.
-* In your dev environment, run the Youtube importer. See `priv/repo/videos_import_youtube.exs` for details.
-* Export the videos to a dumpfile, then execute that dump in the Heroku environment. See `mix run priv/repo/videos_dump.exs`.
-* Use the scripts in `priv/repo/` to set up a database of videos and export them to the new Heroku environment
-* `heroku open`
+  * Make a .tsv list of Youtube videos to import. (Currently we only have a YouTube import script.) See `priv/repo/videos_import_youtube.exs` for details.
+  * In your dev environment, run the Youtube importer. See `priv/repo/videos_import_youtube.exs` for details.
+  * Export the videos to a dumpfile, then execute that dump in the Heroku environment. See `mix run priv/repo/videos_dump.exs`.
+  * Use the scripts in `priv/repo/` to set up a database of videos and export them to the new Heroku environment
+  * `heroku open`
 
 
 ### Reset database state:
 
-- `heroku pg:reset`
-- `heroku run mix ecto.migrate`
-- `heroku run mix run priv/repo/seeds.exs`
+  * `heroku pg:reset`
+  * `heroku run mix ecto.migrate`
+  * `heroku run mix run priv/repo/seeds.exs`
