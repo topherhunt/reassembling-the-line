@@ -1,6 +1,13 @@
 <nav class="navbar navbar-expand-sm navbar-light bg-light">
   <%= if @conn.assigns[:project] do %>
-    <%= link @project.name, to: Routes.explore_project_path(@conn, :show, @project), class: "navbar-brand" %>
+    <%= link to: Routes.explore_project_path(@conn, :show, @project), class: "navbar-brand" do %>
+      <% custom_logo_html = project_setting(@project, "navbar_logo") %>
+      <%= if custom_logo_html do %>
+        <%= raw(custom_logo_html) %>
+      <% else %>
+       <%= @project.name %>
+      <% end %>
+    <% end %>
   <% else %>
     <%= link icon_and_text("barcode", "Reassembling the Line"), to: Routes.home_path(@conn, :index), class: "navbar-brand text-info" %>
   <% end %>

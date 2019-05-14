@@ -19,4 +19,4 @@
 
 <% end) %>
 
-<%= link "New user", to: Routes.manage_user_path(@conn, :new), class: "btn btn-outline-primary test-link-new-user" %>
+<%= link "+ New user", to: Routes.manage_user_path(@conn, :new), class: "btn btn-outline-primary test-link-new-user" %>

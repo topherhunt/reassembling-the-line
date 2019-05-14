@@ -7,7 +7,7 @@ defmodule ProjectSetting do
   def valid_fields do
     %{
       # TODO: Eventually the logo should be an attached / uploaded file
-      "logo_url" => :string,
+      "navbar_logo" => :string,
       "intro_page" => :html,
       "thank_you_page" => :html,
       "show_explore_link" => :bool

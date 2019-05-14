@@ -78,6 +78,7 @@ Assumes you're familiar with and set up with Git, Heroku CLI, Elixir, and Amazon
   </CORSConfiguration>
   ```
 
+  * Currently we support login via Auth0. Set up a free Auth0 tenant/application as per the instructions in the first section of https://github.com/topherhunt/cheatsheets/blob/master/elixir/howto/howto_auth0_phoenix.md. You'll give the Auth0 credentials to Heroku in the next step.
   * Copy `config/secrets.exs.sample` to `config/secrets.exs`. (This file is used in development & tests but not in production, and should never be committed to Git.)
   * In `secrets.exs`, in the comment section at bottom, there's a list of env variables that need to be set on the production site. Set them like this: `heroku config:set -a rtl-demo1 KEY=value KEY2=value2`
   * `git push rtl-demo1 master`
