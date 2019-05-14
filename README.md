@@ -78,11 +78,11 @@ Assumes you're familiar with and set up with Git, Heroku CLI, Elixir, and Amazon
   </CORSConfiguration>
   ```
 
-  * Copy `config/secrets.exs.sample` to `config/secrets.exs`, then fill in real values for your app environment. The AWS credentials you specify must have access to the bucket you specify.
-  * Set each environment variable: `heroku config:set -a rtl-demo1 KEY=value KEY2=value2`
+  * Copy `config/secrets.exs.sample` to `config/secrets.exs`. (This file is used in development & tests but not in production, and should never be committed to Git.)
+  * In `secrets.exs`, in the comment section at bottom, there's a list of env variables that need to be set on the production site. Set them like this: `heroku config:set -a rtl-demo1 KEY=value KEY2=value2`
   * `git push rtl-demo1 master`
   * `heroku run -a rtl-demo1 "mix ecto.migrate"`
-  * Add a coder: `heroku run -a rtl-demo1 "mix run priv/repo/insert_coder.exs Bob bob@gmail.com"`
+  * Add a coder: `heroku run -a rtl-demo1 "mix create_user Bob bob@gmail.com"`
   * List all available autologin URLs: `heroku run -a rtl-thrive mix login`
   * Log in as the newly-created admin, and start adding content!
 

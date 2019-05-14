@@ -91,7 +91,8 @@ defmodule RTL.Mixfile do
         "run priv/clear_test_log.exs",
         "test"
       ],
-      login: ["run priv/repo/list_autologins.exs"]
+      login: ["run priv/repo/list_autologins.exs"],
+      create_user: ["run priv/repo/create_user.exs"]
     ]
   end
 end
