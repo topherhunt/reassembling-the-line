@@ -1,6 +1,6 @@
 defmodule RTLWeb.Explore.ProjectController do
   use RTLWeb, :controller
-  alias RTL.{Accounts, Projects, Videos}
+  alias RTL.{Accounts, Projects}
 
   plug :load_project
 

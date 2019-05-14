@@ -59,7 +59,7 @@ defmodule RTLWeb.Router do
           except: [:index],
           param: "prompt_uuid"
 
-        resources "/videos", Manage.VideoController, only: [:index]
+        get "/videos", Manage.VideoController, :index
 
         scope "/videos/:video_id", as: :video do
           resources "/codings", Manage.CodingController,

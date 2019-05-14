@@ -24,6 +24,7 @@
   font-weight: normal;
   font-style: normal;
   font-size: 1.2em; /* scale to the surrounding text */
+  width: 1em;
   display: inline-block;
   line-height: 1;
   vertical-align: text-bottom; /* Center icon to surrounding text (orig was too high) */

@@ -19,7 +19,7 @@ import "./liveview_init";
 // import socket from "./socket"
 
 import "./utilities";
-import "./video";
+import "./videos_list";
 import "./coding";
 import "./explore";
 import "./webcam_recording";

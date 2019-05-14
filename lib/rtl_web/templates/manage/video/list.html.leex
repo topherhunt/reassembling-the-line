@@ -36,41 +36,51 @@
       <td>
         <strong><%= video.title %></strong>
         <div class="small">
-          from <%= link_to_source(video) %>
-          -
+          <%= if video.source_name do %>
+            from <%= link_to_source(video) %> -
+          <% end %>
           <%= link "download", to: RTL.Videos.recording_url(video), download: true %>
+        </div>
+        <div class="small">
+          Permission:
+          <%= if video.permission == "public" do %>
+            <span class="text-success"><i class="icon">check_circle</i> public</span>
+          <% else %>
+            <span class="text-warning"><i class="icon">lock</i> only you</span>
+          <% end %>
         </div>
       </td>
       <td>
         <%= if video.coding do %>
           <div class="small">
-            Coded by <%= video.coding.updated_by_user.full_name %>
-            on <%= RTLWeb.DateHelpers.print_date(video.coding.updated_at) %>
+            Tagged by <%= video.coding.updated_by_user.full_name %>
+            <!--on <%= RTLWeb.DateHelpers.print_date(video.coding.updated_at) %>-->
           </div>
-          <%= if length(tag_list(video)) > 0 do %>
-            <div class="small">
-              Tags:
+          <div class="small">
+            Tags:
+            <%= if length(tag_list(video)) > 0 do %>
               <%= for tag <- tag_list(video) do %>
                 <span class="u-box-shadow" style="background-color: #fff; border-radius: 15px; padding: 3px 5px 3px 5px; "><%= tag %></span>
               <% end %>
-            </div>
-          <% end %>
+            <% else %>
+              <span class="em text-muted">(none)</span>
+            <% end %>
+            &nbsp;
+            <%= link raw("<i class='icon'>edit</i>"),
+              to: Routes.manage_video_coding_path(RTLWeb.Endpoint, :edit, @project, video, video.coding),
+              class: "text-warning" %>
+          </div>
         <% else %>
-          <div class="small text-muted">Not coded</div>
+          <div class="small text-muted">
+            Not yet tagged &nbsp;
+            <%= link raw("<i class='icon'>edit</i>"),
+              to: Routes.manage_video_coding_path(RTLWeb.Endpoint, :new, @project, video),
+              class: "" %>
+          </div>
         <% end %>
       </td>
 
       <td>
-        <%= if video.coding do %>
-          <%= link "recode",
-            to: Routes.manage_video_coding_path(RTLWeb.Endpoint, :edit, @project, video, video.coding),
-            class: "text-warning" %>
-        <% else %>
-          <%= link "code",
-            to: Routes.manage_video_coding_path(RTLWeb.Endpoint, :new, @project, video),
-            class: "btn btn-sm btn-outline-primary" %>
-        <% end %>
-        &nbsp;
         <a href="#" class="btn btn-link text-danger"
           phx-click="delete_video"
           phx-value="<%= video.id %>"

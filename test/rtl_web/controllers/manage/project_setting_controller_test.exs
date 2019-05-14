@@ -52,7 +52,7 @@ defmodule RTLWeb.Manage.ProjectSettingControllerTest do
       {conn, _user} = login_as_superadmin(conn)
       project = Factory.insert_project()
 
-      conn = patch(conn, update_path(conn, project), %{"value" => "__DEFAULT__"})
+      conn = patch(conn, update_path(conn, project), %{"value" => "nil"})
 
       assert Projects.get_project!(project.id).settings == %{}
       assert redirected_to(conn) == Routes.manage_project_path(conn, :show, project)
