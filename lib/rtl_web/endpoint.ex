@@ -40,7 +40,7 @@ defmodule RTLWeb.Endpoint do
   plug(Plug.Session,
     store: :cookie,
     key: "_rtl_key",
-    signing_salt: H.env!("SESSION_SALT")
+    signing_salt: H.env!("SIGNING_SALT")
   )
 
   plug(RTLWeb.Router)

@@ -83,7 +83,7 @@ Assumes you're familiar with and set up with Git, Heroku CLI, Elixir, and Amazon
   * `git push rtl-demo1 master`
   * `heroku run -a rtl-demo1 "mix ecto.migrate"`
   * Add a coder: `heroku run -a rtl-demo1 "mix run priv/repo/insert_coder.exs Bob bob@gmail.com"`
-  * List all available autologin URLs: `heroku run -a rtl-thrive mix run priv/repo/list_autologins.exs`
+  * List all available autologin URLs: `heroku run -a rtl-thrive mix login`
   * Log in as the newly-created admin, and start adding content!
 
 
