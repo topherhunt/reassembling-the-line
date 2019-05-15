@@ -2,12 +2,12 @@ defmodule RTLWeb.Manage.PromptControllerTest do
   use RTLWeb.ConnCase, async: true
   alias RTL.Projects
 
-  defp prompt_path(conn, action, proj, prompt) do
-    Routes.manage_prompt_path(conn, action, proj, prompt)
-  end
-
   defp prompt_path(conn, action, proj) do
     Routes.manage_prompt_path(conn, action, proj)
+  end
+
+  defp prompt_path(conn, action, proj, prompt) do
+    Routes.manage_prompt_path(conn, action, proj, prompt)
   end
 
   describe "plugs" do
@@ -15,7 +15,7 @@ defmodule RTLWeb.Manage.PromptControllerTest do
       proj = Factory.insert_project()
       prompt = Factory.insert_prompt()
 
-      conn = get(conn, prompt_path(conn, :show, proj, prompt))
+      conn = get(conn, prompt_path(conn, :edit, proj, prompt))
 
       assert redirected_to(conn) == Routes.home_path(conn, :index)
       assert conn.halted
@@ -26,7 +26,7 @@ defmodule RTLWeb.Manage.PromptControllerTest do
       proj = Factory.insert_project()
       prompt = Factory.insert_prompt()
 
-      conn = get(conn, prompt_path(conn, :show, proj, prompt))
+      conn = get(conn, prompt_path(conn, :edit, proj, prompt))
 
       assert redirected_to(conn) == Routes.home_path(conn, :index)
       assert conn.halted
@@ -38,9 +38,9 @@ defmodule RTLWeb.Manage.PromptControllerTest do
       prompt = Factory.insert_prompt()
       Projects.add_project_admin!(user, proj)
 
-      conn = get(conn, prompt_path(conn, :show, proj, prompt))
+      conn = get(conn, prompt_path(conn, :edit, proj, prompt))
 
-      assert html_response(conn, 200) =~ "test-page-show-prompt-#{prompt.id}"
+      assert html_response(conn, 200) =~ "test-page-edit-prompt-#{prompt.id}"
     end
 
     test "all actions allow you if you're a superadmin", %{conn: conn} do
@@ -48,21 +48,9 @@ defmodule RTLWeb.Manage.PromptControllerTest do
       proj = Factory.insert_project()
       prompt = Factory.insert_prompt()
 
-      conn = get(conn, prompt_path(conn, :show, proj, prompt))
+      conn = get(conn, prompt_path(conn, :edit, proj, prompt))
 
-      assert html_response(conn, 200) =~ "test-page-show-prompt-#{prompt.id}"
-    end
-  end
-
-  describe "#show" do
-    test "renders correctly", %{conn: conn} do
-      {conn, _user} = login_as_superadmin(conn)
-      proj = Factory.insert_project()
-      prompt = Factory.insert_prompt()
-
-      conn = get(conn, prompt_path(conn, :show, proj, prompt))
-
-      assert html_response(conn, 200) =~ "test-page-show-prompt-#{prompt.id}"
+      assert html_response(conn, 200) =~ "test-page-edit-prompt-#{prompt.id}"
     end
   end
 
@@ -88,7 +76,7 @@ defmodule RTLWeb.Manage.PromptControllerTest do
       prompt = Projects.get_prompt_by!(order: :newest)
       assert prompt.project_id == proj.id
       assert prompt.html == "My Second Prompt"
-      assert redirected_to(conn) == prompt_path(conn, :show, proj, prompt)
+      assert redirected_to(conn) == Routes.manage_project_path(conn, :show, proj)
     end
 
     test "rejects changes if invalid", %{conn: conn} do
@@ -126,7 +114,7 @@ defmodule RTLWeb.Manage.PromptControllerTest do
       conn = patch(conn, prompt_path(conn, :update, proj, prompt), params)
 
       assert Projects.get_prompt!(prompt.id).html == "New prompt text"
-      assert redirected_to(conn) == prompt_path(conn, :show, proj, prompt)
+      assert redirected_to(conn) == Routes.manage_project_path(conn, :show, proj)
     end
 
     test "rejects changes if invalid", %{conn: conn} do

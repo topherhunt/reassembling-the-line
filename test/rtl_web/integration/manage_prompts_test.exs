@@ -13,8 +13,8 @@ defmodule RTLWeb.ManagePromptsTest do
 
     # Listing prompts
     navigate_to Routes.manage_project_path(conn, :show, project)
-    assert_selector(".test-link-show-prompt-#{prompt1.id}")
-    assert_selector(".test-link-show-prompt-#{prompt2.id}")
+    assert_selector(".test-link-edit-prompt-#{prompt1.id}")
+    assert_selector(".test-link-edit-prompt-#{prompt2.id}")
 
     # Creating a prompt
     find_element(".test-link-new-prompt") |> click()
@@ -23,14 +23,15 @@ defmodule RTLWeb.ManagePromptsTest do
     prompt3 = Projects.get_prompt_by!(order: :newest)
     assert prompt3.html =~ "What is life about?"
 
-    # Showing the prompt
-    assert_selector(".test-page-show-prompt-#{prompt3.id}")
+    # The new prompt is shown on the project page
+    assert_selector(".test-page-show-project-#{project.id}")
+    assert_selector(".test-link-edit-prompt-#{prompt3.id}")
 
     # Editing the prompt
     find_element(".test-link-edit-prompt-#{prompt3.id}") |> click()
     find_element("#prompt_html_trix") |> fill_field("Why all the fuss?")
     find_element(".test-submit") |> click()
-    assert_selector(".test-page-show-prompt-#{prompt3.id}")
+    assert_selector(".test-page-show-project-#{project.id}")
     assert Projects.get_prompt(prompt3.id).html =~ "Why all the fuss?"
 
     # Deleting the prompt

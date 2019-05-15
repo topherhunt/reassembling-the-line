@@ -6,11 +6,6 @@ defmodule RTLWeb.Manage.PromptController do
   plug :ensure_can_manage_project
   plug :load_prompt when action in [:show, :edit, :update, :delete]
 
-  def show(conn, _params) do
-    videos = RTL.Videos.get_videos(prompt: conn.assigns.prompt)
-    render conn, "show.html", videos: videos
-  end
-
   def new(conn, _params) do
     changeset = Projects.new_prompt_changeset()
     render conn, "new.html", changeset: changeset
@@ -20,10 +15,10 @@ defmodule RTLWeb.Manage.PromptController do
     params = Map.put(params, "project_id", conn.assigns.project.id)
 
     case Projects.insert_prompt(params) do
-      {:ok, prompt} ->
+      {:ok, _prompt} ->
         conn
-        |> put_flash(:info, "Prompt created.")
-        |> redirect(to: Routes.manage_prompt_path(conn, :show, conn.assigns.project, prompt))
+        |> put_flash(:info, "Question created.")
+        |> redirect(to: Routes.manage_project_path(conn, :show, conn.assigns.project))
 
       {:error, changeset} ->
         conn
@@ -40,10 +35,10 @@ defmodule RTLWeb.Manage.PromptController do
   def update(conn, %{"prompt" => prompt_params}) do
     # TODO: Ideally use another changeset(?) so the user can't change project_id.
     case Projects.update_prompt(conn.assigns.prompt, prompt_params) do
-      {:ok, prompt} ->
+      {:ok, _prompt} ->
         conn
-        |> put_flash(:info, "Prompt updated.")
-        |> redirect(to: Routes.manage_prompt_path(conn, :show, conn.assigns.project, prompt))
+        |> put_flash(:info, "Question updated.")
+        |> redirect(to: Routes.manage_project_path(conn, :show, conn.assigns.project))
 
       {:error, changeset} ->
         conn
@@ -56,7 +51,7 @@ defmodule RTLWeb.Manage.PromptController do
     Projects.delete_prompt!(conn.assigns.prompt)
 
     conn
-    |> put_flash(:info, "Prompt deleted.")
+    |> put_flash(:info, "Question deleted.")
     |> redirect(to: Routes.manage_project_path(conn, :show, conn.assigns.project))
   end
 end

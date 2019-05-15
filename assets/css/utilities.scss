@@ -1,3 +1,6 @@
+//
+// Layout
+//
 
 .u-centered-1000 { max-width: 1000px; margin-left: auto; margin-right: auto; }
 .u-centered-800  { max-width:  800px; margin-left: auto; margin-right: auto; }
@@ -11,18 +14,32 @@
   border-radius: 5px;
 }
 
-.u-box-shadow { box-shadow: 1px 3px 5px 1px #ccc; border-radius: 5px;  }
-
 .u-gap-10 { width: 100%; height: 10px; }
 .u-gap-20 { width: 100%; height: 20px; }
 
-.u-nowrap { white-space: nowrap; }
-.u-ellipsis { overflow: hidden; text-overflow: ellipsis; }
+.u-relative { position: relative; }
+.u-abs-top-right { position: absolute; top: 7px; right: 10px; }
+
+//
+// Blocks
+//
+
+.u-box-shadow { box-shadow: 1px 3px 5px 1px #ccc; border-radius: 5px;  }
+
 .u-hidden { display: none; }
 
+.u-form-error { color: #a00; background-color: #fee; padding: 5px; }
+
 // DEPRECATED
-// TODO: Stop using these. Instead migrate to u- prefixed versions.
+.js-hidden { display: none; }
+// DEPRECATED
+.nowrap { white-space: nowrap; }
+
+//
+// Text
+//
+
+.u-nowrap { white-space: nowrap; }
+.u-ellipsis { overflow: hidden; text-overflow: ellipsis; }
 .em { font-style: italic; }
 .strong { font-weight: bold; }
-.js-hidden { display: none; }
-.nowrap { white-space: nowrap; }

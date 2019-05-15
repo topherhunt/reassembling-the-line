@@ -40,5 +40,6 @@ defmodule RTL.Projects.Prompt do
   def filter(query, :id, id), do: where(query, [p], p.id == ^id)
   def filter(query, :uuid, uuid), do: where(query, [p], p.uuid == ^uuid)
   def filter(query, :project, proj), do: where(query, [p], p.project_id == ^proj.id)
+  def filter(query, :order, :id), do: order_by(query, [p], asc: p.id)
   def filter(query, :order, :newest), do: order_by(query, [p], desc: p.id)
 end

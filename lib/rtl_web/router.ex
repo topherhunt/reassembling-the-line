@@ -56,7 +56,7 @@ defmodule RTLWeb.Router do
         patch "/settings/:field/clear", Manage.ProjectSettingController, :clear
 
         resources "/prompts", Manage.PromptController,
-          except: [:index],
+          except: [:index, :show],
           param: "prompt_uuid"
 
         get "/videos", Manage.VideoController, :index

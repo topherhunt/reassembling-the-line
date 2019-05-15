@@ -14,7 +14,7 @@ defmodule RTLWeb.Manage.ProjectController do
   def show(conn, _params) do
     project = conn.assigns.project |> RTL.Repo.preload(:admins)
     addable_admins = Accounts.get_users(not_admin_on_project: project, order: :full_name)
-    prompts = Projects.get_prompts(project: project)
+    prompts = Projects.get_prompts(project: project, order: :id)
     count_videos = Videos.count_videos(project: project)
     count_videos_coded = Videos.count_videos(project: project, coded: true)
 
@@ -23,7 +23,8 @@ defmodule RTLWeb.Manage.ProjectController do
       addable_admins: addable_admins,
       prompts: prompts,
       count_videos: count_videos,
-      count_videos_coded: count_videos_coded
+      count_videos_coded: count_videos_coded,
+      next_uncoded_video: next_uncoded_video(project)
   end
 
   def new(conn, _params) do
@@ -80,5 +81,13 @@ defmodule RTLWeb.Manage.ProjectController do
 
   defp get_projects(conn) do
     Projects.get_projects(visible_to: conn.assigns.current_user)
+  end
+
+  defp next_uncoded_video(project) do
+    Videos.get_video_by(
+      project: project,
+      coded: false,
+      order: :oldest
+    )
   end
 end

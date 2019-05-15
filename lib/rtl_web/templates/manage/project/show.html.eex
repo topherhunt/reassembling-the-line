@@ -10,7 +10,7 @@
 <h2>Project details</h2>
 
 <div class="row">
-  <div class="col-md-6">
+  <div class="col-md-5">
 
     <div class="u-card">
       <h4>Basic info</h4>
@@ -96,38 +96,92 @@
     <% end %>
   </div>
 
-  <div class="col-md-6">
+  <div class="col-md-7">
 
     <div class="u-card">
-      <h4>Prompts</h4>
+      <h4>1. Setup</h4>
+
+      <p>What question(s) do you want to ask?</p>
 
       <table class="table">
         <%= for prompt <- @prompts do %>
           <tr>
-            <td><%= HtmlSanitizeEx.strip_tags(prompt.html) %></td>
-            <td><%= link "details", to: Routes.manage_prompt_path(@conn, :show, @project, prompt), class: "test-link-show-prompt-#{prompt.id}" %></td>
+            <td class="text-success"><%= HtmlSanitizeEx.strip_tags(prompt.html) %></td>
+            <td class="u-nowrap">
+              <%= link raw("<i class='icon'>edit</i>"), to: Routes.manage_prompt_path(@conn, :edit, @project, prompt), class: "text-warning test-link-edit-prompt-#{prompt.id}" %>&nbsp;
+              <%= if length(@prompts) > 1 do %>
+                <%= link raw("<i class='icon'>delete</i>"),
+                  to: Routes.manage_prompt_path(@conn, :delete, @project, prompt),
+                  method: :delete,
+                  data_confirm: "WARNING: This will irreversibly delete this question and all associated videos. Proceed?",
+                  class: "text-danger test-link-delete-prompt-#{prompt.id}" %>
+              <% end %>
+            </td>
           </tr>
         <% end %>
         <tr>
           <td colspan="9">
-            <%= link "add", to: Routes.manage_prompt_path(@conn, :new, @project), class: "test-link-new-prompt" %>
+            <%= link "+ add another question", to: Routes.manage_prompt_path(@conn, :new, @project), class: "test-link-new-prompt" %>
           </td>
         </tr>
       </table>
     </div>
 
     <div class="u-card">
-      <h4>Videos</h4>
-      <ul>
-        <li><%= @count_videos %> videos collected</li>
-        <li><%= @count_videos_coded %> coded</li>
-        <li><%= @count_videos - @count_videos_coded %> left to code</li>
-      </ul>
-      <p><%= link "See all videos", to: Routes.manage_video_path(@conn, :index, @project) %></p>
+      <h4>2. Collect stories</h4>
+
+      <p>Send participants the link below so they can tell their story by recording a video on their computer's webcam. <%= link "Learn more", to: Routes.help_path(@conn, :collecting_videos), target: "_blank" %></p>
+
+      <%= for prompt <- @prompts do %>
+        <%= if length(@prompts) > 1 do %>
+          <div class="mt-3 mb-1 text-success"><%= ellipsis(HtmlSanitizeEx.strip_tags(prompt.html), 70) %></div>
+        <% end %>
+        <div style="border: 1px dashed #ccc; border-radius: 5px; padding: 5px; overflow: hidden;">
+          <% url = Routes.share_from_webcam_url(@conn, :new, @project, prompt) %>
+          <%= link url, to: url %>
+        </div>
+      <% end %>
+
+      <hr>
+      <div><%= link "Contact us", to: contact_us_url(), target: "_blank" %> if you need a different way to import videos.</div>
+    </div>
+
+    <div class="u-card u-relative">
+      <h4>3. Categorize video clips</h4>
       <p>
-        <%= link "Export videos", to: Routes.manage_video_export_path(@conn, :new, @project), class: "text-warning" %> &nbsp;
-        <%= link "Import videos", to: Routes.manage_video_import_path(@conn, :new, @project), class: "text-warning" %>
+        <strong><%= @count_videos %></strong> videos collected /
+        <strong><%= @count_videos_coded %></strong> coded /
+        <strong><%= @count_videos - @count_videos_coded %></strong> left to code
       </p>
+      <p>
+        <%= link "List all videos", to: Routes.manage_video_path(@conn, :index, @project), class: "btn btn-outline-primary" %> &nbsp;
+        <%= if @next_uncoded_video do %>
+          <%= link icon_and_text("pricetags", "Tag the next video"), to: Routes.manage_video_coding_path(RTLWeb.Endpoint, :new, @project, @next_uncoded_video), class: "btn btn-primary" %>
+        <% end %>
+      </p>
+
+      <div class="u-abs-top-right">
+        <div class="dropdown">
+          <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="manage-videos-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="icon">settings</i></button>
+          <div class="dropdown-menu dropdown-menu-right" aria-labelledby="manage-videos-dropdown">
+            <%= link "Export videos", to: Routes.manage_video_export_path(@conn, :new, @project), class: "dropdown-item" %>
+            <%= link "Import videos", to: Routes.manage_video_import_path(@conn, :new, @project), class: "dropdown-item" %>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="u-card">
+      <h4>4. Explore & share results</h4>
+      <p>The <%= link "Explore page", to: Routes.explore_clip_path(@conn, :index, @project) %> recombines the tagged video clips into various "playlists" based on the topics you're interested in.</p>
+
+      <%= if project_setting(@project, "show_explore_link") != "true" do %>
+        <div class="alert alert-danger">
+          <%= icon("lock") %>
+          <strong>The explore page is not yet public.</strong>
+          Only project admins can see it.
+        </div>
+      <% end %>
     </div>
 
   </div>

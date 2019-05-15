@@ -4,11 +4,11 @@
   <ol class="breadcrumb">
     <li class="breadcrumb-item"><%= link "Manage projects", to: Routes.manage_project_path(@conn, :index) %></li>
     <li class="breadcrumb-item"><%= link @project.name, to: Routes.manage_project_path(@conn, :show, @project) %></li>
-    <li class="breadcrumb-item active u-nowrap u-ellipsis" style="max-width: 300px;">New prompt</li>
+    <li class="breadcrumb-item active u-nowrap u-ellipsis" style="max-width: 300px;">New question</li>
   </ol>
 </nav>
 
-<h1>New prompt</h1>
+<h1>New question</h1>
 
 <%= render "_form.html",
   changeset: @changeset,
