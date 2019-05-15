@@ -4,20 +4,12 @@
     <%# TODO: sanitize all html injections from ProjectSettings? %>
     <%= raw(content) %>
   <% else %>
-    <h1>Thank you</h1>
+    <h1>🎉 Thank you 🎉</h1>
 
-    <p>Thank you for taking the time to share your experience! I hope you found it rewarding. And we'll do our best to enable your voice to inspire change on issues that matter to you.</p>
-
-    <p>We're currently collecting data for the <strong>Thrive in Northern Netherlands</strong> project. As soon as the results are ready to share, we'll announce it on our mailing list.</p>
+    <p>Thank you for taking the time to share your story as part of the <strong><%= @project.name %></strong> project. To learn more about the project, or to reach the project owner, click the link below.</p>
 
     <p class="text-center">
-      <a href="https://www.northernnetherlands.life/subscribe" class="btn btn-primary">
-        Join our newsletter to get updates on this project
-      </a>
-    </p>
-
-    <p class="text-center">
-      <a href="https://docs.google.com/forms/d/e/1FAIpQLScFmkgOIWIN3QKIT1TI6e2A440ixtfMsAQ04kVoh85TLDmbXw/viewform?usp=sf_link" target="_blank">Contact us with any questions</a>
+      <%= link "About this project", to: Routes.explore_project_path(@conn, :show, @project) %>
     </p>
   <% end %>
 </div>
