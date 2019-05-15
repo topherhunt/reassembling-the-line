@@ -28,15 +28,20 @@ defmodule RTLWeb.Manage.VideosListLiveview do
 
   defp fetch_latest_data(socket) do
     log "fetch_latest_data called."
+    project = socket.assigns.project
 
     assign(socket,
       videos:
         Videos.get_videos(
-          project: socket.assigns.project,
+          project: project,
           order: :last_coded,
           preload: [coding: [:updated_by_user, :tags]]
         ),
-      next_uncoded_video: Videos.get_video_by(coded: false, order: :oldest)
+      next_uncoded_video: Videos.get_video_by(
+        project: project,
+        coded: false,
+        order: :oldest
+      )
     )
   end
 

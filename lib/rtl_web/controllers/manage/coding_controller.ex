@@ -66,7 +66,8 @@ defmodule RTLWeb.Manage.CodingController do
   #
 
   defp load_video(conn, _opts) do
-    video = Videos.get_video!(conn.params["video_id"])
+    project = conn.assigns.project
+    video = Videos.get_video!(conn.params["video_id"], project: project)
     assign(conn, :video, video)
   end
 
