@@ -36,8 +36,8 @@
       <td>
         <strong><%= video.title %></strong>
         <div class="small">
-          <%= if video.source_name do %>
-            from <%= link_to_source(video) %> -
+          <%= if video.source_url do %>
+            <%= link "source", to: video.source_url, target: "_blank" %> &nbsp;
           <% end %>
           <%= link "download", to: RTL.Videos.recording_url(video), download: true %>
         </div>

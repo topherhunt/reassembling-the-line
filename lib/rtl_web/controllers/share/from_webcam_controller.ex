@@ -54,8 +54,8 @@ defmodule RTLWeb.Share.FromWebcamController do
   end
 
   defp generate_title(params) do
-    if H.is_present?(params["source_name"]) do
-      "Interview with #{params["source_name"]}"
+    if H.is_present?(params["speaker_name"]) do
+      "Interview with #{params["speaker_name"]}"
     else
       "Anonymous interview"
     end

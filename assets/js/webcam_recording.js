@@ -139,8 +139,13 @@ $(function(){
   }
 
   function submitInterview() {
-    if (!$('#video_permission_researchers').is(':checked') && !$('#video_permission_public').is(':checked')) {
-      alert("Please give permission for us to use this interview first.");
+    if (!isPermissionGiven()) {
+      alert("Please give permission for us to use this recording.");
+      return;
+    }
+
+    if (!isSpeakerNamePresent()) {
+      alert("Please enter your name before submitting this recording.");
       return;
     }
 
@@ -159,6 +164,15 @@ $(function(){
         $('.js-submit-form-btn').click();
       });
     });
+  }
+
+  function isPermissionGiven() {
+    return $('#video_permission_researchers').is(':checked') ||
+      $('#video_permission_public').is(':checked')
+  }
+
+  function isSpeakerNamePresent() {
+    return $("#video_speaker_name").val().trim() != ""
   }
 
   //

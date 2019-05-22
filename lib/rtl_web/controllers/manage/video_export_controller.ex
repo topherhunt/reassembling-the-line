@@ -21,7 +21,7 @@ defmodule RTLWeb.Manage.VideoExportController do
   defp to_map(v) do
     %{
       title: v.title,
-      source_name: v.source_name,
+      speaker_name: v.speaker_name,
       source_url: v.source_url,
       permission: v.permission,
       recording_filename: v.recording_filename,

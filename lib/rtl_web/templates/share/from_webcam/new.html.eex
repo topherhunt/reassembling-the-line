@@ -89,10 +89,9 @@
         <div class="form-group">
           <div>
             <strong>Name</strong>
-            <span class="em text-muted">(optional)</span>
+            <span class="text-danger" data-toggle="tooltip" title="We need to know your name in order to protect your data ownership rights for this recording. Please feel free to reach out if you have any questions!">(required)</span>
           </div>
-          <%= label f, :source_name, raw("If you'd like your name to be shown next to your video, please write it here.") %>
-          <%= text_input f, :source_name, class: "form-control", placeholder: "Your name" %>
+          <%= text_input f, :speaker_name, class: "form-control", placeholder: "Your name" %>
         </div>
 
         <div class="form-group">

@@ -6,7 +6,9 @@ defmodule RTL.Videos.Video do
   schema "videos" do
     belongs_to :prompt, RTL.Projects.Prompt
     field :title, :string
-    field :source_name, :string
+    # required if this is a webcam recording (to protect submitter's right to deletion)
+    field :speaker_name, :string
+    # eg. the original Youtube url if relevant
     field :source_url, :string
     # Permission values: "researchers", "public". May be null.
     field :permission, :string
@@ -24,13 +26,18 @@ defmodule RTL.Videos.Video do
     |> cast(params, [
       :prompt_id,
       :title,
-      :source_name,
+      :speaker_name,
       :source_url,
       :permission,
       :recording_filename,
       :thumbnail_filename
     ])
-    |> validate_required([:prompt_id, :title, :recording_filename, :thumbnail_filename])
+    |> validate_required([
+      :prompt_id,
+      :title,
+      :recording_filename,
+      :thumbnail_filename
+    ])
     |> validate_inclusion(:permission, ["public", "researchers"])
   end
 

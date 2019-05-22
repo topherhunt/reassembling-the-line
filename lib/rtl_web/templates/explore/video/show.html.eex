@@ -11,6 +11,8 @@
       controls=""
       autoplay="" />
 
-    <p>Source: <%= link @video.source_name, to: @video.source_url %></p>
+    <%= if @video.source_url do %>
+      <p><%= link "Source", to: @video.source_url %></p>
+    <% end %>
   </div>
 </div>

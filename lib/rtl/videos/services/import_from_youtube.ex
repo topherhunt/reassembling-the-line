@@ -53,7 +53,6 @@ defmodule RTL.Videos.Services.ImportFromYoutube do
         Videos.insert_video!(%{
           prompt_id: prompt.id,
           title: title,
-          source_name: "YouTube",
           source_url: url,
           recording_filename: recording_filename,
           thumbnail_filename: thumbnail_filename

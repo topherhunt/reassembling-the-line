@@ -14,7 +14,7 @@ defmodule RTLWeb.Share.FromWebcamControllerTest do
     %{
       "video" => %{
         "prompt_id" => prompt.id,
-        "source_name" => "Elmer Fudd",
+        "speaker_name" => "Elmer Fudd",
         "permission" => "researchers",
         "thumbnail_filename" => "abc.jpg",
         "recording_filename" => "abc.webm"
@@ -43,22 +43,22 @@ defmodule RTLWeb.Share.FromWebcamControllerTest do
 
       assert redirected_to(conn) == thank_you_path(conn, project, prompt)
       video = Videos.get_video_by(order: :newest)
-      assert video.source_name == "Elmer Fudd"
+      assert video.speaker_name == "Elmer Fudd"
       assert video.title == "Interview with Elmer Fudd"
       assert video.permission == "researchers"
       assert video.thumbnail_filename == "abc.jpg"
       assert video.recording_filename == "abc.webm"
     end
 
-    test "tolerates absent source_name", %{conn: conn} do
+    test "tolerates absent speaker_name", %{conn: conn} do
       project = Factory.insert_project()
       prompt = Factory.insert_prompt(project_id: project.id)
 
-      params = put_in(valid_params(prompt), ["video", "source_name"], nil)
+      params = put_in(valid_params(prompt), ["video", "speaker_name"], nil)
       post(conn, create_path(conn, project, prompt), params)
 
       video = Videos.get_video_by(order: :newest)
-      assert video.source_name == nil
+      assert video.speaker_name == nil
       assert video.title == "Anonymous interview"
     end
   end

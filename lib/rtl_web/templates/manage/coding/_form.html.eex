@@ -18,7 +18,9 @@
   <div class="col-sm-3">
     <p class="text-secondary">As you watch the video, add tags to mark interesting sections using the form below. Enter each tag's start time and end time in <code>mm:ss</code> format, such as <code>1:06</code> for 1 minute and 06 seconds.</p>
     <p>Video: <strong><%= @video.title %></strong></p>
-    <p>Source: <%= RTLWeb.Manage.VideoView.link_to_source(@video) %></p>
+    <%= if @video.source_url do %>
+      <p><%= link "Source", to: @video.source_url, target: "_blank" %></p>
+    <% end %>
     <p>
       Skip forward / backward:
       <br>
