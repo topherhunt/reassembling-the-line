@@ -13,7 +13,7 @@
     <p>This is a demo project. Use the buttons below to get a feel for how RTL works and how you might be able to make use of it.</p>
 
     <p>
-      <%= link "Record an interview (via webcam)",
+      <%= link "Tell your story (via webcam recording)",
         to: Routes.share_from_webcam_path(@conn, :new, @project, @demo_prompt),
         class: "btn btn-outline-primary" %>
     </p>

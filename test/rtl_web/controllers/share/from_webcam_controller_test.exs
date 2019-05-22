@@ -59,7 +59,7 @@ defmodule RTLWeb.Share.FromWebcamControllerTest do
 
       video = Videos.get_video_by(order: :newest)
       assert video.speaker_name == nil
-      assert video.title == "Anonymous interview"
+      assert video.title == "Anonymous recording"
     end
   end
 end

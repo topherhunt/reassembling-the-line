@@ -7,7 +7,7 @@ defmodule RTLWeb.Share.FromWebcamController do
   plug :load_prompt
 
   # For now, we don't require a logged-in user nor any sort of voucher code.
-  # Anyone can record and upload an interview as many times as they want.
+  # Anyone can record and upload a recording as many times as they want.
   def new(conn, _params) do
     changeset = Videos.new_video_changeset(%{})
     uuid = Factory.random_uuid()
@@ -57,11 +57,11 @@ defmodule RTLWeb.Share.FromWebcamController do
     if H.is_present?(params["speaker_name"]) do
       "Interview with #{params["speaker_name"]}"
     else
-      "Anonymous interview"
+      "Anonymous recording"
     end
   end
 
   defp submission_confirmation_message do
-    "Thank you! We've received your interview and we're looking forward to learning from your experience."
+    "Thank you! We've received your recording and we're looking forward to learning from your experience."
   end
 end

@@ -1,7 +1,7 @@
 <div class="u-centered-1000">
 
   <h1>Video collection</h1>
-  <p>RTL gives you various ways to insert interview videos into the database.</p>
+  <p>RTL gives you various ways to get video recordings into the database.</p>
 
   <hr />
 
@@ -9,13 +9,13 @@
   <div class="row">
     <div class="col-sm-8">
       <p>
-        Interviewees can record their own interview on this website, using their computer's webcam. Each submitted interview will appear in the list of videos to code. To enable this, create a prompt under your project, then go to the prompt's details page. Copy the link shown on that page and send it to all of your participants.
+        Interviewees can record their own story on this website, using their computer's webcam. Each submitted recording will appear in the list of videos to code. To enable this, create a prompt under your project, then go to the prompt's details page. Copy the link shown on that page and send it to all of your participants.
       </p>
       <div>Notes:</div>
       <ul>
         <li>Requires a webcam. Also requires <span class="text-danger">Chrome or Firefox web browser</span> (for now).</li>
         <li>Older or less tech-savvy users may have difficulty doing the recording.</li>
-        <li>The link isn't protected or tracked (for now), so a person could submit multiple interviews if they choose to, and the admin will need to clean them up later on.</li>
+        <li>The link isn't protected or tracked (for now), so a person could submit multiple recordings if they choose to.</li>
       </ul>
     </div>
     <div class="col-sm-4">

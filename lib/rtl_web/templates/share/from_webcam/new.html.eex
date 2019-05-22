@@ -18,7 +18,7 @@
   </div>
 </div>
 
-<h5>The topic:</h5>
+<h5>The question:</h5>
 <div class="row">
   <div class="col-sm-8">
     <div class="u-card text-success" style="font-size: 1.1em;">
@@ -73,7 +73,7 @@
     </div>
     <div class="js-recording-instructions-part-2 alert alert-info js-hidden">
       <p>Your recording is done! Now you can watch it, or start over if you'd like to try again.</p>
-      <p class="mb-0">When you're happy, <strong>scroll down</strong> to answer a couple more questions and then submit your interview.</p>
+      <p class="mb-0">When you're happy, <strong>scroll down</strong> to answer a couple more questions and then submit your recording.</p>
     </div>
   </div>
 </div>
@@ -81,7 +81,7 @@
 <div class="pb-4"></div>
 
 <div class="js-interview-form-container js-hidden">
-  <h5>Submit your interview</h5>
+  <h5>Submit your recording</h5>
   <div class="row">
     <div class="col-sm-8">
       <%= form_for @changeset, Routes.share_from_webcam_path(@conn, :create, @project, @prompt), fn(f) -> %>
@@ -101,11 +101,11 @@
           </div>
           <label>
             <%= radio_button f, :permission, "public" %>
-            <span class="pl-2">I give permission to share this interview with <strong>everyone</strong>.</span>
+            <span class="pl-2">I give permission to share this recording with <strong>everyone</strong>.</span>
           </label>
           <label>
             <%= radio_button f, :permission, "researchers" %>
-            <span class="pl-2">I give permission to share this interview with <strong>researchers on this project, but no one else</strong>.</span>
+            <span class="pl-2">I give permission to share this recording with <strong>researchers on this project, but no one else</strong>.</span>
           </label>
         </div>
 
@@ -117,7 +117,7 @@
         <%= hidden_input f, :prompt_id, value: @prompt.id %>
         <%= hidden_input f, :thumbnail_filename, value: @thumbnail_filename %>
         <%= hidden_input f, :recording_filename, value: @recording_filename %>
-        <%= link "Submit your interview", to: "#", class: "js-upload-and-submit-btn btn btn-primary" %>
+        <%= link "Submit your recording", to: "#", class: "js-upload-and-submit-btn btn btn-primary" %>
         <%= submit " ", class: "js-submit-form-btn js-hidden", style: "display: none;" %>
 
       <% end %>
