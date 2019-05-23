@@ -99,14 +99,12 @@
             <strong>Permission</strong>
             <span class="text-danger">(required)</span>
           </div>
-          <label>
-            <%= radio_button f, :permission, "public" %>
-            <span class="pl-2">I give permission to share this recording with <strong>everyone</strong>.</span>
-          </label>
-          <label>
-            <%= radio_button f, :permission, "researchers" %>
-            <span class="pl-2">I give permission to share this recording with <strong>researchers on this project, but no one else</strong>.</span>
-          </label>
+          <%= for {label, value} <- permission_options(@project) do %>
+            <label>
+              <%= radio_button f, :permission, value %>
+              <span class="pl-2"><%= raw(label) %></span>
+            </label>
+          <% end %>
         </div>
 
         <div class="u-card u-box-shadow">

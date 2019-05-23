@@ -1,6 +1,7 @@
 defmodule RTLWeb.Manage.ProjectSettingController do
   use RTLWeb, :controller
-  alias RTL.{Projects}
+  alias RTL.Projects
+  alias RTL.Projects.ProjectSetting
 
   plug :load_project
   plug :ensure_superadmin

@@ -76,7 +76,7 @@
       <div class="u-card">
         <h4>Custom settings</h4>
         <table class="table">
-          <%= for field <- Map.keys(ProjectSetting.valid_fields()) do %>
+          <%= for field <- Map.keys(RTL.Projects.ProjectSetting.valid_fields()) do %>
             <tr>
               <th><code><%= field %></code></th>
               <td>

@@ -10,7 +10,7 @@ defmodule RTLWeb.TextHelpers do
   end
 
   def project_setting(project, field) do
-    unless field in Map.keys(ProjectSetting.valid_fields()) do
+    unless field in Map.keys(RTL.Projects.ProjectSetting.valid_fields()) do
       raise "Unknown ProjectSetting field: #{field}"
     end
 

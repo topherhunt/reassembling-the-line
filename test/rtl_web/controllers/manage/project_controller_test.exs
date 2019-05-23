@@ -61,14 +61,23 @@ defmodule RTLWeb.Manage.ProjectControllerTest do
   end
 
   describe "#show" do
-    test "renders correctly", %{conn: conn} do
+    test "renders the dashboard correctly", %{conn: conn} do
       {conn, user} = login_as_new_user(conn)
       project = Factory.insert_project()
       Projects.add_project_admin!(user, project)
 
       conn = get(conn, Routes.manage_project_path(conn, :show, project))
 
-      assert html_response(conn, 200) =~ project.name
+      assert html_response(conn, 200) =~ "test-page-show-project-#{project.id}"
+    end
+
+    test "renders the dashboard correctly (for superadmin)", %{conn: conn} do
+      {conn, _user} = login_as_superadmin(conn)
+      project = Factory.insert_project()
+
+      conn = get(conn, Routes.manage_project_path(conn, :show, project))
+
+      assert html_response(conn, 200) =~ "test-page-show-project-#{project.id}"
     end
   end
 

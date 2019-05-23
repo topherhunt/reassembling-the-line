@@ -15,19 +15,7 @@
 
   <%= form_for @conn, Routes.manage_project_setting_path(@conn, :update, @project, @field), [method: :patch], fn(f) -> %>
     <div class="form-group">
-      <%= case @type do %>
-        <% :html -> %>
-          <%= textarea f, :value, value: @value, id: "custom-value", class: "form-control", autofocus: true, rows: 10 %>
-        <% :string -> %>
-          <%= textarea f, :value, value: @value, id: "custom-value", class: "form-control", autofocus: true, rows: 3 %>
-        <% :bool -> %>
-          <label class="form-check">
-            <%= radio_button f, :value, "true", class: "form-check-input" %> true
-          </label>
-          <label class="form-check">
-            <%= radio_button f, :value, "false", class: "form-check-input" %> false
-          </label>
-      <% end %>
+      <%= textarea f, :value, value: @value, id: "custom-value", class: "form-control", autofocus: true, rows: 10 %>
     </div>
 
     <div class="form-group">
