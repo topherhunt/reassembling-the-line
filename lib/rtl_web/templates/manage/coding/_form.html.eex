@@ -9,7 +9,7 @@
 
 <h1>Tag video</h1>
 
-<h4><%= @video.title %></h4>
+<h4><%= RTLWeb.Explore.VideoView.title_for_video(@video) %></h4>
 
 <div class="row">
   <div class="col-sm-9">

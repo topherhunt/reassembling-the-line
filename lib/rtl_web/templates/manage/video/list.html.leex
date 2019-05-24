@@ -25,7 +25,7 @@
 
 <table class="table table-striped" style="width: 100%;">
   <%= Enum.map @videos, fn(video) -> %>
-    <tr>
+    <tr class="test-row-video-<%= video.id %>">
       <td style="padding: 2px; width: 80px;">
         <div style="height: 80px; width: 80px; overflow: hidden; border-radius: 5px;">
           <div style="height: 100%; width: 200%; margin-left: -50%;">
@@ -34,7 +34,7 @@
         </div>
       </td>
       <td>
-        <strong><%= video.title %></strong>
+        <strong><%= RTLWeb.Explore.VideoView.title_for_video(video) %></strong>
         <div class="small">
           <%= if video.source_url do %>
             <%= link "source", to: video.source_url, target: "_blank" %> &nbsp;
@@ -47,6 +47,12 @@
             <span class="text-success"><i class="icon">check_circle</i> public</span>
           <% else %>
             <span class="text-warning"><i class="icon">lock</i> only you</span>
+          <% end %>
+          /
+          <%= if video.permission_show_name do %>
+            <span class="text-success">name shown</span>
+          <% else %>
+            <span class="text-warning">name private</span>
           <% end %>
         </div>
       </td>

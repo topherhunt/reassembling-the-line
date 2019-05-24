@@ -20,7 +20,7 @@ defmodule RTLWeb.Manage.VideoExportControllerTest do
       conn = get(conn, Routes.manage_video_export_path(conn, :new, project))
 
       assert conn.resp_body =~ "test-page-manage-video-export-new"
-      assert conn.resp_body =~ video.title
+      assert conn.resp_body =~ video.speaker_name
       assert conn.resp_body =~ video.recording_filename
     end
   end

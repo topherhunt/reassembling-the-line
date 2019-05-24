@@ -2,10 +2,13 @@ defmodule RTLWeb.TextHelpers do
   use Phoenix.HTML
 
   def ellipsis(text, length) do
-    if String.length(text) > length - 3 do
-      String.slice(text, 0..length) <> "..."
-    else
-      text
+    cond do
+      text == nil ->
+        nil
+      String.length(text) > length - 3 ->
+        String.slice(text, 0..length) <> "..."
+      true ->
+        text
     end
   end
 

@@ -2,9 +2,12 @@ defmodule RTL.Videos.Video do
   use Ecto.Schema
   import Ecto.Changeset
   import Ecto.Query
+  alias RTL.Repo
 
   schema "videos" do
     belongs_to :prompt, RTL.Projects.Prompt
+    # Only populated if the source video has a title, e.g. Youtube
+    # (The primary-use-case story recordings won't have a title.)
     field :title, :string
     # required if this is a webcam recording (to protect submitter's right to deletion)
     field :speaker_name, :string
@@ -12,6 +15,8 @@ defmodule RTL.Videos.Video do
     field :source_url, :string
     # Permission values: "researchers", "public". May be null.
     field :permission, :string
+    # whether the speaker_name (which is required) may be shown to researchers & viewers
+    field :permission_show_name, :boolean
     field :recording_filename, :string
     field :thumbnail_filename, :string
     timestamps()
@@ -21,7 +26,15 @@ defmodule RTL.Videos.Video do
     has_many :tags, through: [:coding, :tags]
   end
 
-  def changeset(struct, params \\ %{}) do
+  #
+  # Public API (WIP)
+  #
+
+  def insert_webcam_recording!(params) do
+    new_webcam_recording_changeset(params) |> Repo.insert!()
+  end
+
+  def generic_changeset(struct, params \\ %{}) do
     struct
     |> cast(params, [
       :prompt_id,
@@ -29,12 +42,37 @@ defmodule RTL.Videos.Video do
       :speaker_name,
       :source_url,
       :permission,
+      :permission_show_name,
       :recording_filename,
       :thumbnail_filename
     ])
     |> validate_required([
       :prompt_id,
-      :title,
+      :recording_filename,
+      :thumbnail_filename
+    ])
+    |> validate_inclusion(:permission, ["public", "researchers"])
+  end
+
+  def new_webcam_recording_changeset(params \\ %{}) do
+    webcam_recording_changeset(%RTL.Videos.Video{}, params)
+  end
+
+  def webcam_recording_changeset(struct, params \\ %{}) do
+    struct
+    |> cast(params, [
+      :prompt_id,
+      :speaker_name,
+      :permission,
+      :permission_show_name,
+      :recording_filename,
+      :thumbnail_filename
+    ])
+    |> validate_required([
+      :prompt_id,
+      :speaker_name,
+      :permission,
+      :permission_show_name,
       :recording_filename,
       :thumbnail_filename
     ])

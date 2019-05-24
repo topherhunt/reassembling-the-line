@@ -9,7 +9,7 @@ defmodule RTLWeb.Share.FromWebcamController do
   # For now, we don't require a logged-in user nor any sort of voucher code.
   # Anyone can record and upload a recording as many times as they want.
   def new(conn, _params) do
-    changeset = Videos.new_video_changeset(%{})
+    changeset = Videos.Video.new_webcam_recording_changeset()
     uuid = Factory.random_uuid()
     thumbnail_filename = "#{uuid}.jpg"
     recording_filename = "#{uuid}.webm"
@@ -27,9 +27,7 @@ defmodule RTLWeb.Share.FromWebcamController do
     project = conn.assigns.project
     prompt = conn.assigns.prompt
 
-    video_params
-    |> Map.put("title", generate_title(video_params))
-    |> Videos.insert_video!()
+    Videos.Video.insert_webcam_recording!(video_params)
 
     conn
     |> put_flash(:info, submission_confirmation_message())

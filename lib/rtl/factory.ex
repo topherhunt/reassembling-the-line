@@ -38,7 +38,9 @@ defmodule RTL.Factory do
 
     Videos.insert_video!(%{
       prompt_id: params[:prompt_id] || insert_prompt().id,
-      title: params[:title] || "Video #{hex}",
+      speaker_name: "Speaker #{hex}",
+      permission: "public",
+      permission_show_name: true,
       recording_filename: params[:recording_filename] || "#{hex}.webm",
       thumbnail_filename: params[:thumbnail_filename] || "#{hex}.jpg"
     })

@@ -50,6 +50,8 @@ defmodule RTL.Videos do
   # Videos
   #
 
+  # TODO: Move the rest of these to the Video schema
+
   def get_video(id, filt \\ []), do: get_video_by(Keyword.merge([id: id], filt))
 
   def get_video!(id, filt \\ []), do: get_video_by!(Keyword.merge([id: id], filt))
@@ -62,7 +64,7 @@ defmodule RTL.Videos do
 
   def count_videos(filt \\ []), do: Video |> Video.filter(filt) |> Repo.count()
 
-  def new_video_changeset(params \\ %{}), do: Video.changeset(%Video{}, params)
+  def new_video_changeset(params \\ %{}), do: Video.generic_changeset(%Video{}, params)
 
   def insert_video(params) do
     new_video_changeset(params)

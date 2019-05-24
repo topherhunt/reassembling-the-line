@@ -19,9 +19,9 @@ defmodule RTLWeb.Manage.VideosListLiveviewTest do
     {:ok, _view, html} = mount_the_view(session: %{project: project})
 
     assert html =~ "test-page-manage-video-index"
-    assert html =~ v1.title
-    assert html =~ v2.title
-    assert !(html =~ v3.title)
+    assert html =~ "test-row-video-#{v1.id}"
+    assert html =~ "test-row-video-#{v2.id}"
+    assert !(html =~ "test-row-video-#{v3.id}")
   end
 
   test "renders correctly when no videos" do
@@ -45,13 +45,13 @@ defmodule RTLWeb.Manage.VideosListLiveviewTest do
     assert RTL.Videos.get_video(v1.id) == nil
     assert RTL.Videos.get_video(v2.id) != nil
     # But the view doesn't rerender yet
-    assert html =~ v1.title
-    assert html =~ v2.title
+    assert html =~ "test-row-video-#{v1.id}"
+    assert html =~ "test-row-video-#{v2.id}"
 
     # Once the LV gets the notification about updated data, it re-renders
     send(view.pid, {RTL.Videos, "unimportant_message_string"})
     html = render(view)
-    assert !(html =~ v1.title)
-    assert html =~ v2.title
+    assert !(html =~ "test-row-video-#{v1.id}")
+    assert html =~ "test-row-video-#{v2.id}"
   end
 end
