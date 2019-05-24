@@ -9,8 +9,8 @@ defmodule RTLWeb.Manage.ProjectSettingController do
 
   def edit(conn, %{"field" => field}) do
     value = (conn.assigns.project.settings || %{})[field]
-    type = ProjectSetting.valid_fields[field]
-    render conn, "edit.html", field: field, value: value, type: type
+    description = ProjectSetting.valid_fields[field]
+    render conn, "edit.html", field: field, value: value, description: description
   end
 
   def update(conn, %{"field" => field, "value" => value}) do

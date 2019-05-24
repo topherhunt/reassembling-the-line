@@ -109,7 +109,13 @@
 
         <div class="u-card u-box-shadow">
           <h4 class="text-danger">Data consent</h4>
-          <div>By clicking the button below, you're giving consent for Reassembling the Line to store your data as part of this project, <%= link @project.name, to: Routes.explore_project_path(@conn, :show, @project), target: "_blank" %>. See our <%= link "data privacy policy", to: Routes.home_path(@conn, :your_data), target: "_blank" %> for more information.</div>
+          <div>
+            <%= if text = project_setting(@project, "recording_consent_text") do %>
+              <%= raw(text) %>
+            <% else %>
+              By clicking the button below, you're giving consent for Reassembling the Line to store your data as part of this project, <%= link @project.name, to: Routes.explore_project_path(@conn, :show, @project), target: "_blank" %>. See our <%= link "data privacy policy", to: Routes.home_path(@conn, :your_data), target: "_blank" %> for more information.
+            <% end %>
+          </div>
         </div>
 
         <%= hidden_input f, :prompt_id, value: @prompt.id %>

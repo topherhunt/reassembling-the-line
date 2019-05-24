@@ -11,7 +11,7 @@
 
 <div class="u-centered-800">
   <h1>Edit setting: <code><%= @field %></code></h1>
-  <p>Field type: <code><%= @type %></code></p>
+  <p><%= @description %></p>
 
   <%= form_for @conn, Routes.manage_project_setting_path(@conn, :update, @project, @field), [method: :patch], fn(f) -> %>
     <div class="form-group">
