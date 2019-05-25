@@ -77,7 +77,7 @@ defmodule RTLWeb.Manage.CodingController do
 
   defp redirect_to_code_next(conn) do
     project = conn.assigns.project
-    next_to_code = Videos.get_video_by(coded: false, order: :oldest)
+    next_to_code = Videos.get_video_by(project: project, coded: false, order: :oldest)
 
     if next_to_code do
       conn
