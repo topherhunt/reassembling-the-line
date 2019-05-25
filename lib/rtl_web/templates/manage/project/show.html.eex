@@ -75,23 +75,17 @@
     <%= if is_superadmin?(@current_user) do %>
       <div class="u-card">
         <h4>Custom settings</h4>
-        <table class="table">
-          <%= for field <- Map.keys(RTL.Projects.ProjectSetting.valid_fields()) do %>
-            <tr>
-              <th><code><%= field %></code></th>
-              <td>
-                <%= if field in Map.keys(@project.settings || %{}) do %>
-                  <%= inspect(@project.settings[field]) |> ellipsis(30) %>
-                <% else %>
-                  <span class="em text-muted">default</span>
-                <% end %>
-              </td>
-              <td>
-                <%= link "edit", to: Routes.manage_project_setting_path(@conn, :edit, @project, field) %>
-              </td>
-            </tr>
-          <% end %>
-        </table>
+        <%= for field <- Map.keys(RTL.Projects.ProjectSetting.valid_fields()) do %>
+          <div class="u-relative pb-2">
+            <div><code><%= field %></code></div>
+            <%= if field in Map.keys(@project.settings || %{}) do %>
+              <%= inspect(@project.settings[field]) |> ellipsis(100) %>
+            <% else %>
+              <span class="em text-muted">default</span>
+            <% end %>
+            <div class="u-abs-top-right" style="top: 0px; right: 0px;"><%= link "edit", to: Routes.manage_project_setting_path(@conn, :edit, @project, field) %></div>
+          </div>
+        <% end %>
       </div>
     <% end %>
   </div>
