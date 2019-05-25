@@ -25,29 +25,47 @@ defmodule RTLWeb.IntegrationHelpers do
 
   # I always use css selectors, so I can simplify the helpers a bit
   def find_element(selector), do: find_element(:css, selector)
+
   def find_all_elements(selector), do: find_all_elements(:css, selector)
+
+  def find_within_element(el, selector), do: find_within_element(el, :css, selector)
 
   def assert_text(text) do
     assert visible_page_text() =~ text
   end
 
-  def assert_selector(selector, opts \\ %{}) do
-    actual = length(find_all_elements(selector))
+  def assert_selector(sel, opts \\ %{}) do
+    actual = count_selector(sel)
 
-    if opts[:count] do
-      assert actual == opts[:count],
-             "Expected to find selector \"#{selector}\" exactly #{opts[:count]} times, but found it #{
-               actual
-             } times."
+    if count = opts[:count] do
+      assert actual == count,
+             "Expected to find \"#{sel}\" #{count} times, but found it #{actual} times."
     else
-      assert actual >= 1,
-             "Expected to find selector \"#{selector}\" 1+ times, but found none."
+      assert actual >= 1, "Expected to find \"#{sel}\" 1+ times, but found it 0 times."
     end
   end
 
-  def refute_selector(selector) do
-    actual = length(find_all_elements(selector))
-    assert actual == 0, "Expected NOT to find selector \"#{selector}\", but found #{actual}."
+  def refute_selector(sel) do
+    actual = count_selector(sel)
+    assert actual == 0, "Expected NOT to find selector \"#{sel}\", but found #{actual}."
+  end
+
+  def count_selector(selector) do
+    length(find_all_elements(selector))
+  end
+
+  def wait_until(func, failures \\ 0) do
+    cond do
+      func.() == true ->
+        nil
+
+      failures < 10 ->
+        Process.sleep(100)
+        wait_until(func, failures + 1)
+
+      true ->
+        assert false, "Waited 1 sec, but the expected condition never became true."
+    end
   end
 
   #

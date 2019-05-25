@@ -7,7 +7,7 @@ defmodule RTLWeb.Manage.CodingController do
   plug :load_video
 
   def new(conn, _params) do
-    video = conn.assigns.video |> RTL.Repo.preload(:prompt)
+    video = conn.assigns.video
     changeset = Videos.coding_changeset(%{video_id: video.id})
 
     render conn, "new.html",
@@ -34,7 +34,7 @@ defmodule RTLWeb.Manage.CodingController do
   end
 
   def edit(conn, %{"id" => coding_id}) do
-    video = conn.assigns.video |> RTL.Repo.preload(:prompt)
+    video = conn.assigns.video
     coding = Videos.get_coding!(coding_id) |> Videos.get_coding_preloads()
     changeset = Videos.coding_changeset(coding, %{})
 
@@ -71,6 +71,7 @@ defmodule RTLWeb.Manage.CodingController do
   defp load_video(conn, _opts) do
     project = conn.assigns.project
     video = Videos.get_video!(conn.params["video_id"], project: project)
+    video = RTL.Repo.preload(video, :prompt)
     assign(conn, :video, video)
   end
 

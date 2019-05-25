@@ -2,14 +2,6 @@ defmodule RTLWeb.Manage.CodingControllerTest do
   use RTLWeb.ConnCase, async: true
   alias RTL.{Projects, Videos}
 
-  defp insert_project_prompt_video(opts \\ []) do
-    project = Factory.insert_project()
-    prompt = Factory.insert_prompt(project_id: project.id)
-    video = Factory.insert_video(prompt_id: prompt.id)
-    if opts[:admin], do: Projects.add_project_admin!(opts[:admin], project)
-    {project, prompt, video}
-  end
-
   describe "plugs" do
     test "all actions reject if not project admin", %{conn: conn} do
       {conn, _user} = login_as_new_user(conn)
@@ -139,6 +131,14 @@ defmodule RTLWeb.Manage.CodingControllerTest do
   ##
   # Helpers
   #
+
+  defp insert_project_prompt_video(opts \\ []) do
+    project = Factory.insert_project()
+    prompt = Factory.insert_prompt(project_id: project.id)
+    video = Factory.insert_video(prompt_id: prompt.id)
+    if opts[:admin], do: Projects.add_project_admin!(opts[:admin], project)
+    {project, prompt, video}
+  end
 
   def create_params(), do: %{"tags" => valid_tag_params()}
 

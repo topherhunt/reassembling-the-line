@@ -74,20 +74,22 @@
             &nbsp;
             <%= link raw("<i class='icon'>edit</i>"),
               to: Routes.manage_video_coding_path(RTLWeb.Endpoint, :edit, @project, video, video.coding),
-              class: "text-warning" %>
+              class: "text-warning test-link-code-video-#{video.id}" %>
           </div>
         <% else %>
           <div class="small text-muted">
-            Not yet tagged &nbsp;
+            Not yet tagged
+            &nbsp;
             <%= link raw("<i class='icon'>edit</i>"),
               to: Routes.manage_video_coding_path(RTLWeb.Endpoint, :new, @project, video),
-              class: "" %>
+              class: "test-link-code-video-#{video.id}" %>
           </div>
         <% end %>
       </td>
 
       <td>
-        <a href="#" class="btn btn-link text-danger"
+        <a href="#"
+          class="btn btn-link text-danger test-link-delete-video-<%= video.id %>"
           phx-click="delete_video"
           phx-value="<%= video.id %>"
           data-confirm="Are you sure you want to delete &quot;<%= video.title %>&quot; and its coding data?">
