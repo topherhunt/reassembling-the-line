@@ -7,10 +7,11 @@ defmodule RTLWeb.Manage.CodingController do
   plug :load_video
 
   def new(conn, _params) do
-    video = conn.assigns.video
+    video = conn.assigns.video |> RTL.Repo.preload(:prompt)
     changeset = Videos.coding_changeset(%{video_id: video.id})
 
     render conn, "new.html",
+      video: video,
       changeset: changeset,
       present_tags: [],
       all_tags: Videos.all_tags(),
@@ -33,10 +34,12 @@ defmodule RTLWeb.Manage.CodingController do
   end
 
   def edit(conn, %{"id" => coding_id}) do
+    video = conn.assigns.video |> RTL.Repo.preload(:prompt)
     coding = Videos.get_coding!(coding_id) |> Videos.get_coding_preloads()
     changeset = Videos.coding_changeset(coding, %{})
 
     render conn, "edit.html",
+      video: video,
       changeset: changeset,
       present_tags: Videos.summarize_taggings(coding.taggings),
       all_tags: Videos.all_tags(),
