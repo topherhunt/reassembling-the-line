@@ -151,15 +151,16 @@ $(function(){
 
     $('.js-interview-form-container').hide();
     $('.js-upload-progress-container').fadeIn();
-    $('.progress-bar').animate({width: "95%"}, 10000);
 
     var thumbnailUrl = $('.js-upload-data-container').data('thumbnail-presigned-s3-url');
     var recordingUrl = $('.js-upload-data-container').data('recording-presigned-s3-url');
 
     console.log("Uploading the thumbnail to S3...");
-    uploadFile(thumbnailUrl, thumbnailBlob, function() {
+    uploadFile(thumbnailUrl, thumbnailBlob, false, function() {
+      $('.progress-bar').css({width: "2%"});
       console.log("Uploading the recording to S3...");
-      uploadFile(recordingUrl, recordingBlob, function() {
+      uploadFile(recordingUrl, recordingBlob, true, function() {
+        $('.progress-bar').css({width: "100%"});
         console.log("Uploads complete. Submitting.");
         $('.js-submit-form-btn').click();
       });
@@ -273,13 +274,24 @@ $(function(){
     videoPlayer.muted = false;
   }
 
-  function uploadFile(url, fileBlob, onSuccess) {
+  function uploadFile(url, fileBlob, updateBarOnProgress, onSuccess) {
     $.ajax({
       url: url,
       type: "PUT",
       contentType: "binary/octet-stream",
       processData: false,
       data: fileBlob,
+      xhr: function() {
+        var xhr = $.ajaxSettings.xhr()
+        // Progress listener thanks to https://stackoverflow.com/a/46903750/1729692
+        xhr.upload.onprogress = function(data) {
+          if (updateBarOnProgress) {
+            var percent = Math.round((data.loaded / data.total) * 100);
+            $('.progress-bar').css({width: percent+"%"});
+          }
+        }
+        return xhr
+      },
       success: function() {
         console.log("File successfully uploaded!");
         onSuccess();
