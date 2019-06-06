@@ -168,8 +168,7 @@ $(function(){
   }
 
   function isPermissionGiven() {
-    return $('#video_permission_researchers').is(':checked') ||
-      $('#video_permission_public').is(':checked')
+    return !!$('[name="video[permission]"]:checked').val()
   }
 
   function isSpeakerNamePresent() {

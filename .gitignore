@@ -9,6 +9,7 @@
 erl_crash.dump
 *.log
 .DS_Store
+temp_*
 
 # Sensitive env variables
 config/secrets.exs
