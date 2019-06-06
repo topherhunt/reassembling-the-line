@@ -1,4 +1,4 @@
-<% content = project_setting(@project, "intro_page") %>
+<% content = project_setting(@project, "project_intro_page") %>
 <%= if content do %>
   <%= raw(content) %>
 <% else %>

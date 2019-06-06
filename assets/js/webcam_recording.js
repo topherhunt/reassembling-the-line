@@ -74,6 +74,11 @@ $(function(){
     location.reload();
   });
 
+  $('.js-download-recording').click(function(e){
+    e.preventDefault();
+    downloadRecording();
+  });
+
   $('.js-upload-and-submit-btn').click(function(e) {
     e.preventDefault();
     submitInterview();
@@ -136,6 +141,16 @@ $(function(){
     mediaRecorder.stop();
     recordingBlob = new Blob(recordingChunks, {'type': 'video/webm'});
     playRecording(recordingBlob);
+  }
+
+  function downloadRecording() {
+    var d = new Date()
+    var string = d.toLocaleString().replace(/[^\w]+/g, "-")
+
+    var link = $('.js-download-recording-link')[0]
+    link.download = string
+    link.href = window.URL.createObjectURL(recordingBlob)
+    link.click()
   }
 
   function submitInterview() {

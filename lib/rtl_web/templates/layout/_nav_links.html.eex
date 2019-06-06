@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-sm navbar-light bg-light">
   <%= if @conn.assigns[:project] do %>
-    <%= link to: Routes.explore_project_path(@conn, :show, @project), class: "navbar-brand" do %>
+    <%= link to: navbar_logo_url(@project), class: "navbar-brand" do %>
       <% custom_logo_html = project_setting(@project, "navbar_logo") %>
       <%= if custom_logo_html do %>
         <%= raw(custom_logo_html) %>
