@@ -5,7 +5,8 @@ defmodule RTLWeb.Manage.CodingControllerTest do
   describe "plugs" do
     test "all actions reject if not project admin", %{conn: conn} do
       {conn, _user} = login_as_new_user(conn)
-      {proj, _, vid} = insert_project_prompt_video()
+      {proj, prompt} = insert_project_and_prompt()
+      vid = Factory.insert_video(prompt_id: prompt.id)
 
       conn = get(conn, Routes.manage_video_coding_path(conn, :new, proj, vid))
 
@@ -14,7 +15,8 @@ defmodule RTLWeb.Manage.CodingControllerTest do
     end
 
     test "all actions reject if not logged in", %{conn: conn} do
-      {proj, _, vid} = insert_project_prompt_video()
+      {proj, prompt} = insert_project_and_prompt()
+      vid = Factory.insert_video(prompt_id: prompt.id)
 
       conn = get(conn, Routes.manage_video_coding_path(conn, :new, proj, vid))
 
@@ -26,7 +28,8 @@ defmodule RTLWeb.Manage.CodingControllerTest do
   describe "#new" do
     test "renders correctly", %{conn: conn} do
       {conn, user} = login_as_new_user(conn)
-      {proj, _, vid} = insert_project_prompt_video(admin: user)
+      {proj, prompt} = insert_project_and_prompt(admin: user)
+      vid = Factory.insert_video(prompt_id: prompt.id)
 
       conn = get(conn, Routes.manage_video_coding_path(conn, :new, proj, vid))
 
@@ -35,7 +38,8 @@ defmodule RTLWeb.Manage.CodingControllerTest do
 
     test "raises exception if video is not found", %{conn: conn} do
       {conn, user} = login_as_new_user(conn)
-      {proj, _, _vid} = insert_project_prompt_video(admin: user)
+      {proj, prompt} = insert_project_and_prompt(admin: user)
+      _vid = Factory.insert_video(prompt_id: prompt.id)
 
       assert_raise(Ecto.NoResultsError, fn ->
         get(conn, Routes.manage_video_coding_path(conn, :new, proj, "999"))
@@ -46,8 +50,9 @@ defmodule RTLWeb.Manage.CodingControllerTest do
   describe "#create" do
     test "saves my codes and redirects to the next video", %{conn: conn} do
       {conn, user} = login_as_new_user(conn)
-      {proj, _, v1} = insert_project_prompt_video(admin: user)
-      v2 = Factory.insert_video()
+      {proj, prompt} = insert_project_and_prompt(admin: user)
+      v1 = Factory.insert_video(prompt_id: prompt.id)
+      v2 = Factory.insert_video(prompt_id: prompt.id)
 
       params = %{"coding" => create_params()}
       conn = post(conn, Routes.manage_video_coding_path(conn, :create, proj, v1), params)
@@ -59,7 +64,8 @@ defmodule RTLWeb.Manage.CodingControllerTest do
 
     test "raises exception if video is already coded", %{conn: conn} do
       {conn, user} = login_as_new_user(conn)
-      {proj, _, vid} = insert_project_prompt_video(admin: user)
+      {proj, prompt} = insert_project_and_prompt(admin: user)
+      vid = Factory.insert_video(prompt_id: prompt.id)
       Factory.insert_coding(video_id: vid.id)
 
       assert_raise(Ecto.InvalidChangesetError, fn ->
@@ -70,7 +76,8 @@ defmodule RTLWeb.Manage.CodingControllerTest do
 
     test "raises exception if video_id is invalid", %{conn: conn} do
       {conn, user} = login_as_new_user(conn)
-      {proj, _, _vid} = insert_project_prompt_video(admin: user)
+      {proj, prompt} = insert_project_and_prompt(admin: user)
+      _vid = Factory.insert_video(prompt_id: prompt.id)
 
       assert_raise(Ecto.NoResultsError, fn ->
         params = %{"coding" => create_params()}
@@ -80,7 +87,8 @@ defmodule RTLWeb.Manage.CodingControllerTest do
 
     test "rejects changes if tags are invalid", %{conn: conn} do
       {conn, user} = login_as_new_user(conn)
-      {proj, _, vid} = insert_project_prompt_video(admin: user)
+      {proj, prompt} = insert_project_and_prompt(admin: user)
+      vid = Factory.insert_video(prompt_id: prompt.id)
 
       params = %{"coding" => create_params(%{"1" => %{"text" => "Topher's"}})}
       conn = post(conn, Routes.manage_video_coding_path(conn, :create, proj, vid), params)
@@ -92,7 +100,8 @@ defmodule RTLWeb.Manage.CodingControllerTest do
   describe "#edit" do
     test "renders correctly", %{conn: conn} do
       {conn, user} = login_as_new_user(conn)
-      {proj, _, vid} = insert_project_prompt_video(admin: user)
+      {proj, prompt} = insert_project_and_prompt(admin: user)
+      vid = Factory.insert_video(prompt_id: prompt.id)
       coding = Factory.insert_coding(video_id: vid.id)
 
       conn = get(conn, Routes.manage_video_coding_path(conn, :edit, proj, vid, coding))
@@ -103,7 +112,8 @@ defmodule RTLWeb.Manage.CodingControllerTest do
   describe "#update" do
     test "saves my codes and redirects to the videos list", %{conn: conn} do
       {conn, user} = login_as_new_user(conn)
-      {proj, _, vid} = insert_project_prompt_video(admin: user)
+      {proj, prompt} = insert_project_and_prompt(admin: user)
+      vid = Factory.insert_video(prompt_id: prompt.id)
       coding = Factory.insert_coding(video_id: vid.id, tags: [%{"text" => "old_tag"}])
 
       update_path = Routes.manage_video_coding_path(conn, :update, proj, vid, coding)
@@ -116,7 +126,8 @@ defmodule RTLWeb.Manage.CodingControllerTest do
 
     test "rejects changes if tags are invalid", %{conn: conn} do
       {conn, user} = login_as_new_user(conn)
-      {proj, _, vid} = insert_project_prompt_video(admin: user)
+      {proj, prompt} = insert_project_and_prompt(admin: user)
+      vid = Factory.insert_video(prompt_id: prompt.id)
       coding = Factory.insert_coding(video_id: vid.id, tags: [%{"text" => "old1"}])
 
       update_path = Routes.manage_video_coding_path(conn, :update, proj, vid, coding)
@@ -132,12 +143,11 @@ defmodule RTLWeb.Manage.CodingControllerTest do
   # Helpers
   #
 
-  defp insert_project_prompt_video(opts \\ []) do
+  defp insert_project_and_prompt(opts \\ []) do
     project = Factory.insert_project()
     prompt = Factory.insert_prompt(project_id: project.id)
-    video = Factory.insert_video(prompt_id: prompt.id)
     if opts[:admin], do: Projects.add_project_admin!(opts[:admin], project)
-    {project, prompt, video}
+    {project, prompt}
   end
 
   def create_params(), do: %{"tags" => valid_tag_params()}

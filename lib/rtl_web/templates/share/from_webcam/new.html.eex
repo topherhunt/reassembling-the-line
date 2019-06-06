@@ -107,10 +107,12 @@
             <span class="text-danger">(required)</span>
           </div>
           <%= for {label, value} <- permission_options(@project) do %>
-            <label>
-              <%= radio_button f, :permission, value %>
-              <span class="pl-2"><%= raw(label) %></span>
-            </label>
+            <div>
+              <label>
+                <%= radio_button f, :permission, value %>
+                <span class="pl-2"><%= raw(label) %></span>
+              </label>
+            </div>
           <% end %>
         </div>
 

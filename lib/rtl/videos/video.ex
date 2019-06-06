@@ -51,7 +51,6 @@ defmodule RTL.Videos.Video do
       :recording_filename,
       :thumbnail_filename
     ])
-    |> validate_inclusion(:permission, ["public", "researchers"])
   end
 
   def new_webcam_recording_changeset(params \\ %{}) do
@@ -76,7 +75,6 @@ defmodule RTL.Videos.Video do
       :recording_filename,
       :thumbnail_filename
     ])
-    |> validate_inclusion(:permission, ["public", "researchers"])
   end
 
   #

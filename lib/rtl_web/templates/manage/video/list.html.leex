@@ -43,10 +43,13 @@
         </div>
         <div class="small">
           Permission:
-          <%= if video.permission == "public" do %>
-            <span class="text-success"><i class="icon">check_circle</i> public</span>
-          <% else %>
-            <span class="text-warning"><i class="icon">lock</i> only you</span>
+          <%= case video.permission do %>
+            <% "public" -> %>
+              <span class="u-box-shadow u-rounded-tag text-success"><i class="icon">check_circle</i> <%= video.permission %></span>
+            <% "researchers" -> %>
+              <span class="u-box-shadow u-rounded-tag text-warning"><i class="icon">lock</i> <%= video.permission %></span>
+            <% _ -> %>
+              <span class="u-box-shadow u-rounded-tag text-info"><%= video.permission %></span>
           <% end %>
           /
           <%= if video.permission_show_name do %>
@@ -66,7 +69,7 @@
             Tags:
             <%= if length(tag_list(video)) > 0 do %>
               <%= for tag <- tag_list(video) do %>
-                <span class="u-box-shadow" style="background-color: #fff; border-radius: 15px; padding: 3px 5px 3px 5px; "><%= tag %></span>
+                <span class="u-box-shadow u-rounded-tag"><%= tag %></span>
               <% end %>
             <% else %>
               <span class="em text-muted">(none)</span>
