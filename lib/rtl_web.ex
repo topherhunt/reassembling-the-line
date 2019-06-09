@@ -19,7 +19,7 @@ defmodule RTLWeb do
 
   def controller do
     quote do
-      use Phoenix.Controller, namespace: RTLWeb, log: :info
+      use Phoenix.Controller, namespace: RTLWeb, log: false
       # Make sure we get live_render from P.LV.Controller, not Phoenix.LiveView
       import Phoenix.LiveView.Controller, only: [live_render: 3]
       import Plug.Conn

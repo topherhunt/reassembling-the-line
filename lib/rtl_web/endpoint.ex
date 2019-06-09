@@ -23,7 +23,8 @@ defmodule RTLWeb.Endpoint do
     plug(Phoenix.CodeReloader)
   end
 
-  plug(Plug.Logger)
+  # Custom one-line request logging
+  plug RTLWeb.RequestLogger
 
   plug(Plug.Parsers,
     parsers: [:urlencoded, :multipart, :json],
