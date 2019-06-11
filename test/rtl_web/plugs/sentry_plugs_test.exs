@@ -33,7 +33,7 @@ defmodule RTLWeb.SentryPlugsTest do
     end
 
     test "redirects and halts if current_user is present", %{conn: conn} do
-      conn = assign(conn, :current_user, "something truthy")
+      conn = assign(conn, :current_user, %RTL.Accounts.User{id: 1})
 
       conn = SentryPlugs.ensure_not_logged_in(conn, [])
 

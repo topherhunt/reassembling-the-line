@@ -3,7 +3,10 @@
 label { cursor: pointer; }
 .label a { color: #fff !important; }
 table.table { width: auto; margin-bottom: 0px; }
-.navbar { box-shadow: 0px 0px 5px 0px #bbb; }
+.navbar {
+  box-shadow: 0px 0px 5px 0px #bbb;
+  padding: 0.1rem 1rem;
+}
 .nav-link.active { background-color: #eee; }
 .btn { border-radius: 0.5rem; }
 

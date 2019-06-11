@@ -10,9 +10,4 @@ defmodule RTLWeb.RouteHelpers do
     # IO.inspect(conn, label: "The conn")
     if conn.request_path == path, do: "active"
   end
-
-  def navbar_logo_url(project) do
-    RTLWeb.TextHelpers.project_setting(project, "navbar_logo_url") ||
-      Routes.explore_project_path(RTLWeb.Endpoint, :show, project)
-  end
 end
