@@ -34,7 +34,7 @@ config :rtl, RTLWeb.Endpoint,
 
 config :rtl, RTL.Mailer, adapter: Bamboo.LocalAdapter
 
-config :logger, level: :info
+config :logger, level: :debug
 
 # higher stack depth (impairs performance)
 config :phoenix, :stacktrace_depth, 20
