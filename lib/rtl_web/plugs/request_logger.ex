@@ -6,54 +6,38 @@ defmodule RTLWeb.RequestLogger do
 
   @behaviour Plug
 
-  def init(opts) do
-    %{log_level: opts[:log_level] || :info}
-  end
+  def init(opts), do: opts
 
-  def call(conn, opts) do
+  def call(conn, _opts) do
     start_time = System.monotonic_time()
 
     Plug.Conn.register_before_send(conn, fn(conn) ->
-      # Uses a func so the string doesn't need to be computed unless log_level is active.
-      # Charlist would be more performant, but I'm not pro enough to worry about that.
-      # Other data I could include, but feels redundant: remote_ip, port, owner (PID).
-      Logger.log(
-        opts.log_level,
-        fn ->
-          "■ [#{conn.method} #{conn.request_path}] "<>
-          "params=#{inspect(Phoenix.Logger.filter_values(conn.params))} "<>
-          "user=#{print_user(conn)} "<>
-          "status=#{conn.status}#{print_redirect(conn)} "<>
-          "duration=#{print_time_taken(start_time)}"
-        end)
+      Logger.log(:info, fn ->
+        # We don't want passwords etc. being logged
+        params = inspect(Phoenix.Logger.filter_values(conn.params))
+        # Clean up GraphQL query params for easier readability
+        params = Regex.replace(~r/\\n/, params, " ")
+        params = Regex.replace(~r/ +/, params, " ")
+
+        # Log any important session data eg. logged-in user
+        user = conn.assigns.current_user
+        user_string = if user, do: "#{user.id} (#{user.full_name})", else: "(none)"
+
+        # Note redirect, if any
+        redirect = Plug.Conn.get_resp_header(conn, "location")
+        redirect_string = if redirect != [], do: " redirected_to=#{redirect}", else: ""
+
+        # Calculate time taken (always in ms for consistency
+        stop_time = System.monotonic_time()
+        time_us = System.convert_time_unit(stop_time - start_time, :native, :microsecond)
+        time_ms = div(time_us, 100) / 10
+
+        "■ [#{conn.method} #{conn.request_path}] user=#{user_string} params=#{params} "<>
+        "status=#{conn.status}#{redirect_string} duration=#{time_ms}ms"
+        # Other data I could include, but feels redundant: remote_ip, port, owner (PID).
+      end)
+
       conn
     end)
-  end
-
-  defp print_user(conn) do
-    if conn.assigns.current_user do
-      "#{conn.assigns.current_user.id} (#{conn.assigns.current_user.full_name})"
-    else
-      "(none)"
-    end
-  end
-
-  defp print_redirect(conn) do
-    if conn.status == 302 do
-      " redirected_to=#{Plug.Conn.get_resp_header(conn, "location")}"
-    else
-      ""
-    end
-  end
-
-  defp print_time_taken(start_time) do
-    stop_time = System.monotonic_time()
-    microsecs = System.convert_time_unit(stop_time - start_time, :native, :microsecond)
-
-    if microsecs > 1000 do
-      [microsecs |> div(1000) |> Integer.to_string(), "ms"]
-    else
-      [Integer.to_string(microsecs), "µs"]
-    end
   end
 end
