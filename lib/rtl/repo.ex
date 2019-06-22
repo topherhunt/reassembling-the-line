@@ -13,10 +13,8 @@ defmodule RTL.Repo do
   # Raises if none found
   def first!(query), do: query |> limit(1) |> Repo.one!()
 
-  # NOTE: Only works with SELECT statements
-  def to_sql(query), do: Ecto.Adapters.SQL.to_sql(:all, Repo, query)
-
   # Inspired by https://github.com/elixir-ecto/ecto/blob/v2.2.11/lib/ecto/log_entry.ex
+  # (only relevant to Ecto v2!)
   def log_query(entry) do
     Logger.log(:debug, fn ->
       {ok, _} = entry.result

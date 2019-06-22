@@ -48,6 +48,8 @@
               <span class="u-box-shadow u-rounded-tag text-success"><i class="icon">check_circle</i> <%= video.permission %></span>
             <% "researchers" -> %>
               <span class="u-box-shadow u-rounded-tag text-warning"><i class="icon">lock</i> <%= video.permission %></span>
+            <% nil -> %>
+              <span class="em">(unknown)</span>
             <% _ -> %>
               <span class="u-box-shadow u-rounded-tag text-info"><%= video.permission %></span>
           <% end %>

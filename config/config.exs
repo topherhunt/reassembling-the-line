@@ -26,9 +26,9 @@ config :rtl, RTL.Repo,
 
 config :rtl, RTLWeb.Endpoint,
   url: [host: "localhost"],
+  secret_key_base: H.env!("SECRET_KEY_BASE"),
   render_errors: [view: RTLWeb.ErrorView, accepts: ~w(html json)],
   pubsub: [name: RTL.PubSub, adapter: Phoenix.PubSub.PG2],
-  secret_key_base: H.env!("SECRET_KEY_BASE"),
   live_view: [signing_salt: H.env!("SIGNING_SALT")]
 
 config :phoenix, :template_engines, leex: Phoenix.LiveView.Engine
@@ -49,10 +49,7 @@ config :ueberauth, Ueberauth,
   providers: [
     auth0: {
       Ueberauth.Strategy.Auth0,
-      [
-        request_path: "/auth/login",
-        callback_path: "/auth/auth0_callback"
-      ]
+      [request_path: "/auth/login", callback_path: "/auth/auth0_callback"]
     }
   ]
 
