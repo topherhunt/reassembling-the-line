@@ -51,14 +51,6 @@ defmodule RTLWeb.Share.FromWebcamController do
     url
   end
 
-  defp generate_title(params) do
-    if H.is_present?(params["speaker_name"]) do
-      "Interview with #{params["speaker_name"]}"
-    else
-      "Anonymous recording"
-    end
-  end
-
   defp submission_confirmation_message do
     "Thank you! We've received your recording and we're looking forward to learning from your experience."
   end

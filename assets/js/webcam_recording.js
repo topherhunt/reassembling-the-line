@@ -79,7 +79,7 @@ $(function(){
     downloadRecording();
   });
 
-  $('.js-upload-and-submit-btn').click(function(e) {
+  $('.js-upload-and-submit-btn, .js-retry-upload').click(function(e) {
     e.preventDefault();
     submitInterview();
   });
@@ -165,6 +165,7 @@ $(function(){
     }
 
     $('.js-interview-form-container').hide();
+    $('.js-upload-failed').hide();
     $('.js-upload-progress-container').fadeIn();
 
     var thumbnailUrl = $('.js-upload-data-container').data('thumbnail-presigned-s3-url');
@@ -312,9 +313,8 @@ $(function(){
       },
       error: function() {
         console.log("File not uploaded. Args: ", arguments);
-        // TODO: It would be nice to report the error client-side (Rollbar?) so we aren't in the dark about what caused this unanticipated failure
-        alert("There was an error, and we were unable to save your recording. Please refresh the page and try again, or contact us for help.");
         $('.js-upload-progress-container').hide();
+        $('.js-upload-failed').show(200);
       }
     });
   }

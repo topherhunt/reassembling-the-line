@@ -59,11 +59,15 @@
         </div>
       </div>
     </div>
+
     <canvas class="js-thumbnail-canvas js-hidden"></canvas>
+
     <a class="u-hidden js-download-recording-link"></a>
+
     <div class="js-incompatible-browser-alert alert alert-danger js-hidden">
-      Sorry, online recording requires Chrome or Firefox web browser. Please load this page in Chrome or Firefox and try again.
+      <%= render "_unsupported_browser.html" %>
     </div>
+
     <div class="js-init-failed-alert alert alert-danger js-hidden">
       We were unable to access your webcam for recording. Please check your browser's settings to allow this page to use your webcam and microphone.
     </div>
@@ -148,11 +152,23 @@
 <div class="row">
   <div class="col-sm-8">
     <div class="js-upload-data-container" data-thumbnail-presigned-s3-url='<%= @thumbnail_presigned_s3_url %>' data-recording-presigned-s3-url='<%= @recording_presigned_s3_url %>'></div>
+
     <div class="js-upload-progress-container js-hidden">
       <p><strong>We're saving your recording.</strong> Do not close or refresh the page until the upload is complete.</p>
       <div class="progress">
         <div class="progress-bar progress-bar-striped active" role="progressbar" style="width: 1%;"></div>
       </div>
+    </div>
+
+    <div class="js-upload-failed alert alert-danger js-hidden">
+      <p><strong>There was an error uploading your recording.</strong> What you can do:</p>
+      <ul>
+        <li><%= link "Retry upload", to: "#", class: "js-retry-upload" %></li>
+        <li><%= link "Download my video for safekeeping (.webm)", to: "#", class: "js-download-recording" %></li>
+        <li><%= link "Refresh the page and start over", to: "", class: "text-danger" %></li>
+      </ul>
+      <p></p>
+      <p></p>
     </div>
   </div>
 </div>
