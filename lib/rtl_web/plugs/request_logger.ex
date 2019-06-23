@@ -19,6 +19,8 @@ defmodule RTLWeb.RequestLogger do
         params = Regex.replace(~r/\\n/, params, " ")
         params = Regex.replace(~r/ +/, params, " ")
 
+        ip = conn.remote_ip |> Tuple.to_list() |> Enum.join(".")
+
         # Log any important session data eg. logged-in user
         user = conn.assigns.current_user
         user_string = if user, do: "#{user.id} (#{user.full_name})", else: "(none)"
@@ -32,9 +34,9 @@ defmodule RTLWeb.RequestLogger do
         time_us = System.convert_time_unit(stop_time - start_time, :native, :microsecond)
         time_ms = div(time_us, 100) / 10
 
-        "■ [#{conn.method} #{conn.request_path}] user=#{user_string} params=#{params} "<>
+        "■ method=#{conn.method} path=#{conn.request_path} params=#{params} "<>
+        "ip=#{ip} user=#{user_string} "<>
         "status=#{conn.status}#{redirect_string} duration=#{time_ms}ms"
-        # Other data I could include, but feels redundant: remote_ip, port, owner (PID).
       end)
 
       conn
