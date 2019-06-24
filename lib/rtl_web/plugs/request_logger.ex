@@ -22,7 +22,7 @@ defmodule RTLWeb.RequestLogger do
         ip = conn.remote_ip |> Tuple.to_list() |> Enum.join(".")
 
         # Log any important session data eg. logged-in user
-        user = conn.assigns.current_user
+        user = conn.assigns[:current_user]
         user_string = if user, do: "#{user.id} (#{user.full_name})", else: "(none)"
 
         # Note redirect, if any

@@ -97,6 +97,15 @@ defmodule RTL.Videos do
 
   def thumbnail_url(v), do: Attachment.url({v.thumbnail_filename, "thumbnail"})
 
+  def presigned_url(path) do
+    # See https://stackoverflow.com/a/42211543/1729692
+    bucket = System.get_env("S3_BUCKET")
+    config = ExAws.Config.new(:s3)
+    params = [{"x-amz-acl", "public-read"}, {"contentType", "binary/octet-stream"}]
+    {:ok, url} = ExAws.S3.presigned_url(config, :put, bucket, path, query_params: params)
+    url
+  end
+
   #
   # Codings
   #

@@ -85,7 +85,7 @@ $(function(){
   });
 
   //
-  // Handler functions
+  // Workflow handlers
   //
 
   function initializeRecording(stream) {
@@ -183,6 +183,10 @@ $(function(){
     });
   }
 
+  //
+  // Helpers
+  //
+
   function isPermissionGiven() {
     return !!$('[name="video[permission]"]:checked').val()
   }
@@ -190,10 +194,6 @@ $(function(){
   function isSpeakerNamePresent() {
     return $("#video_speaker_name").val().trim() != ""
   }
-
-  //
-  // Helpers
-  //
 
   function getBrowserName() {
     var nAgt = navigator.userAgent;

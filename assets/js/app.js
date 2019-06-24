@@ -23,3 +23,4 @@ import "./videos_list";
 import "./coding";
 import "./explore";
 import "./webcam_recording";
+import "./admin_video_upload";

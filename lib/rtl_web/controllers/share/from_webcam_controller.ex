@@ -1,6 +1,6 @@
 defmodule RTLWeb.Share.FromWebcamController do
   use RTLWeb, :controller
-  alias RTL.Helpers, as: H
+  import RTL.Videos, only: [presigned_url: 1]
   alias RTL.{Factory, Videos}
 
   plug :load_project
@@ -41,15 +41,6 @@ defmodule RTLWeb.Share.FromWebcamController do
   #
   # Helpers
   #
-
-  defp presigned_url(path) do
-    # See https://stackoverflow.com/a/42211543/1729692
-    bucket = System.get_env("S3_BUCKET")
-    config = ExAws.Config.new(:s3)
-    params = [{"x-amz-acl", "public-read"}, {"contentType", "binary/octet-stream"}]
-    {:ok, url} = ExAws.S3.presigned_url(config, :put, bucket, path, query_params: params)
-    url
-  end
 
   defp submission_confirmation_message do
     "Thank you! We've received your recording and we're looking forward to learning from your experience."
