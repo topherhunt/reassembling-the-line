@@ -19,42 +19,21 @@ $(function(){
   //
 
   function uploadAndSubmit() {
-    if (!isPermissionGiven()) {
-      alert("Please give permission for us to use this recording.");
-      return;
-    }
+    if (!isPermissionGiven()) { raise("Please give us permission to use this recording.") }
+    if (!isSpeakerNamePresent()) { raise("Speaker name is required.") }
 
-    if (!isSpeakerNamePresent()) {
-      alert("Speaker name is required.");
-      return;
-    }
-
-    // Grab the file blobs that we'll upload
-    var thumbnailFile = $('.js-thumbnail-attachment')[0].files[0]
-    var recordingFile = $('.js-video-attachment')[0].files[0]
-
-    if (!thumbnailFile) { alert("Please attach a thumbnail image."); return }
-    if (!recordingFile) { alert("Please attach a video recording."); return }
-
-    var thumbnailExt = /.+\.(\w+)/.exec(thumbnailFile.name)[1]
-    var recordingExt = /.+\.(\w+)/.exec(recordingFile.name)[1]
-
-    var thumbnailUrl = getUploadUrl(thumbnailExt)
-    var recordingUrl = getUploadUrl(recordingExt)
-
-    var filenameUuid = $('.js-upload-urls').data('uuid')
-    $('.js-thumbnail-filename').val(filenameUuid+'.'+thumbnailExt)
-    $('.js-recording-filename').val(filenameUuid+'.'+recordingExt)
+    var thumbnailData = validateAndPrepFileForUpload('thumbnail')
+    var recordingData = validateAndPrepFileForUpload('recording')
 
     $('.js-admin-upload-video-form').hide();
     $('.js-upload-failed').hide();
     $('.js-upload-progress-container').fadeIn();
 
     console.log("Uploading the thumbnail to S3...");
-    uploadFile(thumbnailUrl, thumbnailFile, false, function() {
+    uploadFile(thumbnailData.url, thumbnailData.file, false, function() {
       $('.progress-bar').css({width: "2%"});
       console.log("Uploading the recording to S3...");
-      uploadFile(recordingUrl, recordingFile, true, function() {
+      uploadFile(recordingData.url, recordingData.file, true, function() {
         $('.progress-bar').css({width: "100%"});
         console.log("Uploads complete. Submitting.");
         $('.js-submit-form-btn').click();
@@ -62,15 +41,25 @@ $(function(){
     });
   }
 
-  function getUploadUrl(ext) {
-    var uploadUrls = $('.js-upload-urls').data('urls')
-    // var ext = /.+\.(\w+)/.exec(filename)[1]
-    if (uploadUrls[ext]) {
-      return uploadUrls[ext]
-    } else {
-      alert("Sorry, the file you've attached isn't a supported type. ("+ext+") Thumbnails must be in .jpg format; video must be in .webm or .mp4 format.")
-      return abortThisThread()
-    }
+  function validateAndPrepFileForUpload(type) {
+    if (!['thumbnail', 'recording'].includes(type)) raise("Invalid file type: "+type)
+
+    var file = $('.js-'+type+'-attachment')[0].files[0] || raise(type+" is required.")
+    var ext = /.+\.(\w+)/.exec(file.name)[1]
+    var uuid = $('.js-upload-urls').data('uuid')
+    var allUploadUrls = $('.js-upload-urls').data('urls')
+    var uploadUrl = allUploadUrls[ext] || raise("Unsupported "+type+" extension: ."+ext)
+
+    // Set the filename input fields, so the Video record knows what files to link to
+    $('.js-'+type+'-filename').val(uuid+'.'+ext)
+
+    return {file: file, url: uploadUrl}
+  }
+
+  function raise(msg) {
+    console.error(msg)
+    alert(msg)
+    callNonexistentMethodToAbort()
   }
 
   function uploadFile(url, fileBlob, updateBarOnProgress, onSuccess) {

@@ -1,3 +1,5 @@
+<%# NOTE: This page should ~90% mirror from_webcam/new, but has enough differences that de-duplicating it would be tough. Watch out for introducing subtle JS bugs, since it's hard to test end-to-end. %>
+
 <div class="test-page-manage-video-new"></div>
 
 <h1>Upload a video</h1>
@@ -10,7 +12,7 @@
     <div class="form-group">
       <div><strong>Video recording</strong> <span class="text-danger">(required)</span></div>
       <div class="em small">A recording in <strong>.webm or .mp4</strong> format.</div>
-      <input type="file" class="js-video-attachment form-control" accept="video/mp4,video/*">
+      <input type="file" class="js-recording-attachment form-control" accept="video/mp4,video/*">
     </div>
 
     <div class="form-group">
