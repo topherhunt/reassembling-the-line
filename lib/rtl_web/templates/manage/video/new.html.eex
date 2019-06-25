@@ -7,7 +7,7 @@
 <p>Use this page to manually upload a recording. This is useful if the interview was captured offline and saved to a file.</p>
 
 <div class="js-admin-upload-video-form">
-  <%= form_for @changeset, Routes.manage_video_path(@conn, :create, @project), fn(f) -> %>
+  <%= form_for @changeset, Routes.manage_video_path(@conn, :create, @project), [class: "js-suppress-enter"], fn(f) -> %>
 
     <div class="form-group">
       <div><strong>Video recording</strong> <span class="text-danger">(required)</span></div>

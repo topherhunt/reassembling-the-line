@@ -19,4 +19,13 @@ $(function(){
     var valueToCopy = $(fromSel).val()
     $(toSel).val(valueToCopy)
   })
+
+  // Apply this class to an input or an entire form to suppress submit on enter.
+  // (HTML-only method: https://stackoverflow.com/a/51507806/1729692)
+  $('.js-suppress-enter').keydown(function(e){
+    if (e.keyCode == 13) {
+      console.log("ENTER press detected, default handler suppressed.")
+      e.preventDefault()
+    }
+  })
 });
