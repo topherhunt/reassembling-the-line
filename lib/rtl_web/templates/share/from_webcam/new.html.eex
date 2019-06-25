@@ -139,8 +139,11 @@
         </div>
 
         <%= hidden_input f, :prompt_id, value: @prompt.id %>
-        <%= hidden_input f, :thumbnail_filename, value: @thumbnail_filename %>
-        <%= hidden_input f, :recording_filename, value: @recording_filename %>
+        <%# The JS is hard-coded to use .jpg and .webm, but we have the JS populate these
+            fields for consistency, rather than have the hard-coding happen in 2 places %>
+        <%= hidden_input f, :thumbnail_filename, value: "TO POPULATE", class: "js-thumbnail-filename" %>
+        <%= hidden_input f, :recording_filename, value: "TO POPULATE", class: "js-recording-filename" %>
+
         <%= link "Submit your recording", to: "#", class: "js-upload-and-submit-btn btn btn-primary" %>
         <%= submit " ", class: "js-submit-form-btn js-hidden", style: "display: none;" %>
 
@@ -151,7 +154,9 @@
 
 <div class="row">
   <div class="col-sm-8">
-    <div class="js-upload-data-container" data-thumbnail-presigned-s3-url='<%= @thumbnail_presigned_s3_url %>' data-recording-presigned-s3-url='<%= @recording_presigned_s3_url %>'></div>
+    <div class="js-upload-data"
+      data-uuid='<%= @filename_uuid %>'
+      data-urls='<%= Jason.encode!(@presigned_upload_urls) %>'></div>
 
     <div class="js-upload-progress-container js-hidden">
       <p><strong>We're saving your recording.</strong> Do not close or refresh the page until the upload is complete.</p>

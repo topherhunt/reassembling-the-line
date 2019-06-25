@@ -22,7 +22,9 @@
     </div>
 
     <div class="form-group">
-      <%= label f, :prompt_id %>
+      <%= label f, :prompt_id do %>
+        <strong>Prompt</strong>
+      <% end %>
       <%= select f, :prompt_id, Enum.map(@prompts, & {HtmlSanitizeEx.strip_tags(&1.html), &1.id}), class: "form-control" %>
     </div>
 

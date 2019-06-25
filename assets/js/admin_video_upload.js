@@ -19,8 +19,8 @@ $(function(){
   //
 
   function uploadAndSubmit() {
-    if (!isPermissionGiven()) { raise("Please give us permission to use this recording.") }
-    if (!isSpeakerNamePresent()) { raise("Speaker name is required.") }
+    if (!isSpeakerNamePresent()) { raise("Please fill in your name.") }
+    if (!isPermissionGiven()) { raise("Please select a permission option.") }
 
     var thumbnailData = validateAndPrepFileForUpload('thumbnail')
     var recordingData = validateAndPrepFileForUpload('recording')
@@ -50,16 +50,10 @@ $(function(){
     var allUploadUrls = $('.js-upload-urls').data('urls')
     var uploadUrl = allUploadUrls[ext] || raise("Unsupported "+type+" extension: ."+ext)
 
-    // Set the filename input fields, so the Video record knows what files to link to
+    // Set the filename input fields, so the Video record knows what files to link to.
     $('.js-'+type+'-filename').val(uuid+'.'+ext)
 
     return {file: file, url: uploadUrl}
-  }
-
-  function raise(msg) {
-    console.error(msg)
-    alert(msg)
-    callNonexistentMethodToAbort()
   }
 
   function uploadFile(url, fileBlob, updateBarOnProgress, onSuccess) {
@@ -98,5 +92,11 @@ $(function(){
 
   function isSpeakerNamePresent() {
     return $("#video_speaker_name").val().trim() != ""
+  }
+
+  function raise(msg) {
+    console.error(msg)
+    alert(msg)
+    callNonexistentMethodToAbort()
   }
 });

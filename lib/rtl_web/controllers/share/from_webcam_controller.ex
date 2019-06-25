@@ -11,15 +11,16 @@ defmodule RTLWeb.Share.FromWebcamController do
   def new(conn, _params) do
     changeset = Videos.Video.new_webcam_recording_changeset()
     uuid = Factory.random_uuid()
-    thumbnail_filename = "#{uuid}.jpg"
-    recording_filename = "#{uuid}.webm"
 
     render(conn, "new.html",
       changeset: changeset,
-      thumbnail_filename: thumbnail_filename,
-      recording_filename: recording_filename,
-      thumbnail_presigned_s3_url: presigned_url("uploads/thumbnail/#{thumbnail_filename}"),
-      recording_presigned_s3_url: presigned_url("uploads/recording/#{recording_filename}")
+      filename_uuid: uuid,
+      # Generate presigned upload urls for all supported filetypes.
+      # (The JS only uses .jpg and .webm for now, but this approach gives us flexibility)
+      presigned_upload_urls: %{
+        jpg: presigned_url("uploads/thumbnail/#{uuid}.jpg"),
+        webm: presigned_url("uploads/recording/#{uuid}.webm")
+      }
     )
   end
 

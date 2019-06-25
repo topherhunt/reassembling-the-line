@@ -154,23 +154,26 @@ $(function(){
   }
 
   function submitInterview() {
-    if (!isPermissionGiven()) {
-      alert("Please give permission for us to use this recording.");
-      return;
-    }
-
-    if (!isSpeakerNamePresent()) {
-      alert("Please enter your name before submitting this recording.");
-      return;
-    }
+    if (!isSpeakerNamePresent()) { raise("Please fill in your name.") }
+    if (!isPermissionGiven()) { raise("Please select a permission option.") }
 
     $('.js-interview-form-container').hide();
     $('.js-upload-failed').hide();
     $('.js-upload-progress-container').fadeIn();
 
-    var thumbnailUrl = $('.js-upload-data-container').data('thumbnail-presigned-s3-url');
-    var recordingUrl = $('.js-upload-data-container').data('recording-presigned-s3-url');
+    // Grab the presigned S3 upload urls corresponding to each file type.
+    // For now we always capture as .jpg and .webm, but .mp4 would be a more desireable
+    // default in the future.
+    let uploadUrls = $('.js-upload-data').data('urls')
+    let thumbnailUrl = uploadUrls.jpg || raise("Can't find .jpg upload url")
+    let recordingUrl = uploadUrls.webm || raise("Can't find .webm upload url")
 
+    // Set the filename input fields, so the Video record knows what files to link to.
+    let uuid = $('.js-upload-data').data('uuid')
+    $('.js-thumbnail-filename').val(uuid+'.jpg')
+    $('.js-recording-filename').val(uuid+'.webm')
+
+    // Start the actual uploads.
     console.log("Uploading the thumbnail to S3...");
     uploadFile(thumbnailUrl, thumbnailBlob, false, function() {
       $('.progress-bar').css({width: "2%"});
@@ -186,14 +189,6 @@ $(function(){
   //
   // Helpers
   //
-
-  function isPermissionGiven() {
-    return !!$('[name="video[permission]"]:checked').val()
-  }
-
-  function isSpeakerNamePresent() {
-    return $("#video_speaker_name").val().trim() != ""
-  }
 
   function getBrowserName() {
     var nAgt = navigator.userAgent;
@@ -289,6 +284,14 @@ $(function(){
     videoPlayer.muted = false;
   }
 
+  function isPermissionGiven() {
+    return !!$('[name="video[permission]"]:checked').val()
+  }
+
+  function isSpeakerNamePresent() {
+    return $("#video_speaker_name").val().trim() != ""
+  }
+
   function uploadFile(url, fileBlob, updateBarOnProgress, onSuccess) {
     $.ajax({
       url: url,
@@ -317,5 +320,11 @@ $(function(){
         $('.js-upload-failed').show(200);
       }
     });
+  }
+
+  function raise(msg) {
+    console.error(msg)
+    alert(msg)
+    callNonexistentMethodToAbort()
   }
 });
