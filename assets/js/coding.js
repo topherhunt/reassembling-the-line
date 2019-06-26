@@ -1,3 +1,8 @@
+// Logic for the coding page.
+// Uses my homegrown components.
+// Will be replaced probably by React+Apollo soon.
+
+import $ from "jquery"
 import { CodingTagComponent } from './components/coding_tag_component';
 
 var CodingHelpers = {

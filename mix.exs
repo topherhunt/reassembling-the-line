@@ -48,6 +48,11 @@ defmodule RTL.Mixfile do
       {:phoenix_live_view, github: "phoenixframework/phoenix_live_view"},
       {:html_sanitize_ex, "~> 1.3"},
 
+      # API
+      {:absinthe, "~> 1.4"},
+      {:absinthe_plug, "~> 1.4"},
+      {:react_phoenix, "~> 1.0"},
+
       # Auth
       {:ueberauth, "~> 0.6"},
       {:ueberauth_auth0, "~> 0.3"},

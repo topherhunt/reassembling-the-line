@@ -10,6 +10,8 @@
 // - https://stackoverflow.com/a/42211543/1729692
 //
 
+import $ from "jquery"
+
 $(function(){
   if ($('.js-webcam-recording-container').length == 0) { return; }
 

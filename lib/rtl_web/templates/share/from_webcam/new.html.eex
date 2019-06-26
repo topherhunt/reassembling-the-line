@@ -15,9 +15,10 @@
   <div class="col-sm-4">
     <h1>&nbsp;</h1>
     <div>
-      <p class="mb-1"><%= link raw("<i class=\"ion-logo-youtube\"></i>&nbsp; How to use this page"), to: "https://www.youtube.com/watch?v=qc8IFlTTtKc", target: "_blank", class: "text-primary" %></p>
-      <p class="mb-1"><%= link raw("<i class=\"ion-logo-youtube\"></i>&nbsp; Tips on making your video look good"), to: "https://www.youtube.com/watch?v=rQwanxQmFnc&feature=youtu.be", target: "_blank", class: "text-primary" %></p>
-      <p class="mb-0"><%= link icon_and_text("alert", "Report a technical problem"), to: "https://docs.google.com/forms/d/e/1FAIpQLSfssoCcvKgVx6Aj9RtdF16lfKVJiFHpy0G9zDXuZx1Wn5fUAw/viewform?usp=sf_link", target: "_blank", class: "text-danger" %></p>
+      <p class="mb-1"><%= link icon("ondemand_video", " How to use this page"), to: "https://www.youtube.com/watch?v=qc8IFlTTtKc", target: "_blank", class: "text-primary" %></p>
+      <p class="mb-1"><%= link icon("ondemand_video", " How to make your video look good"), to: "https://www.youtube.com/watch?v=rQwanxQmFnc&feature=youtu.be", target: "_blank", class: "text-primary" %></p>
+      <p class="mb-0"><%= link icon("error", " Report a technical problem"), to: "https://docs.google.com/forms/d/e/1FAIpQLSfssoCcvKgVx6Aj9RtdF16lfKVJiFHpy0G9zDXuZx1Wn5fUAw/viewform?usp=sf_link", target: "_blank", class: "text-danger" %>
+      </p>
     </div>
   </div>
 </div>
@@ -52,9 +53,9 @@
           <span class="js-setting-up-recording btn btn-warning disabled">
             Setting up video. Please wait...
           </span>
-          <%= link icon_and_text("play", "Start recording"), to: "#", class: "js-start-recording btn btn-success js-hidden" %>
-          <%= link icon_and_text("square", "Stop recording"), to: "#", class: "js-stop-recording btn btn-danger js-hidden" %>
-          <%= link icon_and_text("refresh", "Start over"), to: "#", class: "js-restart-recording btn btn-warning js-hidden" %>
+          <%= link icon("play_arrow", " Start recording"), to: "#", class: "js-start-recording btn btn-success js-hidden" %>
+          <%= link icon("stop", " Stop recording"), to: "#", class: "js-stop-recording btn btn-danger js-hidden" %>
+          <%= link icon("refresh", " Start over"), to: "#", class: "js-restart-recording btn btn-warning js-hidden" %>
           <span class="js-time-remaining js-hidden" style="padding: 5px; color: #fff; background-color: #000; opacity: 0.5; border-radius: 5px;"></span>
         </div>
       </div>

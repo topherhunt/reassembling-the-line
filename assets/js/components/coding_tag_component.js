@@ -1,14 +1,13 @@
-import { _ } from 'lodash';
-// Same as: var _ = require('lodash');
-
 var CodingTagComponent = {
   render: function(presets = {}) {
-    var tag = _.merge({
+    let defaults = {
       text: '',
       starts_at: '',
       ends_at: '',
       name_root: 'coding[tags]['+this.random_id()+']'
-    }, presets);
+    }
+    let tag = {...defaults, ...presets} // presets will override defaults
+
     return '<tr class="test-tag-row">' +
       this.text_html(tag) +
       this.time_window_html(tag) +

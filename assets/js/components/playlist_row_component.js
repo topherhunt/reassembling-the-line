@@ -1,5 +1,3 @@
-import { _ } from 'lodash';
-
 var PlaylistRowComponent = {
   render: function(segment) {
     var data = 'data-segment-id="'+segment.segment_id+'" data-video-id="'+segment.video_id+'" data-recording-url="'+segment.recording_url+'" data-starts-at="'+segment.starts_at+'" data-ends-at="'+segment.ends_at+'"';

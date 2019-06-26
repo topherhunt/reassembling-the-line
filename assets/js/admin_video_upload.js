@@ -2,6 +2,8 @@
 // Logic for admin uploading a video manually.
 //
 
+import $ from "jquery"
+
 $(function(){
   if ($('.js-admin-upload-video-form').length == 0) { return; }
 

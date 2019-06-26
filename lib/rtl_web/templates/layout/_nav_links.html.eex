@@ -17,7 +17,9 @@
 
     <%= link @project.name, to: Routes.explore_project_path(@conn, :show, @project), class: "navbar-brand" %>
   <% else %>
-    <%= link icon_and_text("barcode", "Reassembling the Line"), to: Routes.home_path(@conn, :index), class: "navbar-brand text-info" %>
+    <%= link icon("video_library", " Reassembling the Line"),
+      to: Routes.home_path(@conn, :index),
+      class: "navbar-brand text-info" %>
   <% end %>
 
   <button class="navbar-toggler" data-toggle="collapse" data-target="#navbar-content">
@@ -35,7 +37,9 @@
           <%= link "Explore", to: Routes.explore_clip_path(@conn, :index, @project), class: "nav-link #{active_if_current(@conn, Routes.explore_clip_path(@conn, :index, @project))}" %>
         <% else %>
           <%= if RTL.Sentry.can_manage_project?(@current_user, @project) do %>
-            <%= link raw("Explore <i class='icon text-danger'>lock</i>"), to: Routes.explore_clip_path(@conn, :index, @project), class: "nav-link #{active_if_current(@conn, Routes.explore_clip_path(@conn, :index, @project))}" %>
+            <%= link raw("Explore <i class='icon text-danger'>lock</i>"),
+              to: Routes.explore_clip_path(@conn, :index, @project),
+              class: "nav-link #{active_if_current(@conn, Routes.explore_clip_path(@conn, :index, @project))}" %>
           <% end %>
         <% end %>
       <% end %>
@@ -71,7 +75,9 @@
           </a>
           <div class="dropdown-menu dropdown-menu-right">
             <div class="dropdown-item em small">Logged in as <%= @current_user.full_name %></div>
-            <%= link icon_and_text("power", "Log out"), to: Routes.auth_path(@conn, :logout), class: "dropdown-item text-danger test-logout-link" %>
+            <%= link icon("exit_to_app", " Log out"),
+              to: Routes.auth_path(@conn, :logout),
+              class: "dropdown-item text-danger test-logout-link" %>
           </div>
         </li>
 

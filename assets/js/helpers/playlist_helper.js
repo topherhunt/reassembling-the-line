@@ -1,17 +1,18 @@
-import { TagHelper } from './tag_helper';
-import { PlaylistRowComponent } from '../components/playlist_row_component';
+import $ from "jquery"
+import { TagHelper } from './tag_helper'
+import { PlaylistRowComponent } from '../components/playlist_row_component'
 
 var PlaylistHelper = {
   refresh_playlist: function() {
-    var player = $('.js-explore-video-player');
-    var current_tags = TagHelper.get_from_select_elements();
-    var project_uuid = $('.js-explore-video-player').data('project-uuid');
-    var tags_query = TagHelper.to_query_string(current_tags);
+    var player = $('.js-explore-video-player')
+    var current_tags = TagHelper.get_from_select_elements()
+    var project_uuid = $('.js-explore-video-player').data('project-uuid')
+    var tags_query = TagHelper.to_query_string(current_tags)
 
-    $('.js-playlist-container').html('Loading...');
-    $('.js-hear-more-link').hide();
-    player.attr('src', '');
-    player[0].pause();
+    $('.js-playlist-container').html('Loading...')
+    $('.js-hear-more-link').hide()
+    player.attr('src', '')
+    player[0].pause()
 
     $.ajax({
       method: 'GET',
@@ -19,20 +20,20 @@ var PlaylistHelper = {
       // list of all valid routes.
       url: '/projects/'+project_uuid+'/explore/clips/playlist?tags='+tags_query,
       success: function(data) {
-        this.handle_new_playlist_data(data.playlist);
+        this.handle_new_playlist_data(data.playlist)
       }.bind(this),
       error: function(error) {
-        console.log('Error loading playlist data: ', error);
-        alert('Whoops, there was an error loading your playlist. Please refresh the page and try again, or contact us for help.');
+        console.log('Error loading playlist data: ', error)
+        alert('Whoops, there was an error loading your playlist. Please refresh the page and try again, or contact us for help.')
       }
-    });
+    })
   },
 
   handle_new_playlist_data: function(segments) {
     if (segments.length > 0) {
-      this.populate_playlist(segments);
-      this.play_clip(segments[0].segment_id);
-      this.scroll_to_clip($('.js-playlist-row').first());
+      this.populate_playlist(segments)
+      this.play_clip(segments[0].segment_id)
+      this.scroll_to_clip($('.js-playlist-row').first())
     } else {
       $('.js-playlist-container').html(this.no_results_html());
     }

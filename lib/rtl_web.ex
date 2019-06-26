@@ -48,7 +48,7 @@ defmodule RTLWeb do
       import Phoenix.LiveView, only: [live_render: 2, live_render: 3]
       import RTL.Sentry, only: [is_superadmin?: 1, can_manage_project?: 2]
       import RTLWeb.Gettext
-      import RTLWeb.{ErrorHelpers, DateHelpers, IconHelpers, RouteHelpers, TextHelpers}
+      import RTLWeb.{ErrorHelpers, DateHelpers, RouteHelpers, TextHelpers}
 
       alias RTLWeb.Router.Helpers, as: Routes
 

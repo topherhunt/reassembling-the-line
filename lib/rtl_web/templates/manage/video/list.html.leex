@@ -18,7 +18,9 @@
   </div>
   <div class="col-sm-6">
     <%= if @next_uncoded_video do %>
-      <%= link icon_and_text("pricetags", "Tag the next video"), to: Routes.manage_video_coding_path(RTLWeb.Endpoint, :new, @project, @next_uncoded_video), class: "btn btn-primary" %>
+      <%= link icon("label", " Tag the next video"),
+        to: Routes.manage_video_coding_path(RTLWeb.Endpoint, :new, @project, @next_uncoded_video),
+        class: "btn btn-primary" %>
     <% end %>
   </div>
 </div>
@@ -45,9 +47,9 @@
           Permission:
           <%= case video.permission do %>
             <% "public" -> %>
-              <span class="u-box-shadow u-rounded-tag text-success"><i class="icon">check_circle</i> <%= video.permission %></span>
+              <span class="u-box-shadow u-rounded-tag text-success"><%= icon("check_circle") %> <%= video.permission %></span>
             <% "researchers" -> %>
-              <span class="u-box-shadow u-rounded-tag text-warning"><i class="icon">lock</i> <%= video.permission %></span>
+              <span class="u-box-shadow u-rounded-tag text-warning"><%= icon("lock") %> <%= video.permission %></span>
             <% nil -> %>
               <span class="em">(unknown)</span>
             <% _ -> %>
@@ -77,7 +79,7 @@
               <span class="em text-muted">(none)</span>
             <% end %>
             &nbsp;
-            <%= link raw("<i class='icon'>edit</i>"),
+            <%= link icon("edit"),
               to: Routes.manage_video_coding_path(RTLWeb.Endpoint, :edit, @project, video, video.coding),
               class: "text-warning test-link-code-video-#{video.id}" %>
           </div>
@@ -85,7 +87,7 @@
           <div class="small text-muted">
             Not yet tagged
             &nbsp;
-            <%= link raw("<i class='icon'>edit</i>"),
+            <%= link icon("edit"),
               to: Routes.manage_video_coding_path(RTLWeb.Endpoint, :new, @project, video),
               class: "test-link-code-video-#{video.id}" %>
           </div>
@@ -98,7 +100,7 @@
           phx-click="delete_video"
           phx-value="<%= video.id %>"
           data-confirm="Are you sure you want to delete &quot;<%= video.title %>&quot; and its coding data?">
-          <%= icon("trash") %>
+          <%= icon("delete") %>
         </a>
       </td>
     </tr>

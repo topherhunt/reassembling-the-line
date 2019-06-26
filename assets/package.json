@@ -1,21 +1,43 @@
 {
+  "description": "rtl assets",
   "repository": {},
   "license": "MIT",
   "scripts": {
-    "deploy": "brunch build --production",
-    "watch": "brunch watch --stdin"
+    "note": "# TODO: Why are these scripts here? Phx doesn't seem to use them.",
+    "deploy": "webpack --mode production",
+    "watch": "webpack --mode development --watch"
   },
   "dependencies": {
-    "lodash": "4.17.5",
+    "@babel/preset-react": "^7.0.0",
+    "apollo-boost": "^0.3.1",
+    "apollo-client": "^2.5.1",
+    "bootstrap": "^4.3.1",
+    "graphql": "^14.2.1",
+    "jquery": "^3.4.0",
+    "node-sass": "^4.12.0",
     "phoenix": "file:../deps/phoenix",
     "phoenix_html": "file:../deps/phoenix_html",
     "phoenix_live_view": "file:../deps/phoenix_live_view",
-    "sass-brunch": "^2.10.7"
+    "popper.js": "^1.15.0",
+    "prop-types": "^15.7.2",
+    "react": "^16.8.6",
+    "react-apollo": "^2.5.5",
+    "react-dom": "^16.8.6",
+    "react-phoenix": "file:../deps/react_phoenix",
+    "react-select": "^2.4.3",
+    "sass-loader": "^7.1.0",
+    "trix": "^1.1.1"
   },
   "devDependencies": {
-    "babel-brunch": "6.1.1",
-    "brunch": "^2.10.17",
-    "clean-css-brunch": "2.10.0",
-    "uglify-js-brunch": "2.10.0"
+    "@babel/core": "^7.0.0",
+    "@babel/preset-env": "^7.0.0",
+    "babel-loader": "^8.0.0",
+    "copy-webpack-plugin": "^4.5.0",
+    "css-loader": "^2.1.1",
+    "mini-css-extract-plugin": "^0.4.0",
+    "optimize-css-assets-webpack-plugin": "^4.0.0",
+    "uglifyjs-webpack-plugin": "^1.2.4",
+    "webpack": "4.4.0",
+    "webpack-cli": "^2.0.10"
   }
 }

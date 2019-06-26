@@ -41,10 +41,8 @@
     <p>
       Skip forward / backward:
       <br>
-      <a class="js-time-skip btn btn-light" data-amount="-15"><%= icon("rewind") %></a>
-      <a class="js-time-skip btn btn-light" data-amount="-3" style="transform: rotate(180deg);"><%= icon("play") %></a>
-      <a class="js-time-skip btn btn-light" data-amount="3"><%= icon("play") %></a>
-      <a class="js-time-skip btn btn-light" data-amount="15"><%= icon("fastforward") %></a>
+      <a class="js-time-skip btn btn-light" data-amount="-5"><%= icon("replay_5") %></a>
+      <a class="js-time-skip btn btn-light" data-amount="5"><%= icon("fast_forward") %></a>
     </p>
   </div>
 </div>
@@ -56,7 +54,7 @@
       <table class="table js-tags-table test-tags-table" data-autocompletes="<%= all_tags_json(@all_tags) %>" data-present-tags="<%= present_tags_json(@present_tags) %>">
         <tr>
           <td colspan='<%= 10 %>'>
-            <%= link raw("<i class=\"ion-md-add-circle-outline\"></i> Add"), to: "#", class: "js-add-tag test-add-tag btn btn-link btn-sm" %>
+            <%= link icon("add_circle_outline", " Add"), to: "#", class: "js-add-tag test-add-tag btn btn-link btn-sm" %>
           </td>
         </tr>
       </table>

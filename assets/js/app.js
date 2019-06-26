@@ -1,26 +1,26 @@
-// Brunch automatically concatenates all files in your
-// watched paths. Those paths can be configured at
-// config.paths.watched in "brunch-config.js".
+// We need to import the CSS so that webpack will load it.
+// The MiniCssExtractPlugin is used to separate it out into
+// its own CSS file.
+import css from "../css/app.scss"
+
+// webpack automatically bundles all modules in your
+// entry points. Those entry points can be configured
+// in "webpack.config.js".
+
 //
-// However, those files will only be executed if
-// explicitly imported. The only exception are files
-// in vendor, which are never wrapped in imports and
-// therefore are always executed.
+// 3rd-party
+//
 
-// Import dependencies
-// If you no longer want to use a dependency, remember
-// to also remove its path from "config.paths.watched".
-import "phoenix_html";
-import "./liveview_init";
+import "phoenix_html"
+import "bootstrap"
+import "react-phoenix"
+import "trix"
 
-// Import local files
-// Local files can be imported directly using relative
-// paths "./socket" or full ones "web/static/js/socket".
-// import socket from "./socket"
+// Local
 
-import "./utilities";
-import "./videos_list";
-import "./coding";
-import "./explore";
-import "./webcam_recording";
-import "./admin_video_upload";
+import "./liveview_init"
+import "./utilities"
+import "./coding"
+import "./explore"
+import "./webcam_recording"
+import "./admin_video_upload"

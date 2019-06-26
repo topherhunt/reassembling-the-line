@@ -20,4 +20,8 @@ defmodule RTLWeb.TextHelpers do
     (project.settings || %{})[field]
     # We don't fall back to a default value, the calling code can have default logic.
   end
+
+  def icon(icon, extra_html \\ "") do
+    raw("<i class='icon'>#{icon}</i>#{extra_html}")
+  end
 end

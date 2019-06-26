@@ -1,11 +1,9 @@
+import $ from "jquery"
+
 $(function(){
 
-  // TODO: This seems to not remotely work. And I'm unsure how to make it work
-  // in a LiveView-heavy world.
-
+  // TODO: Write my own tooltip helper that works in a React-heavy and LV-heavy world
   $('[data-toggle="tooltip"]').tooltip({delay: 100});
-
-  $(".js-chosen-select").chosen();
 
   $("[data-focus-on-click]").click(function(){
     var target_selector = $(this).data("focus-on-click");

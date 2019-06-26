@@ -25,10 +25,8 @@
   <div class="col-sm-4">
     <h4>Filter by tag</h4>
 
-    <select
-      class="js-chosen-select js-filter-tag"
-      multiple=""
-      data-placeholder="Click to add a filter">
+    <select class="js-filter-tag">
+      <option value="">- all topics -</option>
       <%= Enum.map(@tag_options, fn(tag) -> %>
         <option value="<%= tag.value %>"><%= tag.label %></option>
       <% end) %>
