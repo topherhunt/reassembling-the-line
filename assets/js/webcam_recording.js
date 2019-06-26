@@ -13,7 +13,7 @@
 import $ from "jquery"
 
 $(function(){
-  if ($('.js-webcam-recording-container').length == 0) { return; }
+  if ($('.js-webcam-recording-container').length == 0) { return }
 
   // NOTE: This will probably only work on Chrome and Firefox.
   // I can improve compatibility by keying into browser-specific apis; see the ZB code
@@ -21,128 +21,132 @@ $(function(){
   // More lenient test: !(navigator.mediaDevices && navigator.mediaDevices.getUserMedia)
   var isBrowserSupported = (['Chrome', 'Firefox'].indexOf(getBrowserName()) > -1)
   if (!isBrowserSupported) {
-    $('.js-webcam-recording-container').hide();
-    $('.js-incompatible-browser-alert').show();
-    return;
+    $('.js-webcam-recording-container').hide()
+    $('.js-incompatible-browser-alert').show()
+    return
   }
 
   //
   // Init the video stream
   //
 
-  console.log("Initializing webcam recording JS.");
+  console.log("Initializing webcam recording JS.")
 
-  var videoPlayer;
-  var mediaStream;
-  var mediaRecorder;
-  var recordingChunks;
-  var recordingBlob;
-  var thumbnailBlob;
+  var videoPlayer
+  var mediaStream
+  var mediaRecorder
+  var recordingChunks
+  var recordingBlob
+  var thumbnailBlob
 
-  videoPlayer = $('.js-recording-preview-video')[0];
-  videoPlayer.controls = false;
-  recordingChunks = [];
+  videoPlayer = $('.js-recording-preview-video')[0]
+  videoPlayer.controls = false
+  recordingChunks = []
 
   // Initialize (but don't start) the recording when the page loads.
   // See https://developer.mozilla.org/en-US/docs/Web/API/MediaDevices/getUserMedia
   navigator.mediaDevices.getUserMedia({audio: true, video:true})
     .then(function(stream) {
-      initializeRecording(stream);
+      initializeRecording(stream)
     })
     .catch(function(error) {
-      console.log("getUserMedia failed:", error);
-      $('.js-webcam-recording-container').hide();
-      $('.js-init-failed-alert').show();
-    });
+      console.log("getUserMedia failed:", error)
+      $('.js-webcam-recording-container').hide()
+      $('.js-init-failed-alert').show()
+    })
 
   //
   // Listeners
   //
 
   $('.js-start-recording').click(function(e) {
-    e.preventDefault();
-    startRecording();
-  });
+    e.preventDefault()
+    startRecording()
+  })
 
   $('.js-stop-recording').click(function(e) {
-    e.preventDefault();
-    stopRecording();
-  });
+    e.preventDefault()
+    stopRecording()
+  })
 
   $('.js-restart-recording').click(function(e){
-    e.preventDefault();
+    e.preventDefault()
     // We could clear and restart the recording without a page refresh, but the
     // thumbnail generation process doesn't like this for some reason (dirty canvas?)
-    location.reload();
-  });
+    location.reload()
+  })
 
   $('.js-download-recording').click(function(e){
-    e.preventDefault();
-    downloadRecording();
-  });
+    e.preventDefault()
+    downloadRecording()
+  })
 
   $('.js-upload-and-submit-btn, .js-retry-upload').click(function(e) {
-    e.preventDefault();
-    submitInterview();
-  });
+    e.preventDefault()
+    submitInterview()
+  })
 
   //
   // Workflow handlers
   //
 
   function initializeRecording(stream) {
-    mediaStream = stream;
-    playLiveVideoPreview();
+    mediaStream = stream
+    playLiveVideoPreview()
 
     // TODO: Is there sense in explicitly setting the mimetype options?
     // e.g. {mimeType: 'video/webm;codecs=vp9'}
-    mediaRecorder = new MediaRecorder(mediaStream);
-    mediaRecorder.onwarning = function(e){ console.log("Warning: ", e); };
-    mediaRecorder.onerror   = function(e){ console.log("Error: ", e); };
+    mediaRecorder = new MediaRecorder(mediaStream)
+    mediaRecorder.onwarning = function(e){ console.log("Warning: ", e) }
+    mediaRecorder.onerror   = function(e){ console.log("Error: ", e) }
     mediaRecorder.ondataavailable = function(e) {
-      recordingChunks.push(e.data);
-      console.log("Receiving data...");
-    };
+      recordingChunks.push(e.data)
+      console.log("Receiving data...")
+    }
 
-    $('.js-setting-up-recording').hide();
-    $('.js-start-recording').show();
+    $('.js-setting-up-recording').hide()
+    $('.js-start-recording').show()
   }
 
   function startRecording() {
-    $('.js-interview-form-container').hide();
-    $('.js-start-recording').hide();
-    $('.js-restart-recording').hide();
+    report("startRecording called.")
+
+    $('.js-interview-form-container').hide()
+    $('.js-start-recording').hide()
+    $('.js-restart-recording').hide()
 
     setTimeout(function(){
-      $('.js-stop-recording').fadeIn();
-      $('.js-time-remaining').fadeIn();
-      showRecordingTimer(60 * 5);
-    }, 1000);
+      $('.js-stop-recording').fadeIn()
+      $('.js-time-remaining').fadeIn()
+      showRecordingTimer(60 * 5)
+    }, 1000)
 
-    recordingChunks = []; // ensure any stale recording data is cleared out
-    mediaRecorder.start(100); // send chunk every 100 ms
+    recordingChunks = [] // ensure any stale recording data is cleared out
+    mediaRecorder.start(100) // send chunk every 100 ms
 
-    captureThumbnail();
+    captureThumbnail()
   }
 
   function stopRecording() {
     if (mediaRecorder.state != 'recording') {
-      console.log("Suppressing stopRecording call because mediaRecorder is already stopped.");
-      return;
+      console.log("Suppressing stopRecording call because mediaRecorder is already stopped.")
+      return
     }
 
-    $('.js-time-remaining').hide();
-    $('.js-stop-recording').hide();
-    $('.js-restart-recording').show();
-    $('.js-recording-instructions-part-1').fadeOut();
-    setTimeout(function(){
-      $('.js-recording-instructions-part-2').fadeIn();
-      $('.js-interview-form-container').fadeIn();
-    }, 1000);
+    report("stopRecording called.")
 
-    mediaRecorder.stop();
-    recordingBlob = new Blob(recordingChunks, {'type': 'video/webm'});
-    playRecording(recordingBlob);
+    $('.js-time-remaining').hide()
+    $('.js-stop-recording').hide()
+    $('.js-restart-recording').show()
+    $('.js-recording-instructions-part-1').fadeOut()
+    setTimeout(function(){
+      $('.js-recording-instructions-part-2').fadeIn()
+      $('.js-interview-form-container').fadeIn()
+    }, 1000)
+
+    mediaRecorder.stop()
+    recordingBlob = new Blob(recordingChunks, {'type': 'video/webm'})
+    playRecording(recordingBlob)
   }
 
   function downloadRecording() {
@@ -156,12 +160,14 @@ $(function(){
   }
 
   function submitInterview() {
+    report("submitInterview called.")
+
     if (!isSpeakerNamePresent()) { raise("Please fill in your name.") }
     if (!isPermissionGiven()) { raise("Please select a permission option.") }
 
-    $('.js-interview-form-container').hide();
-    $('.js-upload-failed').hide();
-    $('.js-upload-progress-container').fadeIn();
+    $('.js-interview-form-container').hide()
+    $('.js-upload-failed').hide()
+    $('.js-upload-progress-container').fadeIn()
 
     // Grab the presigned S3 upload urls corresponding to each file type.
     // For now we always capture as .jpg and .webm, but .mp4 would be a more desireable
@@ -176,16 +182,23 @@ $(function(){
     $('.js-recording-filename').val(uuid+'.webm')
 
     // Start the actual uploads.
-    console.log("Uploading the thumbnail to S3...");
+    console.log("Uploading the thumbnail to S3...")
+    report("Uploading thumbnail...")
     uploadFile(thumbnailUrl, thumbnailBlob, false, function() {
-      $('.progress-bar').css({width: "2%"});
-      console.log("Uploading the recording to S3...");
+
+      console.log("Uploading the recording to S3...")
+      report("Thumbnail uploaded. Uploading recording...")
+      $('.progress-bar').css({width: "2%"})
+
+
       uploadFile(recordingUrl, recordingBlob, true, function() {
-        $('.progress-bar').css({width: "100%"});
-        console.log("Uploads complete. Submitting.");
-        $('.js-submit-form-btn').click();
-      });
-    });
+
+        console.log("Uploads complete. Submitting.")
+        report("Recording uploaded.")
+        $('.progress-bar').css({width: "100%"})
+        $('.js-submit-form-btn').click()
+      })
+    })
   }
 
   //
@@ -193,97 +206,97 @@ $(function(){
   //
 
   function getBrowserName() {
-    var nAgt = navigator.userAgent;
+    var nAgt = navigator.userAgent
 
     // In Opera, the true version is after "Opera" or after "Version"
     if (nAgt.indexOf("Opera")!=-1) {
-      return "Opera";
+      return "Opera"
     }
     // In MSIE, the true version is after "MSIE" in userAgent
     else if (nAgt.indexOf("MSIE")!=-1) {
-      return "Microsoft Internet Explorer";
+      return "Microsoft Internet Explorer"
     }
     // In Chrome, the true version is after "Chrome"
     else if (nAgt.indexOf("Chrome")!=-1) {
-      return "Chrome";
+      return "Chrome"
     }
     // In Safari, the true version is after "Safari" or after "Version"
     else if (nAgt.indexOf("Safari")!=-1) {
-      return "Safari";
+      return "Safari"
     }
     // In Firefox, the true version is after "Firefox"
     else if (nAgt.indexOf("Firefox")!=-1) {
-      return "Firefox";
+      return "Firefox"
     }
     // In most other browsers, "name/version" is at the end of userAgent
     else {
-      return "other";
+      return "other"
     }
   }
 
   function showRecordingTimer(seconds) {
     if (seconds > 0) {
-      var counter = $('.js-time-remaining');
-      counter.text("Time left: " + human_time(seconds));
+      var counter = $('.js-time-remaining')
+      counter.text("Time left: " + human_time(seconds))
       if (seconds < 10) {
-        counter.addClass('text-danger');
+        counter.addClass('text-danger')
       } else if (seconds < 30) {
-        counter.addClass('text-warning');
+        counter.addClass('text-warning')
       }
 
       setTimeout(function(){
-        showRecordingTimer(seconds - 1);
-      }, 1000);
+        showRecordingTimer(seconds - 1)
+      }, 1000)
     } else {
-      stopRecording();
+      stopRecording()
     }
   }
 
   function human_time(total_seconds) {
-    var min = Math.floor(total_seconds / 60);
-    var sec = total_seconds % 60;
-    return min + ":" + ("0" + sec).substr(-2, 2);
+    var min = Math.floor(total_seconds / 60)
+    var sec = total_seconds % 60
+    return min + ":" + ("0" + sec).substr(-2, 2)
   }
 
   // Relies on the mediaStream having started
   function captureThumbnail() {
-    var track = mediaStream.getVideoTracks()[0];
-    var imageCapture = new ImageCapture(track);
+    var track = mediaStream.getVideoTracks()[0]
+    var imageCapture = new ImageCapture(track)
     imageCapture.grabFrame()
     .then(function(imageBitmap) {
       // We have the image as imageBitmap, now we need to render it into a jpeg blob.
       // See https://developer.mozilla.org/en-US/docs/Web/API/ImageCapture#Example
 
-      var imgWidth = imageBitmap.width;
-      var imgHeight = imageBitmap.height;
+      var imgWidth = imageBitmap.width
+      var imgHeight = imageBitmap.height
 
-      var canvas = document.querySelector('.js-thumbnail-canvas');
-      canvas.width = 480; // let's ensure non-terrible image quality
-      canvas.height = (canvas.width * imgHeight / imgWidth);
-      canvas.getContext('2d').drawImage(imageBitmap, 0, 0, canvas.width, canvas.height);
-      canvas.toBlob(updateThumbnailBlob, 'image/jpeg', 0.8);
+      var canvas = document.querySelector('.js-thumbnail-canvas')
+      canvas.width = 480 // let's ensure non-terrible image quality
+      canvas.height = (canvas.width * imgHeight / imgWidth)
+      canvas.getContext('2d').drawImage(imageBitmap, 0, 0, canvas.width, canvas.height)
+      canvas.toBlob(updateThumbnailBlob, 'image/jpeg', 0.8)
     })
     .catch(function(error) {
-      console.error("ImageCapture.grabFrame() failed: ", error);
-      console.log(error);
-    });
+      console.error("ImageCapture.grabFrame() failed: ", error)
+      console.log(error)
+    })
   }
 
   function updateThumbnailBlob(blob) {
-    thumbnailBlob = blob;
+    thumbnailBlob = blob
   }
 
   function playLiveVideoPreview() {
-    videoPlayer.srcObject = mediaStream;
-    videoPlayer.controls = false;
-    videoPlayer.muted = true;
+    videoPlayer.srcObject = mediaStream
+    videoPlayer.controls = false
+    videoPlayer.muted = true
   }
 
   function playRecording(blobToPlay) {
-    videoPlayer.srcObject = undefined; // must unset this before setting src
-    videoPlayer.src = window.URL.createObjectURL(blobToPlay);
-    videoPlayer.controls = true;
-    videoPlayer.muted = false;
+    videoPlayer.srcObject = undefined // must unset this before setting src
+    videoPlayer.src = window.URL.createObjectURL(blobToPlay)
+    videoPlayer.controls = true
+    videoPlayer.muted = false
   }
 
   function isPermissionGiven() {
@@ -306,22 +319,23 @@ $(function(){
         // Progress listener thanks to https://stackoverflow.com/a/46903750/1729692
         xhr.upload.onprogress = function(data) {
           if (updateBarOnProgress) {
-            var percent = Math.round((data.loaded / data.total) * 100);
-            $('.progress-bar').css({width: percent+"%"});
+            var percent = Math.round((data.loaded / data.total) * 100)
+            $('.progress-bar').css({width: percent+"%"})
           }
         }
         return xhr
       },
       success: function() {
-        console.log("File successfully uploaded!");
-        onSuccess();
+        console.log("File successfully uploaded!")
+        onSuccess()
       },
       error: function() {
-        console.log("File not uploaded. Args: ", arguments);
-        $('.js-upload-progress-container').hide();
-        $('.js-upload-failed').show(200);
+        report("Failed on upload to url: "+url)
+        console.log("File not uploaded. Args: ", arguments)
+        $('.js-upload-progress-container').hide()
+        $('.js-upload-failed').show(200)
       }
-    });
+    })
   }
 
   function raise(msg) {
@@ -329,4 +343,9 @@ $(function(){
     alert(msg)
     callNonexistentMethodToAbort()
   }
+
+  function report(msg) {
+    $.post("/api/log", {message: "Webcam recording page: "+msg})
+  }
+
 });

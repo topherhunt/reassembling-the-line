@@ -103,5 +103,17 @@ defmodule RTLWeb.Router do
     end
   end
 
+  pipeline :api do
+    plug :accepts, ["json"]
+    plug :fetch_session
+    plug :load_current_user
+  end
+
+  scope "/api", RTLWeb do
+    pipe_through :api
+
+    post "/log", Api.LogController, :log
+  end
+
   defp handle_errors(conn, data), do: RTLWeb.RollbarPlugs.handle_errors(conn, data)
 end
