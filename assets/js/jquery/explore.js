@@ -1,6 +1,6 @@
 import $ from "jquery"
-import { PlaylistHelper } from './helpers/playlist_helper'
-import { TagHelper } from './helpers/tag_helper'
+import { PlaylistHelper } from '../helpers/playlist_helper'
+import { TagHelper } from '../helpers/tag_helper'
 
 $(document).ready(function() {
 

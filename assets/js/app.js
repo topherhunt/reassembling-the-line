@@ -19,8 +19,8 @@ import "trix"
 // Local
 
 import "./liveview_init"
-import "./utilities"
-import "./coding"
-import "./explore"
-import "./webcam_recording"
-import "./admin_video_upload"
+import "./jquery/utilities"
+import "./jquery/coding"
+import "./jquery/explore"
+import "./jquery/webcam_recording"
+import "./jquery/admin_video_upload"

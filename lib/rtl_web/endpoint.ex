@@ -2,7 +2,6 @@ defmodule RTLWeb.Endpoint do
   use Phoenix.Endpoint, otp_app: :rtl
   alias RTL.Helpers, as: H
 
-  socket("/socket", RTLWeb.UserSocket)
   socket("/live", Phoenix.LiveView.Socket)
 
   # Serve at "/" the static files from "priv/static" directory.
