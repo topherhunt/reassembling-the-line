@@ -60,14 +60,15 @@ defmodule RTLWeb.Router do
           param: "prompt_uuid"
 
         resources "/videos", Manage.VideoController, only: [:index, :new, :create]
+
+        scope "/videos/:video_id" do
+          get "/code", Manage.VideoController, :code
+          post "/mark_coded", Manage.VideoController, :mark_coded
+        end
+
         get "/export_videos", Manage.VideoExportController, :new
         get "/import_videos", Manage.VideoImportController, :new
         post "/import_videos", Manage.VideoImportController, :create
-
-        scope "/videos/:video_id", as: :video do
-          resources "/codings", Manage.CodingController,
-            only: [:new, :create, :edit, :update]
-        end
       end
 
       # Not scoped under /projects/:id so we can add a join from either direction
@@ -115,5 +116,28 @@ defmodule RTLWeb.Router do
     post "/log", Api.LogController, :log
   end
 
+  pipeline :graphql do
+    plug :accepts, ["json"]
+    plug :fetch_session
+    plug :load_current_user
+    plug :set_absinthe_context
+  end
+
+  scope "/graphql" do
+    pipe_through :graphql
+
+    forward "/graphiql", Absinthe.Plug.GraphiQL,
+      schema: RTLWeb.Graphql.Schema,
+      json_codec: Jason
+
+    forward "/", Absinthe.Plug,
+      schema: RTLWeb.Graphql.Schema,
+      json_codec: Jason
+  end
+
   defp handle_errors(conn, data), do: RTLWeb.RollbarPlugs.handle_errors(conn, data)
+
+  defp set_absinthe_context(conn, _) do
+    Absinthe.Plug.put_options(conn, context: %{current_user: conn.assigns.current_user})
+  end
 end

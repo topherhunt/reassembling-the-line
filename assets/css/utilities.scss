@@ -6,6 +6,11 @@
 .u-centered-800  { max-width:  800px; margin-left: auto; margin-right: auto; }
 .u-centered-600  { max-width:  600px; margin-left: auto; margin-right: auto; }
 
+// Inserts 1 text-line's worth of spacing between each child element.
+.u-stack > * + * {
+  margin-top: 1.5rem;
+}
+
 .u-card {
   border: 1px solid #e0e0e0;
   padding: 10px;
@@ -51,3 +56,11 @@
 .u-ellipsis { overflow: hidden; text-overflow: ellipsis; }
 .em { font-style: italic; }
 .strong { font-weight: bold; }
+
+//
+// Experimental / temp
+//
+
+.u-hover-highlight:hover {
+  background-color: #eee;
+}

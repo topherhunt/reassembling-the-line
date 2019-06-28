@@ -1,7 +1,8 @@
 defmodule RTL.Videos.Video do
   use Ecto.Schema
   import Ecto.Changeset
-  import Ecto.Query
+  require Ecto.Query
+  alias Ecto.Query, as: Q
   alias RTL.Repo
 
   schema "videos" do
@@ -27,9 +28,15 @@ defmodule RTL.Videos.Video do
   end
 
   #
-  # Public API (WIP)
+  # Public API (very WIP)
   #
 
+  def get!(id, f \\ []), do: __MODULE__ |> apply_filters([{:id, id} | f]) |> Repo.one!()
+  def first(filters \\ []), do: __MODULE__ |> apply_filters(filters) |> Repo.first()
+  def all(filters \\ []), do: __MODULE__ |> apply_filters(filters) |> Repo.all()
+  def count(filters \\ []), do: __MODULE__ |> apply_filters(filters) |> Repo.count()
+
+  # TODO: Maybe the generic mostly-universal api lives in the schema, whereas the more specific services (such as "validate and insert a webcam recording") live on the context?
   def insert_webcam_recording!(params) do
     new_webcam_recording_changeset(params) |> Repo.insert!()
   end
@@ -78,37 +85,37 @@ defmodule RTL.Videos.Video do
   end
 
   #
-  # Query helpers
+  # Filters
   #
 
-  def filter(starting_query, filters) do
+  def apply_filters(starting_query, filters) do
     Enum.reduce(filters, starting_query, fn {k, v}, query -> filter(query, k, v) end)
   end
 
-  def filter(query, :id, id), do: where(query, [v], v.id == ^id)
-  def filter(query, :source_url, url), do: where(query, [v], v.source_url == ^url)
-  def filter(query, :prompt, prompt), do: where(query, [v], v.prompt_id == ^prompt.id)
-  def filter(query, :preload, preloads), do: preload(query, ^preloads)
-  def filter(query, :order, :oldest), do: order_by(query, [v], asc: v.id)
-  def filter(query, :order, :newest), do: order_by(query, [v], desc: v.id)
+  def filter(query, :id, id), do: Q.where(query, [v], v.id == ^id)
+  def filter(query, :source_url, url), do: Q.where(query, [v], v.source_url == ^url)
+  def filter(query, :prompt, prompt), do: Q.where(query, [v], v.prompt_id == ^prompt.id)
+  def filter(query, :preload, preloads), do: Q.preload(query, ^preloads)
+  def filter(query, :order, :oldest), do: Q.order_by(query, [v], asc: v.id)
+  def filter(query, :order, :newest), do: Q.order_by(query, [v], desc: v.id)
 
   def filter(query, :project, proj) do
-    from v in query,
+    Q.from v in query,
       join: pm in assoc(v, :prompt),
       join: pj in assoc(pm, :project),
       where: pj.id == ^proj.id
   end
 
   def filter(query, :coded, true) do
-    where(query, [v], fragment("EXISTS (SELECT * FROM codings WHERE video_id = ?)", v.id))
+    Q.where(query, [v], fragment("EXISTS (SELECT * FROM codings WHERE video_id = ?)", v.id))
   end
 
   def filter(query, :coded, false) do
-    where(query, [v], fragment("NOT EXISTS (SELECT * FROM codings WHERE video_id = ?)", v.id))
+    Q.where(query, [v], fragment("NOT EXISTS (SELECT * FROM codings WHERE video_id = ?)", v.id))
   end
 
   def filter(query, :order, :last_coded) do
-    from v in query,
+    Q.from v in query,
       left_join: c in assoc(v, :coding),
       order_by: [
         asc: fragment("? IS NULL", c.id),
@@ -121,7 +128,7 @@ defmodule RTL.Videos.Video do
     tag_names = Enum.map(tag_maps, & &1.text)
 
     Enum.reduce(tag_names, orig_query, fn tag_name, query ->
-      where(query, [v], fragment("EXISTS (
+      Q.where(query, [v], fragment("EXISTS (
         SELECT * FROM codings c
           JOIN taggings ti ON c.id = ti.coding_id
           JOIN tags t ON ti.tag_id = t.id

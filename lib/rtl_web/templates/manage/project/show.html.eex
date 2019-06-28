@@ -159,7 +159,7 @@
         <%= link "List all videos", to: Routes.manage_video_path(@conn, :index, @project), class: "btn btn-outline-primary" %> &nbsp;
         <%= if @next_uncoded_video do %>
           <%= link icon("label", " Tag the next video"),
-            to: Routes.manage_video_coding_path(@conn, :new, @project, @next_uncoded_video),
+            to: Routes.manage_video_path(@conn, :code, @project, @next_uncoded_video),
             class: "btn btn-primary" %>
         <% end %>
       </p>

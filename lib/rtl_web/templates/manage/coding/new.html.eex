@@ -1,3 +1,0 @@
-<div class="test-page-new-coding"></div>
-
-<%= render "_form.html", Map.merge(%{conn: @conn}, @conn.assigns) %>

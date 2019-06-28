@@ -19,7 +19,7 @@
   <div class="col-sm-6">
     <%= if @next_uncoded_video do %>
       <%= link icon("label", " Tag the next video"),
-        to: Routes.manage_video_coding_path(RTLWeb.Endpoint, :new, @project, @next_uncoded_video),
+        to: Routes.manage_video_path(RTLWeb.Endpoint, :code, @project, @next_uncoded_video),
         class: "btn btn-primary" %>
     <% end %>
   </div>
@@ -66,7 +66,7 @@
       <td>
         <%= if video.coding do %>
           <div class="small">
-            Tagged by <%= video.coding.updated_by_user.full_name %>
+            Tagged by <%= video.coding.coder.full_name %>
             <!--on <%= RTLWeb.DateHelpers.print_date(video.coding.updated_at) %>-->
           </div>
           <div class="small">
@@ -80,7 +80,7 @@
             <% end %>
             &nbsp;
             <%= link icon("edit"),
-              to: Routes.manage_video_coding_path(RTLWeb.Endpoint, :edit, @project, video, video.coding),
+              to: Routes.manage_video_path(RTLWeb.Endpoint, :code, @project, video),
               class: "text-warning test-link-code-video-#{video.id}" %>
           </div>
         <% else %>
@@ -88,7 +88,7 @@
             Not yet tagged
             &nbsp;
             <%= link icon("edit"),
-              to: Routes.manage_video_coding_path(RTLWeb.Endpoint, :new, @project, video),
+              to: Routes.manage_video_path(RTLWeb.Endpoint, :code, @project, video),
               class: "test-link-code-video-#{video.id}" %>
           </div>
         <% end %>

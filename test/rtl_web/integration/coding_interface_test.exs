@@ -71,6 +71,8 @@ defmodule RTLWeb.CodingInterfaceTest do
   end
 
   test "Selected tags are autopopulated when re-coding a video", %{conn: conn} do
+    raise "TODO: Update this"
+
     user = Factory.insert_user()
     project = Factory.insert_project()
     prompt = Factory.insert_prompt(project_id: project.id)
@@ -86,7 +88,7 @@ defmodule RTLWeb.CodingInterfaceTest do
     coding = Factory.insert_coding(video_id: video.id, tags: tag_attrs)
 
     login(conn, user)
-    navigate_to(Routes.manage_video_coding_path(conn, :edit, project, video, coding))
+    # navigate_to(Routes.manage_video_coding_path(conn, :edit, project, video, coding))
     assert length(tag_rows()) == 3
   end
 

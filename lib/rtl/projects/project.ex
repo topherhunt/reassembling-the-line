@@ -1,7 +1,9 @@
 defmodule RTL.Projects.Project do
   use Ecto.Schema
   import Ecto.Changeset
-  import Ecto.Query
+  require Ecto.Query
+  alias Ecto.Query, as: Q
+  alias RTL.Repo
 
   # Tells Router helpers to use project uuid instead of id in all routes.
   @derive {Phoenix.Param, key: :uuid}
@@ -16,6 +18,16 @@ defmodule RTL.Projects.Project do
     has_many :admins, through: [:project_admin_joins, :admin]
     has_many :prompts, RTL.Projects.Prompt
   end
+
+  #
+  # Public API
+  #
+
+  # TODO: Remove the query functions in the context and replace with these
+  def get!(id, f \\ []), do: __MODULE__ |> apply_filters([{:id, id} | f]) |> Repo.one!()
+  def first(filters \\ []), do: __MODULE__ |> apply_filters(filters) |> Repo.first()
+  def all(filters \\ []), do: __MODULE__ |> apply_filters(filters) |> Repo.all()
+  def count(filters \\ []), do: __MODULE__ |> apply_filters(filters) |> Repo.count()
 
   def changeset(struct, params) do
     struct
@@ -36,15 +48,16 @@ defmodule RTL.Projects.Project do
   # Filters
   #
 
-  def filter(starting_query, filters) do
+  def apply_filters(starting_query, filters) do
     Enum.reduce(filters, starting_query, fn {k, v}, query -> filter(query, k, v) end)
   end
 
-  def filter(query, :id, id), do: where(query, [p], p.id == ^id)
-  def filter(query, :uuid, uuid), do: where(query, [p], p.uuid == ^uuid)
-  def filter(query, :order, :newest), do: order_by(query, [p], desc: p.id)
-  def filter(query, :order, :name), do: order_by(query, [p], asc: p.name)
-  def filter(query, :preload, :admins), do: preload(query, :admins)
+  def filter(query, :id, id), do: Q.where(query, [p], p.id == ^id)
+  def filter(query, :uuid, uuid), do: Q.where(query, [p], p.uuid == ^uuid)
+  def filter(query, :prompt, prom), do: Q.where(query, [p], p.prompt_id == ^prom.id)
+  def filter(query, :order, :newest), do: Q.order_by(query, [p], desc: p.id)
+  def filter(query, :order, :name), do: Q.order_by(query, [p], asc: p.name)
+  def filter(query, :preload, :admins), do: Q.preload(query, :admins)
 
   def filter(query, :visible_to, user) do
     if RTL.Sentry.is_superadmin?(user),
@@ -53,7 +66,7 @@ defmodule RTL.Projects.Project do
   end
 
   def filter(query, :having_admin, user) do
-    where(
+    Q.where(
       query,
       [p],
       fragment(
@@ -65,7 +78,7 @@ defmodule RTL.Projects.Project do
   end
 
   def filter(query, :not_having_admin, user) do
-    where(
+    Q.where(
       query,
       [p],
       fragment(

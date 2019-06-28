@@ -50,19 +50,19 @@ defmodule RTL.Videos do
   # Videos
   #
 
-  # TODO: Move the rest of these to the Video schema
+  # TODO: Remove these, replace all usages with the new Video api
 
   def get_video(id, filt \\ []), do: get_video_by(Keyword.merge([id: id], filt))
 
   def get_video!(id, filt \\ []), do: get_video_by!(Keyword.merge([id: id], filt))
 
-  def get_video_by(filt), do: Video |> Video.filter(filt) |> Repo.first()
+  def get_video_by(filt), do: Video |> Video.apply_filters(filt) |> Repo.first()
 
-  def get_video_by!(filt), do: Video |> Video.filter(filt) |> Repo.first!()
+  def get_video_by!(filt), do: Video |> Video.apply_filters(filt) |> Repo.first!()
 
-  def get_videos(filt \\ []), do: Video |> Video.filter(filt) |> Repo.all()
+  def get_videos(filt \\ []), do: Video |> Video.apply_filters(filt) |> Repo.all()
 
-  def count_videos(filt \\ []), do: Video |> Video.filter(filt) |> Repo.count()
+  def count_videos(filt \\ []), do: Video |> Video.apply_filters(filt) |> Repo.count()
 
   def new_video_changeset(params \\ %{}), do: Video.generic_changeset(%Video{}, params)
 
@@ -110,21 +110,17 @@ defmodule RTL.Videos do
   # Codings
   #
 
+  # TODO: Remove this, replace usages with the Coding public funcs
   def get_coding(coding_id), do: Repo.get(Coding, coding_id)
-
   def get_coding!(coding_id), do: Repo.get!(Coding, coding_id)
-
   def get_coding_by!(params), do: Repo.get_by!(Coding, params)
-
   def get_coding_preloads(coding), do: Repo.preload(coding, [:video, [taggings: :tag]])
-
   def coding_changeset(changes), do: Coding.changeset(%Coding{}, changes)
-
   def coding_changeset(struct, changes), do: Coding.changeset(struct, changes)
 
   def insert_coding(%{video_id: video_id, coder_id: coder_id, tags: tags_params}) do
     # TODO: Validate format of tag_params list
-    changeset = coding_changeset(%{video_id: video_id, updated_by_user_id: coder_id})
+    changeset = coding_changeset(%{video_id: video_id, coder_id: coder_id})
 
     case validate_tags(tags_params) do
       {:ok} ->
@@ -141,7 +137,7 @@ defmodule RTL.Videos do
   def update_coding(%{coding: coding, tags: tags_params, coder_id: coder_id}) do
     # TODO: Validate format of tag_params list
 
-    changeset = coding_changeset(coding, %{updated_by_user_id: coder_id})
+    changeset = coding_changeset(coding, %{coder_id: coder_id})
 
     case validate_tags(tags_params) do
       {:ok} ->

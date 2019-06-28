@@ -19,6 +19,7 @@ import "trix"
 // Local
 
 import "./liveview_init"
+import "./react/globals"
 import "./jquery/utilities"
 import "./jquery/coding"
 import "./jquery/explore"

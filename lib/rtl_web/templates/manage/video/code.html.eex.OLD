@@ -32,7 +32,6 @@
       <% end %>
     </table>
 
-
     <video class="js-coding-video-player" src="<%= Videos.recording_url(@video) %>" poster="<%= Videos.thumbnail_url(@video) %>" style="display: block; width: 100%; height: 380px; background-color: #222;" controls=""></video>
   </div>
   <div class="col-sm-5">

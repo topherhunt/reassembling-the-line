@@ -35,7 +35,7 @@ defmodule RTLWeb.Manage.VideosListLiveview do
         Videos.get_videos(
           project: project,
           order: :last_coded,
-          preload: [coding: [:updated_by_user, :tags]]
+          preload: [coding: [:coder, :tags]]
         ),
       next_uncoded_video: Videos.get_video_by(
         project: project,

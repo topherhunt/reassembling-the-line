@@ -5,13 +5,16 @@ defmodule RTL.Repo do
   require Logger
 
   def count(query), do: query |> select([t], count(t.id)) |> Repo.one()
-
   def any?(query), do: count(query) >= 1
-
   def first(query), do: query |> limit(1) |> Repo.one()
-
-  # Raises if none found
   def first!(query), do: query |> limit(1) |> Repo.one!()
+
+  def ensure_success(result) do
+    case result do
+      {:ok, object} -> object
+      {:error, changeset} -> raise Ecto.InvalidChangesetError, changeset: changeset
+    end
+  end
 
   # Inspired by https://github.com/elixir-ecto/ecto/blob/v2.2.11/lib/ecto/log_entry.ex
   # (only relevant to Ecto v2!)

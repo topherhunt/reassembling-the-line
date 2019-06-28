@@ -2,6 +2,7 @@ defmodule RTL.Projects.Prompt do
   use Ecto.Schema
   import Ecto.Changeset
   import Ecto.Query
+  alias RTL.Repo
 
   # Tells Router helpers to use project uuid instead of id in all routes.
   @derive {Phoenix.Param, key: :uuid}
@@ -14,6 +15,16 @@ defmodule RTL.Projects.Prompt do
 
     has_many :videos, RTL.Videos.Video
   end
+
+  #
+  # Public API (very WIP)
+  #
+
+  # TODO: Remove the prompt querying api in the Context, and replace with these
+  def get!(id, f \\ []), do: __MODULE__ |> apply_filters([{:id, id} | f]) |> Repo.one!()
+  def first(filters \\ []), do: __MODULE__ |> apply_filters(filters) |> Repo.first()
+  def all(filters \\ []), do: __MODULE__ |> apply_filters(filters) |> Repo.all()
+  def count(filters \\ []), do: __MODULE__ |> apply_filters(filters) |> Repo.count()
 
   def changeset(struct, params) do
     struct
@@ -33,7 +44,7 @@ defmodule RTL.Projects.Prompt do
   # Filters
   #
 
-  def filter(starting_query, filters) do
+  def apply_filters(starting_query, filters) do
     Enum.reduce(filters, starting_query, fn {k, v}, query -> filter(query, k, v) end)
   end
 

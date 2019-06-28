@@ -1,0 +1,15 @@
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><%= link "Manage projects", to: Routes.manage_project_path(RTLWeb.Endpoint, :index) %></li>
+    <li class="breadcrumb-item"><%= link @project.name, to: Routes.manage_project_path(RTLWeb.Endpoint, :show, @project) %></li>
+    <li class="breadcrumb-item"><%= link "Videos", to: Routes.manage_video_path(RTLWeb.Endpoint, :index, @project) %></li>
+    <li class="breadcrumb-item active">Tag video: <%= ellipsis(RTLWeb.Explore.VideoView.title_for_video(@video), 30) %></li>
+  </ol>
+</nav>
+
+<div class="test-page-code-video-<%= @video.id %>"></div>
+
+<h1>Tag video</h1>
+
+<%# I guess I'll just pass in the coding id for now and have Apollo fetch everything %>
+<%= ReactPhoenix.ClientSide.react_component("Components.CodingPage", %{coding_id: @coding.id}) %>

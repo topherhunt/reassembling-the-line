@@ -2,6 +2,7 @@ defmodule RTLWeb.Manage.VideoController do
   use RTLWeb, :controller
   import RTL.Videos, only: [presigned_url: 1]
   alias RTL.{Factory, Projects, Videos}
+  alias RTL.Videos.{Video, Coding}
 
   plug :load_project
   plug :ensure_can_manage_project
@@ -12,7 +13,7 @@ defmodule RTLWeb.Manage.VideoController do
     live_render(conn, RTLWeb.Manage.VideosListLiveview, session: %{project: conn.assigns.project})
   end
 
-  # Admin video upload page (maybe the admin upload deserves its own controller?)
+  # Admin video upload page
   def new(conn, _params) do
     prompts = Projects.get_prompts(project: conn.assigns.project)
     changeset = Videos.new_video_changeset()
@@ -32,11 +33,41 @@ defmodule RTLWeb.Manage.VideoController do
     )
   end
 
+  # Admin video upload submit
   def create(conn, %{"video" => video_params}) do
     Videos.insert_video!(video_params)
 
     conn
     |> put_flash(:info, "Video imported.")
     |> redirect(to: Routes.manage_project_path(conn, :show, conn.assigns.project))
+  end
+
+  # The coding page
+  # Most of the coding page data is loaded by Apollo, so we don't have much to do here.
+  # (In the future we might support multiple codings of the same video, but for now
+  #  there's just one associated coding record.)
+  def code(conn, _params) do
+    video = load_video(conn)
+    coder = conn.assigns.current_user
+    coding = Coding.first(video: video) ||
+      Coding.insert!(%{video_id: video.id, coder_id: coder.id})
+    render conn, "code.html", video: video, coding: coding
+  end
+
+  # Called when the user clicks the "Mark completed" button to finalize coding.
+  # This coding will then be treated as complete, though it can still be edited.
+  def mark_coded(conn, params) do
+    raise "TODO: #{conn}, #{params}"
+
+    # - Mark this coding as complete
+    # - Save this coder as coder_id (in case different from orig coder)
+  end
+
+  #
+  # Helpers
+  #
+
+  defp load_video(conn) do
+    Video.get!(conn.params["video_id"], project: conn.assigns.project, preload: :prompt)
   end
 end
