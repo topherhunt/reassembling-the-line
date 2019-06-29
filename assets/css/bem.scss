@@ -17,3 +17,89 @@
   background-color: #fee;
   padding: 5px;
 }
+
+//
+// Coding page
+//
+
+#codingPageVideo {
+  display: block;
+  width: 100%;
+  height: 380px;
+  background-color: #222;
+}
+
+#timelineSection {
+  position: relative;
+  width: 100%;
+  height: 200px;
+  background-color: #222;
+  color: #fff;
+}
+
+#timelineScrollContainer {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  overflow: scroll;
+}
+
+#timeline {
+  height: 100%;
+  background-color: #242;
+}
+
+#timelineZoomControls {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+
+  * { cursor: pointer; }
+}
+
+.timelineTickmarksContainer {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.timelineTickmark--minor {
+  position: absolute;
+  top: 0px;
+  height: 10px;
+  width: 0px;
+  border: 0.5px solid rgba(255, 255, 255, 0.2);
+}
+
+.timelineTickmark--major {
+  position: absolute;
+  top: 0px;
+  height: 15px;
+  width: 0px;
+  border: 0.5px solid rgba(255, 255, 255, 0.4);
+}
+
+.timelineTickLabel {
+  position: absolute;
+  top: 15px;
+  text-align: center;
+  font-size: 10px;
+  background-color: rgba(0, 0, 0, 0.2);
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.timelineCursor {
+  position: absolute;
+  bottom: 0px;
+  height: 150px;
+  width: 0px;
+  border: 0.5px solid;
+}
+
+.timelineCursor--active {
+  border-color: red;
+}
+
+.timelineCursor--hover {
+  border-color: rgba(255, 0, 0, 0.5);
+}

@@ -44,6 +44,7 @@ class CodingPage extends React.Component {
   }
 
   renderCodingPage(coding) {
+    let timelineWidth = ""+(this.state.videoDuration * this.state.timelineZoom)+"px"
     return <div className="row">
       <div className="col-8">
         <div>
@@ -51,51 +52,23 @@ class CodingPage extends React.Component {
             id="codingPageVideo"
             poster={coding.video.thumbnail_url}
             src={coding.video.recording_url}
-            style={{display: "block", width: "100%", height: "380px", backgroundColor: "#222"}}
             controls preload="auto"
           ></video>
         </div>
         {/* TODO: Move these styles into the css sheet */}
-        <div id="timelineSection" style={{
-          position: "relative",
-          width: "100%",
-          height: "200px",
-          backgroundColor: "#222",
-          color: "#fff"
-        }}>
-          <div id="timelineScrollContainer" style={{
-            position: "absolute", width: "100%", height: "100%", overflow: "scroll"
-          }}>
-            <div id="timeline"
-              style={{
-                height: "100%",
-                width: ""+(this.state.videoDuration * this.state.timelineZoom)+"px",
-                backgroundColor: "#242"
+        <div id="timelineSection">
+          <div id="timelineScrollContainer">
+            <div id="timeline" style={{width: timelineWidth}}
+              onClick={(e) => {
+                let secs = this.getTimelineSecsFromMouseEvent(e)
+                document.querySelector('video#codingPageVideo').currentTime = secs
               }}
               onMouseMove={(e) => {
-                let mousePageX = event.pageX
-                let div = document.querySelector("#timelineScrollContainer")
-                let divOffset = div.getBoundingClientRect().x
-                let divScroll = div.scrollLeft
-                let positionInPixels = mousePageX - divOffset + divScroll
-                let positionInSecs = positionInPixels / this.state.timelineZoom
-                // console.log({mousePageX, divOffset, divScroll, positionInPixels, positionInSecs})
-                this.setState({timelineHover: positionInSecs})
+                let secs = this.getTimelineSecsFromMouseEvent(e)
+                this.setState({timelineHover: secs})
               }}
               onMouseLeave={() => {
                 this.setState({timelineHover: null})
-              }}
-              onClick={(e) => {
-                // TODO: Deduplicate with the locator logic in onMouseMove
-                let mousePageX = event.pageX
-                let div = document.querySelector("#timelineScrollContainer")
-                let divOffset = div.getBoundingClientRect().x
-                let divScroll = div.scrollLeft
-                let positionInPixels = mousePageX - divOffset + divScroll
-                let positionInSecs = positionInPixels / this.state.timelineZoom
-                // console.log({mousePageX, divOffset, divScroll, positionInPixels, positionInSecs})
-                let video = document.querySelector('video#codingPageVideo')
-                video.currentTime = positionInSecs
               }}
             >
               {/* This is a good boundary for a subcomponent because we don't want it to re-render unless the props change. */}
@@ -106,20 +79,20 @@ class CodingPage extends React.Component {
               {this.renderTimelineHoverCursor()}
             </div>
           </div>
-          <div id="timelineZoomControls"
-            style={{position: "absolute", top: "5px", right: "5px"}}
-          >
+          <div id="timelineZoomControls">
             <i className="icon"
-              style={{cursor: "pointer"}}
-              onClick={() => this.setState((state) => {
-                return {timelineZoom: state.timelineZoom * 2.0}
-              })}
+              onClick={(e) => {
+                this.setState((state) => {
+                  return {timelineZoom: state.timelineZoom * 2.0}
+                })
+              }}
             >zoom_in</i>
             <i className="icon"
-              style={{cursor: "pointer"}}
-              onClick={() => this.setState((state) => {
-                return {timelineZoom: state.timelineZoom / 2.0}
-              })}
+              onClick={(e) => {
+                this.setState((state) => {
+                  return {timelineZoom: state.timelineZoom / 2.0}
+                })
+              }}
             >zoom_out</i>
           </div>
         </div>
@@ -142,25 +115,13 @@ class CodingPage extends React.Component {
   }
 
   renderTimelineVideoSeekCursor() {
-    return <div id="timelineVideoSeekCursor" style={{
-      position: "absolute",
-      bottom: "0px",
-      left: ""+(this.state.videoSeek * this.state.timelineZoom)+"px",
-      height: "150px",
-      width: "0px",
-      border: "0.5px solid red"
-    }}></div>
+    let left = ""+(this.state.videoSeek * this.state.timelineZoom)+"px"
+    return <div className="timelineCursor timelineCursor--active" style={{left: left}}></div>
   }
 
   renderTimelineHoverCursor() {
-    return <div id="timelineHoverCursor" style={{
-      position: "absolute",
-      bottom: "0px",
-      left: ""+(this.state.timelineHover * this.state.timelineZoom)+"px",
-      height: "150px",
-      width: "0px",
-      border: "0.5px solid rgba(255, 0, 0, 0.5)"
-    }}></div>
+    let left = ""+(this.state.timelineHover * this.state.timelineZoom)+"px"
+    return <div className="timelineCursor timelineCursor--hover" style={{left: left}}></div>
   }
 
   warnNamePrivate() {
@@ -183,6 +144,17 @@ class CodingPage extends React.Component {
     if (video && video.currentTime != this.state.videoSeek) {
       this.setState({videoSeek: video.currentTime})
     }
+  }
+
+  getTimelineSecsFromMouseEvent(e) {
+    let mousePageX = event.pageX
+    let div = document.querySelector("#timelineScrollContainer")
+    let divOffset = div.getBoundingClientRect().x
+    let divScroll = div.scrollLeft
+    let positionInPixels = mousePageX - divOffset + divScroll
+    let positionInSecs = positionInPixels / this.state.timelineZoom
+    // console.log({mousePageX, divOffset, divScroll, positionInPixels, positionInSecs})
+    return positionInSecs
   }
 }
 
