@@ -48,20 +48,19 @@ class CodingPage extends React.Component {
     return <div className="row">
       <div className="col-8">
         <div>
-          <video
-            id="codingPageVideo"
+          <video className="b-codingPageVideo"
             poster={coding.video.thumbnail_url}
             src={coding.video.recording_url}
             controls preload="auto"
           ></video>
         </div>
         {/* TODO: Move these styles into the css sheet */}
-        <div id="timelineSection">
-          <div id="timelineScrollContainer">
-            <div id="timeline" style={{width: timelineWidth}}
+        <div className="b-codingPageTimeline">
+          <div className="__scrollContainer">
+            <div className="__timeline" style={{width: timelineWidth}}
               onClick={(e) => {
                 let secs = this.getTimelineSecsFromMouseEvent(e)
-                document.querySelector('video#codingPageVideo').currentTime = secs
+                document.querySelector('.b-codingPageVideo').currentTime = secs
               }}
               onMouseMove={(e) => {
                 let secs = this.getTimelineSecsFromMouseEvent(e)
@@ -79,7 +78,7 @@ class CodingPage extends React.Component {
               {this.renderTimelineHoverCursor()}
             </div>
           </div>
-          <div id="timelineZoomControls">
+          <div className="__zoomControls">
             <i className="icon"
               onClick={(e) => {
                 this.setState((state) => {
@@ -116,12 +115,12 @@ class CodingPage extends React.Component {
 
   renderTimelineVideoSeekCursor() {
     let left = ""+(this.state.videoSeek * this.state.timelineZoom)+"px"
-    return <div className="timelineCursor timelineCursor--active" style={{left: left}}></div>
+    return <div className="__cursor --active" style={{left: left}}></div>
   }
 
   renderTimelineHoverCursor() {
     let left = ""+(this.state.timelineHover * this.state.timelineZoom)+"px"
-    return <div className="timelineCursor timelineCursor--hover" style={{left: left}}></div>
+    return <div className="__cursor --hover" style={{left: left}}></div>
   }
 
   warnNamePrivate() {
@@ -129,7 +128,7 @@ class CodingPage extends React.Component {
   }
 
   setActualVideoDuration() {
-    let video = document.querySelector('video#codingPageVideo')
+    let video = document.querySelector('.b-codingPageVideo')
     if (video && video.duration != Infinity) {
       console.log("Got actual video duration: "+video.duration+"s.")
       this.setState({videoDuration: video.duration})
@@ -140,7 +139,7 @@ class CodingPage extends React.Component {
   }
 
   setVideoSeek() {
-    let video = document.querySelector('video#codingPageVideo')
+    let video = document.querySelector('.b-codingPageVideo')
     if (video && video.currentTime != this.state.videoSeek) {
       this.setState({videoSeek: video.currentTime})
     }
@@ -148,7 +147,7 @@ class CodingPage extends React.Component {
 
   getTimelineSecsFromMouseEvent(e) {
     let mousePageX = event.pageX
-    let div = document.querySelector("#timelineScrollContainer")
+    let div = document.querySelector(".b-codingPageTimeline .__scrollContainer")
     let divOffset = div.getBoundingClientRect().x
     let divScroll = div.scrollLeft
     let positionInPixels = mousePageX - divOffset + divScroll

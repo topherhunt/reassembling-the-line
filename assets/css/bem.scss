@@ -1,105 +1,114 @@
-.projectRow {
-  padding: 5px;
-  border: 1px solid #eee;
-  border-radius: 5px;
-}
-
-.projectRow__title {
-  font-weight: bold;
-}
-
+// I'm really happy with this composable twist on BEM.
 //
-// Forms
+// The rules:
+//   * An element's style must be scoped to the block.
+//   * A modifier's style must be scoped to the block and element.
+//   * Elements are flat, their styles may not be combined or nested even if they are
+//     in fact nested in the DOM.
 //
-
-.formField__error {
-  color: #a00;
-  background-color: #fee;
-  padding: 5px;
-}
-
+// The benefits:
+//   * Same as BEM, minimizes risk of style pollution / conflicting class names.
+//   * Unlike BEM, the DOM markup needed is very concise. Almost never need to repeat
+//     block or element names. This also makes the DOM classes read more friendlily.
+//   * Low risk of conflict with other style frameworks, e.g. should be easy to
+//     adopt this pattern in an existing app without causing drama.
 //
-// Coding page
-//
+// Next idea: instead of __ and -- prefix, try `b-` prefix for blocks, `e-` prefix for
+// elements, and `m-` prefix for modifiers. The same conventions would hold as above.
 
-#codingPageVideo {
+.b-codingPageVideo {
   display: block;
   width: 100%;
   height: 380px;
   background-color: #222;
 }
 
-#timelineSection {
+.b-codingPageTimeline {
   position: relative;
   width: 100%;
   height: 200px;
   background-color: #222;
   color: #fff;
+
+  .__scrollContainer {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    overflow: scroll;
+  }
+
+  .__zoomControls {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+
+    * { cursor: pointer; }
+  }
+
+  .__timeline {
+    height: 100%;
+    background-color: #242;
+  }
+
+  .__tickmarksContainter {
+    position: relative;
+    width: 100%;
+    height: 100%;
+  }
+
+  .__tickmark {
+    position: absolute;
+    top: 0px;
+    // left is set dynamically
+    width: 0px;
+    border: 0.5px solid #000;
+
+    &.--minor { height: 10px; border-color: rgba(255, 255, 255, 0.2); }
+    &.--major { height: 15px; border-color: rgba(255, 255, 255, 0.4); }
+  }
+
+  .__tickLabel {
+    position: absolute;
+    top: 15px;
+    // left is set dynamically
+    text-align: center;
+    font-size: 10px;
+    background-color: rgba(0, 0, 0, 0.2);
+    color: rgba(255, 255, 255, 0.5);
+  }
+
+  .__cursor {
+    position: absolute;
+    bottom: 0px;
+    // left is set dynamically
+    height: 150px;
+    width: 0px;
+    border: 0.5px solid #000;
+
+    &.--active { border-color: red; }
+    &.--hover { border-color: rgba(255, 0, 0, 0.5); }
+  }
 }
 
-#timelineScrollContainer {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  overflow: scroll;
+//
+// Shameful old styles
+//
+
+// OLD
+.projectRow {
+  padding: 5px;
+  border: 1px solid #eee;
+  border-radius: 5px;
 }
 
-#timeline {
-  height: 100%;
-  background-color: #242;
+// OLD
+.projectRow__title {
+  font-weight: bold;
 }
 
-#timelineZoomControls {
-  position: absolute;
-  top: 5px;
-  right: 5px;
-
-  * { cursor: pointer; }
-}
-
-.timelineTickmarksContainer {
-  position: relative;
-  width: 100%;
-  height: 100%;
-}
-
-.timelineTickmark--minor {
-  position: absolute;
-  top: 0px;
-  height: 10px;
-  width: 0px;
-  border: 0.5px solid rgba(255, 255, 255, 0.2);
-}
-
-.timelineTickmark--major {
-  position: absolute;
-  top: 0px;
-  height: 15px;
-  width: 0px;
-  border: 0.5px solid rgba(255, 255, 255, 0.4);
-}
-
-.timelineTickLabel {
-  position: absolute;
-  top: 15px;
-  text-align: center;
-  font-size: 10px;
-  background-color: rgba(0, 0, 0, 0.2);
-  color: rgba(255, 255, 255, 0.5);
-}
-
-.timelineCursor {
-  position: absolute;
-  bottom: 0px;
-  height: 150px;
-  width: 0px;
-  border: 0.5px solid;
-}
-
-.timelineCursor--active {
-  border-color: red;
-}
-
-.timelineCursor--hover {
-  border-color: rgba(255, 0, 0, 0.5);
+// OLD
+.formField__error {
+  color: #a00;
+  background-color: #fee;
+  padding: 5px;
 }

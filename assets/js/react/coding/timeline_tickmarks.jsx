@@ -3,7 +3,7 @@ import PropTypes from "prop-types"
 
 class TimelineTickmarks extends React.Component {
   render() {
-    return <div className="timelineTickmarksContainer">
+    return <div className="__tickmarksContainer">
       {this.renderTickmarksEvery1Second()}
       {this.renderLabelsEvery5Seconds()}
       {/* (TODO: make the tickmark granularity conditional on zoom) */}
@@ -17,7 +17,7 @@ class TimelineTickmarks extends React.Component {
     for (let sec = 1; sec < this.props.videoDuration; sec ++) {
       if (sec % 5 == 0) continue
       let style = {left: ""+(sec * this.props.timelineZoom)+"px"}
-      output.push(<div key={sec} className="timelineTickmark--minor" style={style}></div>)
+      output.push(<div key={sec} className="__tickmark --minor" style={style}></div>)
     }
 
     return output
@@ -35,10 +35,10 @@ class TimelineTickmarks extends React.Component {
       s = ("00" + s).substr(-2, 2) // zeropad
 
       let tickmarkStyle = {left: ""+(sec * this.props.timelineZoom)+"px"}
-      output.push(<div key={sec+"tick"} className="timelineTickmark--major" style={tickmarkStyle}></div>)
+      output.push(<div key={sec+"tick"} className="__tickmark --major" style={tickmarkStyle}></div>)
 
       let labelStyle = {left: ""+(sec * this.props.timelineZoom-10)+"px"}
-      output.push(<div key={sec+"label"} className="timelineTickLabel" style={labelStyle}>{m+":"+s}</div>)
+      output.push(<div key={sec+"label"} className="__tickLabel" style={labelStyle}>{m+":"+s}</div>)
     }
 
     return output
