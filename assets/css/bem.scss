@@ -27,14 +27,36 @@
   position: relative;
   width: 100%;
   height: 200px;
-  background-color: #222;
   color: #fff;
 
+  background-color: #222;
+  background-image:
+    repeating-linear-gradient(
+      45deg,
+      #222,
+      #222 10px,
+      #333 10px,
+      #333 20px /* determines size */
+    );
+
+  .__zoomInWarning {
+    position: absolute;
+    top: 80px;
+    left: 0px;
+    width: 100%;
+    text-align: center;
+    color: #bbb;
+  }
+
+  // TODO: At some point, implement a scrollbar or force the OSX scrollbar to display.
   .__scrollContainer {
     position: absolute;
     width: 100%;
     height: 100%;
     overflow: scroll;
+    ::-webkit-scrollbar {
+      width: 15px; height: 15px;
+    }
   }
 
   .__zoomControls {
@@ -77,17 +99,18 @@
     color: rgba(255, 255, 255, 0.5);
   }
 
-  .__cursor {
+  .__cursorPrimary, .__cursorHover {
     position: absolute;
     bottom: 0px;
     // left is set dynamically
     height: 150px;
     width: 0px;
     border: 0.5px solid #000;
-
-    &.--active { border-color: red; }
-    &.--hover { border-color: rgba(255, 0, 0, 0.5); }
   }
+
+  .__cursorPrimary { border-color: red; }
+
+  .__cursorHover { border-color: rgba(255, 0, 0, 0.5); }
 }
 
 //

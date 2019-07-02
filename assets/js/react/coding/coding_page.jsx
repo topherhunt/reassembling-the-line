@@ -23,6 +23,13 @@ class CodingPage extends React.Component {
     setInterval(this.setVideoSeek.bind(this), 100)
   }
 
+  componentDidUpdate(prevProps, prevState) {
+    // If the seek position has changed, ensure the seek cursor is visible.
+    if (this.state.videoSeek != prevState.videoSeek) {
+      document.querySelector("#timelineSeekCursor").scrollIntoViewIfNeeded()
+    }
+  }
+
   render() {
     return <ApolloProvider client={apolloClient}>
       <Query query={codingPageQuery} variables={{id: this.props.coding_id}}>
@@ -54,8 +61,8 @@ class CodingPage extends React.Component {
             controls preload="auto"
           ></video>
         </div>
-        {/* TODO: Move these styles into the css sheet */}
         <div className="b-codingPageTimeline">
+          <div className="__zoomInWarning">Nothing to see here, you've zoomed out too far. Zoom back in!</div>
           <div className="__scrollContainer">
             <div className="__timeline" style={{width: timelineWidth}}
               onClick={(e) => {
@@ -115,12 +122,12 @@ class CodingPage extends React.Component {
 
   renderTimelineVideoSeekCursor() {
     let left = ""+(this.state.videoSeek * this.state.timelineZoom)+"px"
-    return <div className="__cursor --active" style={{left: left}}></div>
+    return <div id="timelineSeekCursor" className="__cursorPrimary" style={{left: left}}></div>
   }
 
   renderTimelineHoverCursor() {
     let left = ""+(this.state.timelineHover * this.state.timelineZoom)+"px"
-    return <div className="__cursor --hover" style={{left: left}}></div>
+    return <div className="__cursorHover" style={{left: left}}></div>
   }
 
   warnNamePrivate() {
@@ -129,7 +136,7 @@ class CodingPage extends React.Component {
 
   setActualVideoDuration() {
     let video = document.querySelector('.b-codingPageVideo')
-    if (video && video.duration != Infinity) {
+    if (video && !!video.duration && video.duration != Infinity) {
       console.log("Got actual video duration: "+video.duration+"s.")
       this.setState({videoDuration: video.duration})
     } else {
