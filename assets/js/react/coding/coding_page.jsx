@@ -5,29 +5,19 @@ import apolloClient from "../../apollo/client"
 import {Query} from "react-apollo"
 import {codingPageQuery} from "../../apollo/queries"
 import TagManager from "./tag_manager.jsx"
-import TimelineTickmarks from "./timeline_tickmarks.jsx"
+import Timeline from "./timeline.jsx"
 
 class CodingPage extends React.Component {
   constructor(props) {
     super(props)
 
     this.state = {
-      videoSeek: 0.0, // seconds
+      videoSeekPos: 0.0, // seconds
       videoDuration: 600, // seconds (default: 10 mins)
-      timelineZoom: 10, // px per second
-      // Once we have a subcomponent for the timeline, move this down
-      timelineHover: null // seconds
     }
 
     this.setActualVideoDuration()
-    setInterval(this.setVideoSeek.bind(this), 100)
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    // If the seek position has changed, ensure the seek cursor is visible.
-    if (this.state.videoSeek != prevState.videoSeek) {
-      document.querySelector("#timelineSeekCursor").scrollIntoViewIfNeeded()
-    }
+    setInterval(this.refreshVideoSeekPos.bind(this), 100)
   }
 
   render() {
@@ -51,7 +41,6 @@ class CodingPage extends React.Component {
   }
 
   renderCodingPage(coding) {
-    let timelineWidth = ""+(this.state.videoDuration * this.state.timelineZoom)+"px"
     return <div className="row">
       <div className="col-8">
         <div>
@@ -61,47 +50,12 @@ class CodingPage extends React.Component {
             controls preload="auto"
           ></video>
         </div>
-        <div className="b-codingPageTimeline">
-          <div className="__zoomInWarning">Nothing to see here, you've zoomed out too far. Zoom back in!</div>
-          <div className="__scrollContainer">
-            <div className="__timeline" style={{width: timelineWidth}}
-              onClick={(e) => {
-                let secs = this.getTimelineSecsFromMouseEvent(e)
-                document.querySelector('.b-codingPageVideo').currentTime = secs
-              }}
-              onMouseMove={(e) => {
-                let secs = this.getTimelineSecsFromMouseEvent(e)
-                this.setState({timelineHover: secs})
-              }}
-              onMouseLeave={() => {
-                this.setState({timelineHover: null})
-              }}
-            >
-              {/* This is a good boundary for a subcomponent because we don't want it to re-render unless the props change. */}
-              <TimelineTickmarks
-                videoDuration={this.state.videoDuration}
-                timelineZoom={this.state.timelineZoom} />
-              {this.renderTimelineVideoSeekCursor()}
-              {this.renderTimelineHoverCursor()}
-            </div>
-          </div>
-          <div className="__zoomControls">
-            <i className="icon"
-              onClick={(e) => {
-                this.setState((state) => {
-                  return {timelineZoom: state.timelineZoom * 2.0}
-                })
-              }}
-            >zoom_in</i>
-            <i className="icon"
-              onClick={(e) => {
-                this.setState((state) => {
-                  return {timelineZoom: state.timelineZoom / 2.0}
-                })
-              }}
-            >zoom_out</i>
-          </div>
-        </div>
+        <Timeline
+          videoSeekPos={this.state.videoSeekPos}
+          videoDuration={this.state.videoDuration}
+          setVideoSeekPos={(position) => {
+            document.querySelector('.b-codingPageVideo').currentTime = position
+          }} />
       </div>
       <div className="col-4 u-stack">
         <div>
@@ -120,16 +74,6 @@ class CodingPage extends React.Component {
     </div>
   }
 
-  renderTimelineVideoSeekCursor() {
-    let left = ""+(this.state.videoSeek * this.state.timelineZoom)+"px"
-    return <div id="timelineSeekCursor" className="__cursorPrimary" style={{left: left}}></div>
-  }
-
-  renderTimelineHoverCursor() {
-    let left = ""+(this.state.timelineHover * this.state.timelineZoom)+"px"
-    return <div className="__cursorHover" style={{left: left}}></div>
-  }
-
   warnNamePrivate() {
     return <span className="small em">(name is private) - TODO</span>
   }
@@ -145,22 +89,11 @@ class CodingPage extends React.Component {
     }
   }
 
-  setVideoSeek() {
+  refreshVideoSeekPos() {
     let video = document.querySelector('.b-codingPageVideo')
-    if (video && video.currentTime != this.state.videoSeek) {
-      this.setState({videoSeek: video.currentTime})
+    if (video && video.currentTime != this.state.videoSeekPos) {
+      this.setState({videoSeekPos: video.currentTime})
     }
-  }
-
-  getTimelineSecsFromMouseEvent(e) {
-    let mousePageX = event.pageX
-    let div = document.querySelector(".b-codingPageTimeline .__scrollContainer")
-    let divOffset = div.getBoundingClientRect().x
-    let divScroll = div.scrollLeft
-    let positionInPixels = mousePageX - divOffset + divScroll
-    let positionInSecs = positionInPixels / this.state.timelineZoom
-    // console.log({mousePageX, divOffset, divScroll, positionInPixels, positionInSecs})
-    return positionInSecs
   }
 }
 
