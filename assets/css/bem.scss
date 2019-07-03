@@ -97,6 +97,8 @@
     font-size: 10px;
     background-color: rgba(0, 0, 0, 0.2);
     color: rgba(255, 255, 255, 0.5);
+
+    &.--major { color: rgba(255, 255, 255, 0.8); }
   }
 
   .__cursorPrimary, .__cursorHover {

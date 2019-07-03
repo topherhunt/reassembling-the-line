@@ -37,8 +37,9 @@ class TimelineTickmarks extends React.Component {
       let tickmarkStyle = {left: ""+(sec * this.props.zoom)+"px"}
       output.push(<div key={sec+"tick"} className="__tickmark --major" style={tickmarkStyle}></div>)
 
+      let labelClass = "__tickLabel " + (sec % 15 == 0 ? "--major" : "")
       let labelStyle = {left: ""+(sec * this.props.zoom-10)+"px"}
-      output.push(<div key={sec+"label"} className="__tickLabel" style={labelStyle}>{m+":"+s}</div>)
+      output.push(<div key={sec+"label"} className={labelClass} style={labelStyle}>{m+":"+s}</div>)
     }
 
     return output
