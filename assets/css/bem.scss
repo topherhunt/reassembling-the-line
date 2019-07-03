@@ -111,6 +111,17 @@
   .__cursorPrimary { border-color: red; }
 
   .__cursorHover { border-color: rgba(255, 0, 0, 0.5); }
+
+  .__selection {
+    position: absolute;
+    bottom: 0px;
+    // left is set dynamically
+    // width is set dynamically
+    height: 150px;
+    border-left: 1px dashed red;
+    border-right: 1px dashed red;
+    background-color: rgba(255, 0, 0, 0.2);
+  }
 }
 
 //

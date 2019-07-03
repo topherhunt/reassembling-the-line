@@ -8,7 +8,9 @@ class Timeline extends React.Component {
 
     this.state = {
       zoom: 10, // px width per second
-      hoverPos: null // seconds
+      hoverPos: null, // seconds
+      mouseDownPos: null, // seconds. (only relevant to drag-select)
+      dragSelection: null
     }
   }
 
@@ -20,18 +22,43 @@ class Timeline extends React.Component {
   }
 
   render() {
-    let timelineWidth = ""+(this.props.videoDuration * this.state.zoom)+"px"
     return <div className="b-codingPageTimeline">
       <div className="__zoomInWarning">Nothing to see here, you've zoomed out too far. Zoom back in!</div>
       <div className="__scrollContainer">
-        <div className="__timeline" style={{width: timelineWidth}}
-          onClick={(e) => {
+        <div className="__timeline" style={{width: this.timelineWidth()}}
+          onClick={null /* We don't have an onClick event, we need the lower-level events so we can distinguish between click and click-and-drag. */}
+          onMouseDown={(e) => {
+            // This is the start of either a click or a drag.
             let position = this.getTimelineSecsFromMouseEvent(e)
-            this.props.setVideoSeekPos(position)
+            console.log("mouseDown at "+position+"s.")
+            this.setState({mouseDownPos: position, dragSelection: null})
+          }}
+          onMouseUp={(e) => {
+            let position = this.getTimelineSecsFromMouseEvent(e)
+            console.log("mouseUp at "+position+"s.")
+
+            if (this.state.dragSelection) {
+              // This is the end of a drag. Reset the mouseDownPos tracker.
+              this.setState({mouseDownPos: null})
+            } else {
+              // This is a click.
+              this.setState({mouseDownPos: null, dragSelection: null})
+              this.props.setVideoSeekPos(position)
+            }
           }}
           onMouseMove={(e) => {
-            let secs = this.getTimelineSecsFromMouseEvent(e)
-            this.setState({hoverPos: secs})
+            let position = this.getTimelineSecsFromMouseEvent(e)
+
+            if (this.state.mouseDownPos && e.buttons == 1) {
+              // The mouse button is down, so this is a drag in progress.
+              let startPos = this.state.mouseDownPos
+              console.log("Dragging. mouseDownPos: "+startPos+", curPos: "+position+".")
+              this.setState({dragSelection: {start: startPos, end: position}})
+              this.props.setVideoSeekPos(position)
+            } else {
+              // Mouse button isn't held down. This is a hover.
+              this.setState({hoverPos: position})
+            }
           }}
           onMouseLeave={() => {
             this.setState({hoverPos: null})
@@ -42,6 +69,7 @@ class Timeline extends React.Component {
             videoDuration={this.props.videoDuration}
             zoom={this.state.zoom} />
           {this.renderPrimaryCursor()}
+          {this.renderSelection()}
           {this.renderHoverCursor()}
         </div>
       </div>
@@ -69,9 +97,31 @@ class Timeline extends React.Component {
     return <div id="timelinePrimaryCursor" className="__cursorPrimary" style={{left: left}}></div>
   }
 
+  renderSelection() {
+    if (!this.state.dragSelection) return
+
+    let selection = this.state.dragSelection
+    let boundaries = [selection.start, selection.end].sort((a, b) => a - b)
+    let startPos = boundaries[0] // timeline position in seconds
+    let endPos = boundaries[1] // timeline position in seconds
+    let left = ""+(startPos * this.state.zoom)+"px"
+    let width = ""+((endPos - startPos) * this.state.zoom + 1)+"px"
+
+    return <div className="__selection" style={{left: left, width: width}}></div>
+  }
+
+  renderPrimaryCursor() {
+    let left = ""+(this.props.videoSeekPos * this.state.zoom)+"px"
+    return <div id="timelinePrimaryCursor" className="__cursorPrimary" style={{left: left}}></div>
+  }
+
   renderHoverCursor() {
     let left = ""+(this.state.hoverPos * this.state.zoom)+"px"
     return <div className="__cursorHover" style={{left: left}}></div>
+  }
+
+  timelineWidth() {
+    return ""+(this.props.videoDuration * this.state.zoom)+"px"
   }
 
   getTimelineSecsFromMouseEvent(e) {
