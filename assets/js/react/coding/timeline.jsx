@@ -8,9 +8,8 @@ class Timeline extends React.Component {
 
     this.state = {
       zoom: 10, // px width per second
-      hoverPos: null, // seconds
-      mouseDownPos: null, // seconds. (only relevant to drag-select)
-      dragSelection: null
+      hoverSecs: null, // seconds
+      mouseDownSecs: null // seconds. (only relevant to drag-select)
     }
   }
 
@@ -48,7 +47,7 @@ class Timeline extends React.Component {
           onMouseDown={this.handleMouseDown.bind(this)}
           onMouseUp={this.handleMouseUp.bind(this)}
           onMouseMove={this.handleMouseMove.bind(this)}
-          onMouseLeave={() => this.setState({hoverPos: null})}
+          onMouseLeave={() => this.setState({hoverSecs: null})}
         >
           <TimelineTickmarks
             videoDuration={this.props.videoDuration}
@@ -72,17 +71,13 @@ class Timeline extends React.Component {
   }
 
   renderSelection() {
-    if (!this.state.dragSelection) return
+    if (!this.props.timelineSelection) return
 
-    let selection = this.state.dragSelection
-    // Need to expliictly set the sort algorithm; by default it uses alphasort
-    let boundaries = [selection.start, selection.end].sort((a, b) => a - b)
-    let startPos = boundaries[0] // timeline position in seconds
-    let endPos = boundaries[1] // timeline position in seconds
-    let left = ""+(startPos * this.state.zoom)+"px"
-    let width = ""+((endPos - startPos) * this.state.zoom + 1)+"px"
+    let selection = this.props.timelineSelection
+    let cssLeft = ""+(selection.left * this.state.zoom)+"px"
+    let cssWidth = ""+((selection.right - selection.left) * this.state.zoom + 1)+"px"
 
-    return <div className="__selection" style={{left: left, width: width}}></div>
+    return <div className="__selection" style={{left: cssLeft, width: cssWidth}}></div>
   }
 
   renderPrimaryCursor() {
@@ -91,7 +86,7 @@ class Timeline extends React.Component {
   }
 
   renderHoverCursor() {
-    let left = ""+(this.state.hoverPos * this.state.zoom)+"px"
+    let left = ""+(this.state.hoverSecs * this.state.zoom)+"px"
     return <div className="__cursorHover" style={{left: left}}></div>
   }
 
@@ -103,37 +98,39 @@ class Timeline extends React.Component {
   // between click and click-and-drag.
   handleMouseDown(e) {
     // This is the start of either a click or a drag.
-    let position = this.getTimelineSecsFromMouseEvent(e)
-    console.log("mouseDown at "+position+"s.")
-    this.setState({mouseDownPos: position, dragSelection: null})
+    let currentSecs = this.getTimelineSecsFromMouseEvent(e)
+    console.log("mouseDown at "+currentSecs+"s.")
+    this.setState({mouseDownSecs: currentSecs})
+    this.props.setTimelineSelection(null)
   }
 
   handleMouseUp(e) {
-    let position = this.getTimelineSecsFromMouseEvent(e)
-    console.log("mouseUp at "+position+"s.")
+    let currentSecs = this.getTimelineSecsFromMouseEvent(e)
+    console.log("mouseUp at "+currentSecs+"s.")
 
-    if (this.state.dragSelection) {
-      // This is the end of a drag. Reset the mouseDownPos tracker.
-      this.setState({mouseDownPos: null})
+    if (this.props.timelineSelection) {
+      // This is the end of a drag. Reset the mouseDownSecs tracker.
+      this.setState({mouseDownSecs: null})
     } else {
       // This is a click.
-      this.setState({mouseDownPos: null, dragSelection: null})
-      this.props.setVideoSeekPos(position)
+      this.setState({mouseDownSecs: null})
+      this.props.setTimelineSelection(null)
+      this.props.setVideoSeekPos(currentSecs)
     }
   }
 
   handleMouseMove(e) {
-    let position = this.getTimelineSecsFromMouseEvent(e)
+    let currentSecs = this.getTimelineSecsFromMouseEvent(e)
 
-    if (this.state.mouseDownPos && e.buttons == 1) {
+    if (this.state.mouseDownSecs && e.buttons == 1) {
       // The mouse button is down, so this is a drag in progress.
-      let startPos = this.state.mouseDownPos
-      // console.log("Dragging. mouseDownPos: "+startPos+", curPos: "+position+".")
-      this.setState({dragSelection: {start: startPos, end: position}})
-      this.props.setVideoSeekPos(position)
+      let leftSecs = Math.min(this.state.mouseDownSecs, currentSecs)
+      let rightSecs = Math.max(this.state.mouseDownSecs, currentSecs)
+      this.props.setTimelineSelection({left: leftSecs, right: rightSecs})
+      this.props.setVideoSeekPos(currentSecs)
     } else {
       // Mouse button isn't held down. This is a hover.
-      this.setState({hoverPos: position})
+      this.setState({hoverSecs: currentSecs})
     }
   }
 
@@ -172,7 +169,8 @@ class Timeline extends React.Component {
 Timeline.propTypes = {
   videoSeekPos: PropTypes.number.isRequired, // seconds
   videoDuration: PropTypes.number.isRequired, // seconds
-  setVideoSeekPos: PropTypes.func.isRequired
+  setVideoSeekPos: PropTypes.func.isRequired,
+  setTimelineSelection: PropTypes.func.isRequired
 }
 
 export default Timeline

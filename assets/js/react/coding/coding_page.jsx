@@ -14,6 +14,7 @@ class CodingPage extends React.Component {
     this.state = {
       videoSeekPos: 0.0, // seconds
       videoDuration: 600, // seconds (default: 10 mins)
+      timelineSelection: null // {start: pos, end: pos}
     }
 
     this.setActualVideoDuration()
@@ -63,7 +64,13 @@ class CodingPage extends React.Component {
           videoDuration={this.state.videoDuration}
           setVideoSeekPos={(position) => {
             document.querySelector('.b-codingPageVideo').currentTime = position
-          }} />
+          }}
+          timelineSelection={this.state.timelineSelection}
+          setTimelineSelection={(selection) => {
+            // The selection is either {left:, right:} (in decimal seconds) or null.
+            this.setState({timelineSelection: selection})
+          }}
+        />
       </div>
       <div className="col-4 u-stack">
         <div>
@@ -79,9 +86,10 @@ class CodingPage extends React.Component {
         </div>
 
         <TagManager
-          tags={coding.video.prompt.project.tags}
           codingId={this.props.codingId}
           projectId={parseInt(coding.video.prompt.project.id)}
+          tags={coding.video.prompt.project.tags}
+          taggings={coding.taggings}
         />
       </div>
     </div>

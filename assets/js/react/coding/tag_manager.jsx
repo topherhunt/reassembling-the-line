@@ -47,7 +47,10 @@ class TagManager extends React.Component {
 
       <div className="__list">
         {this.props.tags.map((tag) => {
-          return <TagListRow key={tag.id} tag={tag} codingId={this.props.codingId} />
+          return <TagListRow key={tag.id}
+            codingId={this.props.codingId}
+            tag={tag}
+          />
         })}
 
         <div className="__tag">
@@ -114,10 +117,10 @@ class TagManager extends React.Component {
 }
 
 TagManager.propTypes = {
-  tags: PropTypes.array.isRequired,
   // TODO: Do we really need to pass around both codingId and projectId?
   codingId: PropTypes.number.isRequired,
-  projectId: PropTypes.number.isRequired
+  projectId: PropTypes.number.isRequired,
+  tags: PropTypes.array.isRequired
 }
 
 export default TagManager
