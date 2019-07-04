@@ -10,6 +10,15 @@ class TagManager extends React.Component {
     this.state = {newTagText: ""}
   }
 
+  componentDidUpdate(prevProps, prevState) {
+    // If we just added a tag, focus back on the add tag field again
+    if (this.props.tags.length > prevProps.tags.length) {
+      let input = document.querySelector("#new-tag-text")
+      input.focus()
+      input.scrollIntoViewIfNeeded()
+    }
+  }
+
   render() {
     return this.renderCreateTagMutationWrapper()
   }
@@ -46,6 +55,9 @@ class TagManager extends React.Component {
             placeholder="Add a new tag"
             value={this.state.newTagText}
             onChange={(e) => this.setState({newTagText: e.target.value})}
+            onKeyUp={(e) => {
+              if (e.key === 'Enter') this.submitNewTag({runCreateTagMutation})
+            }}
           />
           {this.renderNewTagSubmitButtons({runCreateTagMutation})}
         </div>
@@ -59,11 +71,7 @@ class TagManager extends React.Component {
         <a href="#" className="text-success"
           onClick={(e) => {
             e.preventDefault()
-            let projectId = this.props.projectId
-            let text = this.state.newTagText
-            // document.querySelector("#new-tag-text").value
-            runCreateTagMutation({variables: {projectId: projectId, text: text}})
-            this.setState({newTagText: ""})
+            this.submitNewTag({runCreateTagMutation})
           }}
         ><i className="icon">check_circle</i></a>
       </div>
@@ -72,22 +80,35 @@ class TagManager extends React.Component {
     }
   }
 
+  submitNewTag({runCreateTagMutation}) {
+    let projectId = this.props.projectId
+    let text = this.state.newTagText
+    // document.querySelector("#new-tag-text").value
+    runCreateTagMutation({variables: {projectId: projectId, text: text}})
+    this.setState({newTagText: ""})
+  }
+
   // Tell Apollo how to update the cache to reflect this mutation
   // See https://www.apollographql.com/docs/react/essentials/mutations#update
   updateCacheOnCreateTag(cache, resp) {
-    let codingId = parseInt(this.props.codingId) // needs to be an integer to match!
-    let newTag = resp.data.create_tag // grab the newly-created tag data
-    console.log("Updating the cache with the new tag: ", newTag)
+    let codingId = this.props.codingId
+    let newTagData = resp.data.create_tag
 
     // Load the relevant data from the cache
-    let cachedData = cache.readQuery({query: codingPageQuery, variables: {id: codingId}})
+    let cachedData = cache.readQuery({
+      query: codingPageQuery,
+      variables: {id: codingId}
+    })
 
-    // Update the cached response to reflect the change we just made
+    // Update the cache with our newly added tag, then re-sort the list
     cachedData.coding.video.prompt.project.tags =
-      cachedData.coding.video.prompt.project.tags.concat(newTag)
+      cachedData.coding.video.prompt.project.tags
+        .concat(newTagData)
+        .sort((t1, t2) => t1.text < t2.text ? -1 : 1)
+
+    cachedData.touchCache = Math.random() // help Apollo realize that a rerender is needed
 
     // Write the transformed data back to the cache
-    console.log("The cachedData being written: ", cachedData)
     cache.writeQuery({query: codingPageQuery, variables: {id: codingId}, data: cachedData})
   }
 }

@@ -9,7 +9,8 @@ class TagListRow extends React.Component {
 
     this.state = {
       isHovering: false,
-      isEditing: false
+      isEditing: false,
+      editedText: props.tag.text
     }
   }
 
@@ -69,19 +70,21 @@ class TagListRow extends React.Component {
   }
 
   renderEditing({runUpdateTagMutation}) {
-    let tagId = this.props.tag.id
-    let rowId = "tag-editor-"+tagId
-    let text = this.props.tag.text
-
     return <div>
-      <input type="text" id={rowId} className="__tagTextEditField" defaultValue={text} />
+      <input type="text"
+        id={"tag-editor-"+this.props.tag.id}
+        className="__tagTextEditField"
+        value={this.state.editedText}
+        onChange={(e) => this.setState({editedText: e.target.value})}
+        onKeyUp={(e) => {
+          if (e.key === 'Enter') this.submitTagRename({runUpdateTagMutation})
+        }}
+      />
       <div className="__tagDetails">
         <a href="#" className="text-success"
           onClick={(e) => {
             e.preventDefault()
-            let updatedText = document.querySelector("#"+rowId).value
-            runUpdateTagMutation({variables: {id: tagId, text: updatedText}})
-            this.setState({isEditing: false})
+            this.submitTagRename({runUpdateTagMutation})
           }}
         ><i className="icon">check_circle</i></a>
         &nbsp;
@@ -131,24 +134,30 @@ class TagListRow extends React.Component {
     </div>
   }
 
+  submitTagRename({runUpdateTagMutation}) {
+    runUpdateTagMutation({variables: {id: this.props.tag.id, text: this.state.editedText}})
+    this.setState({isEditing: false})
+  }
+
   // Tell Apollo how to update the cache to reflect this mutation
   // See https://www.apollographql.com/docs/react/essentials/mutations#update
   updateCacheOnDeleteTag(cache, resp) {
     let codingId = this.props.codingId
     let deletedTagId = this.props.tag.id
-    console.log("Updating the cache.")
 
     // Load the relevant data from the cache
     let cachedData = cache.readQuery({query: codingPageQuery, variables: {id: codingId}})
 
     // Update the cached response to reflect the change we just made
     cachedData.coding.video.prompt.project.tags =
-     cachedData.coding.video.prompt.project.tags.filter((tag) => tag.id != deletedTagId)
-    // cachedData.coding.taggings =
-    //   cachedData.coding.taggings.filter((tagging) => tagging.tag.id != deletedTagId)
-    // cachedData.coding.video.prompt.project.tags = []
-    cachedData.touchQuery = Math.random()
-    // cachedData.coding.completed_at = "now"
+     cachedData.coding.video.prompt.project.tags
+      .filter((tag) => tag.id != deletedTagId)
+
+    cachedData.coding.taggings =
+      cachedData.coding.taggings
+        .filter((tagging) => tagging.tag.id != deletedTagId)
+
+    cachedData.touchCache = Math.random() // help Apollo realize that a rerender is needed
 
     // Write the transformed data back to the cache
     cache.writeQuery({query: codingPageQuery, variables: {id: codingId}, data: cachedData})
