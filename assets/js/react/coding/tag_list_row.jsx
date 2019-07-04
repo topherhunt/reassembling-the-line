@@ -119,7 +119,6 @@ class TagListRow extends React.Component {
         <a href="#" className="text-danger"
           onClick={(e) => {
             e.preventDefault()
-            console.log("Deleting tag "+this.props.tag.id+".")
             runDeleteTagMutation({variables: {id: this.props.tag.id}})
           }}
         ><i className="icon">delete</i></a>

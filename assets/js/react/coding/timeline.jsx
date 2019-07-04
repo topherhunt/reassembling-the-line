@@ -23,6 +23,9 @@ class Timeline extends React.Component {
     // If zoomed in, double the scroll amount to compensate.
     if (this.state.zoom > prevState.zoom) {
       let div = document.querySelector(".b-codingPageTimeline .__scrollContainer")
+      // TODO: This "anchors" zoom to the left-hand side of the screen, but we can do
+      // better: we can adjust the scroll so that tickmarks that were in the middle of
+      // the view, stay in the middle of the view.
       div.scrollLeft = div.scrollLeft * 2
     }
 
