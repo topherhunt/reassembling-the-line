@@ -34,11 +34,20 @@ defmodule RTLWeb.Graphql.Types do
     field :completed_at, :datetime
     field :coder, :user, do: resolve &Resolvers.get_coder/3
     field :video, :video, do: resolve &Resolvers.get_video/3
+    field :taggings, list_of(:tagging), do: resolve &Resolvers.get_taggings/3
+  end
+
+  object :tagging do
+    field :id, :id
+    field :starts_at, :float
+    field :ends_at, :float
+    field :tag, :tag, do: resolve &Resolvers.get_tag/3
   end
 
   object :tag do
     field :id, :id
     field :text, :string
+    field :color, :string
     field :count_taggings, :integer, do: resolve &Resolvers.get_tag_count_taggings/3
   end
 end

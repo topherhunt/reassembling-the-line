@@ -12,4 +12,4 @@
 <h1>Tag video</h1>
 
 <%# I guess I'll just pass in the coding id for now and have Apollo fetch everything %>
-<%= ReactPhoenix.ClientSide.react_component("Components.CodingPage", %{coding_id: @coding.id}) %>
+<%= ReactPhoenix.ClientSide.react_component("Components.CodingPage", %{codingId: @coding.id}) %>

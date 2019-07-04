@@ -8,6 +8,7 @@ defmodule RTL.Videos.Tag do
   schema "tags" do
     belongs_to :project, RTL.Projects.Project
     field :text, :string
+    field :color, :string
     timestamps()
 
     has_many :taggings, RTL.Videos.Tagging
@@ -23,25 +24,32 @@ defmodule RTL.Videos.Tag do
   def all(filters \\ []), do: __MODULE__ |> apply_filters(filters) |> Repo.all()
   def count(filters \\ []), do: __MODULE__ |> apply_filters(filters) |> Repo.count()
 
+  def insert(params), do: changeset(%__MODULE__{}, params) |> Repo.insert()
+  def insert!(params), do: insert(params) |> Repo.ensure_success()
+  def update(struct, params), do: changeset(struct, params) |> Repo.update()
+  def update!(struct, params), do: update(struct, params) |> Repo.ensure_success()
+  def delete!(struct), do: Repo.delete!(struct)
+
   def changeset(struct, params \\ %{}) do
     struct
-    |> cast(params, [:text])
-    |> validate_required([:text])
-    |> validate_tag_has_no_special_chars
+    |> cast(params, [:project_id, :text, :color])
+    |> validate_required([:project_id, :text, :color])
+    # NOTE: I'm no longer removing special chars from tags.
   end
 
   #
   # Validations
   #
 
-  def validate_tag_has_no_special_chars(changeset) do
-    text = get_field(changeset, :text)
-
-    if String.match?(text || "", ~r/\A[\w\d \-\_]+\z/) do
-      changeset
-    else
-      add_error(changeset, :text, "Must only contain letters, numbers, and spaces.")
-    end
+  def random_color do
+    ~w(
+      #FCE4BC #E4CBBB #E4CCAC #DCC4A9 #F4CCBA #CCAC94 #D4C48C
+      #04146C #2C4CA4 #3C84FC #7C94F4 #046494 #22A9D4 #7DCAED
+      #AC1C34 #EC441C #AC5C5C #740C0C #F19289 #FC0404 #EC2434
+      #64349C #AC1CF4 #844CD3 #B483CD #442C64 #BCACF4 #8C4DAE
+      #048444 #04E474 #4CBC14 #4C7C6C #04FC9C #045B04 #B4DC1C
+      #FCE404 #FCBB04 #FCFC04 #FCFC94 #F4DC44 #E2DC1B #DF9F0D
+    ) |> Enum.random()
   end
 
   #
@@ -54,4 +62,5 @@ defmodule RTL.Videos.Tag do
 
   def filter(query, :id, id), do: Q.where(query, [t], t.id == ^id)
   def filter(query, :project, proj), do: Q.where(query, [t], t.project_id == ^proj.id)
+  def filter(query, :order, :text), do: Q.order_by(query, [t], asc: t.text)
 end

@@ -126,6 +126,49 @@
   }
 }
 
+.b-codingPageTagManager {
+
+  .__list {
+    height: 200px;
+    overflow: auto;
+    border: 1px solid #eee;
+  }
+
+  .__tag {
+    position: relative;
+    padding-left: 1.5em;
+
+    &:hover { background-color: #eee; }
+  }
+
+  .__tagColor {
+    position: absolute;
+    top: 0.25em;
+    left: 0.25em;
+    height: 1em;
+    width: 1em;
+    border-radius: 0.5em;
+    // background-color is set dynamically
+  }
+
+  .__tagDetails {
+    position: absolute;
+    top: 0px;
+    right: 10px;
+  }
+
+  .__tagTextEditField {
+    height: 1.5em;
+  }
+
+  .__newTagTextField {
+    height: 1.5em;
+    border: none;
+    border-bottom: 1px solid #eee;
+    cursor: pointer;
+  }
+}
+
 //
 // Shameful old styles
 //

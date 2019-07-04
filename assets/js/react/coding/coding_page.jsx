@@ -4,8 +4,8 @@ import {ApolloProvider} from "react-apollo"
 import apolloClient from "../../apollo/client"
 import {Query} from "react-apollo"
 import {codingPageQuery} from "../../apollo/queries"
-import TagManager from "./tag_manager.jsx"
 import Timeline from "./timeline.jsx"
+import TagManager from "./tag_manager.jsx"
 
 class CodingPage extends React.Component {
   constructor(props) {
@@ -21,15 +21,23 @@ class CodingPage extends React.Component {
   }
 
   render() {
+    return this.wrapInApolloProvider()
+  }
+
+  wrapInApolloProvider() {
     return <ApolloProvider client={apolloClient}>
-      <Query query={codingPageQuery} variables={{id: this.props.coding_id}}>
-        {({loading, error, data}) => {
-          if (loading) return this.renderLoading()
-          else if (error) return this.renderError()
-          else return this.renderCodingPage(data.coding)
-        }}
-      </Query>
+      {this.wrapInApolloQuery()}
     </ApolloProvider>
+  }
+
+  wrapInApolloQuery() {
+    return <Query query={codingPageQuery} variables={{id: this.props.codingId}}>
+      {({loading, error, data}) => {
+        if (loading) return this.renderLoading()
+        else if (error) return this.renderError()
+        else return this.renderCodingPage(data.coding)
+      }}
+    </Query>
   }
 
   renderLoading() {
@@ -64,12 +72,17 @@ class CodingPage extends React.Component {
             Speaker: {coding.video.speaker_name}
             {coding.video.permission_show_name ? "" : this.warnNamePrivate()}
           </div>
+
           <div>
             Question: <span className="text-success">{coding.video.prompt.sanitized_text}</span>
           </div>
         </div>
 
-        <TagManager tags={coding.video.prompt.project.tags} />
+        <TagManager
+          tags={coding.video.prompt.project.tags}
+          codingId={this.props.codingId}
+          projectId={parseInt(coding.video.prompt.project.id)}
+        />
       </div>
     </div>
   }
@@ -98,7 +111,7 @@ class CodingPage extends React.Component {
 }
 
 CodingPage.propTypes = {
-  coding_id: PropTypes.number.isRequired
+  codingId: PropTypes.number.isRequired
 }
 
 export default CodingPage

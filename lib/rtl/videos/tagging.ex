@@ -66,4 +66,5 @@ defmodule RTL.Videos.Tagging do
 
   def filter(query, :id, id), do: Q.where(query, [ti], ti.id == ^id)
   def filter(query, :tag, tag), do: Q.where(query, [ti], ti.tag_id == ^tag.id)
+  def filter(query, :coding, coding), do: Q.where(query, [ti], ti.coding_id == ^coding.id)
 end
