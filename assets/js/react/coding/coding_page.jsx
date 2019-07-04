@@ -21,18 +21,25 @@ class CodingPage extends React.Component {
   }
 
   render() {
-    return this.wrapInApolloProvider()
+    return this.renderApolloProviderWrapper()
   }
 
-  wrapInApolloProvider() {
+  renderApolloProviderWrapper() {
     return <ApolloProvider client={apolloClient}>
-      {this.wrapInApolloQuery()}
+      {this.renderMainQueryWrapper()}
     </ApolloProvider>
   }
 
-  wrapInApolloQuery() {
+  renderMainQueryWrapper() {
     return <Query query={codingPageQuery} variables={{id: this.props.codingId}}>
       {({loading, error, data}) => {
+        // console.log("Received query data: ", data)
+        if (data.coding) {
+          let summary = data.coding.video.prompt.project.tags
+            .map((t) => "{id: "+t.id+", text: \""+t.text+"\"}").join(", ")
+          console.log("In particular, tags list is: ", summary)
+        }
+
         if (loading) return this.renderLoading()
         else if (error) return this.renderError()
         else return this.renderCodingPage(data.coding)

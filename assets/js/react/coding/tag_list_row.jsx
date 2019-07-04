@@ -22,22 +22,22 @@ class TagListRow extends React.Component {
   }
 
   render() {
-    return this.wrapInDeleteTagMutation()
+    return this.renderDeleteTagMutationWrapper()
   }
 
-  wrapInDeleteTagMutation() {
+  renderDeleteTagMutationWrapper() {
     return <Mutation
       mutation={deleteTagMutation}
       update={this.updateCacheOnDeleteTag.bind(this)}
     >
       {(runDeleteTagMutation, {called, loading, data}) => {
         // TODO: Display loading status somehow, maybe a semi-transparent overlay
-        return this.wrapInUpdateTagMutation({runDeleteTagMutation})
+        return this.renderUpdateTagMutationWrapper({runDeleteTagMutation})
       }}
     </Mutation>
   }
 
-  wrapInUpdateTagMutation({runDeleteTagMutation}) {
+  renderUpdateTagMutationWrapper({runDeleteTagMutation}) {
     // Apollo should know how to update the cache; we don't need a custom updater
     return <Mutation mutation={updateTagMutation}>
       {(runUpdateTagMutation, {called, loading, data}) => {
@@ -116,6 +116,7 @@ class TagListRow extends React.Component {
         <a href="#" className="text-danger"
           onClick={(e) => {
             e.preventDefault()
+            console.log("Deleting tag "+this.props.tag.id+".")
             runDeleteTagMutation({variables: {id: this.props.tag.id}})
           }}
         ><i className="icon">delete</i></a>
@@ -133,7 +134,7 @@ class TagListRow extends React.Component {
   // Tell Apollo how to update the cache to reflect this mutation
   // See https://www.apollographql.com/docs/react/essentials/mutations#update
   updateCacheOnDeleteTag(cache, resp) {
-    let codingId = parseInt(this.props.codingId) // needs to be an integer to match!
+    let codingId = this.props.codingId
     let deletedTagId = this.props.tag.id
     console.log("Updating the cache.")
 
@@ -142,12 +143,14 @@ class TagListRow extends React.Component {
 
     // Update the cached response to reflect the change we just made
     cachedData.coding.video.prompt.project.tags =
-      cachedData.coding.video.prompt.project.tags.filter((tag) => tag.id != deletedTagId)
-    cachedData.coding.taggings =
-      cachedData.coding.taggings.filter((tagging) => tagging.tag.id != deletedTagId)
+     cachedData.coding.video.prompt.project.tags.filter((tag) => tag.id != deletedTagId)
+    // cachedData.coding.taggings =
+    //   cachedData.coding.taggings.filter((tagging) => tagging.tag.id != deletedTagId)
+    // cachedData.coding.video.prompt.project.tags = []
+    cachedData.touchQuery = Math.random()
+    // cachedData.coding.completed_at = "now"
 
     // Write the transformed data back to the cache
-    console.log("The cachedData being written: ", cachedData)
     cache.writeQuery({query: codingPageQuery, variables: {id: codingId}, data: cachedData})
   }
 }

@@ -11,10 +11,10 @@ class TagManager extends React.Component {
   }
 
   render() {
-    return this.wrapInCreateTagQuery()
+    return this.renderCreateTagMutationWrapper()
   }
 
-  wrapInCreateTagQuery() {
+  renderCreateTagMutationWrapper() {
     return <Mutation
       mutation={createTagMutation}
       update={this.updateCacheOnCreateTag.bind(this)}
