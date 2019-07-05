@@ -23,6 +23,12 @@ defmodule RTL.Videos.Tagging do
   def all(filters \\ []), do: __MODULE__ |> apply_filters(filters) |> Repo.all()
   def count(filters \\ []), do: __MODULE__ |> apply_filters(filters) |> Repo.count()
 
+  def insert(params), do: changeset(%__MODULE__{}, params) |> Repo.insert()
+  def insert!(params), do: insert(params) |> Repo.ensure_success()
+  def update(struct, params), do: changeset(struct, params) |> Repo.update()
+  def update!(struct, params), do: update(struct, params) |> Repo.ensure_success()
+  def delete!(struct), do: Repo.delete!(struct)
+
   def changeset(struct, params \\ %{}) do
     struct
     |> cast(params, [:coding_id, :tag_id, :starts_at, :ends_at])
@@ -67,4 +73,5 @@ defmodule RTL.Videos.Tagging do
   def filter(query, :id, id), do: Q.where(query, [ti], ti.id == ^id)
   def filter(query, :tag, tag), do: Q.where(query, [ti], ti.tag_id == ^tag.id)
   def filter(query, :coding, coding), do: Q.where(query, [ti], ti.coding_id == ^coding.id)
+  def filter(query, :order, :starts_at), do: Q.order_by(query, [ti], asc: ti.starts_at)
 end

@@ -62,10 +62,11 @@ class CodingPage extends React.Component {
         <Timeline
           videoSeekPos={this.state.videoSeekPos}
           videoDuration={this.state.videoDuration}
+          timelineSelection={this.state.timelineSelection}
+          taggings={coding.taggings}
           setVideoSeekPos={(position) => {
             document.querySelector('.b-codingPageVideo').currentTime = position
           }}
-          timelineSelection={this.state.timelineSelection}
           setTimelineSelection={(selection) => {
             // The selection is either {left:, right:} (in decimal seconds) or null.
             this.setState({timelineSelection: selection})
@@ -90,6 +91,7 @@ class CodingPage extends React.Component {
           projectId={parseInt(coding.video.prompt.project.id)}
           tags={coding.video.prompt.project.tags}
           taggings={coding.taggings}
+          timelineSelection={this.state.timelineSelection}
         />
       </div>
     </div>

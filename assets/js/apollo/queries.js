@@ -77,8 +77,8 @@ const deleteTagMutation = gql`
 `
 
 const createTaggingMutation = gql`
-  mutation CreateTagging($codingId: ID!, $tagId: ID!, $startsAt: String!, $endsAt: String!) {
-    create_tagging(codingId: $codingId, tagId: $tagId, startsAt: $startsAt, endsAt: $endsAt) {
+  mutation CreateTagging($coding_id: ID!, $tag_id: ID!, $starts_at: String!, $ends_at: String!) {
+    create_tagging(coding_id: $coding_id, tag_id: $tag_id, starts_at: $starts_at, ends_at: $ends_at) {
       id
       starts_at
       ends_at

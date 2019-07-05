@@ -1,7 +1,12 @@
 import React from "react"
 import PropTypes from "prop-types"
 import {Mutation} from "react-apollo"
-import {codingPageQuery, updateTagMutation, deleteTagMutation} from "../../apollo/queries"
+import {
+  codingPageQuery,
+  updateTagMutation,
+  deleteTagMutation,
+  createTaggingMutation
+} from "../../apollo/queries"
 
 class TagListRow extends React.Component {
   constructor(props) {
@@ -31,45 +36,60 @@ class TagListRow extends React.Component {
       mutation={deleteTagMutation}
       update={this.updateCacheOnDeleteTag.bind(this)}
     >
-      {(runDeleteTagMutation, {called, loading, data}) => {
+      {(deleteTag, {called, loading, data}) => {
         // TODO: Display loading status somehow, maybe a semi-transparent overlay
-        return this.renderUpdateTagMutationWrapper({runDeleteTagMutation})
+        let mutationFuncs = {deleteTag}
+        return this.renderUpdateTagMutationWrapper(mutationFuncs)
       }}
     </Mutation>
   }
 
-  renderUpdateTagMutationWrapper({runDeleteTagMutation}) {
+  renderUpdateTagMutationWrapper(mutationFuncs) {
     // Apollo should know how to update the cache; we don't need a custom updater
     return <Mutation mutation={updateTagMutation}>
-      {(runUpdateTagMutation, {called, loading, data}) => {
+      {(updateTag, {called, loading, data}) => {
         // TODO: Display loading status somehow, maybe a semi-transparent overlay
-        return this.renderTagContainer({runDeleteTagMutation, runUpdateTagMutation})
+        mutationFuncs.updateTag = updateTag
+        return this.renderCreateTaggingMutationWrapper(mutationFuncs)
+        // return this.renderTagContainer(mutationFuncs)
       }}
     </Mutation>
   }
 
-  renderTagContainer({runDeleteTagMutation, runUpdateTagMutation}) {
+  renderCreateTaggingMutationWrapper(mutationFuncs) {
+    return <Mutation
+      mutation={createTaggingMutation}
+      update={this.updateCacheOnCreateTagging.bind(this)}
+    >
+      {(createTagging, {called, loading, data}) => {
+        mutationFuncs.createTagging = createTagging
+        return this.renderTagContainer(mutationFuncs)
+      }}
+    </Mutation>
+  }
+
+  renderTagContainer(mutationFuncs) {
     return <div
       className="__tag"
       onMouseOver={() => this.setState({isHovering: true})}
       onMouseLeave={() => this.setState({isHovering: false})}
     >
       <div className="__tagColor" style={{backgroundColor: this.props.tag.color}}></div>
-      {this.renderContent({runDeleteTagMutation, runUpdateTagMutation})}
+      {this.renderContent(mutationFuncs)}
     </div>
   }
 
-  renderContent({runDeleteTagMutation, runUpdateTagMutation}) {
+  renderContent(mutationFuncs) {
     if (this.state.isEditing) {
-      return this.renderEditing({runUpdateTagMutation})
+      return this.renderEditing(mutationFuncs)
     } else if (this.state.isHovering) {
-      return this.renderHovering({runDeleteTagMutation})
+      return this.renderHovering(mutationFuncs)
     } else {
       return this.renderInert()
     }
   }
 
-  renderEditing({runUpdateTagMutation}) {
+  renderEditing(mutationFuncs) {
     return <div>
       <input type="text"
         id={"tag-editor-"+this.props.tag.id}
@@ -77,14 +97,14 @@ class TagListRow extends React.Component {
         value={this.state.editedText}
         onChange={(e) => this.setState({editedText: e.target.value})}
         onKeyUp={(e) => {
-          if (e.key === 'Enter') this.submitTagRename({runUpdateTagMutation})
+          if (e.key === 'Enter') this.submitTagRename(mutationFuncs)
         }}
       />
       <div className="__tagDetails">
         <a href="#" className="text-success"
           onClick={(e) => {
             e.preventDefault()
-            this.submitTagRename({runUpdateTagMutation})
+            this.submitTagRename(mutationFuncs)
           }}
         ><i className="icon">check_circle</i></a>
         &nbsp;
@@ -98,15 +118,12 @@ class TagListRow extends React.Component {
     </div>
   }
 
-  renderHovering({runDeleteTagMutation}) {
+  renderHovering(mutationFuncs) {
     return <div>
       <div className="__text">{this.props.tag.text}</div>
       <div className="__tagDetails">
         <a href="#" className=""
-          onClick={(e) => {
-            e.preventDefault()
-            TODO()
-          }}
+          onClick={(e) => { e.preventDefault(); this.applyTag(mutationFuncs) }}
         >apply</a>
         &nbsp; &nbsp;
         <a href="#" className="text-warning"
@@ -119,7 +136,8 @@ class TagListRow extends React.Component {
         <a href="#" className="text-danger"
           onClick={(e) => {
             e.preventDefault()
-            runDeleteTagMutation({variables: {id: this.props.tag.id}})
+            if (!confirm("Really delete this tag?")) return
+            mutationFuncs.deleteTag({variables: {id: this.props.tag.id}})
           }}
         ><i className="icon">delete</i></a>
       </div>
@@ -133,30 +151,73 @@ class TagListRow extends React.Component {
     </div>
   }
 
-  submitTagRename({runUpdateTagMutation}) {
-    runUpdateTagMutation({variables: {id: this.props.tag.id, text: this.state.editedText}})
+  submitTagRename(mutationFuncs) {
+    let tagId = this.props.tag.id
+    let text = this.state.editedText
+    mutationFuncs.updateTag({variables: {id: tagId, text: text}})
     this.setState({isEditing: false})
+  }
+
+  applyTag(mutationFuncs) {
+    if (!this.props.timelineSelection) {
+      alert("Make a selection in the timeline first.")
+      return
+    }
+
+    let params = {
+      coding_id: this.props.codingId,
+      tag_id: this.props.tag.id,
+      starts_at: this.props.timelineSelection.left,
+      ends_at: this.props.timelineSelection.right
+    }
+    mutationFuncs.createTagging({variables: params})
   }
 
   // Tell Apollo how to update the cache to reflect this mutation
   // See https://www.apollographql.com/docs/react/essentials/mutations#update
   updateCacheOnDeleteTag(cache, resp) {
     let codingId = this.props.codingId
-    let deletedTagId = this.props.tag.id
+    let deletedTagId = resp.data.delete_tag.id
 
     // Load the relevant data from the cache
     let cachedData = cache.readQuery({query: codingPageQuery, variables: {id: codingId}})
 
     // Update the cached response to reflect the change we just made
+    // Remove this tag from the tags list
     cachedData.coding.video.prompt.project.tags =
      cachedData.coding.video.prompt.project.tags
       .filter((tag) => tag.id != deletedTagId)
-
+    // Remove all taggings for this tag from the video
     cachedData.coding.taggings =
       cachedData.coding.taggings
         .filter((tagging) => tagging.tag.id != deletedTagId)
+    // Make Apollo realize that a rerender is needed
+    cachedData.touchCache = Math.random()
 
-    cachedData.touchCache = Math.random() // help Apollo realize that a rerender is needed
+    // Write the transformed data back to the cache
+    cache.writeQuery({query: codingPageQuery, variables: {id: codingId}, data: cachedData})
+  }
+
+  // Tell Apollo how to update the cache to reflect this mutation
+  // See https://www.apollographql.com/docs/react/essentials/mutations#update
+  updateCacheOnCreateTagging(cache, resp) {
+    let codingId = this.props.codingId
+    let newTagging = resp.data.create_tagging
+
+    // Load the relevant data from the cache
+    let cachedData = cache.readQuery({query: codingPageQuery, variables: {id: codingId}})
+
+    // Update the cached response to reflect the change we just made
+    // Append the new tagging to this video's taggings list
+    cachedData.coding.taggings = cachedData.coding.taggings.concat(newTagging)
+    // Update this tag's taggings count
+    cachedData.coding.video.prompt.project.tags =
+      cachedData.coding.video.prompt.project.tags.map((tag) => {
+        if (tag.id == newTagging.tag.id) tag.count_taggings += 1
+        return tag
+      })
+    // Make Apollo realize that a rerender is needed
+    cachedData.touchCache = Math.random()
 
     // Write the transformed data back to the cache
     cache.writeQuery({query: codingPageQuery, variables: {id: codingId}, data: cachedData})
@@ -164,8 +225,9 @@ class TagListRow extends React.Component {
 }
 
 TagListRow.propTypes = {
+  codingId: PropTypes.number.isRequired, // needed when updating the cache
   tag: PropTypes.object.isRequired,
-  codingId: PropTypes.number.isRequired // needed when updating the cache
+  timelineSelection: PropTypes.object
 }
 
 export default TagListRow

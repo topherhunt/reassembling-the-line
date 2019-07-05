@@ -61,7 +61,7 @@ defmodule RTLWeb.Graphql.Resolvers do
   #
 
   def get_taggings(%Coding{} = parent, _args, _resolution) do
-    {:ok, Tagging.all(coding: parent)}
+    {:ok, Tagging.all(coding: parent, order: :starts_at)}
   end
 
   def create_tagging(_parent, args, _resolution) do

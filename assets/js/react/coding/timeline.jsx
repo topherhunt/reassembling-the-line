@@ -7,9 +7,10 @@ class Timeline extends React.Component {
     super(props)
 
     this.state = {
-      zoom: 10, // px width per second
+      zoom: 20, // px width per second
       hoverSecs: null, // seconds
-      mouseDownSecs: null // seconds. (only relevant to drag-select)
+      mouseDownSecs: null, // seconds. (only relevant to drag-select)
+      selectedTaggingId: null
     }
   }
 
@@ -41,7 +42,6 @@ class Timeline extends React.Component {
 
   render() {
     return <div className="b-codingPageTimeline">
-      <div className="__zoomInWarning">Nothing to see here, you've zoomed out too far. Zoom back in!</div>
       <div className="__scrollContainer">
         <div className="__timeline" style={{width: this.timelineWidth()}}
           onMouseDown={this.handleMouseDown.bind(this)}
@@ -53,8 +53,9 @@ class Timeline extends React.Component {
             videoDuration={this.props.videoDuration}
             zoom={this.state.zoom}
           />
-          {this.renderPrimaryCursor()}
+          {this.renderTaggings()}
           {this.renderSelection()}
+          {this.renderPrimaryCursor()}
           {this.renderHoverCursor()}
         </div>
       </div>
@@ -65,9 +66,57 @@ class Timeline extends React.Component {
     </div>
   }
 
-  renderPrimaryCursor() {
-    let left = ""+(this.props.videoSeekPos * this.state.zoom)+"px"
-    return <div id="timelinePrimaryCursor" className="__cursorPrimary" style={{left: left}}></div>
+  // Todo: Extract each Tagging to a subcomponent?
+  renderTaggings() {
+    let taggingIndex = 1
+
+    return <div className="__taggingsContainer">
+      {this.props.taggings.map((tagging) => {
+        taggingIndex += 1
+        if (taggingIndex >= 11) taggingIndex = 1
+
+        let isSelected = this.state.selectedTaggingId == tagging.id
+        let cssTop = ""+(taggingIndex * 15 + 20)+"px"
+        let cssLeft = ""+(tagging.starts_at * this.state.zoom)+"px"
+        let cssWidth = ""+((tagging.ends_at - tagging.starts_at) * this.state.zoom)+"px"
+        let classes = "__tagging " + (isSelected ? "--selected" : "")
+
+        return <div key={tagging.id}
+          className={classes}
+          style={{
+            top: cssTop,
+            left: cssLeft,
+            width: cssWidth,
+            backgroundColor: tagging.tag.color
+          }}
+          onClick={(e) => {
+            e.preventDefault()
+            this.setState({selectedTaggingId: tagging.id})
+          }}
+        >
+          <div className="__taggingContent">
+            {tagging.tag.text}
+            {isSelected ? this.renderTaggingHandles(tagging) : ""}
+            {isSelected ? this.renderDeleteTaggingButton(tagging) : ""}
+          </div>
+        </div>
+      })}
+    </div>
+  }
+
+  renderTaggingHandles(tagging) {
+
+  }
+
+  renderDeleteTaggingButton(tagging) {
+    return <a href="#" className="__deleteTaggingButton text-danger"
+      onClick={(e) => {
+        e.preventDefault()
+        if (!confirm("Really delete this tagging?")) return
+        console.log("TODO: Delete this tagging")
+        // mutationFuncs.deleteTag({variables: {id: this.props.tag.id}})
+      }}
+    ><i className="icon">delete</i></a>
   }
 
   renderSelection() {
@@ -170,7 +219,9 @@ Timeline.propTypes = {
   videoSeekPos: PropTypes.number.isRequired, // seconds
   videoDuration: PropTypes.number.isRequired, // seconds
   setVideoSeekPos: PropTypes.func.isRequired,
-  setTimelineSelection: PropTypes.func.isRequired
+  timelineSelection: PropTypes.object,
+  setTimelineSelection: PropTypes.func.isRequired,
+  taggings: PropTypes.array.isRequired
 }
 
 export default Timeline
