@@ -60,10 +60,11 @@ class CodingPage extends React.Component {
           ></video>
         </div>
         <Timeline
+          codingId={this.props.codingId}
+          taggings={coding.taggings}
           videoSeekPos={this.state.videoSeekPos}
           videoDuration={this.state.videoDuration}
           timelineSelection={this.state.timelineSelection}
-          taggings={coding.taggings}
           setVideoSeekPos={(position) => {
             document.querySelector('.b-codingPageVideo').currentTime = position
           }}

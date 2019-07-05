@@ -73,12 +73,12 @@ defmodule RTLWeb.Graphql.Resolvers do
 
   def update_tagging(_parent, args, _resolution) do
     params = Map.take(args, [:starts_at, :ends_at])
-    tagging = Tagging.get!(id: args.id) |> Tagging.update!(params)
+    tagging = Tagging.get!(args.id) |> Tagging.update!(params)
     {:ok, tagging}
   end
 
   def delete_tagging(_parent, args, _resolution) do
-    tagging = Tagging.get!(id: args.id) |> Tagging.delete!()
+    tagging = Tagging.get!(args.id) |> Tagging.delete!()
     {:ok, tagging}
   end
 

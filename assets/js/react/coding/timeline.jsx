@@ -1,5 +1,6 @@
 import React from "react"
 import PropTypes from "prop-types"
+import TimelineTagging from "./timeline_tagging.jsx"
 import TimelineTickmarks from "./timeline_tickmarks.jsx"
 
 class Timeline extends React.Component {
@@ -44,6 +45,7 @@ class Timeline extends React.Component {
     return <div className="b-codingPageTimeline">
       <div className="__scrollContainer">
         <div className="__timeline" style={{width: this.timelineWidth()}}
+          onClick={() => this.setState({selectedTaggingId: null})}
           onMouseDown={this.handleMouseDown.bind(this)}
           onMouseUp={this.handleMouseUp.bind(this)}
           onMouseMove={this.handleMouseMove.bind(this)}
@@ -66,57 +68,21 @@ class Timeline extends React.Component {
     </div>
   }
 
-  // Todo: Extract each Tagging to a subcomponent?
   renderTaggings() {
-    let taggingIndex = 1
-
+    let taggingIndex = 0
     return <div className="__taggingsContainer">
       {this.props.taggings.map((tagging) => {
-        taggingIndex += 1
-        if (taggingIndex >= 11) taggingIndex = 1
-
-        let isSelected = this.state.selectedTaggingId == tagging.id
-        let cssTop = ""+(taggingIndex * 15 + 20)+"px"
-        let cssLeft = ""+(tagging.starts_at * this.state.zoom)+"px"
-        let cssWidth = ""+((tagging.ends_at - tagging.starts_at) * this.state.zoom)+"px"
-        let classes = "__tagging " + (isSelected ? "--selected" : "")
-
-        return <div key={tagging.id}
-          className={classes}
-          style={{
-            top: cssTop,
-            left: cssLeft,
-            width: cssWidth,
-            backgroundColor: tagging.tag.color
-          }}
-          onClick={(e) => {
-            e.preventDefault()
-            this.setState({selectedTaggingId: tagging.id})
-          }}
-        >
-          <div className="__taggingContent">
-            {tagging.tag.text}
-            {isSelected ? this.renderTaggingHandles(tagging) : ""}
-            {isSelected ? this.renderDeleteTaggingButton(tagging) : ""}
-          </div>
-        </div>
+        if (taggingIndex >= 11) taggingIndex = 0
+        return <TimelineTagging key={tagging.id}
+          index={taggingIndex++}
+          codingId={this.props.codingId}
+          tagging={tagging}
+          selectThis={() => this.setState({selectedTaggingId: tagging.id})}
+          isSelected={this.state.selectedTaggingId == tagging.id}
+          zoom={this.state.zoom}
+        />
       })}
     </div>
-  }
-
-  renderTaggingHandles(tagging) {
-
-  }
-
-  renderDeleteTaggingButton(tagging) {
-    return <a href="#" className="__deleteTaggingButton text-danger"
-      onClick={(e) => {
-        e.preventDefault()
-        if (!confirm("Really delete this tagging?")) return
-        console.log("TODO: Delete this tagging")
-        // mutationFuncs.deleteTag({variables: {id: this.props.tag.id}})
-      }}
-    ><i className="icon">delete</i></a>
   }
 
   renderSelection() {
@@ -216,6 +182,7 @@ class Timeline extends React.Component {
 }
 
 Timeline.propTypes = {
+  codingId: PropTypes.number.isRequired,
   videoSeekPos: PropTypes.number.isRequired, // seconds
   videoDuration: PropTypes.number.isRequired, // seconds
   setVideoSeekPos: PropTypes.func.isRequired,
