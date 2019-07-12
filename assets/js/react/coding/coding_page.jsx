@@ -65,8 +65,11 @@ class CodingPage extends React.Component {
           videoSeekPos={this.state.videoSeekPos}
           videoDuration={this.state.videoDuration}
           timelineSelection={this.state.timelineSelection}
-          setVideoSeekPos={(position) => {
-            document.querySelector('.b-codingPageVideo').currentTime = position
+          setVideoSeekPos={(position, opts) => {
+            let video = document.querySelector('.b-codingPageVideo')
+            video.currentTime = position
+            if (opts && opts.play) video.play()
+            if (opts && opts.pauseAt) this.setState({pauseVideoAt: opts.pauseAt})
           }}
           setTimelineSelection={(selection) => {
             // The selection is either {left:, right:} (in decimal seconds) or null.
@@ -104,7 +107,9 @@ class CodingPage extends React.Component {
 
   setActualVideoDuration() {
     let video = document.querySelector('.b-codingPageVideo')
-    if (video && !!video.duration && video.duration != Infinity) {
+    if (!video) return // if not yet loaded
+
+    if (!!video.duration && video.duration != Infinity) {
       console.log("Got actual video duration: "+video.duration+"s.")
       this.setState({videoDuration: video.duration})
     } else {
@@ -115,8 +120,14 @@ class CodingPage extends React.Component {
 
   refreshVideoSeekPos() {
     let video = document.querySelector('.b-codingPageVideo')
-    if (video && video.currentTime != this.state.videoSeekPos) {
+    if (!video) return // in case it hasn't rendered yet
+
+    if (video.currentTime != this.state.videoSeekPos)
       this.setState({videoSeekPos: video.currentTime})
+
+    if (this.state.pauseVideoAt && video.currentTime >= this.state.pauseVideoAt) {
+      video.pause()
+      this.setState({pauseVideoAt: null})
     }
   }
 }

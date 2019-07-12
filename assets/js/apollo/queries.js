@@ -93,7 +93,7 @@ const createTaggingMutation = gql`
 `
 
 const updateTaggingMutation = gql`
-  mutation UpdateTagging($id: ID!, $startsAt: String!, $endsAt: String!) {
+  mutation UpdateTagging($id: ID!, $startsAt: String, $endsAt: String) {
     update_tagging(id: $id, startsAt: $startsAt, endsAt: $endsAt) {
       id
       starts_at

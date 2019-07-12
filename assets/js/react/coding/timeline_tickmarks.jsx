@@ -33,13 +33,14 @@ class TimelineTickmarks extends React.Component {
       let m = Math.floor(sec / 60)
       let s = (sec % 60)
       s = ("00" + s).substr(-2, 2) // zeropad
+      let time = m+":"+s
 
       let tickmarkStyle = {left: ""+(sec * this.props.zoom)+"px"}
       output.push(<div key={sec+"tick"} className="__tickmark --major" style={tickmarkStyle}></div>)
 
       let labelClass = "__tickLabel " + (sec % 15 == 0 ? "--major" : "")
       let labelStyle = {left: ""+(sec * this.props.zoom-10)+"px"}
-      output.push(<div key={sec+"label"} className={labelClass} style={labelStyle}>{m+":"+s}</div>)
+      output.push(<div key={sec+"label"} className={labelClass} style={labelStyle}>{time}</div>)
     }
 
     return output

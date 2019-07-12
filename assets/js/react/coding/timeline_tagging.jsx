@@ -10,11 +10,27 @@ class TimelineTagging extends React.Component {
   }
 
   render() {
+    let isSelected = this.props.isSelected
+    let drag = this.props.currentDrag
+
     let tagging = this.props.tagging
+    let startsAt = tagging.starts_at
+    let endsAt = tagging.ends_at
+    let statusClass = isSelected ? "--selected" : ""
+
+    // If user is currently dragging this tagging boundary, preview its tentative state
+    if (isSelected && drag && drag.intentional && drag.type == "resizeTagging") {
+      statusClass += " --dragging"
+      if (drag.side == "left") {
+        startsAt = drag.to
+      } else {
+        endsAt = drag.to
+      }
+    }
+
     let cssTop = ""+(this.props.index * 15 + 35)+"px"
-    let cssLeft = ""+(tagging.starts_at * this.props.zoom)+"px"
-    let cssWidth = ""+((tagging.ends_at - tagging.starts_at) * this.props.zoom)+"px"
-    let statusClass = this.props.isSelected ? "--selected" : ""
+    let cssLeft = ""+(startsAt * this.props.zoom)+"px"
+    let cssWidth = ""+((endsAt - startsAt) * this.props.zoom)+"px"
 
     return <div className={"__tagging " + statusClass}
       style={{
@@ -27,40 +43,61 @@ class TimelineTagging extends React.Component {
         e.stopPropagation()
         this.props.selectThis()
       }}
-      onMouseDown={(e) => { e.stopPropagation() }}
-      onMouseUp={(e) => { e.stopPropagation() }}
     >
       <div className="__taggingContent">
         <div className="__taggingLabel">{tagging.tag.text}</div>
-        {this.props.isSelected ? this.renderTaggingHandles(tagging) : ""}
-        {this.props.isSelected ? this.renderDeleteTaggingButton(tagging) : ""}
+        {this.props.isSelected ? this.renderHandles() : ""}
+        {this.props.isSelected ? this.renderButtons() : ""}
       </div>
     </div>
   }
 
-
-  renderTaggingHandles(tagging) {
+  renderHandles() {
     return <div>
-      <div className="__taggingDragHandle" style={{left: "-5px"}}>
+      <div className="__taggingDragHandle"
+        style={{left: "-5px"}}
+        onMouseDown={(e) => { this.props.startDrag(e, "left") }}
+      >
         <div className="__taggingDragHandleKnob"></div>
       </div>
-      <div className="__taggingDragHandle" style={{right: "-5px"}}>
+      <div className="__taggingDragHandle"
+        style={{right: "-5px"}}
+        onMouseDown={(e) => { this.props.startDrag(e, "right") }}
+      >
         <div className="__taggingDragHandleKnob"></div>
       </div>
     </div>
   }
 
-  renderDeleteTaggingButton(tagging) {
+  renderButtons() {
+    return <div className="__taggingButtons">
+      {this.renderPreviewButton()}
+      {this.renderDeleteButton()}
+    </div>
+  }
+
+  renderPreviewButton() {
+    return <a href="#"
+      onClick={(e) => {
+        e.preventDefault()
+        this.props.previewThis()
+      }}
+    >
+      <i className="icon">play_arrow</i>
+    </a>
+  }
+
+  renderDeleteButton() {
     return <Mutation
       mutation={deleteTaggingMutation}
       update={this.updateCacheOnDeleteTagging.bind(this)}
     >
       {(deleteTagging, {called, loading, data}) => {
-        return <a href="#" className="__deleteTaggingButton text-danger"
+        return <a href="#" className="text-danger"
           onClick={(e) => {
             e.preventDefault()
             if (!confirm("Really delete this tagging?")) return
-            deleteTagging({variables: {id: tagging.id}})
+            deleteTagging({variables: {id: this.props.tagging.id}})
           }}
         >
           <i className="icon">delete</i>
@@ -99,8 +136,11 @@ TimelineTagging.propTypes = {
   codingId: PropTypes.number.isRequired,
   tagging: PropTypes.object.isRequired,
   index: PropTypes.number.isRequired,
+  isSelected: PropTypes.bool.isRequired,
+  currentDrag: PropTypes.object,
   selectThis: PropTypes.func.isRequired,
-  isSelected: PropTypes.bool.isRequired
+  previewThis: PropTypes.func.isRequired,
+  startDrag: PropTypes.func.isRequired
 }
 
 export default TimelineTagging

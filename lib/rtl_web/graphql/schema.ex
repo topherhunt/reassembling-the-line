@@ -44,8 +44,8 @@ defmodule RTLWeb.Graphql.Schema do
 
     field :update_tagging, type: :tagging do
       arg :id, non_null(:id)
-      arg :starts_at, non_null(:float)
-      arg :ends_at, non_null(:float)
+      arg :starts_at, :float
+      arg :ends_at, :float
       resolve &Resolvers.update_tagging/3
     end
 
