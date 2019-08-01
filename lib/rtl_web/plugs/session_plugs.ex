@@ -11,12 +11,16 @@ defmodule RTLWeb.SessionPlugs do
     cond do
       # If a user is already loaded, nothing to do
       current_user_assigned?(conn) -> conn
+
       # If no user is logged in, explicitly set current_user to nil
       no_login_session?(conn) -> assign(conn, :current_user, nil)
+
       # If the session is expired, log me out (must be before load_user_from_session!)
       session_expired?(conn) -> logout!(conn)
+
       # If we can find the user with this id, assign them
       user = load_user_from_session(conn) -> set_assigned_user(conn, user)
+
       # If no user was found by that id, the session is invalid. Log me out.
       true -> logout!(conn)
     end

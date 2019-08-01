@@ -149,11 +149,11 @@
     </div>
 
     <div class="u-card">
-      <h4>3. Categorize video clips</h4>
+      <h4>3. Add tags to videos</h4>
       <p>
         <strong><%= @count_videos %></strong> videos collected /
-        <strong><%= @count_videos_coded %></strong> coded /
-        <strong><%= @count_videos - @count_videos_coded %></strong> left to code
+        <strong><%= @count_videos_coded %></strong> tagged /
+        <strong><%= @count_videos - @count_videos_coded %></strong> left to tag
       </p>
       <p>
         <%= link "List all videos", to: Routes.manage_video_path(@conn, :index, @project), class: "btn btn-outline-primary" %> &nbsp;

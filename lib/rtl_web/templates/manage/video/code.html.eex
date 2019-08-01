@@ -13,3 +13,18 @@
 
 <%# I guess I'll just pass in the coding id for now and have Apollo fetch everything %>
 <%= ReactPhoenix.ClientSide.react_component("Components.CodingPage", %{codingId: @coding.id}) %>
+
+<hr>
+
+<div>
+  <%= if @coding.completed_at do %>
+    <p>Tagging was completed <%= print_date @coding.completed_at %> by <%= @coding.coder.full_name %>.</p>
+
+    <button disabled class="btn btn-secondary disabled">Mark as complete</button>
+  <% else %>
+    <%= form_for @changeset, Routes.manage_video_path(@conn, :mark_coded, @project, @video), [method: :post], fn f -> %>
+      <p>Once you're done tagging, mark this video as complete to check it off the list.</p>
+      <%= submit "Mark as complete", class: "btn btn-primary" %>
+    <% end %>
+  <% end %>
+</div>

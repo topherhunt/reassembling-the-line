@@ -49,18 +49,20 @@ defmodule RTLWeb.Manage.VideoController do
   def code(conn, _params) do
     video = load_video(conn)
     coder = conn.assigns.current_user
-    coding = Coding.first(video: video) ||
-      Coding.insert!(%{video_id: video.id, coder_id: coder.id})
-    render conn, "code.html", video: video, coding: coding
+    coding = find_or_create_coding(video, coder)
+    changeset = Coding.changeset(coding)
+    render conn, "code.html", video: video, coding: coding, changeset: changeset
   end
 
   # Called when the user clicks the "Mark completed" button to finalize coding.
   # This coding will then be treated as complete, though it can still be edited.
   def mark_coded(conn, params) do
-    raise "TODO: #{conn}, #{params}"
-
-    # - Mark this coding as complete
-    # - Save this coder as coder_id (in case different from orig coder)
+    project = conn.assigns.project
+    video = load_video(conn)
+    coding = Coding.first(video: video)
+    params = %{coder_id: conn.assigns.current_user.id, completed_at: Timex.now()}
+    Coding.update!(coding, params)
+    redirect(conn, to: Routes.manage_video_path(conn, :index, project))
   end
 
   #
@@ -69,5 +71,10 @@ defmodule RTLWeb.Manage.VideoController do
 
   defp load_video(conn) do
     Video.get!(conn.params["video_id"], project: conn.assigns.project, preload: :prompt)
+  end
+
+  defp find_or_create_coding(video, coder) do
+    Coding.first(video: video, preload: :coder) ||
+    Coding.insert!(%{video_id: video.id, coder_id: coder.id})
   end
 end

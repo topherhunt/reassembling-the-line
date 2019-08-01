@@ -107,11 +107,14 @@ defmodule RTL.Videos.Video do
   end
 
   def filter(query, :coded, true) do
-    Q.where(query, [v], fragment("EXISTS (SELECT * FROM codings WHERE video_id = ?)", v.id))
+    Q.where(query, [v], fragment("EXISTS (SELECT * FROM codings WHERE video_id = ? AND completed_at IS NOT NULL)", v.id))
   end
 
+  # NOTE: For the "Tag the next video" feature, we're directing you to the first video
+  # where coding hasn't been completed. This won't work well if there are multiple coders
+  # on a project.
   def filter(query, :coded, false) do
-    Q.where(query, [v], fragment("NOT EXISTS (SELECT * FROM codings WHERE video_id = ?)", v.id))
+    Q.where(query, [v], fragment("NOT EXISTS (SELECT * FROM codings WHERE video_id = ? AND completed_at IS NOT NULL)", v.id))
   end
 
   def filter(query, :order, :last_coded) do

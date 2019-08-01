@@ -1,13 +1,12 @@
 defmodule RTL.Repo do
   use Ecto.Repo, otp_app: :rtl
   import Ecto.Query
-  alias RTL.Repo
   require Logger
 
-  def count(query), do: query |> select([t], count(t.id)) |> Repo.one()
+  def count(query), do: query |> select([t], count(t.id)) |> one()
   def any?(query), do: count(query) >= 1
-  def first(query), do: query |> limit(1) |> Repo.one()
-  def first!(query), do: query |> limit(1) |> Repo.one!()
+  def first(query), do: query |> limit(1) |> one()
+  def first!(query), do: query |> limit(1) |> one!()
 
   def ensure_success(result) do
     case result do

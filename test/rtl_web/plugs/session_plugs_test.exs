@@ -25,11 +25,13 @@ defmodule RTLWeb.SessionPlugsTest do
     test "does nothing if current_user is already assigned", %{conn: conn} do
       conn = assign(conn, :current_user, "blah")
       unchanged_conn = conn
+
       assert SessionPlugs.load_current_user(conn, nil) == unchanged_conn
     end
 
     test "does nothing if there's no login session", %{conn: conn} do
       conn = SessionPlugs.load_current_user(conn, nil)
+
       assert get_session(conn, :user_id) == nil
       assert conn.assigns.current_user == nil
       assert !conn.halted
@@ -38,7 +40,9 @@ defmodule RTLWeb.SessionPlugsTest do
     test "ends the session if expired", %{conn: conn} do
       conn = put_session(conn, :user_id, "123")
       conn = put_session_expiration(conn, hours: -1)
+
       conn = SessionPlugs.load_current_user(conn, nil)
+
       assert_logged_out(conn)
     end
 
@@ -46,7 +50,9 @@ defmodule RTLWeb.SessionPlugsTest do
       user = Factory.insert_user()
       conn = put_session(conn, :user_id, user.id)
       conn = put_session_expiration(conn, hours: +1)
+
       conn = SessionPlugs.load_current_user(conn, nil)
+
       assert conn.assigns.current_user.id == user.id
     end
 
@@ -54,7 +60,9 @@ defmodule RTLWeb.SessionPlugsTest do
       user = Factory.insert_user()
       conn = put_session(conn, :user_id, user.id + 999)
       conn = put_session_expiration(conn, hours: +1)
+
       conn = SessionPlugs.load_current_user(conn, nil)
+
       assert_logged_out(conn)
     end
   end
@@ -64,7 +72,9 @@ defmodule RTLWeb.SessionPlugsTest do
       user = Factory.insert_user()
       assert user.last_signed_in_at == nil
       assert conn.assigns[:current_user] == nil
+
       conn = SessionPlugs.login!(conn, user)
+
       assert conn.assigns.current_user.id == user.id
       assert get_session(conn, :user_id) == user.id
       reloaded_user = Accounts.get_user!(user.id)
@@ -77,7 +87,9 @@ defmodule RTLWeb.SessionPlugsTest do
       user = Factory.insert_user()
       conn = SessionPlugs.login!(conn, user)
       assert get_session(conn, :user_id) == user.id
+
       conn = SessionPlugs.logout!(conn)
+
       assert_logged_out(conn)
     end
   end

@@ -59,6 +59,7 @@ class CodingPage extends React.Component {
             controls preload="auto"
           ></video>
         </div>
+
         <Timeline
           codingId={this.props.codingId}
           taggings={coding.taggings}
@@ -77,6 +78,7 @@ class CodingPage extends React.Component {
           }}
         />
       </div>
+
       <div className="col-4 u-stack">
         <div>
           <h4>Basic video info</h4>
@@ -107,9 +109,8 @@ class CodingPage extends React.Component {
 
   setActualVideoDuration() {
     let video = document.querySelector('.b-codingPageVideo')
-    if (!video) return // if not yet loaded
 
-    if (!!video.duration && video.duration != Infinity) {
+    if (video && video.duration && video.duration != Infinity) {
       console.log("Got actual video duration: "+video.duration+"s.")
       this.setState({videoDuration: video.duration})
     } else {

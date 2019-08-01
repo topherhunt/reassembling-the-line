@@ -63,13 +63,29 @@
           <% end %>
         </div>
       </td>
-      <td>
-        <%= if video.coding do %>
-          <div class="small">
-            Tagged by <%= video.coding.coder.full_name %>
-            <!--on <%= RTLWeb.DateHelpers.print_date(video.coding.updated_at) %>-->
-          </div>
-          <div class="small">
+      <td class="small">
+        <% coding = video.coding %>
+
+        <div>
+          <%= cond do %>
+            <% coding == nil -> %>
+              <span>Not yet tagged.</span>
+
+            <% coding.completed_at == nil -> %>
+              <span class="text-warning">Tagging in progress.</span>
+
+            <% coding.completed_at != nil -> %>
+              <span class="text-success">Tagging completed.</span>
+
+          <% end %>
+          &nbsp;
+          <%= link icon("edit"),
+            to: Routes.manage_video_path(RTLWeb.Endpoint, :code, @project, video),
+            class: "test-link-code-video-#{video.id}" %>
+        </div>
+
+        <%= if coding do %>
+          <div>
             Tags:
             <%= if length(tag_list(video)) > 0 do %>
               <%= for tag <- tag_list(video) do %>
@@ -78,18 +94,6 @@
             <% else %>
               <span class="em text-muted">(none)</span>
             <% end %>
-            &nbsp;
-            <%= link icon("edit"),
-              to: Routes.manage_video_path(RTLWeb.Endpoint, :code, @project, video),
-              class: "text-warning test-link-code-video-#{video.id}" %>
-          </div>
-        <% else %>
-          <div class="small text-muted">
-            Not yet tagged
-            &nbsp;
-            <%= link icon("edit"),
-              to: Routes.manage_video_path(RTLWeb.Endpoint, :code, @project, video),
-              class: "test-link-code-video-#{video.id}" %>
           </div>
         <% end %>
       </td>

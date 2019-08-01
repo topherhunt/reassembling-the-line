@@ -40,7 +40,7 @@ defmodule RTLWeb.Manage.VideosListLiveview do
       next_uncoded_video: Videos.get_video_by(
         project: project,
         coded: false,
-        order: :oldest
+        order: :last_coded
       )
     )
   end

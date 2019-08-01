@@ -32,7 +32,7 @@ defmodule RTL.Videos.Coding do
 
   def changeset(struct, params \\ %{}) do
     struct
-    |> cast(params, [:video_id, :coder_id])
+    |> cast(params, [:video_id, :coder_id, :completed_at])
     |> validate_required([:video_id, :coder_id])
     |> unique_constraint(:video_id)
   end
@@ -47,4 +47,5 @@ defmodule RTL.Videos.Coding do
 
   def filter(query, :id, id), do: Q.where(query, [l], l.id == ^id)
   def filter(query, :video, video), do: Q.where(query, [l], l.video_id == ^video.id)
+  def filter(query, :preload, preloads), do: Q.preload(query, ^preloads)
 end

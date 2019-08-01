@@ -4,8 +4,8 @@ defmodule RTL.AccountsTest do
   alias RTL.Accounts
   alias RTL.Accounts.User
 
-  # TODO: Fill in thorough tests for each context.
-  # See commented-out sample context tests below.
+  # TODO: Validations should be tested at the context layer, this is too low-level.
+  # e.g. `assert_user_insert_error(params, "full_name can't be blank")`
   describe "users" do
     @valid_attrs %{full_name: "User 1", email: "user_1@example.com", uuid: "abc123"}
 
