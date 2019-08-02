@@ -70,7 +70,7 @@ class TagListRow extends React.Component {
 
   renderTagContainer(mutationFuncs) {
     return <div
-      className="__tag"
+      className={`__tag test-tag-row-${this.props.tag.id}`}
       onMouseOver={() => this.setState({isHovering: true})}
       onMouseLeave={() => this.setState({isHovering: false})}
     >

@@ -103,13 +103,13 @@ class Timeline extends React.Component {
           zoom={this.state.zoom}
           isSelected={this.state.selectedTaggingId == tagging.id}
           currentDrag={this.state.currentDrag}
-          selectThis={() => this.setState({selectedTaggingId: tagging.id})}
+          startDrag={this.mouseDownOnTaggingHandle.bind(this)}
+          onClick={() => this.setState({selectedTaggingId: tagging.id})}
           previewThis={(e) => {
             let start = tagging.starts_at
             let end = tagging.ends_at
             this.props.setVideoSeekPos(start, {play: true, pauseAt: end})
           }}
-          startDrag={this.mouseDownOnTaggingHandle.bind(this)}
         />
       })}
     </div>

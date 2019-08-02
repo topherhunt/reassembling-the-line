@@ -30,28 +30,28 @@ defmodule RTLWeb.IntegrationHelpers do
 
   def find_within_element(el, selector), do: find_within_element(el, :css, selector)
 
+  def count_selector(selector) do
+    length(find_all_elements(selector))
+  end
+
   def assert_text(text) do
-    assert visible_page_text() =~ text
+    wait_until(fn -> visible_page_text() =~ text end)
+  end
+
+  def assert_html(text) do
+    wait_until(fn -> page_source() =~ text end)
   end
 
   def assert_selector(sel, opts \\ %{}) do
-    actual = count_selector(sel)
-
-    if count = opts[:count] do
-      assert actual == count,
-             "Expected to find \"#{sel}\" #{count} times, but found it #{actual} times."
+    if opts[:count] do
+      wait_until(fn -> count_selector(sel) == opts[:count] end)
     else
-      assert actual >= 1, "Expected to find \"#{sel}\" 1+ times, but found it 0 times."
+      wait_until(fn -> count_selector(sel) >= 1 end)
     end
   end
 
   def refute_selector(sel) do
-    actual = count_selector(sel)
-    assert actual == 0, "Expected NOT to find selector \"#{sel}\", but found #{actual}."
-  end
-
-  def count_selector(selector) do
-    length(find_all_elements(selector))
+    wait_until(fn -> count_selector(sel) == 0 end)
   end
 
   def wait_until(func, failures \\ 0) do

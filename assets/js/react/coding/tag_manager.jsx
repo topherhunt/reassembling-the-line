@@ -38,7 +38,7 @@ class TagManager extends React.Component {
     </Mutation>
   }
 
-  renderMainContent({runCreateTagMutation}) {
+  renderMainContent(mutations) {
     return <div className="b-codingPageTagManager">
       <div>
         <span className="h4">Tags</span> &nbsp;
@@ -55,28 +55,32 @@ class TagManager extends React.Component {
           />
         })}
 
-        <div className="__tag">
-          <input type="text" id="new-tag-text" className="__newTagTextField"
-            placeholder="Add a new tag"
-            value={this.state.newTagText}
-            onChange={(e) => this.setState({newTagText: e.target.value})}
-            onKeyUp={(e) => {
-              if (e.key === 'Enter') this.submitNewTag({runCreateTagMutation})
-            }}
-          />
-          {this.renderNewTagSubmitButtons({runCreateTagMutation})}
-        </div>
+        {this.renderAddTagForm()}
       </div>
     </div>
   }
 
-  renderNewTagSubmitButtons({runCreateTagMutation}) {
+  renderAddTagForm(mutations) {
+    return <div className="__tag">
+      <input type="text" id="new-tag-text" className="__newTagTextField test-add-tag-field"
+        placeholder="Add a new tag"
+        value={this.state.newTagText}
+        onChange={(e) => this.setState({newTagText: e.target.value})}
+        onKeyUp={(e) => {
+          if (e.key === 'Enter') this.submitNewTag(mutations)
+        }}
+      />
+      {this.renderAddTagSubmitButton(mutations)}
+    </div>
+  }
+
+  renderAddTagSubmitButton(mutations) {
     if (!!this.state.newTagText) {
       return <div className="__tagDetails">
-        <a href="#" className="text-success"
+        <a href="#" className="text-success test-add-tag-submit"
           onClick={(e) => {
             e.preventDefault()
-            this.submitNewTag({runCreateTagMutation})
+            this.submitNewTag(mutations)
           }}
         ><i className="icon">check_circle</i></a>
       </div>

@@ -41,7 +41,7 @@ class TimelineTagging extends React.Component {
       }}
       onClick={(e) => {
         e.stopPropagation()
-        this.props.selectThis()
+        this.props.onClick()
       }}
     >
       <div className="__taggingContent">
@@ -135,10 +135,10 @@ class TimelineTagging extends React.Component {
 TimelineTagging.propTypes = {
   codingId: PropTypes.number.isRequired,
   tagging: PropTypes.object.isRequired,
-  index: PropTypes.number.isRequired,
+  index: PropTypes.number.isRequired, // used to determine
   isSelected: PropTypes.bool.isRequired,
   currentDrag: PropTypes.object,
-  selectThis: PropTypes.func.isRequired,
+  onClick: PropTypes.func.isRequired,
   previewThis: PropTypes.func.isRequired,
   startDrag: PropTypes.func.isRequired
 }

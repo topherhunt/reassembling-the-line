@@ -18,9 +18,10 @@ defmodule RTL.Videos.Tag do
   # Public API
   #
 
-  # TODO: Remove the query functions in the context and replace with these
+  # TODO: De-duplicate with the query functions in the Videos context
   def get!(id, f \\ []), do: __MODULE__ |> apply_filters([{:id, id} | f]) |> Repo.one!()
   def first(filters \\ []), do: __MODULE__ |> apply_filters(filters) |> Repo.first()
+  def first!(filters \\ []), do: __MODULE__ |> apply_filters(filters) |> Repo.first!()
   def all(filters \\ []), do: __MODULE__ |> apply_filters(filters) |> Repo.all()
   def count(filters \\ []), do: __MODULE__ |> apply_filters(filters) |> Repo.count()
 
@@ -61,6 +62,7 @@ defmodule RTL.Videos.Tag do
   end
 
   def filter(query, :id, id), do: Q.where(query, [t], t.id == ^id)
+  def filter(query, :text, text), do: Q.where(query, [t], t.text == ^text)
   def filter(query, :project, proj), do: Q.where(query, [t], t.project_id == ^proj.id)
   def filter(query, :order, :text), do: Q.order_by(query, [t], asc: t.text)
 end

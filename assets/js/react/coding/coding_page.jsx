@@ -50,7 +50,7 @@ class CodingPage extends React.Component {
   }
 
   renderCodingPage(coding) {
-    return <div className="row">
+    return <div className="row test-coding-page">
       <div className="col-8">
         <div>
           <video className="b-codingPageVideo"
