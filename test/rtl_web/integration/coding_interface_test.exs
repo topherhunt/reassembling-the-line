@@ -40,8 +40,6 @@ defmodule RTLWeb.CodingInterfaceTest do
     navigate_to Routes.manage_video_path(conn, :index, project)
     find_element(".test-link-code-video-#{video.id}") |> click()
 
-    take_screenshot()
-
     assert_selector(".test-coding-page")
 
     tag1 = create_tag()
@@ -50,12 +48,29 @@ defmodule RTLWeb.CodingInterfaceTest do
 
     # Make a timeline selection and apply a tagging to it
 
-
     # Selected tags are repopulated when editing an already-coded video
 
+  end
 
+  def create_tag() do
+    text = Factory.random_uuid()
+    # sanity check: the add tag submit form should be in "inactive" state
+    refute_selector(".test-add-tag-submit")
+    find_element(".test-add-tag-field") |> fill_field(text)
+    find_element(".test-add-tag-submit") |> click()
+    # wait until the form submits
+    Process.sleep(1000)
+    IO.puts fetch_log()
+    take_screenshot()
+    refute_selector(".test-add-tag-submit")
+    tag = Videos.Tag.first!(text: text)
+    assert_selector(".test-tag-row-#{tag.id}", text: text)
+    tag
+  end
 
-
+  #
+  # OLD assertions:
+  #
     # click_add_tag_link()
     # click_add_tag_link()
     # click_add_tag_link()
@@ -84,16 +99,7 @@ defmodule RTLWeb.CodingInterfaceTest do
     # ]
 
     # assert tags == expected
-  end
 
-  def create_tag() do
-    text = Factory.random_uuid()
-    find_element(".test-add-tag-field") |> fill_field(text)
-    find_element(".test-add-tag-submit") |> click()
-    tag = Videos.Tag.first!(text: text)
-    assert_selector(".test-tag-row-#{tag.id}", text: text)
-    tag
-  end
 
   #
   # DOM selection helpers

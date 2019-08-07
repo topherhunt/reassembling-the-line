@@ -7,9 +7,7 @@
 .u-centered-600  { max-width:  600px; margin-left: auto; margin-right: auto; }
 
 // Inserts 1 text-line's worth of spacing between each child element.
-.u-stack > * + * {
-  margin-top: 1.5rem;
-}
+.u-stack > * + * { margin-top: 1.5rem; }
 
 .u-card {
   border: 1px solid #e0e0e0;
@@ -41,18 +39,20 @@
 
 .u-form-error { color: #a00; background-color: #fee; padding: 5px; }
 
-// DEPRECATED
-.js-hidden { display: none; }
-// DEPRECATED
-.nowrap { white-space: nowrap; }
-
-[data-toggle="tooltip"] { cursor: help; }
-
 //
 // Text
 //
 
 .u-nowrap { white-space: nowrap; }
 .u-ellipsis { overflow: hidden; text-overflow: ellipsis; }
+
+// TODO: Doesn't Bootstrap already do this?
 .em { font-style: italic; }
 .strong { font-weight: bold; }
+
+// DEPRECATED
+.js-hidden { display: none; }
+// DEPRECATED
+.nowrap { white-space: nowrap; }
+
+[data-toggle="tooltip"] { cursor: help; }

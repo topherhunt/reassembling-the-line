@@ -10,9 +10,9 @@ defmodule RTL.Accounts do
   # User schema
   #
 
-  def get_user(id, filt \\ []), do: get_user_by(Keyword.merge([id: id], filt))
+  def get_user(id, filt \\ []), do: get_user_by([{:id, id} | filt])
 
-  def get_user!(id, filt \\ []), do: get_user_by!(Keyword.merge([id: id], filt))
+  def get_user!(id, filt \\ []), do: get_user_by!([{:id, id} | filt])
 
   def get_user_by(filt), do: User |> User.filter(filt) |> Repo.first()
 

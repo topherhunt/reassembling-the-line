@@ -15,8 +15,40 @@ defmodule RTL.Repo do
     end
   end
 
+  #
+  # Describing changeset errors
+  # (arguably doesn't belong in Repo)
+  #
+
+  # Assemble all this changeset's errors into a comma-separated summary.
+  # e.g. "username can't be blank, password must be at most 20 characters"
+  def describe_errors(changeset) do
+    if length(changeset.errors) == 0, do: raise "This changeset has no errors to describe!"
+
+    changeset
+    |> inject_vars_into_error_messages()
+    |> Enum.map(fn({field, errors}) -> "#{field} #{Enum.join(errors, " and ")}" end)
+    |> Enum.join(", ")
+    |> String.replace("(s)", "s")
+  end
+
+  defp inject_vars_into_error_messages(changeset) do
+    Ecto.Changeset.traverse_errors(changeset, fn({msg, opts}) ->
+      # e.g. input: {"must be at most %{count} chars", [count: 10, validation: ...]}
+      #      output: "must be at most 3 chars"
+      Enum.reduce(opts, msg, fn({key, value}, acc) ->
+        String.replace(acc, "%{#{key}}", to_string(value))
+      end)
+    end)
+  end
+
+  #
+  # Query logging
+  #
+
   # Inspired by https://github.com/elixir-ecto/ecto/blob/v2.2.11/lib/ecto/log_entry.ex
   # (only relevant to Ecto v2!)
+  # TODO: Clean this out and migrate to Ecto v3.
   def log_query(entry) do
     Logger.log(:debug, fn ->
       {ok, _} = entry.result

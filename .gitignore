@@ -13,3 +13,4 @@ temp_*
 
 # Sensitive env variables
 config/secrets.exs
+screenshot-20*.png

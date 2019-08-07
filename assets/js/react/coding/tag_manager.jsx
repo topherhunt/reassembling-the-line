@@ -55,7 +55,7 @@ class TagManager extends React.Component {
           />
         })}
 
-        {this.renderAddTagForm()}
+        {this.renderAddTagForm(mutations)}
       </div>
     </div>
   }

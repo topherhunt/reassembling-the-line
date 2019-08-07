@@ -18,7 +18,8 @@ defmodule RTL.Videos.Tag do
   # Public API
   #
 
-  # TODO: De-duplicate with the query functions in the Videos context
+  # TODO: Move these back up to the Videos context
+  def get(id, f \\ []), do: __MODULE__ |> apply_filters([{:id, id} | f]) |> Repo.one()
   def get!(id, f \\ []), do: __MODULE__ |> apply_filters([{:id, id} | f]) |> Repo.one!()
   def first(filters \\ []), do: __MODULE__ |> apply_filters(filters) |> Repo.first()
   def first!(filters \\ []), do: __MODULE__ |> apply_filters(filters) |> Repo.first!()
@@ -35,6 +36,7 @@ defmodule RTL.Videos.Tag do
     struct
     |> cast(params, [:project_id, :text, :color])
     |> validate_required([:project_id, :text, :color])
+    |> unique_constraint(:project_id_text)
     # NOTE: I'm no longer removing special chars from tags.
   end
 

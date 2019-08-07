@@ -1,5 +1,8 @@
 defmodule RTLWeb.Graphql.Resolvers do
   # import Absinthe.Resolution.Helpers, only: [batch: 3]
+
+  alias RTL.Repo
+  alias RTL.Accounts
   alias RTL.Videos
   alias RTL.Projects.{Project, Prompt}
   alias RTL.Videos.{Coding, Video, Tagging, Tag}
@@ -9,7 +12,8 @@ defmodule RTLWeb.Graphql.Resolvers do
   #
 
   def get_coder(%Coding{} = parent, _args, _resolution) do
-    {:ok, Prompt.get!(parent.coder_id)}
+    id = parent.coder_id
+    Accounts.get_user(id) |> getter_response_tuple("coder", id)
   end
 
   #
@@ -17,7 +21,8 @@ defmodule RTLWeb.Graphql.Resolvers do
   #
 
   def get_project(%Prompt{} = parent, _args, _resolution) do
-    {:ok, Project.get!(parent.project_id)}
+    id = parent.project_id
+    Project.get(id) |> getter_response_tuple("project", id)
   end
 
   #
@@ -25,7 +30,8 @@ defmodule RTLWeb.Graphql.Resolvers do
   #
 
   def get_prompt(%Video{} = parent, _args, _resolution) do
-    {:ok, Prompt.get!(parent.prompt_id)}
+    id = parent.prompt_id
+    Prompt.get(id) |> getter_response_tuple("prompt", id)
   end
 
   def get_prompt_sanitized_text(%Prompt{} = parent, _args, _resolution) do
@@ -37,7 +43,8 @@ defmodule RTLWeb.Graphql.Resolvers do
   #
 
   def get_video(%Coding{} = parent, _args, _resolution) do
-    {:ok, Video.get!(parent.video_id)}
+    id = parent.video_id
+    Video.get(id) |> getter_response_tuple("video", id)
   end
 
   def get_video_thumbnail_url(%Video{} = parent, _args, _resolution) do
@@ -53,7 +60,7 @@ defmodule RTLWeb.Graphql.Resolvers do
   #
 
   def get_coding(_parent, %{id: id}, _resolution) do
-    {:ok, Coding.get!(id)}
+    Coding.get(id) |> getter_response_tuple("coding", id)
   end
 
   #
@@ -87,7 +94,8 @@ defmodule RTLWeb.Graphql.Resolvers do
   #
 
   def get_tag(%Tagging{} = parent, _args, _resolution) do
-    {:ok, Tag.get!(parent.tag_id)}
+    id = parent.tag_id
+    Tag.get(id) |> getter_response_tuple("tag", id)
   end
 
   def get_tags(%Project{} = parent, _args, _resolution) do
@@ -99,13 +107,15 @@ defmodule RTLWeb.Graphql.Resolvers do
   end
 
   def create_tag(_parent, args, _resolution) do
-    IO.inspect(args, label: "args")
     # TODO: Authorize that the user is admin on this project
     params = Map.take(args, [:project_id, :text])
-    # TODO: Consider moving this generated data down to the changeset
+    # TODO: Consider moving this data generation down to the changeset
     params = Map.put(params, :color, Tag.random_color())
-    tag = Tag.insert!(params)
-    {:ok, tag}
+
+    case Tag.insert(params) do
+      {:ok, tag} -> {:ok, tag}
+      {:error, changeset} -> {:error, Repo.describe_errors(changeset)}
+    end
   end
 
   def update_tag(_parent, args, _resolution) do
@@ -119,5 +129,16 @@ defmodule RTLWeb.Graphql.Resolvers do
     # TODO: Authorize that the user is admin on this project
     tag = Tag.get!(args.id) |> Tag.delete!()
     {:ok, tag}
+  end
+
+  #
+  # Internal helpers
+  #
+
+  defp getter_response_tuple(result, label, id) do
+    case result do
+      nil -> {:error, "Can't find #{label} #{id}"}
+      object -> {:ok, object}
+    end
   end
 end

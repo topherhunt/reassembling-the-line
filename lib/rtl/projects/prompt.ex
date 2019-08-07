@@ -21,8 +21,10 @@ defmodule RTL.Projects.Prompt do
   #
 
   # TODO: Remove the prompt querying api in the Context, and replace with these
+  def get(id, f \\ []), do: __MODULE__ |> apply_filters([{:id, id} | f]) |> Repo.one()
   def get!(id, f \\ []), do: __MODULE__ |> apply_filters([{:id, id} | f]) |> Repo.one!()
   def first(filters \\ []), do: __MODULE__ |> apply_filters(filters) |> Repo.first()
+  def first!(filters \\ []), do: __MODULE__ |> apply_filters(filters) |> Repo.first!()
   def all(filters \\ []), do: __MODULE__ |> apply_filters(filters) |> Repo.all()
   def count(filters \\ []), do: __MODULE__ |> apply_filters(filters) |> Repo.count()
 
