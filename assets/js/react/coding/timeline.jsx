@@ -18,6 +18,7 @@ class Timeline extends React.Component {
     // All timeline positions are in terms of seconds (decimal).
     this.state = {
       zoom: 20, // px width per second
+      currentScroll: 0, // px
       selectedTaggingId: null,
       hoveringAt: null, // (seconds)
       currentDrag: null // If populated, an object with {from:, to:, intentional:, etc.}
@@ -30,19 +31,30 @@ class Timeline extends React.Component {
       document.querySelector("#timelinePrimaryCursor").scrollIntoViewIfNeeded()
     }
 
-    // If zoomed in, double the scroll amount to compensate.
+    // Adjust the scroll as you zoom in & out so your scroll stays centered.
+    // We can't directly reference div.scrollLeft here because it maxes out if you zoom
+    // out while scrolled far to the right. We track currentScroll in React state instead.
+
     if (this.state.zoom > prevState.zoom) {
       let div = document.querySelector(".b-codingPageTimeline .__scrollContainer")
-      // TODO: This "anchors" zoom to the left-hand side of the screen, but we can do
-      // better: we can adjust the scroll so that tickmarks that were in the middle of
-      // the view, stay in the middle of the view.
-      div.scrollLeft = div.scrollLeft * 2
+
+      let currentScroll = this.state.currentScroll
+      let offset = div.offsetWidth / 2
+      let newScroll = (currentScroll * 2) + offset
+
+      div.scrollLeft = newScroll
+      this.setState({currentScroll: newScroll})
     }
 
-    // If zoomed out, halve the scroll to compensate.
     if (this.state.zoom < prevState.zoom) {
       let div = document.querySelector(".b-codingPageTimeline .__scrollContainer")
-      div.scrollLeft = div.scrollLeft / 2
+
+      let currentScroll = this.state.currentScroll
+      let offset = div.offsetWidth / 2
+      let newScroll = (currentScroll - offset) / 2
+
+      div.scrollLeft = newScroll
+      this.setState({currentScroll: newScroll})
     }
   }
 
@@ -66,7 +78,9 @@ class Timeline extends React.Component {
 
   renderMainContent({mutations}) {
     return <div className="b-codingPageTimeline">
-      <div className="__scrollContainer">
+      <div className="__scrollContainer"
+        onScroll={(e) => { this.setState({currentScroll: e.target.scrollLeft}) }}
+      >
         <div className="__timeline" style={{width: this.timelineWidth()}}
           onClick={() => this.setState({selectedTaggingId: null})}
           onMouseDown={this.mouseDownOnTimeline.bind(this)}
