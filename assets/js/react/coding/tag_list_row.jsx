@@ -31,6 +31,7 @@ class TagListRow extends React.Component {
     return this.renderDeleteTagMutationWrapper()
   }
 
+  // TODO: Move this wrapper down closer to the delete link
   renderDeleteTagMutationWrapper() {
     return <Mutation
       mutation={deleteTagMutation}
@@ -89,32 +90,10 @@ class TagListRow extends React.Component {
     }
   }
 
-  renderEditing(mutationFuncs) {
+  renderInert() {
     return <div>
-      <input type="text"
-        id={"tag-editor-"+this.props.tag.id}
-        className="__tagTextEditField"
-        value={this.state.editedText}
-        onChange={(e) => this.setState({editedText: e.target.value})}
-        onKeyUp={(e) => {
-          if (e.key === 'Enter') this.submitTagRename(mutationFuncs)
-        }}
-      />
-      <div className="__tagDetails">
-        <a href="#" className="text-success"
-          onClick={(e) => {
-            e.preventDefault()
-            this.submitTagRename(mutationFuncs)
-          }}
-        ><i className="icon">check_circle</i></a>
-        &nbsp;
-        <a href="#" className="text-danger"
-          onClick={(e) => {
-            e.preventDefault()
-            this.setState({isEditing: false})
-          }}
-        ><i className="icon">cancel</i></a>
-      </div>
+      <div className="__text">{this.props.tag.text}</div>
+      <div className="__tagDetails">{this.props.tag.count_taggings}</div>
     </div>
   }
 
@@ -122,18 +101,21 @@ class TagListRow extends React.Component {
     return <div>
       <div className="__text">{this.props.tag.text}</div>
       <div className="__tagDetails">
-        <a href="#" className=""
+        <a href="#"
+          className="test-tag-apply-link"
           onClick={(e) => { e.preventDefault(); this.applyTag(mutationFuncs) }}
         >apply</a>
         &nbsp; &nbsp;
-        <a href="#" className="text-warning"
+        <a href="#"
+          className="text-warning test-tag-edit-link"
           onClick={(e) => {
             e.preventDefault()
             this.setState({isEditing: true})
           }}
         ><i className="icon">edit</i></a>
         &nbsp;
-        <a href="#" className="text-danger"
+        <a href="#"
+          className="text-danger test-tag-delete-link"
           onClick={(e) => {
             e.preventDefault()
             if (!confirm("Really delete this tag?")) return
@@ -144,14 +126,34 @@ class TagListRow extends React.Component {
     </div>
   }
 
-  renderInert() {
+  renderEditing(mutationFuncs) {
     return <div>
-      <div className="__text">{this.props.tag.text}</div>
-      <div className="__tagDetails">{this.props.tag.count_taggings}</div>
+      <input type="text"
+        id={"tag-editor-"+this.props.tag.id}
+        className="__tagTextEditField test-tag-edit-field"
+        value={this.state.editedText}
+        onChange={(e) => this.setState({editedText: e.target.value})}
+        onKeyUp={(e) => { if (e.key === 'Enter') this.submitTagRename(e, mutationFuncs) }}
+      />
+      <div className="__tagDetails">
+        <a href="#" className="text-success test-tag-edit-submit"
+          onClick={(e) => this.submitTagRename(e, mutationFuncs)}
+        ><i className="icon">check_circle</i></a>
+        &nbsp;
+        <a href="#" className="text-danger" onClick={this.cancelTagRename}>
+          <i className="icon">cancel</i>
+        </a>
+      </div>
     </div>
   }
 
-  submitTagRename(mutationFuncs) {
+  cancelTagRename(e) {
+    e.preventDefault()
+    this.setState({isEditing: false})
+  }
+
+  submitTagRename(e, mutationFuncs) {
+    e.preventDefault()
     let tagId = this.props.tag.id
     let text = this.state.editedText
     mutationFuncs.updateTag({variables: {id: tagId, text: text}})

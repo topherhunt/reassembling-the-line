@@ -118,11 +118,12 @@ class Timeline extends React.Component {
   renderSelection() {
     if (!this.props.timelineSelection) return
 
-    let selection = this.props.timelineSelection
-    let cssLeft = ""+(selection.left * this.state.zoom)+"px"
-    let cssWidth = ""+((selection.right - selection.left) * this.state.zoom + 1)+"px"
+    let sel = this.props.timelineSelection
+    let cssLeft = ""+(sel.left * this.state.zoom)+"px"
+    let cssWidth = ""+((sel.right - sel.left) * this.state.zoom + 1)+"px"
+    let classes = "__selection test-timeline-selection-"+sel.left+"s-"+sel.right+"s"
 
-    return <div className="__selection" style={{left: cssLeft, width: cssWidth}}></div>
+    return <div className={classes} style={{left: cssLeft, width: cssWidth}}></div>
   }
 
   renderPrimaryCursor() {

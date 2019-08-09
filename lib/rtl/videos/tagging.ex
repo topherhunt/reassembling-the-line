@@ -20,6 +20,7 @@ defmodule RTL.Videos.Tagging do
   # TODO: Remove the query functions in the context and replace with these
   def get!(id, f \\ []), do: __MODULE__ |> apply_filters([{:id, id} | f]) |> Repo.one!()
   def first(filters \\ []), do: __MODULE__ |> apply_filters(filters) |> Repo.first()
+  def first!(filters \\ []), do: __MODULE__ |> apply_filters(filters) |> Repo.first!()
   def all(filters \\ []), do: __MODULE__ |> apply_filters(filters) |> Repo.all()
   def count(filters \\ []), do: __MODULE__ |> apply_filters(filters) |> Repo.count()
 
@@ -70,5 +71,16 @@ defmodule RTL.Videos.Tagging do
   def filter(query, :id, id), do: Q.where(query, [ti], ti.id == ^id)
   def filter(query, :tag, tag), do: Q.where(query, [ti], ti.tag_id == ^tag.id)
   def filter(query, :coding, coding), do: Q.where(query, [ti], ti.coding_id == ^coding.id)
+  def filter(query, :starts_at, sec), do: Q.where(query, [ti], ti.starts_at == ^sec)
+  def filter(query, :ends_at, sec), do: Q.where(query, [ti], ti.ends_at == ^sec)
   def filter(query, :order, :starts_at), do: Q.order_by(query, [ti], asc: ti.starts_at)
+
+  def filter(query, :video, video) do
+    Q.where(query, [ti],
+      fragment("EXISTS (SELECT * FROM codings WHERE video_id = ? AND id = ?)",
+        ^video.id,
+        ti.coding_id
+      )
+    )
+  end
 end

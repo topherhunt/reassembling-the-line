@@ -14,31 +14,13 @@ class TagManager extends React.Component {
     // If we just added a tag, focus back on the add tag field again
     if (this.props.tags.length > prevProps.tags.length) {
       let input = document.querySelector("#new-tag-text")
+      if (!input) return
       input.focus()
       input.scrollIntoViewIfNeeded()
     }
   }
 
   render() {
-    return this.renderCreateTagMutationWrapper()
-  }
-
-  renderCreateTagMutationWrapper() {
-    return <Mutation
-      mutation={createTagMutation}
-      update={this.updateCacheOnCreateTag.bind(this)}
-    >
-      {(runCreateTagMutation, {called, loading, data}) => {
-        // TODO: Would an array of children work here, instead of this intervening div?
-        return <div>
-          {loading ? <div>Loading...</div> : ""}
-          {this.renderMainContent({runCreateTagMutation})}
-        </div>
-      }}
-    </Mutation>
-  }
-
-  renderMainContent(mutations) {
     return <div className="b-codingPageTagManager">
       <div>
         <span className="h4">Tags</span> &nbsp;
@@ -55,41 +37,51 @@ class TagManager extends React.Component {
           />
         })}
 
-        {this.renderAddTagForm(mutations)}
+        {this.renderAddTagForm()}
       </div>
     </div>
   }
 
-  renderAddTagForm(mutations) {
-    return <div className="__tag">
-      <input type="text" id="new-tag-text" className="__newTagTextField test-add-tag-field"
-        placeholder="Add a new tag"
-        value={this.state.newTagText}
-        onChange={(e) => this.setState({newTagText: e.target.value})}
-        onKeyUp={(e) => {
-          if (e.key === 'Enter') this.submitNewTag(mutations)
+  renderAddTagForm() {
+    return <Mutation
+      mutation={createTagMutation}
+      update={this.updateCacheOnCreateTag.bind(this)}
+    >
+      {(runCreateTagMutation, {called, loading, data}) => {
+        if (loading)
+          return <div>Loading...</div>
+
+        return <div className="__tag">
+          <input type="text" id="new-tag-text"
+            className="__newTagTextField test-add-tag-field"
+            placeholder="Add a new tag"
+            value={this.state.newTagText}
+            onChange={(e) => this.setState({newTagText: e.target.value})}
+            onKeyUp={(e) => {
+              if (e.key === 'Enter') this.submitNewTag(runCreateTagMutation)
+            }}
+          />
+          {this.renderAddTagSubmitButton(runCreateTagMutation)}
+        </div>
+      }}
+    </Mutation>
+  }
+
+  renderAddTagSubmitButton(runCreateTagMutation) {
+    if (!this.state.newTagText)
+      return ""
+
+    return <div className="__tagDetails">
+      <a href="#" className="text-success test-add-tag-submit"
+        onClick={(e) => {
+          e.preventDefault()
+          this.submitNewTag(runCreateTagMutation)
         }}
-      />
-      {this.renderAddTagSubmitButton(mutations)}
+      ><i className="icon">check_circle</i></a>
     </div>
   }
 
-  renderAddTagSubmitButton(mutations) {
-    if (!!this.state.newTagText) {
-      return <div className="__tagDetails">
-        <a href="#" className="text-success test-add-tag-submit"
-          onClick={(e) => {
-            e.preventDefault()
-            this.submitNewTag(mutations)
-          }}
-        ><i className="icon">check_circle</i></a>
-      </div>
-    } else {
-      return null
-    }
-  }
-
-  submitNewTag({runCreateTagMutation}) {
+  submitNewTag(runCreateTagMutation) {
     let projectId = this.props.projectId
     let text = this.state.newTagText
     // document.querySelector("#new-tag-text").value

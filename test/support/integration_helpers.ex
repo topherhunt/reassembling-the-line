@@ -67,14 +67,4 @@ defmodule RTLWeb.IntegrationHelpers do
         assert false, "Waited 1 sec, but the expected condition never became true."
     end
   end
-
-  #
-  # Debugging
-  #
-
-  def print_page_source() do
-    IO.puts("<<<<<<< Page source: >>>>>>")
-    IO.puts(page_source())
-    IO.puts("<<<<<<<<<<<<<<>>>>>>>>>>>>>")
-  end
 end

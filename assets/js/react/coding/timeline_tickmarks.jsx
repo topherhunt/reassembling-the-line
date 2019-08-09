@@ -16,8 +16,9 @@ class TimelineTickmarks extends React.Component {
 
     for (let sec = 1; sec < this.props.videoDuration; sec ++) {
       if (sec % 5 == 0) continue
+      let classes = "__tickmark --minor test-tickmark-"+sec+"s"
       let style = {left: ""+(sec * this.props.zoom)+"px"}
-      output.push(<div key={sec} className="__tickmark --minor" style={style}></div>)
+      output.push(<div key={sec} className={classes} style={style}></div>)
     }
 
     return output

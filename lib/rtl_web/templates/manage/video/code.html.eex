@@ -24,7 +24,7 @@
   <% else %>
     <%= form_for @changeset, Routes.manage_video_path(@conn, :mark_coded, @project, @video), [method: :post], fn f -> %>
       <p>Once you're done tagging, mark this video as complete to check it off the list.</p>
-      <%= submit "Mark as complete", class: "btn btn-primary" %>
+      <%= submit "Mark as complete", class: "btn btn-primary test-complete-coding-button" %>
     <% end %>
   <% end %>
 </div>

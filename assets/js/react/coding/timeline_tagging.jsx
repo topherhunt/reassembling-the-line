@@ -16,11 +16,12 @@ class TimelineTagging extends React.Component {
     let tagging = this.props.tagging
     let startsAt = tagging.starts_at
     let endsAt = tagging.ends_at
-    let statusClass = isSelected ? "--selected" : ""
+    let classes = "__tagging test-tagging"
+    if (isSelected) classes += " --selected"
 
     // If user is currently dragging this tagging boundary, preview its tentative state
     if (isSelected && drag && drag.intentional && drag.type == "resizeTagging") {
-      statusClass += " --dragging"
+      classes += " --dragging"
       if (drag.side == "left") {
         startsAt = drag.to
       } else {
@@ -31,18 +32,15 @@ class TimelineTagging extends React.Component {
     let cssTop = ""+(this.props.index * 15 + 35)+"px"
     let cssLeft = ""+(startsAt * this.props.zoom)+"px"
     let cssWidth = ""+((endsAt - startsAt) * this.props.zoom)+"px"
+    let cssColor = tagging.tag.color
+    let styles = {top: cssTop, left: cssLeft, width: cssWidth, backgroundColor: cssColor}
 
-    return <div className={"__tagging " + statusClass}
-      style={{
-        top: cssTop,
-        left: cssLeft,
-        width: cssWidth,
-        backgroundColor: tagging.tag.color
-      }}
-      onClick={(e) => {
-        e.stopPropagation()
-        this.props.onClick()
-      }}
+    return <div className={classes}
+      data-tag-id={tagging.tag.id}
+      data-starts-at={startsAt}
+      data-ends-at={endsAt}
+      style={styles}
+      onClick={(e) => { e.stopPropagation(); this.props.onClick() }}
     >
       <div className="__taggingContent">
         <div className="__taggingLabel">{tagging.tag.text}</div>
@@ -54,13 +52,13 @@ class TimelineTagging extends React.Component {
 
   renderHandles() {
     return <div>
-      <div className="__taggingDragHandle"
+      <div className="__taggingDragHandle test-handle-left"
         style={{left: "-5px"}}
         onMouseDown={(e) => { this.props.startDrag(e, "left") }}
       >
         <div className="__taggingDragHandleKnob"></div>
       </div>
-      <div className="__taggingDragHandle"
+      <div className="__taggingDragHandle test-handle-right"
         style={{right: "-5px"}}
         onMouseDown={(e) => { this.props.startDrag(e, "right") }}
       >
@@ -93,7 +91,7 @@ class TimelineTagging extends React.Component {
       update={this.updateCacheOnDeleteTagging.bind(this)}
     >
       {(deleteTagging, {called, loading, data}) => {
-        return <a href="#" className="text-danger"
+        return <a href="#" className="text-danger test-tagging-delete-link"
           onClick={(e) => {
             e.preventDefault()
             if (!confirm("Really delete this tagging?")) return

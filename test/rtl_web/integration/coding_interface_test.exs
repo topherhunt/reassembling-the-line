@@ -3,7 +3,8 @@
 
 defmodule RTLWeb.CodingInterfaceTest do
   use RTLWeb.IntegrationCase
-  alias RTL.{Projects, Videos}
+  alias RTL.{Projects}
+  alias RTL.Videos.{Coding, Tagging, Tag}
 
   hound_session()
 
@@ -36,104 +37,160 @@ defmodule RTLWeb.CodingInterfaceTest do
     video = Factory.insert_video(prompt_id: prompt.id)
     Projects.add_project_admin!(user, project)
 
+    # I can open the coding page for a video
     login(conn, user)
     navigate_to Routes.manage_video_path(conn, :index, project)
+    assert_selector(".test-page-manage-video-index")
     find_element(".test-link-code-video-#{video.id}") |> click()
-
     assert_selector(".test-coding-page")
 
-    tag1 = create_tag()
-    tag2 = create_tag()
-    tag3 = create_tag()
+    # I can add, edit, and delete tags
+    tag1 = create_tag(project)
+    tag2 = create_tag(project)
+    tag3 = create_tag(project)
+    edit_tag_text(tag2, "policy")
+    delete_tag(tag3)
 
-    # Make a timeline selection and apply a tagging to it
+    # I can apply tags to the timeline
+    make_timeline_selection(9, 23)
+    # TODO: Troubleshoot flaps here
+    apply_tag(tag1)
+    apply_tag(tag2)
+    make_timeline_selection(44, 78)
+    apply_tag(tag2)
+    assert_tagging(tag1, 9, 23)
+    assert_tagging(tag2, 9, 23)
+    assert_tagging(tag2, 44, 78)
 
-    # Selected tags are repopulated when editing an already-coded video
+    Process.sleep(2000)
 
+    # I can edit and delete taggings
+    edit_tagging({tag1, 9, 23}, :starts_at, 21)
+    delete_tagging(tag2, 9, 23)
+
+    Process.sleep(2000)
+
+    # I can mark coding as complete
+    assert Coding.first!(video: video).completed_at == nil
+    find_element(".test-complete-coding-button") |> click()
+    assert_selector(".test-page-manage-video-index")
+    assert Coding.first!(video: video).completed_at != nil
+
+    # I can edit tags for a video
+    find_element(".test-link-code-video-#{video.id}") |> click()
+    assert_selector(".test-coding-page")
+    refute_selector(".test-complete-coding-button")
+    # All my tagging data shows up as it should
+    Process.sleep(2000)
+    assert_tagging(tag1, 21, 23)
+    assert_tagging(tag2, 44, 78)
   end
 
-  def create_tag() do
-    text = Factory.random_uuid()
-    # sanity check: the add tag submit form should be in "inactive" state
-    refute_selector(".test-add-tag-submit")
-    find_element(".test-add-tag-field") |> fill_field(text)
-    find_element(".test-add-tag-submit") |> click()
-    # wait until the form submits
-    Process.sleep(1000)
-    IO.puts fetch_log()
-    take_screenshot()
-    refute_selector(".test-add-tag-submit")
-    tag = Videos.Tag.first!(text: text)
-    assert_selector(".test-tag-row-#{tag.id}", text: text)
-    tag
-  end
-
   #
-  # OLD assertions:
-  #
-    # click_add_tag_link()
-    # click_add_tag_link()
-    # click_add_tag_link()
-    # click_add_tag_link()
-    # click_add_tag_link()
-    # assert length(tag_rows()) == 5
-    # tag_rows() |> List.first() |> click_remove_tag_link
-    # assert length(tag_rows()) == 4
-    # [row1, _row2, row3, row4] = tag_rows()
-    # row1 |> text_field |> fill_field("Georgia")
-    # # Don't enter anything into row2. It should be skipped on submit.
-    # row3 |> text_field |> fill_field("bullying")
-    # row3 |> start_time_field |> fill_field("0:15")
-    # row3 |> end_time_field |> fill_field("0:45")
-    # row4 |> text_field |> fill_field("Alabama")
-    # find_element(".test-create-coding") |> click
-
-    # assert current_path() == Routes.manage_video_path(conn, :index, project)
-    # coding = Videos.get_coding_by!(video_id: video.id) |> Videos.get_coding_preloads()
-    # tags = Videos.summarize_taggings(coding.taggings) |> Enum.sort()
-
-    # expected = [
-    #   %{text: "Alabama", starts_at: nil, ends_at: nil},
-    #   %{text: "Georgia", starts_at: nil, ends_at: nil},
-    #   %{text: "bullying", starts_at: "0:15", ends_at: "0:45"}
-    # ]
-
-    # assert tags == expected
-
-
-  #
-  # DOM selection helpers
-  #
-
-  # defp tag_rows do
-  #   find_all_elements(".test-tag-row")
-  # end
-
-  # defp text_field(tag_row) do
-  #   tag_row |> find_within_element(".test-tag-text-field")
-  # end
-
-  # defp start_time_field(tag_row) do
-  #   tag_row |> find_within_element(".js-start-time-field")
-  # end
-
-  # defp end_time_field(tag_row) do
-  #   tag_row |> find_within_element(".js-end-time-field")
-  # end
-
-  #
-  # Action helpers
+  # Helpers
   #
 
   defp login(conn, user) do
     navigate_to Routes.auth_path(conn, :force_login, user.uuid)
   end
 
-  # defp click_add_tag_link do
-  #   find_element(".test-add-tag") |> click()
-  # end
+  defp create_tag(project) do
+    text = Factory.random_uuid()
 
-  # defp click_remove_tag_link(tag_row) do
-  #   tag_row |> find_within_element(".test-remove-tag") |> click
-  # end
+    # sanity check: the add tag form should be in "inactive" state
+    refute_selector(".test-add-tag-submit")
+    find_element(".test-add-tag-field") |> fill_field(text)
+    find_element(".test-add-tag-submit") |> click()
+
+    # Ensure the form submitted
+    refute_selector(".test-add-tag-submit")
+    tag = Tag.first!(project: project, text: text)
+    assert_selector(".test-tag-row-#{tag.id}", text: text)
+    tag
+  end
+
+  defp edit_tag_text(tag, new_text) do
+    row_class = ".test-tag-row-#{tag.id}"
+
+    find_element(row_class) |> move_to(1, 1)
+    # sanity check: the tag row should not be in editing state.
+    refute_selector("#{row_class} .test-tag-edit-submit")
+    find_element("#{row_class} .test-tag-edit-link") |> click()
+    find_element("#{row_class} .test-tag-edit-field") |> fill_field(new_text)
+    find_element("#{row_class} .test-tag-edit-submit") |> click()
+
+    # Ensure the form submitted and the tag was updated
+    refute_selector("#{row_class} .test-tag-edit-submit")
+    assert Tag.get!(tag.id).text == new_text
+  end
+
+  defp delete_tag(tag) do
+    row_class = ".test-tag-row-#{tag.id}"
+
+    find_element(row_class) |> move_to(1, 1)
+    find_element("#{row_class} .test-tag-delete-link") |> click()
+    accept_dialog()
+
+    # Ensure the tag is removed both from the list and from the db
+    refute_selector(row_class)
+    assert Tag.get(tag.id) == nil
+  end
+
+  defp apply_tag(tag) do
+    row_class = ".test-tag-row-#{tag.id}"
+    find_element(row_class) |> move_to(1, 1)
+    find_element("#{row_class} .test-tag-apply-link") |> click()
+    # We don't yet assert that it was applied; we don't have enough info to do that here
+  end
+
+  defp make_timeline_selection(from, to) do
+    find_element(".test-tickmark-#{from}s") |> move_to(0, 0)
+    mouse_down(0)
+    find_element(".test-tickmark-#{to}s") |> move_to(0, 0)
+    mouse_up(0)
+
+    assert_selector(".test-timeline-selection-#{from}s-#{to}s")
+  end
+
+  defp assert_tagging(tag, from, to) do
+    # Confirm that it shows up on the page
+    selector = get_tagging_selector(tag.id, from, to)
+    assert_selector(selector)
+
+    # Confirm that it's persisted w correct values
+    assert Tagging.first(tag: tag, starts_at: from, ends_at: to) != nil
+  end
+
+  defp edit_tagging({tag, old_starts_at, ends_at}, :starts_at, new_starts_at) do
+    old_selector = get_tagging_selector(tag.id, old_starts_at, ends_at)
+    find_element(old_selector) |> click()
+    find_element("#{old_selector} .test-handle-left") |> move_to(1, 1)
+    mouse_down(0)
+
+    find_element(".test-tickmark-#{new_starts_at}s") |> move_to(0, 0)
+    mouse_up(0)
+
+    # Confirm that the tagging updates on the page
+    new_selector = get_tagging_selector(tag.id, new_starts_at, ends_at)
+    assert_selector(new_selector)
+    # Confirm that the tagging is updated in the db
+    assert Tagging.first(tag: tag, starts_at: new_starts_at, ends_at: ends_at) != nil
+  end
+
+  defp delete_tagging(tag, from, to) do
+    selector = get_tagging_selector(tag.id, from, to)
+    find_element(selector) |> click()
+    find_element("#{selector} .test-tagging-delete-link") |> click()
+    accept_dialog()
+
+    refute_selector(selector)
+    assert Tagging.first(tag: tag, starts_at: from, ends_at: to) == nil
+  end
+
+  defp get_tagging_selector(tag_id, from, to) do
+    ".test-tagging"<>
+    "[data-tag-id=\"#{tag_id}\"]"<>
+    "[data-starts-at=\"#{from}\"]"<>
+    "[data-ends-at=\"#{to}\"]"
+  end
 end

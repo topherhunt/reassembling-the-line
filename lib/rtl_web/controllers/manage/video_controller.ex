@@ -56,7 +56,7 @@ defmodule RTLWeb.Manage.VideoController do
 
   # Called when the user clicks the "Mark completed" button to finalize coding.
   # This coding will then be treated as complete, though it can still be edited.
-  def mark_coded(conn, params) do
+  def mark_coded(conn, _params) do
     project = conn.assigns.project
     video = load_video(conn)
     coding = Coding.first(video: video)
