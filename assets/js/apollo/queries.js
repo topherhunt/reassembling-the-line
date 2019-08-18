@@ -20,7 +20,7 @@ const codingPageQuery = gql`
             name
             tags {
               id
-              text
+              name
               color
               count_taggings
             }
@@ -37,7 +37,7 @@ const codingPageQuery = gql`
         ends_at
         tag {
           id
-          text
+          name
           color
           count_taggings
         }
@@ -47,10 +47,10 @@ const codingPageQuery = gql`
 `
 
 const createTagMutation = gql`
-  mutation CreateTag($projectId: ID!, $text: String!) {
-    create_tag(projectId: $projectId, text: $text) {
+  mutation CreateTag($projectId: ID!, $name: String!) {
+    create_tag(projectId: $projectId, name: $name) {
       id
-      text
+      name
       color
       count_taggings
     }
@@ -58,10 +58,10 @@ const createTagMutation = gql`
 `
 
 const updateTagMutation = gql`
-  mutation UpdateTag($id: ID!, $text: String!, $color: String) {
-    update_tag(id: $id, text: $text, color: $color) {
+  mutation UpdateTag($id: ID!, $name: String!, $color: String) {
+    update_tag(id: $id, name: $name, color: $color) {
       id
-      text
+      name
       color
       count_taggings
     }
@@ -84,7 +84,7 @@ const createTaggingMutation = gql`
       ends_at
       tag {
         id
-        text
+        name
         color
         count_taggings
       }
@@ -100,7 +100,7 @@ const updateTaggingMutation = gql`
       ends_at
       tag {
         id
-        text
+        name
         color
         count_taggings
       }

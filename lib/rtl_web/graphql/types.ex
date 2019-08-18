@@ -46,7 +46,7 @@ defmodule RTLWeb.Graphql.Types do
 
   object :tag do
     field :id, :id
-    field :text, :string
+    field :name, :string
     field :color, :string
     field :count_taggings, :integer, do: resolve &Resolvers.get_tag_count_taggings/3
   end

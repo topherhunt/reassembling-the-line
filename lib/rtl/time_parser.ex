@@ -1,10 +1,6 @@
 defmodule RTL.TimeParser do
-  alias RTL.Helpers, as: H
-
   def string_to_float(nil), do: nil
-
   def string_to_float(""), do: nil
-
   def string_to_float(string) do
     string = String.trim(string)
     # Verify that the string is in a valid format
@@ -14,12 +10,11 @@ defmodule RTL.TimeParser do
       min = (Enum.at(tokens, 1) || "0") |> String.to_integer()
       min * 60 + sec
     else
-      raise "Don't know how to parse time string: #{H.stringify(string)}"
+      raise "Don't know how to parse time string: #{inspect(string)}"
     end
   end
 
   def float_to_string(nil), do: nil
-
   def float_to_string(float) when is_float(float) do
     floor = trunc(float)
     min = trunc(floor / 60)

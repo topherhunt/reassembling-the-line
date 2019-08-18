@@ -20,13 +20,14 @@ defmodule RTLWeb.Explore.ClipController do
 
   defp tag_options do
     Videos.all_tags_with_counts()
-    |> Enum.map(&%{label: "#{&1.text} (#{&1.count})", value: &1.text})
+    |> Enum.map(& %{label: "#{&1.name} (#{&1.count})", value: &1.name})
   end
 
+  # TODO: Anytime tags are encoded in urls, we should use id, not name.
   defp tags_from_params(params) do
     (params["tags"] || "")
     |> String.split(",")
-    |> Enum.reject(&H.is_blank?(&1))
-    |> Enum.map(&%{text: &1})
+    |> Enum.reject(& H.is_blank?(&1))
+    |> Enum.map(& %{name: &1})
   end
 end

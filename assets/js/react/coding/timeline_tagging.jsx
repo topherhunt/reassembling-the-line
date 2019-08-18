@@ -43,7 +43,7 @@ class TimelineTagging extends React.Component {
       onClick={(e) => { e.stopPropagation(); this.props.onClick() }}
     >
       <div className="__taggingContent">
-        <div className="__taggingLabel">{tagging.tag.text}</div>
+        <div className="__taggingLabel">{tagging.tag.name}</div>
         {this.props.isSelected ? this.renderHandles() : ""}
         {this.props.isSelected ? this.renderButtons() : ""}
       </div>

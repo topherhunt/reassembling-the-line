@@ -5,8 +5,7 @@ defmodule RTL.Playlist do
 
   # Outputs a list of matching Segment structs (ie. video clips)
   def build_playlist(project, tags) do
-    # Validate tags (should be a list of maps like %{text: text})
-    Enum.each(tags, fn tag -> %{text: _} = tag end)
+    tags |> Enum.each(& RTL.Helpers.assert_keys(&1, allowed: [:name]))
 
     Videos.list_videos(project: project, coded: true, having_tags: tags, preload: :tags)
     |> Enum.map(&convert_video_record_to_map(&1))
@@ -33,7 +32,7 @@ defmodule RTL.Playlist do
   defp convert_tags_to_maps(taggings) do
     Enum.map(taggings, fn tagging ->
       %{
-        text: tagging.tag.text,
+        name: tagging.tag.name,
         starts_at: tagging.starts_at,
         ends_at: tagging.ends_at
       }

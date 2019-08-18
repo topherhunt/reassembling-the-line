@@ -1,7 +1,7 @@
 var CodingTagComponent = {
   render: function(presets = {}) {
     let defaults = {
-      text: '',
+      name: '',
       starts_at: '',
       ends_at: '',
       name_root: 'coding[tags]['+this.random_id()+']'
@@ -9,7 +9,7 @@ var CodingTagComponent = {
     let tag = {...defaults, ...presets} // presets will override defaults
 
     return '<tr class="test-tag-row">' +
-      this.text_html(tag) +
+      this.name_field_html(tag) +
       this.time_window_html(tag) +
       this.preview_button_html() +
       this.remove_button_html()
@@ -20,9 +20,9 @@ var CodingTagComponent = {
     return Math.round(Math.random() * 1000000000);
   },
 
-  text_html: function(tag) {
+  name_field_html: function(tag) {
     return '<td>' +
-      '<input class="js-tag-text-field test-tag-text-field form-control" type="text" name="'+tag.name_root+'[text]" value="'+tag.text+'" placeholder="Type tag here" />' +
+      '<input class="js-tag-name-field test-tag-name-field form-control" type="text" name="'+tag.name_root+'[name]" value="'+tag.name+'" placeholder="Type tag here" />' +
     '</td>';
   },
 

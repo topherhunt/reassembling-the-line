@@ -17,7 +17,7 @@ defmodule RTL.PlaylistTest do
     # video4 has two separate sections where both of these tags apply
     video4 = add_tagged_video(prompt, [{"def", 15, 38}, {"abc", 30, 60}, {"def", 55, 82}])
 
-    segments = RTL.Playlist.build_playlist(project, [%{text: "abc"}, %{text: "def"}])
+    segments = RTL.Playlist.build_playlist(project, [%{name: "abc"}, %{name: "def"}])
     results = summarize_segments(segments)
 
     expected = [

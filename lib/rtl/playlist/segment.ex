@@ -10,7 +10,7 @@ defmodule RTL.Playlist.Segment do
     thumbnail_url: nil,
     starts_at: nil,
     ends_at: nil,
-    # array of tag maps: %{text:, starts_at:, ends_at:}
+    # array of tag maps: %{name:, starts_at:, ends_at:}
     tags: nil
   )
 
@@ -28,7 +28,7 @@ defmodule RTL.Playlist.Segment do
   def matches_all_tags?(segment, expected_tags) do
     Enum.all?(expected_tags, fn expected_tag ->
       Enum.any?(segment.tags, fn actual_tag ->
-        actual_tag.text == expected_tag.text
+        actual_tag.name == expected_tag.name
       end)
     end)
   end
@@ -75,11 +75,7 @@ defmodule RTL.Playlist.Segment do
   end
 
   def debug(s) do
-    tag_texts =
-      s.tags
-      |> Enum.map(fn t -> t.text end)
-      |> Enum.join(", ")
-
-    IO.puts("Video ##{s.video_id} (#{s.starts_at}-#{s.ends_at}) [#{tag_texts}]")
+    tag_names = s.tags |> Enum.map(& &1.name) |> Enum.join(", ")
+    IO.puts("Video ##{s.video_id} (#{s.starts_at}-#{s.ends_at}) [#{tag_names}]")
   end
 end

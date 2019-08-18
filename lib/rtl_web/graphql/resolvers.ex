@@ -99,7 +99,7 @@ defmodule RTLWeb.Graphql.Resolvers do
   end
 
   def get_tags(%Project{} = parent, _args, _resolution) do
-    {:ok, Tag.all(project: parent, order: :text)}
+    {:ok, Tag.all(project: parent, order: :name)}
   end
 
   def get_tag_count_taggings(%Tag{} = parent, _args, _resolution) do
@@ -108,7 +108,7 @@ defmodule RTLWeb.Graphql.Resolvers do
 
   def create_tag(_parent, args, _resolution) do
     # TODO: Authorize that the user is admin on this project
-    params = Map.take(args, [:project_id, :text])
+    params = Map.take(args, [:project_id, :name])
 
     case Videos.insert_tag(params) do
       {:ok, tag} -> {:ok, tag}
@@ -118,7 +118,7 @@ defmodule RTLWeb.Graphql.Resolvers do
 
   def update_tag(_parent, args, _resolution) do
     # TODO: Authorize that the user is admin on this project
-    params = Map.take(args, [:text, :color])
+    params = Map.take(args, [:name, :color])
     tag = Tag.get!(args.id) |> Tag.update!(params)
     {:ok, tag}
   end

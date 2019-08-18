@@ -48,7 +48,7 @@ defmodule RTLWeb.CodingInterfaceTest do
     tag1 = create_tag(project)
     tag2 = create_tag(project)
     tag3 = create_tag(project)
-    edit_tag_text(tag2, "policy")
+    edit_tag_name(tag2, "policy")
     delete_tag(tag3)
 
     # I can apply tags to the timeline
@@ -95,33 +95,33 @@ defmodule RTLWeb.CodingInterfaceTest do
   end
 
   defp create_tag(project) do
-    text = Factory.random_uuid()
+    name = Factory.random_uuid()
 
     # sanity check: the add tag form should be in "inactive" state
     refute_selector(".test-add-tag-submit")
-    find_element(".test-add-tag-field") |> fill_field(text)
+    find_element(".test-add-tag-field") |> fill_field(name)
     find_element(".test-add-tag-submit") |> click()
 
     # Ensure the form submitted
     refute_selector(".test-add-tag-submit")
-    tag = Tag.first!(project: project, text: text)
-    assert_selector(".test-tag-row-#{tag.id}", text: text)
+    tag = Tag.first!(project: project, name: name)
+    assert_selector(".test-tag-row-#{tag.id}", name: name)
     tag
   end
 
-  defp edit_tag_text(tag, new_text) do
+  defp edit_tag_name(tag, new_name) do
     row_class = ".test-tag-row-#{tag.id}"
 
     find_element(row_class) |> move_to(1, 1)
     # sanity check: the tag row should not be in editing state.
     refute_selector("#{row_class} .test-tag-edit-submit")
     find_element("#{row_class} .test-tag-edit-link") |> click()
-    find_element("#{row_class} .test-tag-edit-field") |> fill_field(new_text)
+    find_element("#{row_class} .test-tag-edit-field") |> fill_field(new_name)
     find_element("#{row_class} .test-tag-edit-submit") |> click()
 
     # Ensure the form submitted and the tag was updated
     refute_selector("#{row_class} .test-tag-edit-submit")
-    assert Tag.get!(tag.id).text == new_text
+    assert Tag.get!(tag.id).name == new_name
   end
 
   defp delete_tag(tag) do

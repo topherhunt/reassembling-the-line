@@ -56,15 +56,19 @@ defmodule RTLWeb.IntegrationHelpers do
 
   def wait_until(func, failures \\ 0) do
     cond do
-      func.() == true ->
-        nil
+      func.() == true -> nil
 
       failures < 10 ->
         Process.sleep(100)
         wait_until(func, failures + 1)
 
       true ->
-        assert false, "Waited 1 sec, but the expected condition never became true."
+        assert false, "The expected condition never became true.\n\n#{debug()}"
+
     end
+  end
+
+  def debug do
+    "JS logs: \n<<<<\n#{fetch_log()}\n>>>>\n\nHTML source:\n<<<<\n#{page_source()}\n>>>>"
   end
 end

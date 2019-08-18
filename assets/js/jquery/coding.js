@@ -9,7 +9,7 @@ var CodingHelpers = {
   init_autocomplete: function() {
     $('.js-tags-table').each(function(i, table) {
       var available_tags = $(table).data('autocompletes');
-      $(table).find('.js-tag-text-field').autocomplete({ source: available_tags });
+      $(table).find('.js-tag-name-field').autocomplete({ source: available_tags });
     });
   },
 
@@ -73,7 +73,7 @@ $(document).ready(function() {
     e.preventDefault();
     var link = $(this);
     link.parents('tr').before(CodingTagComponent.render());
-    link.parents('tr').prev().find('.js-tag-text-field').focus();
+    link.parents('tr').prev().find('.js-tag-name-field').focus();
     CodingHelpers.init_autocomplete();
   });
 

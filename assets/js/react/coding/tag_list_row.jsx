@@ -15,7 +15,7 @@ class TagListRow extends React.Component {
     this.state = {
       isHovering: false,
       isEditing: false,
-      editedText: props.tag.text
+      editedName: props.tag.name
     }
   }
 
@@ -92,14 +92,14 @@ class TagListRow extends React.Component {
 
   renderInert() {
     return <div>
-      <div className="__text">{this.props.tag.text}</div>
+      <div className="__name">{this.props.tag.name}</div>
       <div className="__tagDetails">{this.props.tag.count_taggings}</div>
     </div>
   }
 
   renderHovering(mutationFuncs) {
     return <div>
-      <div className="__text">{this.props.tag.text}</div>
+      <div className="__name">{this.props.tag.name}</div>
       <div className="__tagDetails">
         <a href="#"
           className="test-tag-apply-link"
@@ -131,8 +131,8 @@ class TagListRow extends React.Component {
       <input type="text"
         id={"tag-editor-"+this.props.tag.id}
         className="__tagTextEditField test-tag-edit-field"
-        value={this.state.editedText}
-        onChange={(e) => this.setState({editedText: e.target.value})}
+        value={this.state.editedName}
+        onChange={(e) => this.setState({editedName: e.target.value})}
         onKeyUp={(e) => { if (e.key === 'Enter') this.submitTagRename(e, mutationFuncs) }}
       />
       <div className="__tagDetails">
@@ -155,8 +155,8 @@ class TagListRow extends React.Component {
   submitTagRename(e, mutationFuncs) {
     e.preventDefault()
     let tagId = this.props.tag.id
-    let text = this.state.editedText
-    mutationFuncs.updateTag({variables: {id: tagId, text: text}})
+    let name = this.state.editedName
+    mutationFuncs.updateTag({variables: {id: tagId, name: name}})
     this.setState({isEditing: false})
   }
 

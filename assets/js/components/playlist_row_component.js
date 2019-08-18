@@ -18,12 +18,12 @@ var PlaylistRowComponent = {
       '<div class="js-thumbnail" style="'+style+'"></div>';
   },
 
-  // Input: an array of tag objects, each in format {text:}
+  // Input: an array of tag objects, each in format {name:}
   tags_html: function(tags) {
     return tags
       .map(function(tag) {
-        var text = tag.text;
-        return '<span class="js-playlist-tag" data-text="'+text+'">'+text+'</span>';
+        var name = tag.name;
+        return '<span class="js-playlist-tag" data-name="'+name+'">'+name+'</span>';
       })
       .join("");
   }

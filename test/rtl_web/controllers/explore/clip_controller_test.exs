@@ -44,7 +44,7 @@ defmodule RTLWeb.Explore.ClipControllerTest do
   end
 
   defp summarize_segment(s) do
-    tag_texts = s["tags"] |> Enum.map(& &1["text"]) |> Enum.join(", ")
-    "Video ##{s["video_id"]} (#{s["starts_at"]}-#{s["ends_at"]}) [#{tag_texts}]"
+    tag_names = s["tags"] |> Enum.map(& &1["name"]) |> Enum.join(", ")
+    "Video ##{s["video_id"]} (#{s["starts_at"]}-#{s["ends_at"]}) [#{tag_names}]"
   end
 end

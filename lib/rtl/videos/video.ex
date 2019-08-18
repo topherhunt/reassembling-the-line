@@ -120,14 +120,14 @@ defmodule RTL.Videos.Video do
   end
 
   def filter(orig_query, :having_tags, tag_maps) do
-    tag_names = Enum.map(tag_maps, & &1.text)
+    tag_names = Enum.map(tag_maps, & &1.name)
 
     Enum.reduce(tag_names, orig_query, fn tag_name, query ->
       Q.where(query, [v], fragment("EXISTS (
         SELECT * FROM codings c
           JOIN taggings ti ON c.id = ti.coding_id
           JOIN tags t ON ti.tag_id = t.id
-        WHERE c.video_id = ? AND t.text = ?)", v.id, ^tag_name))
+        WHERE c.video_id = ? AND t.name = ?)", v.id, ^tag_name))
     end)
   end
 end

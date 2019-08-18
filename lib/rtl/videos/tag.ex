@@ -7,7 +7,7 @@ defmodule RTL.Videos.Tag do
 
   schema "tags" do
     belongs_to :project, RTL.Projects.Project
-    field :text, :string
+    field :name, :string
     field :color, :string
     timestamps()
 
@@ -38,9 +38,9 @@ defmodule RTL.Videos.Tag do
 
   def changeset(struct, params \\ %{}) do
     struct
-    |> cast(params, [:project_id, :text, :color])
+    |> cast(params, [:project_id, :name, :color])
     |> populate_color()
-    |> validate_required([:project_id, :text, :color])
+    |> validate_required([:project_id, :name, :color])
     |> unique_constraint(:project_id_text)
   end
 
@@ -76,7 +76,7 @@ defmodule RTL.Videos.Tag do
   end
 
   def filter(query, :id, id), do: Q.where(query, [t], t.id == ^id)
-  def filter(query, :text, text), do: Q.where(query, [t], t.text == ^text)
+  def filter(query, :name, name), do: Q.where(query, [t], t.name == ^name)
   def filter(query, :project, proj), do: Q.where(query, [t], t.project_id == ^proj.id)
-  def filter(query, :order, :text), do: Q.order_by(query, [t], asc: t.text)
+  def filter(query, :order, :name), do: Q.order_by(query, [t], asc: t.name)
 end

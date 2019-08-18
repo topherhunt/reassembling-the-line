@@ -122,13 +122,13 @@ defmodule RTL.Videos do
   # Taggings
   #
 
-  def all_tags, do: Tag |> order_by([t], asc: t.text) |> Repo.all()
+  def all_tags, do: Tag |> order_by([t], asc: t.name) |> Repo.all()
 
   def most_recent_tags(n) do
     from(t in Tag,
       inner_join: ti in assoc(t, :taggings),
       group_by: t.id,
-      order_by: t.text,
+      order_by: t.name,
       limit: ^n
     )
     |> Repo.all()
@@ -147,7 +147,7 @@ defmodule RTL.Videos do
     # assumes %{taggings: :tag} is already preloaded
     Enum.map(taggings, fn tagging ->
       %{
-        text: tagging.tag.text,
+        name: tagging.tag.name,
         starts_at: TimeParser.float_to_string(tagging.starts_at),
         ends_at: TimeParser.float_to_string(tagging.ends_at)
       }
@@ -174,11 +174,11 @@ defmodule RTL.Videos do
   def all_tags_with_counts do
     Tag
     |> join(:inner, [t], ti in Tagging, t.id == ti.tag_id)
-    |> group_by([t, ti], [t.text])
-    |> select([t, ti], {t.text, count(ti.id)})
-    |> order_by([t, ti], desc: count(ti.id), asc: t.text)
+    |> group_by([t, ti], [t.name])
+    |> select([t, ti], {t.name, count(ti.id)})
+    |> order_by([t, ti], desc: count(ti.id), asc: t.name)
     |> Repo.all()
-    |> Enum.map(fn {text, ct} -> %{text: text, count: ct} end)
+    |> Enum.map(fn {name, ct} -> %{name: name, count: ct} end)
   end
 
 end

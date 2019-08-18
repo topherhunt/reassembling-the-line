@@ -7,13 +7,13 @@ import TagListRow from "./tag_list_row.jsx"
 class TagManager extends React.Component {
   constructor(props) {
     super(props)
-    this.state = {newTagText: ""}
+    this.state = {newTagName: ""}
   }
 
   componentDidUpdate(prevProps, prevState) {
     // If we just added a tag, focus back on the add tag field again
     if (this.props.tags.length > prevProps.tags.length) {
-      let input = document.querySelector("#new-tag-text")
+      let input = document.querySelector("#new-tag-name")
       if (!input) return
       input.focus()
       input.scrollIntoViewIfNeeded()
@@ -52,11 +52,11 @@ class TagManager extends React.Component {
           return <div>Loading...</div>
 
         return <div className="__tag">
-          <input type="text" id="new-tag-text"
-            className="__newTagTextField test-add-tag-field"
+          <input type="text" id="new-tag-name"
+            className="__newTagNameField test-add-tag-field"
             placeholder="Add a new tag"
-            value={this.state.newTagText}
-            onChange={(e) => this.setState({newTagText: e.target.value})}
+            value={this.state.newTagName}
+            onChange={(e) => this.setState({newTagName: e.target.value})}
             onKeyUp={(e) => {
               if (e.key === 'Enter') this.submitNewTag(runCreateTagMutation)
             }}
@@ -68,7 +68,7 @@ class TagManager extends React.Component {
   }
 
   renderAddTagSubmitButton(runCreateTagMutation) {
-    if (!this.state.newTagText)
+    if (!this.state.newTagName)
       return ""
 
     return <div className="__tagDetails">
@@ -83,10 +83,9 @@ class TagManager extends React.Component {
 
   submitNewTag(runCreateTagMutation) {
     let projectId = this.props.projectId
-    let text = this.state.newTagText
-    // document.querySelector("#new-tag-text").value
-    runCreateTagMutation({variables: {projectId: projectId, text: text}})
-    this.setState({newTagText: ""})
+    let name = this.state.newTagName
+    runCreateTagMutation({variables: {projectId: projectId, name: name}})
+    this.setState({newTagName: ""})
   }
 
   // Tell Apollo how to update the cache to reflect this mutation
@@ -105,7 +104,7 @@ class TagManager extends React.Component {
     cachedData.coding.video.prompt.project.tags =
       cachedData.coding.video.prompt.project.tags
         .concat(newTagData)
-        .sort((t1, t2) => t1.text < t2.text ? -1 : 1)
+        .sort((t1, t2) => t1.name < t2.name ? -1 : 1)
 
     cachedData.touchCache = Math.random() // help Apollo realize that a rerender is needed
 

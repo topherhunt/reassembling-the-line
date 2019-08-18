@@ -1,10 +1,11 @@
 # I was using ExMachina but found these hand-rolled factories simple to set up
 # and more transparent vis-a-vis Ecto association handling.
 defmodule RTL.Factory do
+  import RTL.Helpers, only: [assert_keys: 2]
   alias RTL.{Accounts, Projects, Videos}
 
   def insert_user(params \\ %{}) do
-    assert_no_keys_except(params, [:full_name, :email, :uuid])
+    assert_keys(params, allowed: [:full_name, :email, :uuid])
     uuid = random_uuid()
 
     Accounts.insert_user!(%{
@@ -15,7 +16,7 @@ defmodule RTL.Factory do
   end
 
   def insert_project(params \\ %{}) do
-    assert_no_keys_except(params, [:name, :uuid])
+    assert_keys(params, allowed: [:name, :uuid])
 
     Projects.insert_project!(%{
       name: params[:name] || "Project #{random_uuid()}",
@@ -24,7 +25,7 @@ defmodule RTL.Factory do
   end
 
   def insert_prompt(params \\ %{}) do
-    assert_no_keys_except(params, [:project_id, :html])
+    assert_keys(params, allowed: [:project_id, :html])
 
     Projects.insert_prompt!(%{
       project_id: params[:project_id] || insert_project().id,
@@ -33,7 +34,7 @@ defmodule RTL.Factory do
   end
 
   def insert_video(params \\ %{}) do
-    assert_no_keys_except(params, [
+    assert_keys(params, allowed: [
       :prompt_id,
       :title,
       :recording_filename,
@@ -61,8 +62,8 @@ defmodule RTL.Factory do
   end
 
   def insert_coding(params \\ %{}) do
-    # :tags should be a list of 3-value tuples: {text, starts_at, ends_at}
-    assert_no_keys_except(params, [:video_id, :coder_id, :completed_at, :tags])
+    assert_keys(params, allowed: [:video_id, :coder_id, :completed_at, :tags])
+    # :tags should be a list of 3-value tuples: {name, starts_at, ends_at}
 
     video_id = params[:video_id] || insert_video().id
     project_id = Videos.get_video!(video_id, preload: :prompt).prompt.project_id
@@ -75,8 +76,8 @@ defmodule RTL.Factory do
     })
 
     # Ensure each tag exists, and load it
-    Enum.each(tags, fn({text, starts_at, ends_at}) ->
-      tag_params = [project_id: project_id, text: text]
+    Enum.each(tags, fn({name, starts_at, ends_at}) ->
+      tag_params = [project_id: project_id, name: name]
       tag = Videos.get_tag_by(tag_params) || insert_tag(tag_params)
       insert_tagging(%{
         coding_id: coding.id,
@@ -90,7 +91,7 @@ defmodule RTL.Factory do
   end
 
   def insert_tagging(params \\ %{}) do
-    assert_no_keys_except(params, [:coding_id, :tag_id, :starts_at, :ends_at])
+    assert_keys(params, allowed: [:coding_id, :tag_id, :starts_at, :ends_at])
 
     Videos.insert_tagging!(%{
       coding_id: params[:coding_id] || insert_coding().id,
@@ -101,10 +102,10 @@ defmodule RTL.Factory do
   end
 
   def insert_tag(params \\ %{}) do
-    assert_no_keys_except(params, [:project_id, :text, :color])
+    assert_keys(params, allowed: [:project_id, :name, :color])
     Videos.insert_tag!(%{
       project_id: params[:project_id],
-      text: params[:text] || "tag_#{random_uuid()}",
+      name: params[:name] || "Tag #{random_uuid()}",
       color: params[:color] || Videos.Tag.random_color()
     })
   end
@@ -112,19 +113,5 @@ defmodule RTL.Factory do
   def random_uuid do
     pool = String.codepoints("ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz123456789")
     Enum.map(1..6, fn _ -> Enum.random(pool) end) |> Enum.join()
-  end
-
-  #
-  # Internal
-  #
-
-  defp assert_no_keys_except(params, allowed_keys) do
-    keys = Enum.into(params, %{}) |> Map.keys()
-
-    Enum.each(keys, fn key ->
-      unless key in allowed_keys do
-        raise "Unexpected key #{inspect(key)}."
-      end
-    end)
   end
 end

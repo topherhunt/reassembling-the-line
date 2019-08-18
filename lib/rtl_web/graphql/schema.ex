@@ -18,13 +18,13 @@ defmodule RTLWeb.Graphql.Schema do
   mutation do
     field :create_tag, type: :tag do
       arg :project_id, non_null(:id)
-      arg :text, non_null(:string)
+      arg :name, non_null(:string)
       resolve &Resolvers.create_tag/3
     end
 
     field :update_tag, type: :tag do
       arg :id, non_null(:id)
-      arg :text, non_null(:string)
+      arg :name, non_null(:string)
       arg :color, :string
       resolve &Resolvers.update_tag/3
     end

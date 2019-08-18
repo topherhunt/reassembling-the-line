@@ -13,7 +13,7 @@ defmodule RTL.VideosTest do
       v5 = add_tagged_video(prompt, [])
       v6 = add_tagged_video(prompt, [{"ghi", 1, 2}, {"jkl", 1, 2}, {"def", 1, 2}])
 
-      filter_tags = [%{text: "abc"}, %{text: "def"}]
+      filter_tags = [%{name: "abc"}, %{name: "def"}]
       videos = Videos.list_videos(coded: true, having_tags: filter_tags)
       video_ids = Enum.map(videos, & &1.id) |> Enum.sort()
 
@@ -27,14 +27,27 @@ defmodule RTL.VideosTest do
   end
 
   describe "tag validations" do
-    test "text is required" do
+    test "name is required" do
       project = Factory.insert_project()
 
-      {:ok, tag1} = Videos.insert_tag(%{project_id: project.id, text: "some text"})
+      {:ok, tag1} = Videos.insert_tag(%{project_id: project.id, name: "some name"})
       assert Videos.get_tag_by(id: tag1.id) != nil
 
-      {:error, changeset} = Videos.insert_tag(%{project_id: project.id, text: ""})
-      assert Repo.describe_errors(changeset) == "text can't be blank"
+      {:error, changeset} = Videos.insert_tag(%{project_id: project.id, name: ""})
+      assert Repo.describe_errors(changeset) == "name can't be blank"
+    end
+
+    test "duplicate name in same project is rejected" do
+      p1 = Factory.insert_project()
+      p2 = Factory.insert_project()
+      name = "A unique name"
+
+      {:ok, _} = Videos.insert_tag(%{project_id: p1.id, name: name})
+
+      {:error, changeset} = Videos.insert_tag(%{project_id: p1.id, name: name})
+      assert Repo.describe_errors(changeset) =~ "has already been taken"
+
+      {:ok, _} = Videos.insert_tag(%{project_id: p2.id, name: name})
     end
   end
 

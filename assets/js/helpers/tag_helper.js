@@ -13,19 +13,19 @@ var TagHelper = {
       .split(",")
       .map(function(tag){
         var tag_array = decodeURI(tag).split(":")
-        return {text: tag_array[1]}
+        return {name: tag_array[1]}
       })
     return tags
   },
 
   get_from_select_elements: function() {
-    var tag = $('.js-filter-tag').val()
-    return !!tag ? [{text: tag}] : []
+    var tagName = $('.js-filter-tag').val()
+    return !!tagName ? [{name: tagName}] : []
   },
 
   to_query_string: function(tags) {
     return tags
-      .map(function(i){ return i.text })
+      .map(function(t){ return t.name })
       .join(",")
   },
 
@@ -36,9 +36,9 @@ var TagHelper = {
 
   update_select_element: function(filtered_tags) {
     var select = $('.js-filter-tag')
-    var tag_text = filtered_tags.map(function(t) { return t.text })
+    var tagName = filtered_tags.map(function(t) { return t.name })
     select.val('')
-    select.val(tag_text)
+    select.val(tagName)
     select.trigger('chosen:updated')
   }
 }

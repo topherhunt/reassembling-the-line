@@ -5,20 +5,23 @@ defmodule RTL.Helpers do
 
   def is_present?(value), do: !is_blank?(value)
 
-  # Render any value as a string for debugging (without printing to IO)
-  # TODO: What value does this provide that inspect(obj) doesn't provide?
-  # Does it do wrapping of long lines in giant structs or something?
-  def stringify(input) do
-    input
-    |> Inspect.Algebra.to_doc(%Inspect.Opts{})
-    |> Inspect.Algebra.format(100)
-    |> Enum.join("")
-  end
-
   def assert_list_contains(list, item) do
     unless Enum.member?(list, item) do
-      raise "Expected list to contain item #{stringify(item)}, but it isn't there. " <>
-              "The list: #{stringify(list)}"
+      raise "List is missing expected item #{inspect(item)}. The list: #{inspect(list)}"
     end
+  end
+
+  def assert_keys(map_or_kw_list, opts) do
+    actual_keys = map_or_kw_list |> Enum.into(%{}) |> Map.keys()
+    required_keys = opts[:required] || []
+    allowed_keys = (opts[:allowed] || []) ++ required_keys
+
+    Enum.each(required_keys, fn key ->
+      unless key in actual_keys, do: raise "Required key is absent: #{inspect(key)}"
+    end)
+
+    Enum.each(actual_keys, fn key ->
+      unless key in allowed_keys, do: raise "Key is not allowed: #{inspect(key)}."
+    end)
   end
 end
