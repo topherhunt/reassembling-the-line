@@ -25,7 +25,7 @@ defmodule RTLWeb.AuthController do
   # TODO: Rename to force_login
   def force_login(conn, %{"uuid" => uuid}) do
     user = Accounts.get_user_by!(uuid: uuid)
-    Logger.warn("#force_login called; logging in as user #{user.id}.")
+    Logger.info("#force_login called; logging in as user #{user.id}.")
 
     conn
     |> SessionPlugs.login!(user)

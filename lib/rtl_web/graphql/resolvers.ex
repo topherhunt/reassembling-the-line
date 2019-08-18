@@ -44,7 +44,7 @@ defmodule RTLWeb.Graphql.Resolvers do
 
   def get_video(%Coding{} = parent, _args, _resolution) do
     id = parent.video_id
-    Video.get(id) |> getter_response_tuple("video", id)
+    Videos.get_video(id) |> getter_response_tuple("video", id)
   end
 
   def get_video_thumbnail_url(%Video{} = parent, _args, _resolution) do
@@ -60,7 +60,7 @@ defmodule RTLWeb.Graphql.Resolvers do
   #
 
   def get_coding(_parent, %{id: id}, _resolution) do
-    Coding.get(id) |> getter_response_tuple("coding", id)
+    Videos.get_coding(id) |> getter_response_tuple("coding", id)
   end
 
   #
@@ -109,10 +109,8 @@ defmodule RTLWeb.Graphql.Resolvers do
   def create_tag(_parent, args, _resolution) do
     # TODO: Authorize that the user is admin on this project
     params = Map.take(args, [:project_id, :text])
-    # TODO: Consider moving this data generation down to the changeset
-    params = Map.put(params, :color, Tag.random_color())
 
-    case Tag.insert(params) do
+    case Videos.insert_tag(params) do
       {:ok, tag} -> {:ok, tag}
       {:error, changeset} -> {:error, Repo.describe_errors(changeset)}
     end

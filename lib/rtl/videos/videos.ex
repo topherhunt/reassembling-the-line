@@ -2,8 +2,6 @@
 # may directly query against schemas in this context, or call context-private methods.
 defmodule RTL.Videos do
   import Ecto.Query
-  import Ecto.Changeset
-  alias RTL.Helpers, as: H
   alias RTL.TimeParser
   alias RTL.Repo
   alias RTL.Videos.{Video, Coding, Tag, Tagging, Attachment}
@@ -50,18 +48,11 @@ defmodule RTL.Videos do
   # Videos
   #
 
-  # TODO: Remove these, replace all usages with the new Video api
-
-  def get_video(id, filt \\ []), do: get_video_by(Keyword.merge([id: id], filt))
-
-  def get_video!(id, filt \\ []), do: get_video_by!(Keyword.merge([id: id], filt))
-
+  def get_video(id, filt \\ []), do: get_video_by([{:id, id} | filt])
+  def get_video!(id, filt \\ []), do: get_video_by!([{:id, id} | filt])
   def get_video_by(filt), do: Video |> Video.apply_filters(filt) |> Repo.first()
-
   def get_video_by!(filt), do: Video |> Video.apply_filters(filt) |> Repo.first!()
-
-  def get_videos(filt \\ []), do: Video |> Video.apply_filters(filt) |> Repo.all()
-
+  def list_videos(filt \\ []), do: Video |> Video.apply_filters(filt) |> Repo.all()
   def count_videos(filt \\ []), do: Video |> Video.apply_filters(filt) |> Repo.count()
 
   def new_video_changeset(params \\ %{}), do: Video.generic_changeset(%Video{}, params)
@@ -110,46 +101,22 @@ defmodule RTL.Videos do
   # Codings
   #
 
-  # TODO: Remove this, replace usages with the Coding public funcs
-  def get_coding(coding_id), do: Repo.get(Coding, coding_id)
-  def get_coding!(coding_id), do: Repo.get!(Coding, coding_id)
-  def get_coding_by!(params), do: Repo.get_by!(Coding, params)
-  def get_coding_preloads(coding), do: Repo.preload(coding, [:video, [taggings: :tag]])
-  def coding_changeset(changes), do: Coding.changeset(%Coding{}, changes)
-  def coding_changeset(struct, changes), do: Coding.changeset(struct, changes)
+  def get_coding(id, f \\ []), do: get_coding_by([{:id, id} | f])
+  def get_coding!(id, f \\ []), do: get_coding_by!([{:id, id} | f])
+  def get_coding_by(f \\ []), do: Coding |> Coding.apply_filters(f) |> Repo.first()
+  def get_coding_by!(f \\ []), do: Coding |> Coding.apply_filters(f) |> Repo.first!()
+  def list_codings(f \\ []), do: Coding |> Coding.apply_filters(f) |> Repo.all()
+  def count_codings(f \\ []), do: Coding |> Coding.apply_filters(f) |> Repo.count()
 
-  def insert_coding(%{video_id: video_id, coder_id: coder_id, tags: tags_params}) do
-    # TODO: Validate format of tag_params list
-    changeset = coding_changeset(%{video_id: video_id, coder_id: coder_id})
-
-    case validate_tags(tags_params) do
-      {:ok} ->
-        coding = Repo.insert!(changeset)
-        apply_tags_to_coding(coding, tags_params)
-        notify_subscribers("coding.inserted")
-        {:ok, coding}
-
-      {:error, invalid_tags} ->
-        {:error, changeset, invalid_tags}
-    end
+  def insert_coding!(attrs) do
+    %Coding{} |> Coding.changeset(attrs) |> Repo.insert!()
   end
 
-  def update_coding(%{coding: coding, tags: tags_params, coder_id: coder_id}) do
-    # TODO: Validate format of tag_params list
-
-    changeset = coding_changeset(coding, %{coder_id: coder_id})
-
-    case validate_tags(tags_params) do
-      {:ok} ->
-        coding = Repo.update!(changeset)
-        apply_tags_to_coding(coding, tags_params)
-        notify_subscribers("coding.updated.#{coding.id}")
-        {:ok, coding}
-
-      {:error, invalid_tags} ->
-        {:error, changeset, invalid_tags}
-    end
+  def update_coding!(coding, attrs) do
+    coding |> Coding.changeset(attrs) |> Repo.update!()
   end
+
+  def coding_changeset(attrs \\ %{}), do: Coding.changeset(%Coding{}, attrs)
 
   #
   # Taggings
@@ -191,8 +158,19 @@ defmodule RTL.Videos do
   # Tags
   #
 
+  def get_tag_by(params), do: Repo.get_by(Tag, params)
+
   def tag_changeset(tag, changes), do: Tag.changeset(tag, changes)
 
+  def insert_tag(params) do
+    %Tag{} |> Tag.changeset(params) |> Repo.insert()
+  end
+
+  def insert_tag!(params) do
+    insert_tag(params) |> Repo.ensure_success()
+  end
+
+  # TODO: Is there another way to do this that's more friendly to my filters system?
   def all_tags_with_counts do
     Tag
     |> join(:inner, [t], ti in Tagging, t.id == ti.tag_id)
@@ -203,49 +181,4 @@ defmodule RTL.Videos do
     |> Enum.map(fn {text, ct} -> %{text: text, count: ct} end)
   end
 
-  def find_or_create_tag(params) do
-    chg = tag_changeset(%Tag{}, params)
-    sanitized_text = get_change(chg, :text)
-    Repo.get_by(Tag, text: sanitized_text) || Repo.insert!(chg)
-  end
-
-  #
-  # Internal helpers
-  # TODO: Maybe these should be moved to a helper submodule?
-  #
-
-  defp validate_tags(tags_params) do
-    # TODO: Validate the tags_params format
-    invalid_tags =
-      tags_params
-      |> Enum.reject(fn params -> H.is_blank?(params["text"]) end)
-      |> Enum.map(fn tag_params -> tag_changeset(%Tag{}, tag_params) end)
-      |> Enum.reject(fn changeset -> changeset.valid? end)
-      |> Enum.map(fn changeset -> Ecto.Changeset.get_field(changeset, :text) end)
-
-    case invalid_tags do
-      [] -> {:ok}
-      _ -> {:error, invalid_tags}
-    end
-  end
-
-  defp apply_tags_to_coding(%Coding{} = coding, tags_list) do
-    # TODO: Validate the format of tags_list?
-    # eg. H.assert_each_matches(tags_list, %{"text" => _, "starts_at" => _, "ends_at" => _})
-    # Clear out existing tags
-    coding |> Ecto.assoc(:taggings) |> Repo.delete_all()
-
-    tags_list
-    |> Enum.reject(&H.is_blank?(&1["text"]))
-    |> Enum.each(fn params ->
-      tag = find_or_create_tag(params)
-
-      insert_tagging!(%{
-        coding_id: coding.id,
-        tag_id: tag.id,
-        starts_at: TimeParser.string_to_float(params["starts_at"]),
-        ends_at: TimeParser.string_to_float(params["ends_at"])
-      })
-    end)
-  end
 end

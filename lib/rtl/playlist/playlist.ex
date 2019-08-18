@@ -8,7 +8,7 @@ defmodule RTL.Playlist do
     # Validate tags (should be a list of maps like %{text: text})
     Enum.each(tags, fn tag -> %{text: _} = tag end)
 
-    Videos.get_videos(project: project, coded: true, having_tags: tags, preload: :tags)
+    Videos.list_videos(project: project, coded: true, having_tags: tags, preload: :tags)
     |> Enum.map(&convert_video_record_to_map(&1))
     |> Enum.flat_map(&split_video_into_segments(&1))
     |> Enum.filter(&Segment.is_tagged?(&1))

@@ -1,10 +1,6 @@
 defmodule RTLWeb.Explore.ClipControllerTest do
   use RTLWeb.ConnCase, async: true
 
-  defp insert_tagged_video(prompt, tags) do
-    insert_video_with_tags([prompt_id: prompt.id], tags)
-  end
-
   describe "#index" do
     test "renders the page (no login needed)", %{conn: conn} do
       project = Factory.insert_project()
@@ -21,10 +17,10 @@ defmodule RTLWeb.Explore.ClipControllerTest do
       prompt = Factory.insert_prompt(project_id: project.id)
       # TODO: These helpers have the wrong boundary or something.
       # Consider piping: Factory.insert_video(whatever_params) |> Factory.tag_video(tags)
-      video1 = insert_tagged_video(prompt, ["abc", "def:15:49", "ghi:40:72"])
-      _video2 = insert_tagged_video(prompt, ["def:10:20", "abc:30:40"])
-      _video3 = insert_tagged_video(prompt, [])
-      video4 = insert_tagged_video(prompt, ["def:15:38", "abc:30:60", "ghi:55:82"])
+      video1 = add_tagged_video(prompt, [{"abc", 0, 999}, {"def", 15, 49}, {"ghi", 40, 72}])
+      _video2 = add_tagged_video(prompt, [{"def", 10, 20}, {"abc", 30, 40}])
+      _video3 = add_tagged_video(prompt, [])
+      video4 = add_tagged_video(prompt, [{"def", 15, 38}, {"abc", 30, 60}, {"ghi", 55, 82}])
 
       conn = get(conn, Routes.explore_clip_path(conn, :playlist, project), tags: "abc,ghi")
       segments = json_response(conn, 200)["playlist"]
@@ -37,6 +33,14 @@ defmodule RTLWeb.Explore.ClipControllerTest do
 
       assert Enum.sort(summaries) == Enum.sort(expected)
     end
+  end
+
+  #
+  # Helpers
+  #
+
+  defp add_tagged_video(prompt, tags) do
+    Factory.insert_video(prompt_id: prompt.id, coded_with_tags: tags)
   end
 
   defp summarize_segment(s) do

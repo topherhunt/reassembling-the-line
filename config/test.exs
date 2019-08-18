@@ -6,15 +6,7 @@ config :rtl, RTLWeb.Endpoint,
   http: [port: 4001],
   server: true
 
-# Log ALL messages (default is :warn) but route them to a logfile.
-config :logger,
-  backends: [{LoggerFileBackend, :test_log}]
-
-config :logger, :test_log,
-  path: "log/test.log",
-  format: "$date $time $metadata[$level] $message\n",
-  # :debug for ALL queries etc; :brief for only the basics
-  level: :debug
+config :logger, level: :warn
 
 # Configure your database
 config :rtl, RTL.Repo,

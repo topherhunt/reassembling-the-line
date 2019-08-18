@@ -27,18 +27,7 @@ defmodule RTL.Videos.Video do
     has_many :tags, through: [:coding, :tags]
   end
 
-  #
-  # Public API (very WIP)
-  #
-
-  def get(id, f \\ []), do: __MODULE__ |> apply_filters([{:id, id} | f]) |> Repo.one()
-  def get!(id, f \\ []), do: __MODULE__ |> apply_filters([{:id, id} | f]) |> Repo.one!()
-  def first(filters \\ []), do: __MODULE__ |> apply_filters(filters) |> Repo.first()
-  def first!(filters \\ []), do: __MODULE__ |> apply_filters(filters) |> Repo.first!()
-  def all(filters \\ []), do: __MODULE__ |> apply_filters(filters) |> Repo.all()
-  def count(filters \\ []), do: __MODULE__ |> apply_filters(filters) |> Repo.count()
-
-  # TODO: Maybe the generic mostly-universal api lives in the schema, whereas the more specific services (such as "validate and insert a webcam recording") live on the context?
+  # TODO: Move this stuff up to the context
   def insert_webcam_recording!(params) do
     new_webcam_recording_changeset(params) |> Repo.insert!()
   end
@@ -62,6 +51,7 @@ defmodule RTL.Videos.Video do
     ])
   end
 
+  # TODO: Only have one changeset function that defines all insertable/updatable fields.
   def new_webcam_recording_changeset(params \\ %{}) do
     webcam_recording_changeset(%RTL.Videos.Video{}, params)
   end

@@ -3,8 +3,8 @@
 
 defmodule RTLWeb.CodingInterfaceTest do
   use RTLWeb.IntegrationCase
-  alias RTL.{Projects}
-  alias RTL.Videos.{Coding, Tagging, Tag}
+  alias RTL.{Projects, Videos}
+  alias RTL.Videos.{Tagging, Tag}
 
   hound_session()
 
@@ -71,10 +71,10 @@ defmodule RTLWeb.CodingInterfaceTest do
     Process.sleep(2000)
 
     # I can mark coding as complete
-    assert Coding.first!(video: video).completed_at == nil
+    assert Videos.get_coding_by!(video: video).completed_at == nil
     find_element(".test-complete-coding-button") |> click()
     assert_selector(".test-page-manage-video-index")
-    assert Coding.first!(video: video).completed_at != nil
+    assert Videos.get_coding_by!(video: video).completed_at != nil
 
     # I can edit tags for a video
     find_element(".test-link-code-video-#{video.id}") |> click()

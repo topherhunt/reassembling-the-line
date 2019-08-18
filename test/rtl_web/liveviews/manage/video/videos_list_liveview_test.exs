@@ -13,7 +13,7 @@ defmodule RTLWeb.Manage.VideosListLiveviewTest do
     prompt = Factory.insert_prompt(project_id: project.id)
     # Insert some videos: 1 uncoded, 1 coded, and 1 irrelevant (will be excluded)
     v1 = Factory.insert_video(prompt_id: prompt.id)
-    v2 = insert_video_with_tags([prompt_id: prompt.id], ["abc:30:60"])
+    v2 = Factory.insert_video(prompt_id: prompt.id, coded_with_tags: [{"abc", 30, 60}])
     v3 = Factory.insert_video()
 
     {:ok, _view, html} = mount_the_view(session: %{project: project})

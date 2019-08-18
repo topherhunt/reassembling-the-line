@@ -32,12 +32,24 @@ defmodule RTL.Videos.Tag do
   def update!(struct, params), do: update(struct, params) |> Repo.ensure_success()
   def delete!(struct), do: Repo.delete!(struct)
 
+  #
+  # Changesets
+  #
+
   def changeset(struct, params \\ %{}) do
     struct
     |> cast(params, [:project_id, :text, :color])
+    |> populate_color()
     |> validate_required([:project_id, :text, :color])
     |> unique_constraint(:project_id_text)
-    # NOTE: I'm no longer removing special chars from tags.
+  end
+
+  defp populate_color(changeset) do
+    if get_field(changeset, :color) do
+      changeset
+    else
+      put_change(changeset, :color, random_color())
+    end
   end
 
   #

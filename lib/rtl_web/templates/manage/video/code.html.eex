@@ -22,7 +22,7 @@
 
     <button disabled class="btn btn-secondary disabled">Mark as complete</button>
   <% else %>
-    <%= form_for @changeset, Routes.manage_video_path(@conn, :mark_coded, @project, @video), [method: :post], fn f -> %>
+    <%= form_for @changeset, Routes.manage_video_path(@conn, :mark_coded, @project, @video), [method: :post], fn _f -> %>
       <p>Once you're done tagging, mark this video as complete to check it off the list.</p>
       <%= submit "Mark as complete", class: "btn btn-primary test-complete-coding-button" %>
     <% end %>

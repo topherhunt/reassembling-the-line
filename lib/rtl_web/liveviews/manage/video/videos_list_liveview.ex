@@ -32,7 +32,7 @@ defmodule RTLWeb.Manage.VideosListLiveview do
 
     assign(socket,
       videos:
-        Videos.get_videos(
+        Videos.list_videos(
           project: project,
           order: :last_coded,
           preload: [coding: [:coder, :tags]]

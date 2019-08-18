@@ -13,7 +13,7 @@ defmodule RTLWeb.Manage.VideoExportController do
   #
 
   defp videos_json(project) do
-    RTL.Videos.get_videos(project: project)
+    RTL.Videos.list_videos(project: project)
     |> Enum.map(& to_map(&1))
     |> Jason.encode!()
   end

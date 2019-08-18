@@ -33,31 +33,58 @@ defmodule RTL.Factory do
   end
 
   def insert_video(params \\ %{}) do
-    assert_no_keys_except(params, [:prompt_id, :title, :recording_filename, :thumbnail_filename])
-    hex = random_uuid()
+    assert_no_keys_except(params, [
+      :prompt_id,
+      :title,
+      :recording_filename,
+      :thumbnail_filename,
+      :coded_with_tags
+    ])
 
-    Videos.insert_video!(%{
-      prompt_id: params[:prompt_id] || insert_prompt().id,
+    hex = random_uuid()
+    prompt_id = params[:prompt_id] || insert_prompt().id
+
+    video = Videos.insert_video!(%{
+      prompt_id: prompt_id,
       speaker_name: "Speaker #{hex}",
       permission: "public",
       permission_show_name: true,
       recording_filename: params[:recording_filename] || "#{hex}.webm",
       thumbnail_filename: params[:thumbnail_filename] || "#{hex}.jpg"
     })
+
+    if tags = params[:coded_with_tags] do
+      insert_coding(video_id: video.id, tags: tags)
+    end
+
+    video
   end
 
   def insert_coding(params \\ %{}) do
-    tags_params = params[:tags] || [%{"text" => "tag1"}, %{"text" => "tag2"}]
+    # :tags should be a list of 3-value tuples: {text, starts_at, ends_at}
+    assert_no_keys_except(params, [:video_id, :coder_id, :completed_at, :tags])
 
-    assert_no_keys_except(params, [:video_id, :coder_id, :tags])
-    Enum.each(tags_params, &assert_no_keys_except(&1, ["text", "starts_at", "ends_at"]))
+    video_id = params[:video_id] || insert_video().id
+    project_id = Videos.get_video!(video_id, preload: :prompt).prompt.project_id
+    tags = params[:tags] || []
 
-    {:ok, coding} =
-      Videos.insert_coding(%{
-        video_id: params[:video_id] || insert_video().id,
-        coder_id: params[:coder_id] || insert_user().id,
-        tags: tags_params
+    coding = Videos.insert_coding!(%{
+      video_id: video_id,
+      coder_id: params[:coder_id] || insert_user().id,
+      completed_at: Keyword.get(params, :completed_at, Timex.now())
+    })
+
+    # Ensure each tag exists, and load it
+    Enum.each(tags, fn({text, starts_at, ends_at}) ->
+      tag_params = [project_id: project_id, text: text]
+      tag = Videos.get_tag_by(tag_params) || insert_tag(tag_params)
+      insert_tagging(%{
+        coding_id: coding.id,
+        tag_id: tag.id,
+        starts_at: starts_at,
+        ends_at: ends_at
       })
+    end)
 
     coding
   end
@@ -74,8 +101,12 @@ defmodule RTL.Factory do
   end
 
   def insert_tag(params \\ %{}) do
-    assert_no_keys_except(params, [:text])
-    Videos.find_or_create_tag(%{text: params[:text] || "tag_#{random_uuid()}"})
+    assert_no_keys_except(params, [:project_id, :text, :color])
+    Videos.insert_tag!(%{
+      project_id: params[:project_id],
+      text: params[:text] || "tag_#{random_uuid()}",
+      color: params[:color] || Videos.Tag.random_color()
+    })
   end
 
   def random_uuid do

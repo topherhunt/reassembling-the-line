@@ -2,7 +2,6 @@ defmodule RTLWeb.Manage.VideoController do
   use RTLWeb, :controller
   import RTL.Videos, only: [presigned_url: 1]
   alias RTL.{Factory, Projects, Videos}
-  alias RTL.Videos.{Video, Coding}
 
   plug :load_project
   plug :ensure_can_manage_project
@@ -50,7 +49,7 @@ defmodule RTLWeb.Manage.VideoController do
     video = load_video(conn)
     coder = conn.assigns.current_user
     coding = find_or_create_coding(video, coder)
-    changeset = Coding.changeset(coding)
+    changeset = Videos.coding_changeset()
     render conn, "code.html", video: video, coding: coding, changeset: changeset
   end
 
@@ -59,9 +58,9 @@ defmodule RTLWeb.Manage.VideoController do
   def mark_coded(conn, _params) do
     project = conn.assigns.project
     video = load_video(conn)
-    coding = Coding.first(video: video)
-    params = %{coder_id: conn.assigns.current_user.id, completed_at: Timex.now()}
-    Coding.update!(coding, params)
+    coding = Videos.get_coding_by!(video: video)
+    coder = conn.assigns.current_user
+    Videos.update_coding!(coding, %{coder_id: coder.id, completed_at: Timex.now()})
     redirect(conn, to: Routes.manage_video_path(conn, :index, project))
   end
 
@@ -70,11 +69,13 @@ defmodule RTLWeb.Manage.VideoController do
   #
 
   defp load_video(conn) do
-    Video.get!(conn.params["video_id"], project: conn.assigns.project, preload: :prompt)
+    id = conn.params["video_id"]
+    project = conn.assigns.project
+    Videos.get_video!(id, project: project, preload: :prompt)
   end
 
   defp find_or_create_coding(video, coder) do
-    Coding.first(video: video, preload: :coder) ||
-    Coding.insert!(%{video_id: video.id, coder_id: coder.id})
+    Videos.get_coding_by(video: video, preload: :coder) ||
+    Videos.insert_coding!(%{video_id: video.id, coder_id: coder.id})
   end
 end
