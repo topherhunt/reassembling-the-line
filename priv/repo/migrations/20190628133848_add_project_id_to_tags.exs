@@ -8,6 +8,7 @@ defmodule RTL.Repo.Migrations.AddProjectIdToTags do
 
     create index(:tags, [:project_id])
 
+    execute("DELETE FROM tags t WHERE NOT EXISTS (SELECT * FROM taggings ti WHERE ti.tag_id = t.id)")
     execute("UPDATE tags SET project_id = (SELECT pm.project_id FROM prompts pm JOIN videos v ON pm.id = v.prompt_id JOIN codings c ON v.id = c.video_id JOIN taggings ti ON c.id = ti.coding_id WHERE ti.tag_id = tags.id)")
 
     alter table(:tags) do
