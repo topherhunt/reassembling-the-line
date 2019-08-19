@@ -22,10 +22,7 @@ class TagManager extends React.Component {
 
   render() {
     return <div className="b-codingPageTagManager">
-      <div>
-        <span className="h4">Tags</span> &nbsp;
-        <a href="TODO">How does this work?</a>
-      </div>
+      <h4>Tags</h4>
 
       <div className="__list">
         {this.props.tags.map((tag) => {

@@ -101,6 +101,7 @@ defmodule RTLWeb.Router do
     scope "/help" do
       get "/index", HelpController, :index
       get "/collecting_videos", HelpController, :collecting_videos
+      get "/coding_page", HelpController, :coding_page
     end
   end
 
