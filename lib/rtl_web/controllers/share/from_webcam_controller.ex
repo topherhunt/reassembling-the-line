@@ -1,6 +1,6 @@
 defmodule RTLWeb.Share.FromWebcamController do
   use RTLWeb, :controller
-  import RTL.Videos, only: [presigned_url: 1]
+  import RTL.Videos, only: [presigned_upload_url: 1]
   alias RTL.{Factory, Videos}
 
   plug :load_project
@@ -18,8 +18,8 @@ defmodule RTLWeb.Share.FromWebcamController do
       # Generate presigned upload urls for all supported filetypes.
       # (The JS only uses .jpg and .webm for now, but this approach gives us flexibility)
       presigned_upload_urls: %{
-        jpg: presigned_url("uploads/thumbnail/#{uuid}.jpg"),
-        webm: presigned_url("uploads/recording/#{uuid}.webm")
+        jpg: presigned_upload_url("uploads/thumbnail/#{uuid}.jpg"),
+        webm: presigned_upload_url("uploads/recording/#{uuid}.webm")
       }
     )
   end

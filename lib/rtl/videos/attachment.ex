@@ -2,6 +2,25 @@ defmodule RTL.Videos.Attachment do
   alias RTL.Helpers, as: H
   use Arc.Definition
 
+  # Public api defined by Arc:
+  # - url({filename, scope})
+  # - store({file_path, scope})
+
+  def presigned_upload_url(path) do
+    # See https://stackoverflow.com/a/42211543/1729692
+    # `virtual_host: true` is required because we're in a non-US S3 region
+    bucket = RTL.Helpers.env!("S3_BUCKET")
+    config = ExAws.Config.new(:s3)
+    params = [{"x-amz-acl", "public-read"}, {"contentType", "binary/octet-stream"}]
+    opts = [query_params: params, virtual_host: true]
+    {:ok, url} = ExAws.S3.presigned_url(config, :put, bucket, path, opts)
+    url
+  end
+
+  #
+  # Internals
+  #
+
   # Include ecto support (requires package arc_ecto installed):
   # use Arc.Ecto.Definition
 

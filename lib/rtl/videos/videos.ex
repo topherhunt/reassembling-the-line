@@ -81,21 +81,12 @@ defmodule RTL.Videos do
   def url_to_hash(url), do: :crypto.hash(:md5, url) |> Base.encode16()
 
   def upload_recording(file_path), do: Attachment.store({file_path, "recording"})
-
   def upload_thumbnail(file_path), do: Attachment.store({file_path, "thumbnail"})
 
-  def recording_url(v), do: Attachment.url({v.recording_filename, "recording"})
+  def presigned_upload_url(path), do: Attachment.presigned_upload_url(path)
 
-  def thumbnail_url(v), do: Attachment.url({v.thumbnail_filename, "thumbnail"})
-
-  def presigned_url(path) do
-    # See https://stackoverflow.com/a/42211543/1729692
-    bucket = System.get_env("S3_BUCKET")
-    config = ExAws.Config.new(:s3)
-    params = [{"x-amz-acl", "public-read"}, {"contentType", "binary/octet-stream"}]
-    {:ok, url} = ExAws.S3.presigned_url(config, :put, bucket, path, query_params: params)
-    url
-  end
+  def recording_url(video), do: Attachment.url({video.recording_filename, "recording"})
+  def thumbnail_url(video), do: Attachment.url({video.thumbnail_filename, "thumbnail"})
 
   #
   # Codings

@@ -71,7 +71,9 @@ config :ex_aws,
 config :arc,
   storage: Arc.Storage.S3,
   bucket: H.env!("S3_BUCKET"),
-  version_timeout: 600_000
+  version_timeout: 600_000,
+  # virtual_host is required for non-US S3 regions
+  virtual_host: true
 
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
