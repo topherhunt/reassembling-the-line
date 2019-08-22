@@ -64,7 +64,13 @@ config :ex_aws,
   region: H.env!("S3_REGION"),
   s3: [
     scheme: "https://",
-    host: "#{H.env!("S3_BUCKET")}.s3.amazonaws.com",
+    # NOTE: For US buckets, the host should be s3.amazonaws.com. (can't include the region)
+    # For EU buckets, the host should include region, e.g. s3-eu-central-1.amazonaws.com.
+    # In mid-2020 S3 is deprecating both of these formats and moving to a "virtual host"
+    # format where the bucket is prefixed to the host, e.g. rtl-prod-eu.s3.amazonaws.com.
+    # More info: https://docs.aws.amazon.com/AmazonS3/latest/dev/VirtualHosting.html
+    host: "s3.amazonaws.com", # the US format
+    # host: "s3-#{H.env!("S3_REGION")}.amazonaws.com", # the EU format
     region: H.env!("S3_REGION")
   ]
 
