@@ -20,8 +20,8 @@ defmodule RTL.Playlist do
     %{
       video_id: video.id,
       title: video.title,
-      recording_url: Videos.recording_url(video),
-      thumbnail_url: Videos.thumbnail_url(video),
+      recording_url: Videos.video_recording_url(video),
+      thumbnail_url: Videos.video_thumbnail_url(video),
       tags: convert_tags_to_maps(video.coding.taggings)
     }
   end

@@ -1,6 +1,6 @@
 defmodule RTLWeb.Manage.VideoController do
   use RTLWeb, :controller
-  import RTL.Videos, only: [presigned_upload_url: 1]
+  import RTL.Videos.Attachment, only: [presigned_upload_url: 2]
   alias RTL.{Factory, Projects, Videos}
 
   plug :load_project
@@ -25,9 +25,9 @@ defmodule RTLWeb.Manage.VideoController do
       # Generate presigned upload urls for all supported filetypes.
       # (Can't request the upload url later via ajax; that would enable S3 upload attacks)
       presigned_upload_urls: %{
-        jpg: presigned_upload_url("uploads/thumbnail/#{uuid}.jpg"),
-        mp4: presigned_upload_url("uploads/recording/#{uuid}.mp4"),
-        webm: presigned_upload_url("uploads/recording/#{uuid}.webm")
+        jpg: presigned_upload_url("thumbnail", "#{uuid}.jpg"),
+        mp4: presigned_upload_url("recording", "#{uuid}.mp4"),
+        webm: presigned_upload_url("recording", "#{uuid}.webm")
       }
     )
   end

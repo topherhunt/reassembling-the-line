@@ -5,6 +5,8 @@ defmodule RTL.Helpers do
 
   def is_present?(value), do: !is_blank?(value)
 
+  def to_hash(string), do: :crypto.hash(:md5, string) |> Base.encode16()
+
   def assert_list_contains(list, item) do
     unless Enum.member?(list, item) do
       raise "List is missing expected item #{inspect(item)}. The list: #{inspect(list)}"

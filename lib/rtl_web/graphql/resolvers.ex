@@ -48,11 +48,11 @@ defmodule RTLWeb.Graphql.Resolvers do
   end
 
   def get_video_thumbnail_url(%Video{} = parent, _args, _resolution) do
-    {:ok, Videos.thumbnail_url(parent)}
+    {:ok, Videos.video_thumbnail_url(parent)}
   end
 
   def get_video_recording_url(%Video{} = parent, _args, _resolution) do
-    {:ok, Videos.recording_url(parent)}
+    {:ok, Videos.video_recording_url(parent)}
   end
 
   #

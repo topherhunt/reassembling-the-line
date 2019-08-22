@@ -1,5 +1,6 @@
 defmodule RTL.Videos.Services.ImportFromYoutube do
   alias RTL.Videos
+  alias RTL.Videos.Attachment
 
   def run([tsv_filename: tsv_filename, prompt: prompt]) do
     File.stream!(tsv_filename)
@@ -47,8 +48,8 @@ defmodule RTL.Videos.Services.ImportFromYoutube do
       {:ok, recording_path, thumbnail_path} ->
         IO.puts("Uploading to S3 and saving the record...")
         # Upload the attachments first, then create the Video record.
-        {:ok, recording_filename} = Videos.upload_recording(recording_path)
-        {:ok, thumbnail_filename} = Videos.upload_thumbnail(thumbnail_path)
+        {:ok, _, recording_filename} = Attachment.upload_file("recording", recording_path)
+        {:ok, _, thumbnail_filename} = Attachment.upload_file("thumbnail", thumbnail_path)
 
         Videos.insert_video!(%{
           prompt_id: prompt.id,
@@ -67,7 +68,7 @@ defmodule RTL.Videos.Services.ImportFromYoutube do
 
   def download_from_youtube(url) do
     IO.puts("Downloading from #{url}...")
-    filename = Videos.url_to_hash(url)
+    filename = RTL.Helpers.to_hash(url)
 
     # TODO: Set up youtube-dl with multiple fallback formats, and detect which
     # was chosen afterwards.

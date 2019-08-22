@@ -10,6 +10,6 @@ IO.puts "Downloading all recordings & thumbnails referenced in the DB from S3 to
 
 Videos.list_videos() |> Enum.each(fn(video) ->
   IO.puts "Video #{video.id}..."
-  System.cmd("wget", [Videos.recording_url(video), "-P", "./tmp"])
-  System.cmd("wget", [Videos.thumbnail_url(video), "-P", "./tmp"])
+  System.cmd("wget", [Videos.video_recording_url(video), "-P", "./tmp"])
+  System.cmd("wget", [Videos.video_thumbnail_url(video), "-P", "./tmp"])
 end)

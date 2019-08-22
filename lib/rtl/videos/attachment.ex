@@ -1,68 +1,66 @@
 defmodule RTL.Videos.Attachment do
   alias RTL.Helpers, as: H
-  use Arc.Definition
 
-  # Public api defined by Arc:
-  # - url({filename, scope})
-  # - store({file_path, scope})
+  def upload_file(type, local_filepath) do
+    validate_type(type)
+    filename = Path.basename(local_filepath)
+    s3_path = "uploads/#{type}/#{filename}"
+    s3_options = [{:acl, "public-read"}]
 
-  def presigned_upload_url(path) do
+    local_filepath
+    |> ExAws.S3.Upload.stream_file()
+    |> ExAws.S3.upload(s3_path_prefix(), s3_path, s3_options)
+    |> ExAws.request!()
+    # Old non-streamed logic (less performant):
+    # ExAws.S3.put_object(s3_path_prefix(), s3_path, File.read!(path), s3_options)
+
+    {:ok, url(type, filename), filename}
+  end
+
+  def presigned_upload_url(type, filename) do
+    validate_type(type)
     # See https://stackoverflow.com/a/42211543/1729692
-    # `virtual_host: true` is required because we're in a non-US S3 region
-    bucket = RTL.Helpers.env!("S3_BUCKET")
+
     config = ExAws.Config.new(:s3)
+    path = "uploads/#{type}/#{filename}"
     params = [{"x-amz-acl", "public-read"}, {"contentType", "binary/octet-stream"}]
-    opts = [query_params: params, virtual_host: true]
-    {:ok, url} = ExAws.S3.presigned_url(config, :put, bucket, path, opts)
+    # `virtual_host: true` is required because we're in a non-US S3 region
+    opts = [query_params: params, virtual_host: s3_virtual_host?()]
+    {:ok, url} = ExAws.S3.presigned_url(config, :put, bucket(), path, opts)
     url
   end
 
-  #
-  # Internals
-  #
-
-  # Include ecto support (requires package arc_ecto installed):
-  # use Arc.Ecto.Definition
-
-  @versions [:original]
-  @acl :public_read
-
-  # To add a thumbnail version:
-  # @versions [:original, :thumb]
-
-  # Whitelist file extensions:
-  # def validate({file, _}) do
-  #   ~w(.jpg .jpeg .gif .png) |> Enum.member?(Path.extname(file.file_name))
-  # end
-
-  # Define a thumbnail transformation:
-  # def transform(:thumb, _) do
-  #   {:convert, "-strip -thumbnail 250x250^ -gravity center -extent 250x250 -format png", :png}
-  # end
-
-  # Override the persisted filenames:
-  # def filename(version, _) do
-  #   version
-  # end
-
-  # Override the storage directory:
-  def storage_dir(_version, {_file, scope}) do
-    # TODO: What's this "text" scope for? Can I get rid of it?
-    H.assert_list_contains(["recording", "thumbnail", "text"], scope)
-    "uploads/#{scope}"
+  def url(type, filename) do
+    validate_type(type)
+    "https://" <> s3_host() <> s3_path_prefix() <> "uploads/#{type}/#{filename}"
   end
 
-  # Provide a default URL if there hasn't been a file uploaded
-  # def default_url(version, scope) do
-  #   "/images/avatars/default_#{version}.png"
-  # end
-
-  # Specify custom headers for s3 objects
-  # Available options are [:cache_control, :content_disposition,
-  #    :content_encoding, :content_length, :content_type,
-  #    :expect, :expires, :storage_class, :website_redirect_location]
   #
-  # def s3_object_headers(version, {file, scope}) do
-  #   [content_type: Plug.MIME.path(file.file_name)]
-  # end
+  # Internal
+  #
+
+  # TODO: We don't need separate subfolders for thumbnails vs recordings.
+  # Move everything to be in one uploads/ folder.
+  defp validate_type(type) do
+    unless type in ~w(recording thumbnail), do: raise "Unknown type: #{type}"
+  end
+
+  # S3 is moving to a "virtual host" api format where the bucket is prepended to the domain
+  # instead of being in the url path. ExAws doesn't fully support this yet so I've written
+  # some shims.
+  # More info: https://docs.aws.amazon.com/AmazonS3/latest/dev/VirtualHosting.html
+  defp s3_virtual_host?, do: true # H.env!("S3_VIRTUAL_HOST") == "true"
+
+  defp s3_host do
+    if s3_virtual_host?(), do: "#{bucket()}.s3.amazonaws.com", else: "s3.amazonaws.com"
+  end
+
+  # NOTE: ExAws hasn't caught up with EU buckets' new format (bucket is prepended to the
+  # domain rather than part of the path), so instead of passing the bucket as 1st param
+  # here, we pass "/" which is nixed out in ExAws.Operation.S3.add_bucket_to_path/1.
+  defp s3_path_prefix do
+    if s3_virtual_host?(), do: "/", else: "/#{bucket()}/"
+  end
+
+  defp bucket, do: H.env!("S3_BUCKET")
 end

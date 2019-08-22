@@ -47,41 +47,20 @@ defmodule RTL.Mixfile do
       {:rollbax, "~> 0.10"},
       {:phoenix_live_view, github: "phoenixframework/phoenix_live_view"},
       {:html_sanitize_ex, "~> 1.3"},
-
-      # API
       {:absinthe, "~> 1.4"},
       {:absinthe_plug, "~> 1.4"},
       {:react_phoenix, "~> 1.0"},
-
-      # Auth
       {:ueberauth, "~> 0.6"},
       {:ueberauth_auth0, "~> 0.3"},
-
-      # Logic
       {:csv, "~> 2.2"},
       {:timex, "~> 3.5"},
-      # Incompatible w Ecto v3. I'll have to relearn how to do datetimes in Ecto.
+      # TODO: when I upgrade to Ecto 3, remove this and work with plain datetimes instead
       {:timex_ecto, "~> 3.3"},
-
-      # File storage & HTTP requests
-      # file uploads
-      {:arc, "~> 0.11"},
-      # :arc S3 integration
       # Downgraded to avoid presigned url bug: https://github.com/ex-aws/ex_aws/issues/602
-      {:ex_aws, "2.0.1"},
-      # :arc S3 integration
-      {:ex_aws_s3, "~> 2.0"},
-      # for fetching S3 files in tests
-      {:httpotion, "~> 3.1"},
-      # required by :ex_aws
+      {:ex_aws, "~> 2.0.1"},
+      {:ex_aws_s3, "~> 2.0.2"},
       {:sweet_xml, "~> 0.6"},
-
-      # Email
-      # not currently in use, but will be soon
-      {:bamboo, "~> 1.2"},
-      {:bamboo_smtp, "~> 1.6"},
-
-      # Tests
+      {:httpotion, "~> 3.1"},
       {:hound, "~> 1.0", only: :test},
       {:logger_file_backend, "~> 0.0", only: :test}
     ]

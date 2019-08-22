@@ -5,8 +5,8 @@
     <div style="padding-bottom: 5px;"></div>
 
     <video
-      src="<%= Videos.recording_url(@video) %>"
-      poster="<%= Videos.thumbnail_url(@video) %>"
+      src="<%= Videos.video_recording_url(@video) %>"
+      poster="<%= Videos.video_thumbnail_url(@video) %>"
       style="display: block; width: 100%; height: 480px; background-color: #222;"
       controls=""
       autoplay="" />

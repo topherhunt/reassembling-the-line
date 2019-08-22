@@ -74,19 +74,8 @@ defmodule RTL.Videos do
     |> notify_subscribers("videos.deleted.#{video.id}")
   end
 
-  #
-  # File attachments
-  #
-
-  def url_to_hash(url), do: :crypto.hash(:md5, url) |> Base.encode16()
-
-  def upload_recording(file_path), do: Attachment.store({file_path, "recording"})
-  def upload_thumbnail(file_path), do: Attachment.store({file_path, "thumbnail"})
-
-  def presigned_upload_url(path), do: Attachment.presigned_upload_url(path)
-
-  def recording_url(video), do: Attachment.url({video.recording_filename, "recording"})
-  def thumbnail_url(video), do: Attachment.url({video.thumbnail_filename, "thumbnail"})
+  def video_recording_url(v), do: Attachment.url("recording", v.recording_filename)
+  def video_thumbnail_url(v), do: Attachment.url("thumbnail", v.thumbnail_filename)
 
   #
   # Codings
