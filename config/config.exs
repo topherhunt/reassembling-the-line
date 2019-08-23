@@ -61,16 +61,13 @@ config :ueberauth, Ueberauth.Strategy.Auth0.OAuth,
 config :ex_aws,
   access_key_id: H.env!("AWS_ACCESS_KEY_ID"),
   secret_access_key: H.env!("AWS_SECRET_ACCESS_KEY"),
-  region: H.env!("S3_REGION"),
+  region: H.env!("S3_REGION"), # TODO: redundant?
   s3: [
     scheme: "https://",
-    # NOTE: For US buckets, the host should be s3.amazonaws.com. (can't include the region)
-    # For EU buckets, the host should include region, e.g. s3-eu-central-1.amazonaws.com.
-    # In mid-2020 S3 is deprecating both of these formats and moving to a "virtual host"
-    # format where the bucket is prefixed to the host, e.g. rtl-prod-eu.s3.amazonaws.com.
+    # NOTE: In mid-2020 S3 is moving to a "virtual host" format where the bucket is
+    # prefixed to the host, e.g. rtl-prod-eu.s3.amazonaws.com.
     # More info: https://docs.aws.amazon.com/AmazonS3/latest/dev/VirtualHosting.html
-    host: "s3.amazonaws.com", # the US format
-    # host: "s3-#{H.env!("S3_REGION")}.amazonaws.com", # the EU format
+    host: H.env!("S3_HOST"),
     region: H.env!("S3_REGION")
   ]
 

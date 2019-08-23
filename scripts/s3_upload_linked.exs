@@ -3,9 +3,10 @@
 # Useful for bucket migrations etc.
 
 alias RTL.Videos
+alias RTL.Videos.Attachment
 
 Videos.list_videos() |> Enum.each(fn(video) ->
   IO.puts "Video #{video.id}..."
-  IO.inspect(Videos.upload_recording("tmp/#{video.recording_filename}"))
-  IO.inspect(Videos.upload_thumbnail("tmp/#{video.thumbnail_filename}"))
+  IO.inspect(Attachment.upload_file("recording", "tmp/#{video.recording_filename}"))
+  IO.inspect(Attachment.upload_file("thumbnail", "tmp/#{video.thumbnail_filename}"))
 end)
