@@ -5,17 +5,46 @@ defmodule RTL.Videos.AttachmentTest do
 
   def bucket, do: H.env!("S3_BUCKET")
 
-  # TODO: Ideally create a new file each time with a random name, so writing to
-  # S3 is truly exercised
-  test "stores correctly on S3" do
-    {:ok, filename} = Attachment.store({"test/files/test_file.txt", "text"})
-    assert filename == "test_file.txt"
-    url = Attachment.url({filename, "text"})
+  test "uploading, downloading, and deleting files works" do
+    ensure_network_connection()
+    {local_path, contents} = create_random_file()
 
-    assert url == "https://s3.amazonaws.com/#{bucket()}/uploads/text/test_file.txt"
+    {:ok, url, filename} = Attachment.upload_file("test", local_path)
 
-    response = HTTPotion.get(url)
-    assert response.body == "This is the file's content.\n"
-    assert :ok = Attachment.delete({filename, "text"})
+    assert url == Attachment.url("test", filename)
+    assert filename == Path.basename(local_path)
+    assert HTTPotion.get!(url).body == contents
+    Attachment.delete_file("test", filename)
+  end
+
+  test "presigned_upload_url works" do
+    ensure_network_connection()
+    {local_path, contents} = create_random_file()
+    filename = Path.basename(local_path)
+
+    upload_url = Attachment.presigned_upload_url("test", filename)
+    HTTPotion.put!(upload_url,
+      body: contents,
+      headers: ["Content-Type": "binary/octet-stream"]
+    )
+    retrieval_url = Attachment.url("test", filename)
+    assert HTTPotion.get!(retrieval_url).body == contents
+  end
+
+  #
+  # Helpers
+  #
+
+  defp ensure_network_connection do
+    unless HTTPotion.get("http://httpbin.org/get") |> HTTPotion.Response.success?() do
+      raise "Looks like you're not connected to the internet. Skipping S3-related tests."
+    end
+  end
+
+  defp create_random_file do
+    path = "tmp/#{Factory.random_uuid()}.txt"
+    contents = Factory.random_uuid()
+    File.write!(path, contents)
+    {path, contents}
   end
 end

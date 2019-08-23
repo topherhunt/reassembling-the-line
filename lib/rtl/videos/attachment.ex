@@ -34,6 +34,12 @@ defmodule RTL.Videos.Attachment do
     "https://#{s3_host()}/#{s3_bucket()}/uploads/#{type}/#{filename}"
   end
 
+  def delete_file(type, filename) do
+    validate_type(type)
+    s3_path = "uploads/#{type}/#{filename}"
+    ExAws.S3.delete_object(s3_bucket(), s3_path) |> ExAws.request!()
+  end
+
   #
   # Internal
   #
@@ -41,7 +47,7 @@ defmodule RTL.Videos.Attachment do
   # TODO: We don't need separate subfolders for thumbnails vs recordings.
   # Move everything to be in one uploads/ folder.
   defp validate_type(type) do
-    unless type in ~w(recording thumbnail), do: raise "Unknown type: #{type}"
+    unless type in ~w(recording thumbnail test), do: raise "Unknown type: #{type}"
   end
 
   # NOTE: S3 is moving to a "virtual host" api format where the bucket is part of the host.

@@ -61,20 +61,14 @@ defmodule RTL.Mixfile do
       {:ex_aws_s3, "~> 2.0.2"},
       {:sweet_xml, "~> 0.6"},
       {:httpotion, "~> 3.1"},
-      {:hound, "~> 1.0", only: :test},
-      {:logger_file_backend, "~> 0.0", only: :test}
+      {:hound, "~> 1.0", only: :test}
     ]
   end
 
   # Aliases are shortcuts or tasks specific to the current project.
   defp aliases do
     [
-      test: [
-        "ecto.create --quiet",
-        "ecto.migrate",
-        "run priv/clear_test_log.exs",
-        "test"
-      ],
+      test: ["ecto.create --quiet", "ecto.migrate", "test"],
       login: ["run priv/repo/list_autologins.exs"],
       create_user: ["run priv/repo/create_user.exs"],
       resetdb: [
