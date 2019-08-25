@@ -28,7 +28,15 @@ class Timeline extends React.Component {
   componentDidUpdate(prevProps, prevState) {
     // If the seek position has changed, ensure the seek cursor is visible.
     if (this.props.videoSeekPos != prevProps.videoSeekPos) {
-      document.querySelector("#timelinePrimaryCursor").scrollIntoViewIfNeeded()
+      let div = document.querySelector(".b-codingPageTimeline .__scrollContainer")
+      let timelineLeftEdge = div.scrollLeft
+      let timelineWindowWidth = div.offsetWidth
+      let timelineRightEdge = timelineLeftEdge + timelineWindowWidth
+      let cursorPos = document.querySelector("#timelinePrimaryCursor").offsetLeft
+
+      if (cursorPos < timelineLeftEdge || cursorPos > timelineRightEdge) {
+        div.scrollLeft = cursorPos - (timelineWindowWidth / 2)
+      }
     }
 
     // Adjust the scroll as you zoom in & out so your scroll stays centered.
