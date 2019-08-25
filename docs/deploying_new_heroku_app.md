@@ -3,10 +3,12 @@
 Assumes you're familiar with and set up with: Git, Heroku CLI, Elixir, and Amazon S3. See also the official guide: https://hexdocs.pm/phoenix/heroku.html
 
   * Clone this repository to your local machine
-  * `heroku create rtl-demo1 --buildpack "https://github.com/HashNuke/heroku-buildpack-elixir.git"`
-  * `heroku buildpacks:add -a rtl-demo1 https://github.com/gjaldon/heroku-buildpack-phoenix-static.git`
-  * `heroku addons:create -a rtl-demo1 heroku-postgresql:hobby-dev`
-  * `heroku addons:create -a rtl-demo1 rollbar:free`
+  * `heroku create rtl-demo1`
+  * `heroku buildpacks:add https://github.com/HashNuke/heroku-buildpack-elixir.git`
+  * `heroku buildpacks:add https://github.com/gjaldon/heroku-buildpack-phoenix-static.git`
+  * `heroku addons:create heroku-postgresql:hobby-dev`
+  * `heroku addons:create papertrail:choklad`
+  * `heroku addons:create rollbar:free`
   * Create an Amazon S3 bucket to hold files for this app:
     * Ensure public access is NOT blocked (ie. uncheck the default "Block public access..." settings).
     * The AWS credentials you give to Heroku must have full R/W access to this bucket.
