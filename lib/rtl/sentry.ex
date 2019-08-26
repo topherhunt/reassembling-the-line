@@ -12,7 +12,7 @@ defmodule RTL.Sentry do
   end
 
   def can_manage_project?(nil, _), do: false
-
+  def can_manage_project?(_, nil), do: false
   def can_manage_project?(%User{} = user, %Project{} = project) do
     is_superadmin?(user) || Projects.is_project_admin?(user, project)
   end

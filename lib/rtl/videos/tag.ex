@@ -78,5 +78,6 @@ defmodule RTL.Videos.Tag do
   def filter(query, :id, id), do: Q.where(query, [t], t.id == ^id)
   def filter(query, :name, name), do: Q.where(query, [t], t.name == ^name)
   def filter(query, :project, proj), do: Q.where(query, [t], t.project_id == ^proj.id)
+  def filter(query, :preload, preloads), do: Q.preload(query, ^preloads)
   def filter(query, :order, :name), do: Q.order_by(query, [t], asc: t.name)
 end

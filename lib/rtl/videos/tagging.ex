@@ -73,6 +73,7 @@ defmodule RTL.Videos.Tagging do
   def filter(query, :coding, coding), do: Q.where(query, [ti], ti.coding_id == ^coding.id)
   def filter(query, :starts_at, sec), do: Q.where(query, [ti], ti.starts_at == ^sec)
   def filter(query, :ends_at, sec), do: Q.where(query, [ti], ti.ends_at == ^sec)
+  def filter(query, :preload, preloads), do: Q.preload(query, ^preloads)
   def filter(query, :order, :starts_at), do: Q.order_by(query, [ti], asc: ti.starts_at)
 
   def filter(query, :video, video) do
