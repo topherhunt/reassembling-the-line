@@ -1,80 +1,66 @@
 <div class="test-page-new-from-webcam"></div>
 
+<h1>Share your story</h1>
+
 <div class="row">
-  <div class="col-sm-8">
+  <div class="col-md-5 order-md-2">
+    <div class="alert alert-info">
+      <p class="mb-2"><strong>How to use this page:</strong></p>
+      <ol style="padding-left: 20px;">
+        <li>Read the question. Think about what you want to say.</li>
+        <li>Click on <strong class="text-danger">Record Video</strong> to set up the camera. Make sure your face is centered in the picture.</li>
+        <li>When you're ready to start, click <strong class="text-danger">Record</strong>.</li>
+        <li>
+          Tell your story! You'll have <strong>up to 5 minutes</strong> to speak.
+          If you're not confident speaking in English, feel free to use 🇳🇱 Dutch, 🇩🇪 German, or 🇪🇸 Spanish.
+        </li>
+        <li>Once you're done, click <strong class="text-danger">Stop</strong>. You'll get a chance to review, re-do, or download your recording before you submit it.</li>
+      </ol>
+
+      <p>Resources:</p>
+      <ul style="padding-left: 20px;">
+        <li><%= link icon("ondemand_video", " How to record a great video"), to: "https://www.youtube.com/watch?v=rQwanxQmFnc&feature=youtu.be", target: "_blank", class: "text-primary" %></li>
+        <li><%= link icon("error", " Report a problem"), to: "https://docs.google.com/forms/d/e/1FAIpQLSfssoCcvKgVx6Aj9RtdF16lfKVJiFHpy0G9zDXuZx1Wn5fUAw/viewform?usp=sf_link", target: "_blank", class: "text-danger" %></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="col-md-7">
     <% intro = project_setting(@project, "webcam_recording_intro") %>
     <%= if intro do %>
       <%= raw(intro) %>
     <% else %>
-      <h1>Share your story</h1>
-      <div>Thank you for taking the time to share your experience! I hope you find it rewarding. And we'll do our best to enable your voice to inspire change on issues that matter to you.</div>
+      <p>Thank you for taking the time to share your experience! I hope you find it rewarding. And we'll do our best to enable your voice to inspire change on issues that matter to you.</p>
     <% end %>
-    <div class="pb-4"></div>
-  </div>
 
-  <div class="col-sm-4">
-    <h1>&nbsp;</h1>
-    <div>
-      <p class="mb-1"><%= link icon("ondemand_video", " How to use this page"), to: "https://www.youtube.com/watch?v=qc8IFlTTtKc", target: "_blank", class: "text-primary" %></p>
-      <p class="mb-1"><%= link icon("ondemand_video", " How to make your video look good"), to: "https://www.youtube.com/watch?v=rQwanxQmFnc&feature=youtu.be", target: "_blank", class: "text-primary" %></p>
-      <p class="mb-0"><%= link icon("error", " Report a technical problem"), to: "https://docs.google.com/forms/d/e/1FAIpQLSfssoCcvKgVx6Aj9RtdF16lfKVJiFHpy0G9zDXuZx1Wn5fUAw/viewform?usp=sf_link", target: "_blank", class: "text-danger" %>
-      </p>
-    </div>
-  </div>
-</div>
-
-<h5>The question:</h5>
-<div class="row">
-  <div class="col-sm-8">
-    <div class="u-card text-success" style="font-size: 1.1em;">
+    <h5>The question:</h5>
+    <div class="text-success" style="font-size: 1.1em;">
       <%= raw HtmlSanitizeEx.basic_html(@prompt.html) %>
     </div>
-    <%# <ul style="margin-bottom: 0; font-size: 1.25em; color: #1c7931;">
-      <li><strong>Who are you?</strong> What do you love to do?</li>
-      <li>What <strong>challenges</strong> do you experience in your life here?</li>
-      <li>What do you need in order to <strong>thrive</strong> here?</li>
-    </ul> %>
-  </div>
-  <div class="col-sm-4">
-    <div class="alert alert-info small">
-      Read the questions and consider what you'd like to say.
-    </div>
-  </div>
-</div>
 
-<div class="pb-4"></div>
+    <div class="pb-4"></div>
 
-<div class="row">
-  <div class="col-sm-8">
+
     <div class="u-box-shadow" style="width: 100%; background-color: #000; overflow: hidden; border-radius: 10px; margin-bottom: 10px;">
       <div id="ziggeo-recorder"></div>
     </div>
 
-    <a class="u-hidden js-download-recording-link"></a>
-  </div>
+    <div class="pb-4"></div>
 
-  <div class="col-sm-4">
-    <div class="js-recording-instructions-part-1 alert alert-info small">
-      <p class="mb-2">Make sure you can see your face in the preview window. When you're ready, click <strong>Start recording</strong>.</p>
-      <ul class="m-0" style="padding-left: 20px;">
-        <li>If you're not confident speaking in English, feel free to speak in 🇳🇱Dutch, 🇩🇪German, or 🇪🇸Spanish.</li>
-        <li>You'll have <span class="text-warning">up to 5 minutes</span> to speak.</li>
-        <li>Once you're done, click <strong>Stop recording</strong>. You'll get a chance to review, re-do, or download your recording before you submit it.</li>
-      </ul>
+    <div class="js-ziggeo-processing js-hidden">
+      <p><strong class="text-warning">We're preparing your video.</strong> Please don't close or refresh the page.</p>
+
+      <div class="progress">
+        <div class="progress-bar progress-bar-striped active" role="progressbar" style="width: 1%;"></div>
+      </div>
     </div>
-    <div class="js-recording-instructions-part-2 alert alert-info small js-hidden">
-      <p>Your recording is done! Now you can watch it, re-record it, or <a class="js-download-recording" href="#">download it (.webm file)</a>.</p>
-      <p class="mb-0">When you're happy, <strong>scroll down</strong> to answer a couple more questions and then submit your recording.</p>
-    </div>
-  </div>
-</div>
 
-<div class="pb-4"></div>
+    <div class="js-interview-form-container js-hidden">
+      <div class="alert alert-info">
+        <p>Great, your video is ready! Click on it to play it. Click <strong>Redo</strong> if you'd like to start over.</p>
+        <p class="mb-0">When you're happy, please fill in the fields below then submit your recording.</p>
+      </div>
 
-<div class="js-interview-form-container js-hidden">
-  <h5>Submit your recording</h5>
-  <div class="row">
-    <div class="col-sm-8">
       <%= form_for @changeset, Routes.share_from_webcam_path(@conn, :create, @project, @prompt), [class: "js-suppress-enter"], fn(f) -> %>
 
         <div class="form-group">
@@ -119,43 +105,16 @@
         </div>
 
         <%= hidden_input f, :prompt_id, value: @prompt.id %>
-        <%# The JS is hard-coded to use .jpg and .webm, but we have the JS populate these
-            fields for consistency, rather than have the hard-coding happen in 2 places %>
-        <%= hidden_input f, :thumbnail_filename, value: "TO POPULATE", class: "js-thumbnail-filename" %>
         <%= hidden_input f, :recording_filename, value: "TO POPULATE", class: "js-recording-filename" %>
+        <%= hidden_input f, :thumbnail_filename, value: "TO POPULATE", class: "js-thumbnail-filename" %>
 
-        <%= link "Submit your recording", to: "#", class: "js-upload-and-submit-btn btn btn-primary" %>
-        <%= submit " ", class: "js-submit-form-btn js-hidden", style: "display: none;" %>
-
+        <div>
+          <%= submit "Submit your recording", class: "js-form-submit btn btn-primary" %>
+        </div>
       <% end %>
     </div>
   </div>
 </div>
 
-<div class="row">
-  <div class="col-sm-8">
-    <div class="js-upload-data"
-      data-uuid='<%= @filename_uuid %>'
-      data-urls='<%= Jason.encode!(@presigned_upload_urls) %>'></div>
-
-    <div class="js-upload-progress-container js-hidden">
-      <p><strong>We're saving your recording.</strong> Do not close or refresh the page until the upload is complete.</p>
-      <div class="progress">
-        <div class="progress-bar progress-bar-striped active" role="progressbar" style="width: 1%;"></div>
-      </div>
-    </div>
-
-    <div class="js-upload-failed alert alert-danger js-hidden">
-      <p><strong>There was an error uploading your recording.</strong> What you can do:</p>
-      <ul>
-        <li><%= link "Retry upload", to: "#", class: "js-retry-upload" %></li>
-        <li><%= link "Download my video for safekeeping (.webm)", to: "#", class: "js-download-recording" %></li>
-        <li><%= link "Refresh the page and start over", to: "", class: "text-danger" %></li>
-      </ul>
-      <p></p>
-      <p></p>
-    </div>
-  </div>
-</div>
-
-<div style="height: 100px;"></div>
+<%# Bottom buffer %>
+<div class="pb-5"></div>

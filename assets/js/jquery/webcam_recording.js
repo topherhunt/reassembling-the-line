@@ -35,61 +35,40 @@ $(function(){
 
     recorder.activate();
 
-    // I think listeners go in here
+    // Ziggeo events: https://ziggeo.com/docs/sdks/javascript/browser-interaction/events
 
-    recorder.on('ready_to_record', (data) => {
-      console.log('Event: ready_to_record. Data: ', data)
+    recorder.on('uploading', () => {
+      $('.js-ziggeo-processing').fadeIn()
     })
 
-    // recorder.on('recording_progress', (time) => {
-    //   console.log('Event: recording_progress. Time: ', time)
-    // })
-
-    // recorder.on('uploading', (data) => {
-    //   console.log('Event: uploading. Data: ', data)
-    // })
-
-    recorder.on('uploaded', (data) => {
-      console.log('Event: uploaded. Data: ', data)
+    recorder.on('upload_progress', (uploaded, total) => {
+      console.log('upload_progress: '+uploaded+' uploaded out of '+total+' total')
+      let total_pct = (100 * uploaded / total / 2) + 0
+      $('.js-ziggeo-processing .progress-bar').css('width', ''+total_pct+'%')
     })
 
-    recorder.on('verified', (data) => {
-      console.log('Event: verified. Data: ', data)
+    recorder.on('processing', (pct) => {
+      console.log('processing progress: '+pct+'%')
+      let total_pct = (100 * pct / 2) + 50
+      $('.js-ziggeo-processing .progress-bar').css('width', ''+total_pct+'%')
     })
 
-    // recorder.on('processing', (pct) => {
-    //   console.log('Event: processing. Percent: ', pct)
-    // })
+    recorder.on('processed', () => {
+      $('.js-ziggeo-processing').hide()
+      $('.js-interview-form-container').fadeIn();
+      $('.js-recording-filename').val(videoKey+'.mp4')
+      $('.js-thumbnail-filename').val(videoKey+'.jpg')
+    })
 
-    recorder.on('processed', (data) => {
-      console.log('Event: processed. Data: ', data)
+    recorder.on('rerecord', () => {
+      $('.js-interview-form-container').hide()
+      $('.js-ziggeo-processing').hide()
     })
   });
 
+  $('.js-form-submit').click((e) => {
 
-
-  //
-  // Listeners
-  //
-
-  // $('.js-upload-and-submit-btn, .js-retry-upload').click(function(e) {
-  //   e.preventDefault()
-  //   submitInterview()
-  // })
-
-  /*
-    TODO - page elements to hide/show at certain moments:
-
-    On recording start:
-    $('.js-interview-form-container').hide()
-
-    On recording stop:
-    $('.js-recording-instructions-part-1').fadeOut()
-
-    On 1s timeout after recording stop:
-    $('.js-recording-instructions-part-2').fadeIn()
-    $('.js-interview-form-container').fadeIn()
-  */
+  })
 
   //
   // Helpers
