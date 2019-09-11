@@ -5,7 +5,7 @@
 
   <h4>Who we are</h4>
 
-  <p>This site is <%= link "Reassembling the Line", to: "/" %>, a service that offers researchers a new way to understand complex social issues by collecting, categorizing, and learning from your personal experiences. It's run as a personal project by Topher Hunt; <%= link "click here to contact me", to: contact_us_url(), target: "_blank" %> with any questions.</p>
+  <p>This site is <%= link "Reassembling the Line", to: "/" %>, a service that offers researchers a new way to understand complex social issues by collecting, categorizing, and learning from your personal experiences. It's a project by Whitney Hunter-Thomson (co-founder) and Topher Hunt (co-founder and lead developer). <%= link "Click here to contact us", to: contact_us_url(), target: "_blank" %> with any questions.</p>
 
   <p>Data on this website is grouped under <strong>projects</strong>, each project being run by a particular researcher or project owner. You can find the project owner's contact information on the project's landing page.</p>
 
@@ -14,6 +14,7 @@
   <ul>
     <li><strong>Your name</strong> (optional). We use this both to give you credit when others hear your story, and to protect your data ownership rights in case you decide you'd like your story removed from this site in the future.</li>
     <li><strong>Your video recording</strong> in which you tell your personal story regarding some particular topic (which depends on the project).</li>
+    <li><a href="https://docs.google.com/spreadsheets/d/15mNVsomDdhizgNeTZWBd73wCpV7hc2rvPrnUJshwdQE/edit#gid=0" target="_blank">See this list</a> for more details.</li>
   </ul>
 
   <h4>How we use your data</h4>
@@ -25,6 +26,10 @@
   <h4>How long we keep it</h4>
 
   <p>Any videos you submit will be kept in our database for the lifetime of the project, which may be indefinite. You can always contact the project owner for more information.</p>
+
+  <h4>Sub-processors</h4>
+
+  <p>To provide our service, RTL relies on several trusted sub-processors: <a href="https://www.heroku.com/">Heroku</a>, <a href="https://auth0.com/">Auth0</a>, <a href="https://papertrailapp.com/">Papertrail</a>, <a href="https://rollbar.com/">Rollbar</a>, and <a href="https://aws.amazon.com/s3/">Amazon S3</a>. <a href="https://docs.google.com/spreadsheets/d/15mNVsomDdhizgNeTZWBd73wCpV7hc2rvPrnUJshwdQE/edit#gid=0" target="_blank">See this list</a> for more details.</p>
 
   <h4>Your rights</h4>
 
