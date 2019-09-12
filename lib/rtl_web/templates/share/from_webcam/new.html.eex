@@ -41,8 +41,8 @@
     <div class="pb-4"></div>
 
 
-    <div class="u-box-shadow" style="width: 100%; padding-top: 75%; position: relative; background-color: #aaa; overflow: hidden; border-radius: 10px; margin-bottom: 10px;">
-      <div id="ziggeo-recorder" style="position: absolute; top: 0px; width: 100%; height: 100%;"></div>
+    <div class="u-box-shadow" style="width: 100%; min-height: 200px; overflow: hidden; border-radius: 10px; margin-bottom: 10px;">
+      <div id="ziggeo-recorder" style="width: 100%;"></div>
     </div>
 
     <div class="pb-4"></div>

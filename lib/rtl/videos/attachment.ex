@@ -23,6 +23,7 @@ defmodule RTL.Videos.Attachment do
     validate_type(type)
     config = ExAws.Config.new(:s3)
     path = "uploads/#{type}/#{filename}"
+    # This ACL is no longer needed since I set the bucket policy to public-read.
     params = [{"x-amz-acl", "public-read"}, {"contentType", "binary/octet-stream"}]
     opts = [query_params: params]
     {:ok, url} = ExAws.S3.presigned_url(config, :put, s3_bucket(), path, opts)
