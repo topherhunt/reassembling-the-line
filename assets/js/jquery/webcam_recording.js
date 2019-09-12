@@ -28,6 +28,7 @@ $(function(){
         height: '100%',
         theme: "modern",
         themecolor: "red",
+        timelimit: 60 * 5,
         key: videoKey,
         'expiration-days': 1
       }
@@ -67,19 +68,33 @@ $(function(){
   });
 
   $('.js-form-submit').click((e) => {
+    if (!isSpeakerNamePresent()) {
+      preventSubmit(e, "Please fill in your name.")
+    } else if (!isPermissionGiven()) {
+      preventSubmit(e, "Please select a permission option.")
+    }
 
+    // Otherwise, allow the form to submit.
   })
 
   //
   // Helpers
   //
 
-  function raise(msg) {
-    console.error(msg)
-    alert(msg)
-    callNonexistentMethodToAbort()
+  function isSpeakerNamePresent() {
+    return $("#video_speaker_name").val().trim() != ""
   }
 
+  function isPermissionGiven() {
+    return !!$('[name="video[permission]"]:checked').val()
+  }
+
+  function preventSubmit(e, message) {
+    alert(message)
+    e.preventDefault()
+  }
+
+  // Unused now. Re-add if I need better monitoring.
   function report(msg) {
     $.post("/api/log", {message: "Webcam recording page: "+msg})
   }

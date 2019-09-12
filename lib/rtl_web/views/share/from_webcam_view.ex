@@ -11,8 +11,8 @@ defmodule RTLWeb.Share.FromWebcamView do
 
   def default_recording_permission_options do
     ~s({
-      "I give permission to share this recording with <strong>everyone</strong>.": "public",
-      "I give permission to share this recording with <strong>only the researchers on this project</strong>.": "researchers"
+      "I give permission to share this video with <strong>everyone</strong>.": "public",
+      "I give permission to share this video with <strong>only the researchers on this project</strong>.": "researchers"
     })
   end
 end

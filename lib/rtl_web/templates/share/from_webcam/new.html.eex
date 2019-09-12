@@ -41,8 +41,8 @@
     <div class="pb-4"></div>
 
 
-    <div class="u-box-shadow" style="width: 100%; background-color: #000; overflow: hidden; border-radius: 10px; margin-bottom: 10px;">
-      <div id="ziggeo-recorder"></div>
+    <div class="u-box-shadow" style="width: 100%; padding-top: 75%; position: relative; background-color: #aaa; overflow: hidden; border-radius: 10px; margin-bottom: 10px;">
+      <div id="ziggeo-recorder" style="position: absolute; top: 0px; width: 100%; height: 100%;"></div>
     </div>
 
     <div class="pb-4"></div>
@@ -58,7 +58,7 @@
     <div class="js-interview-form-container js-hidden">
       <div class="alert alert-info">
         <p>Great, your video is ready! Click on it to play it. Click <strong>Redo</strong> if you'd like to start over.</p>
-        <p class="mb-0">When you're happy, please fill in the fields below then submit your recording.</p>
+        <p class="mb-0">When you're happy, please fill in the fields below, then click <strong>Submit</strong>.</p>
       </div>
 
       <%= form_for @changeset, Routes.share_from_webcam_path(@conn, :create, @project, @prompt), [class: "js-suppress-enter"], fn(f) -> %>
