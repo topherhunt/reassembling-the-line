@@ -48,8 +48,8 @@ defmodule RTL.Videos.Services.ImportFromYoutube do
       {:ok, recording_path, thumbnail_path} ->
         IO.puts("Uploading to S3 and saving the record...")
         # Upload the attachments first, then create the Video record.
-        {:ok, _, recording_filename} = Attachment.upload_file("recording", recording_path)
-        {:ok, _, thumbnail_filename} = Attachment.upload_file("thumbnail", thumbnail_path)
+        {:ok, _, recording_filename} = Attachment.upload_file(recording_path)
+        {:ok, _, thumbnail_filename} = Attachment.upload_file(thumbnail_path)
 
         Videos.insert_video!(%{
           prompt_id: prompt.id,

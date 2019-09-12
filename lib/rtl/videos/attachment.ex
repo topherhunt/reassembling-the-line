@@ -3,10 +3,9 @@
 defmodule RTL.Videos.Attachment do
   alias RTL.Helpers, as: H
 
-  def upload_file(type, local_filepath) do
-    validate_type(type)
+  def upload_file(local_filepath) do
     filename = Path.basename(local_filepath)
-    s3_path = "uploads/#{type}/#{filename}"
+    s3_path = "interviews/#{filename}"
     s3_options = [{:acl, "public-read"}]
 
     local_filepath
@@ -16,13 +15,12 @@ defmodule RTL.Videos.Attachment do
     # Old non-streamed logic (less performant):
     # ExAws.S3.put_object(s3_bucket(), s3_path, File.read!(path), s3_options)
 
-    {:ok, url(type, filename), filename}
+    {:ok, url(filename), filename}
   end
 
-  def presigned_upload_url(type, filename) do
-    validate_type(type)
+  def presigned_upload_url(filename) do
     config = ExAws.Config.new(:s3)
-    path = "uploads/#{type}/#{filename}"
+    path = "interviews/#{filename}"
     # This ACL is no longer needed since I set the bucket policy to public-read.
     params = [{"x-amz-acl", "public-read"}, {"contentType", "binary/octet-stream"}]
     opts = [query_params: params]
@@ -30,26 +28,18 @@ defmodule RTL.Videos.Attachment do
     url
   end
 
-  def url(type, filename) do
-    validate_type(type)
-    "https://#{s3_host()}/#{s3_bucket()}/uploads/#{type}/#{filename}"
+  def url(filename) do
+    "https://#{s3_host()}/#{s3_bucket()}/interviews/#{filename}"
   end
 
-  def delete_file(type, filename) do
-    validate_type(type)
-    s3_path = "uploads/#{type}/#{filename}"
+  def delete_file(filename) do
+    s3_path = "interviews/#{filename}"
     ExAws.S3.delete_object(s3_bucket(), s3_path) |> ExAws.request!()
   end
 
   #
   # Internal
   #
-
-  # TODO: We don't need separate subfolders for thumbnails vs recordings.
-  # Move everything to be in one uploads/ folder.
-  defp validate_type(type) do
-    unless type in ~w(recording thumbnail test), do: raise "Unknown type: #{type}"
-  end
 
   # NOTE: S3 is moving to a "virtual host" api format where the bucket is part of the host.
   # ExAws doesn't support virtual hosts yet, so for now we'll stay with the old "path" api.

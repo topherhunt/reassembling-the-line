@@ -9,12 +9,12 @@ defmodule RTL.Videos.AttachmentTest do
     ensure_network_connection()
     {local_path, contents} = create_random_file()
 
-    {:ok, url, filename} = Attachment.upload_file("test", local_path)
+    {:ok, url, filename} = Attachment.upload_file(local_path)
 
-    assert url == Attachment.url("test", filename)
+    assert url == Attachment.url(filename)
     assert filename == Path.basename(local_path)
     assert HTTPotion.get!(url).body == contents
-    Attachment.delete_file("test", filename)
+    Attachment.delete_file(filename)
   end
 
   test "presigned_upload_url works" do
@@ -22,12 +22,12 @@ defmodule RTL.Videos.AttachmentTest do
     {local_path, contents} = create_random_file()
     filename = Path.basename(local_path)
 
-    upload_url = Attachment.presigned_upload_url("test", filename)
+    upload_url = Attachment.presigned_upload_url(filename)
     HTTPotion.put!(upload_url,
       body: contents,
       headers: ["Content-Type": "binary/octet-stream"]
     )
-    retrieval_url = Attachment.url("test", filename)
+    retrieval_url = Attachment.url(filename)
     assert HTTPotion.get!(retrieval_url).body == contents
   end
 

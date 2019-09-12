@@ -74,8 +74,8 @@ defmodule RTL.Videos do
     |> notify_subscribers("videos.deleted.#{video.id}")
   end
 
-  def video_recording_url(v), do: Attachment.url("recording", v.recording_filename)
-  def video_thumbnail_url(v), do: Attachment.url("thumbnail", v.thumbnail_filename)
+  def video_recording_url(v), do: Attachment.url(v.recording_filename)
+  def video_thumbnail_url(v), do: Attachment.url(v.thumbnail_filename)
 
   #
   # Codings

@@ -1,6 +1,5 @@
 defmodule RTLWeb.Share.FromWebcamController do
   use RTLWeb, :controller
-  import RTL.Videos.Attachment, only: [presigned_upload_url: 2]
   alias RTL.Videos
 
   plug :load_project
@@ -10,18 +9,7 @@ defmodule RTLWeb.Share.FromWebcamController do
   # Anyone can record and upload a recording as many times as they want.
   def new(conn, _params) do
     changeset = Videos.Video.new_webcam_recording_changeset()
-    uuid = RTL.Factory.random_uuid()
-
-    render(conn, "new.html",
-      changeset: changeset,
-      filename_uuid: uuid,
-      # Generate presigned upload urls for all supported filetypes.
-      # (The JS only uses .jpg and .webm for now, but this approach gives us flexibility)
-      presigned_upload_urls: %{
-        jpg: presigned_upload_url("thumbnail", "#{uuid}.jpg"),
-        webm: presigned_upload_url("recording", "#{uuid}.webm")
-      }
-    )
+    render(conn, "new.html", changeset: changeset)
   end
 
   def create(conn, %{"video" => video_params}) do

@@ -18,7 +18,7 @@ $(function(){
 
   window.ziggeoApp.on("ready", function() {
     let ziggeoRecorderElement = document.getElementById("ziggeo-recorder")
-    let videoKey = nanoid(10)
+    let videoKey = nanoid(10) // Generate a unique filename for this video & thumbnail
     console.log('Initializing recorder with video key: '+videoKey)
 
     let recorder = new ZiggeoApi.V2.Recorder({
