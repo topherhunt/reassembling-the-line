@@ -43,13 +43,11 @@ $(function(){
     })
 
     recorder.on('upload_progress', (uploaded, total) => {
-      console.log('upload_progress: '+uploaded+' uploaded out of '+total+' total')
       let total_pct = (100 * uploaded / total / 2) + 0
       $('.js-ziggeo-processing .progress-bar').css('width', ''+total_pct+'%')
     })
 
     recorder.on('processing', (pct) => {
-      console.log('processing progress: '+pct+'%')
       let total_pct = (100 * pct / 2) + 50
       $('.js-ziggeo-processing .progress-bar').css('width', ''+total_pct+'%')
     })
