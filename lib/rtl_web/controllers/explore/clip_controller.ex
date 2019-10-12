@@ -5,7 +5,8 @@ defmodule RTLWeb.Explore.ClipController do
   plug :load_project
 
   def index(conn, _params) do
-    render(conn, "index.html", tag_options: tag_options())
+    project = conn.assigns.project
+    render(conn, "index.html", tag_options: tag_options(project))
   end
 
   # Receives an ajax request for video clips given a specific filter
@@ -18,8 +19,8 @@ defmodule RTLWeb.Explore.ClipController do
   # Helpers
   #
 
-  defp tag_options do
-    Videos.all_tags_with_counts()
+  defp tag_options(project) do
+    Videos.all_tags_with_counts(project)
     |> Enum.map(& %{label: "#{&1.name} (#{&1.count})", value: &1.name})
   end
 

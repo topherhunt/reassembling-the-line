@@ -150,15 +150,23 @@ defmodule RTL.Videos do
     insert_tag(params) |> Repo.ensure_success()
   end
 
-  # TODO: Is there another way to do this that's more friendly to my filters system?
-  def all_tags_with_counts do
-    Tag
-    |> join(:inner, [t], ti in Tagging, t.id == ti.tag_id)
-    |> group_by([t, ti], [t.name])
-    |> select([t, ti], {t.name, count(ti.id)})
-    |> order_by([t, ti], desc: count(ti.id), asc: t.name)
+  def all_tags_with_counts(project) do
+    from(t in Tag,
+      join: ti in assoc(t, :taggings),
+      join: c in assoc(ti, :coding),
+      where: t.project_id == ^project.id and not is_nil(c.completed_at),
+      group_by: t.id,
+      order_by: [desc: count(ti.id), asc: t.name],
+      select: %{name: t.name, count: count(ti.id)}
+    )
     |> Repo.all()
-    |> Enum.map(fn {name, ct} -> %{name: name, count: ct} end)
+
+    # Tag
+    # |> join(:inner, [t], ti in Tagging, t.id == ti.tag_id)
+    # |> group_by([t, ti], [t.name])
+    # |> order_by([t, ti], desc: count(ti.id), asc: t.name)
+    # |> select([t, ti], %{name: t.name, count: count(ti.id)})
+    # |> Repo.all()
   end
 
 end

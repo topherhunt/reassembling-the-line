@@ -20,7 +20,7 @@ defmodule RTL.Projects.Prompt do
   # Public API (very WIP)
   #
 
-  # TODO: Remove the prompt querying api in the Context, and replace with these
+  # TODO: Remove these and replace with the context-level accessors
   def get(id, f \\ []), do: __MODULE__ |> apply_filters([{:id, id} | f]) |> Repo.one()
   def get!(id, f \\ []), do: __MODULE__ |> apply_filters([{:id, id} | f]) |> Repo.one!()
   def first(filters \\ []), do: __MODULE__ |> apply_filters(filters) |> Repo.first()

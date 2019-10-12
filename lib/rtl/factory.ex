@@ -1,11 +1,10 @@
 # I was using ExMachina but found these hand-rolled factories simple to set up
 # and more transparent vis-a-vis Ecto association handling.
 defmodule RTL.Factory do
-  import RTL.Helpers, only: [assert_keys: 2]
   alias RTL.{Accounts, Projects, Videos}
 
   def insert_user(params \\ %{}) do
-    assert_keys(params, allowed: [:full_name, :email, :uuid])
+    params = cast(params, [:full_name, :email, :uuid])
     uuid = random_uuid()
 
     Accounts.insert_user!(%{
@@ -16,7 +15,7 @@ defmodule RTL.Factory do
   end
 
   def insert_project(params \\ %{}) do
-    assert_keys(params, allowed: [:name, :uuid])
+    params = cast(params, [:name, :uuid])
 
     Projects.insert_project!(%{
       name: params[:name] || "Project #{random_uuid()}",
@@ -25,7 +24,7 @@ defmodule RTL.Factory do
   end
 
   def insert_prompt(params \\ %{}) do
-    assert_keys(params, allowed: [:project_id, :html])
+    params = cast(params, [:project_id, :html])
 
     Projects.insert_prompt!(%{
       project_id: params[:project_id] || insert_project().id,
@@ -34,16 +33,20 @@ defmodule RTL.Factory do
   end
 
   def insert_video(params \\ %{}) do
-    assert_keys(params, allowed: [
+    params = cast(params, [
       :prompt_id,
       :title,
       :recording_filename,
       :thumbnail_filename,
-      :coded_with_tags
+      :project_id, # indirect
+      :coded_with_tags # indirect
     ])
 
     hex = random_uuid()
-    prompt_id = params[:prompt_id] || insert_prompt().id
+
+    prompt_id =
+      params[:prompt_id] ||
+      insert_prompt(project_id: params[:project_id]).id
 
     video = Videos.insert_video!(%{
       prompt_id: prompt_id,
@@ -62,8 +65,8 @@ defmodule RTL.Factory do
   end
 
   def insert_coding(params \\ %{}) do
-    assert_keys(params, allowed: [:video_id, :coder_id, :completed_at, :tags])
-    # :tags should be a list of 3-value tuples: {name, starts_at, ends_at}
+    params = cast(params, [:video_id, :coder_id, :completed_at, :tags])
+    # :tags should be a list of 3-value tuples: [{name, starts_at, ends_at}, ...]
 
     video_id = params[:video_id] || insert_video().id
     project_id = Videos.get_video!(video_id, preload: :prompt).prompt.project_id
@@ -72,7 +75,7 @@ defmodule RTL.Factory do
     coding = Videos.insert_coding!(%{
       video_id: video_id,
       coder_id: params[:coder_id] || insert_user().id,
-      completed_at: Keyword.get(params, :completed_at, Timex.now())
+      completed_at: Map.get(params, :completed_at, Timex.now())
     })
 
     # Ensure each tag exists, and load it
@@ -91,7 +94,7 @@ defmodule RTL.Factory do
   end
 
   def insert_tagging(params \\ %{}) do
-    assert_keys(params, allowed: [:coding_id, :tag_id, :starts_at, :ends_at])
+    params = cast(params, [:coding_id, :tag_id, :starts_at, :ends_at])
 
     Videos.insert_tagging!(%{
       coding_id: params[:coding_id] || insert_coding().id,
@@ -102,7 +105,7 @@ defmodule RTL.Factory do
   end
 
   def insert_tag(params \\ %{}) do
-    assert_keys(params, allowed: [:project_id, :name, :color])
+    params = cast(params, [:project_id, :name, :color])
     Videos.insert_tag!(%{
       project_id: params[:project_id],
       name: params[:name] || "Tag #{random_uuid()}",
@@ -113,5 +116,16 @@ defmodule RTL.Factory do
   def random_uuid do
     pool = String.codepoints("ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz123456789")
     Enum.map(1..6, fn _ -> Enum.random(pool) end) |> Enum.join()
+  end
+
+  #
+  # Internal
+  #
+
+  defp cast(params, allowed_keys) do
+    params = Enum.into(params, %{})
+    unexpected_key = Map.keys(params) |> Enum.find(& &1 not in allowed_keys)
+    if unexpected_key, do: raise "Unexpected key: #{inspect(unexpected_key)}."
+    params
   end
 end

@@ -8,7 +8,6 @@ defmodule RTL.Projects do
   # Project schema
   #
 
-  # TODO: Remove these, replace with the new Project query api
   def get_project(id, filt \\ []), do: get_project_by(Keyword.merge([id: id], filt))
   def get_project!(id, filt \\ []), do: get_project_by!(Keyword.merge([id: id], filt))
   def get_project_by(filt), do: Project |> Project.apply_filters(filt) |> Repo.first()
@@ -30,7 +29,6 @@ defmodule RTL.Projects do
   # Prompt schema
   #
 
-  # TODO: Remove these and replace with the new Prompt query api
   def get_prompt(id, filt \\ []), do: get_prompt_by(Keyword.merge([id: id], filt))
   def get_prompt!(id, filt \\ []), do: get_prompt_by!(Keyword.merge([id: id], filt))
   def get_prompt_by(filt), do: Prompt |> Prompt.apply_filters(filt) |> Repo.first()

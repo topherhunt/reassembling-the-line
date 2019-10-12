@@ -1,9 +1,8 @@
-# TODO: Try moving this to a Videos context test
 defmodule RTL.VideosTest do
   use RTL.DataCase, async: true
   alias RTL.Videos
 
-  describe "scopes" do
+  describe "Video queries" do
     test "fetching all coded videos having certain tags" do
       prompt = Factory.insert_prompt()
       v1 = add_tagged_video(prompt, [{"abc", 1, 2}])
@@ -23,6 +22,26 @@ defmodule RTL.VideosTest do
       assert v4.id in video_ids
       assert v5.id not in video_ids
       assert v6.id not in video_ids
+    end
+  end
+
+  describe "Tag queries" do
+    test "#all_tags_with_counts returns all coded tags within this project" do
+      project = Factory.insert_project()
+      v1 = Factory.insert_video(project_id: project.id)
+      v2 = Factory.insert_video(project_id: project.id)
+      v3 = Factory.insert_video()
+      v4 = Factory.insert_video(project_id: project.id)
+      Factory.insert_coding(video_id: v1.id, tags: [{"apple", 12, 30}])
+      Factory.insert_coding(video_id: v2.id, tags: [{"bear", 40, 50}], completed_at: nil)
+      Factory.insert_coding(video_id: v3.id, tags: [{"cat", 12, 30}])
+      Factory.insert_coding(video_id: v4.id, tags: [{"dog", 5, 10}, {"elk", 15, 20}])
+
+      assert Videos.all_tags_with_counts(project) == [
+        %{count: 1, name: "apple"},
+        %{count: 1, name: "dog"},
+        %{count: 1, name: "elk"}
+      ]
     end
   end
 

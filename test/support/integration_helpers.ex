@@ -38,6 +38,10 @@ defmodule RTLWeb.IntegrationHelpers do
     wait_until(fn -> visible_page_text() =~ text end)
   end
 
+  def refute_text(text) do
+    wait_until(fn -> !(visible_page_text() =~ text) end)
+  end
+
   def assert_html(text) do
     wait_until(fn -> page_source() =~ text end)
   end
