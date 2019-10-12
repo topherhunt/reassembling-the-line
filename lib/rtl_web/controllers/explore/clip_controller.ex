@@ -12,7 +12,9 @@ defmodule RTLWeb.Explore.ClipController do
   # Receives an ajax request for video clips given a specific filter
   # Returns a JSON list of video segments for this search
   def playlist(conn, params) do
-    render(conn, "playlist.json", tags: tags_from_params(params))
+    project = conn.assigns.project
+    tags = tags_from_params(params)
+    conn |> json(%{playlist: RTL.Playlist.build_playlist(project, tags)})
   end
 
   ##

@@ -17,9 +17,14 @@ defmodule RTL.Playlist do
   end
 
   defp convert_video_record_to_map(video) do
+    title =
+      video.title ||
+      (if video.permission_show_name, do: video.speaker_name) ||
+      "Anonymous"
+
     %{
       video_id: video.id,
-      title: video.title,
+      title: title,
       recording_url: Videos.video_recording_url(video),
       thumbnail_url: Videos.video_thumbnail_url(video),
       tags: convert_tags_to_maps(video.coding.taggings)
