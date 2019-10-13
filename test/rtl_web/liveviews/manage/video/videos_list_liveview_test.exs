@@ -9,6 +9,7 @@ defmodule RTLWeb.Manage.VideosListLiveviewTest do
   end
 
   test "renders correctly" do
+    user = Factory.insert_user()
     project = Factory.insert_project()
     prompt = Factory.insert_prompt(project_id: project.id)
     # Insert some videos: 1 uncoded, 1 coded, and 1 irrelevant (will be excluded)
@@ -16,7 +17,7 @@ defmodule RTLWeb.Manage.VideosListLiveviewTest do
     v2 = Factory.insert_video(prompt_id: prompt.id, coded_with_tags: [{"abc", 30, 60}])
     v3 = Factory.insert_video()
 
-    {:ok, _view, html} = mount_the_view(session: %{project: project})
+    {:ok, _view, html} = mount_the_view(session: %{current_user: user, project: project})
 
     assert html =~ "test-page-manage-video-index"
     assert html =~ "test-row-video-#{v1.id}"
@@ -25,20 +26,22 @@ defmodule RTLWeb.Manage.VideosListLiveviewTest do
   end
 
   test "renders correctly when no videos" do
+    user = Factory.insert_user()
     project = Factory.insert_project()
 
-    {:ok, _view, html} = mount_the_view(session: %{project: project})
+    {:ok, _view, html} = mount_the_view(session: %{current_user: user, project: project})
 
     assert html =~ "test-page-manage-video-index"
   end
 
   test "delete_video works" do
+    user = Factory.insert_user()
     project = Factory.insert_project()
     prompt = Factory.insert_prompt(project_id: project.id)
     v1 = Factory.insert_video(prompt_id: prompt.id)
     v2 = Factory.insert_video(prompt_id: prompt.id)
 
-    {:ok, view, _html} = mount_the_view(session: %{project: project})
+    {:ok, view, _html} = mount_the_view(session: %{current_user: user, project: project})
     html = render_click(view, :delete_video, v1.id)
 
     # The video is deleted

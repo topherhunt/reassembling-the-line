@@ -31,7 +31,10 @@
     <div class="form-group">
       <%= label f, :speaker_name do %>
         <strong>Speaker's name</strong>
-        <span class="text-danger" data-toggle="tooltip" title="We need to know the speaker's name in order to protect their data ownership rights.">(required)</span>
+        <span class="text-danger u-tooltip-target">
+          (required)
+          <div class="u-tooltip">We need to know the speaker's name in order to protect their data ownership rights.</div>
+        </span>
       <% end %>
       <%= text_input f, :speaker_name, class: "form-control" %>
     </div>

@@ -4,9 +4,9 @@ defmodule RTLWeb.Manage.VideosListLiveview do
   alias RTL.Videos
   require Logger
 
-  def mount(%{project: project}, socket) do
+  def mount(%{current_user: current_user, project: project}, socket) do
     if connected?(socket), do: RTL.Videos.subscribe_to(:all)
-    socket = assign(socket, :project, project)
+    socket = assign(socket, %{current_user: current_user, project: project})
     {:ok, fetch_latest_data(socket)}
   end
 

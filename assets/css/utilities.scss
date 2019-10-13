@@ -55,4 +55,66 @@
 // DEPRECATED
 .nowrap { white-space: nowrap; }
 
-[data-toggle="tooltip"] { cursor: help; }
+//
+// CSS-only tooltips compatible with LiveView.
+//
+// Example:
+// <span class="u-tooltip-target">
+//   Hover on me
+//   <div class="u-tooltip">This tooltip will display when hovered</div>
+// </span>
+//
+.u-tooltip-target {
+  position: relative;
+  cursor: help;
+
+  .u-tooltip {
+    position: absolute;
+    bottom: 100%;
+    left: -25px;
+    margin-bottom: 15px;
+    width: 200px;
+    display: block;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    padding: 0.4rem 0.5rem;
+    border-radius: 3px;
+    text-align: left;
+    font-size: 0.8rem;
+    font-weight: normal;
+    background-color: #000;
+    color: #fff;
+    box-shadow: 1px 1px 5px 0px rgba(0, 0, 0, 0.6);
+  }
+
+  // This bridges the gap so you can mouse into the tooltip without it disappearing
+  .u-tooltip::before {
+    bottom: -20px;
+    content: " ";
+    display: block;
+    height: 20px;
+    left: 0;
+    position: absolute;
+    width: 100%;
+  }
+
+  // CSS Triangles
+  .u-tooltip::after {
+    position: absolute;
+    left: 40px;
+    bottom: -10px;
+    margin-left: -13px;
+    height: 0;
+    width: 0;
+    content: " ";
+    border-left: solid transparent 10px;
+    border-right: solid transparent 10px;
+    border-top: solid #000 10px;
+  }
+
+  &:hover .u-tooltip {
+    visibility: visible;
+    opacity: 1;
+  }
+}

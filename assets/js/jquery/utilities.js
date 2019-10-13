@@ -2,9 +2,6 @@ import $ from "jquery"
 
 $(function(){
 
-  // TODO: Write my own tooltip helper that works in a React-heavy and LV-heavy world
-  $('[data-toggle="tooltip"]').tooltip({delay: 100});
-
   $("[data-focus-on-click]").click(function(){
     var target_selector = $(this).data("focus-on-click");
     $(target_selector).focus();
