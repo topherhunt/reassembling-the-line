@@ -23,6 +23,13 @@
         <li><%= link icon("error", " Report a problem"), to: "https://docs.google.com/forms/d/e/1FAIpQLSfssoCcvKgVx6Aj9RtdF16lfKVJiFHpy0G9zDXuZx1Wn5fUAw/viewform?usp=sf_link", target: "_blank", class: "text-danger" %></li>
       </ul>
     </div>
+    <div class="alert alert-warning d-md-none">
+      <p><strong>If you're recording on your phone:</strong></p>
+      <ul style="padding-left: 20px;">
+        <li>⏱️ Please limit your video to <strong>5 minutes</strong>.</li>
+        <li>📶 On a slow connection? For best results, first record the video using your phone's camera app. Then come back to this page and click "Upload Video".</li>
+      </ul>
+    </div>
   </div>
 
   <div class="col-md-7">
