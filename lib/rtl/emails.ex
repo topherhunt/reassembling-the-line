@@ -12,7 +12,7 @@ defmodule RTL.Emails do
 
     new_email()
     |> to(email)
-    |> from("rtl-noreply@topherhunt.com")
+    |> from("noreply@reassemblingtheline.com")
     |> subject("[RTL] Your log-in link")
     |> put_html_layout({RTLWeb.LayoutView, "email.html"})
     |> render("confirm_address.html", url: url)
