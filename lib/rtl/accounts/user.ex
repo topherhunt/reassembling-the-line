@@ -4,11 +4,12 @@ defmodule RTL.Accounts.User do
   import Ecto.Query
 
   schema "users" do
-    field :full_name, :string
+    field :full_name, :string # may be nil (in edge cases)
     field :email, :string
-    field :uuid, :string
-    field :auth0_uid, :string
-    field :last_signed_in_at, Timex.Ecto.DateTime
+    field :session_token, :string
+    field :last_visit_date, :date
+    field :require_name, :boolean, virtual: true
+
     timestamps()
 
     has_many :project_admin_joins, RTL.Projects.ProjectAdminJoin, foreign_key: :admin_id
@@ -21,18 +22,42 @@ defmodule RTL.Accounts.User do
 
   def changeset(struct, params \\ %{}) do
     struct
-    |> cast(params, [:full_name, :email, :auth0_uid, :last_signed_in_at])
-    |> validate_required([:full_name, :email])
-    |> populate_uuid()
-    |> unique_constraint(:uuid)
+    |> cast(params, [:full_name, :email, :session_token, :last_visit_date, :require_name])
+    |> downcase_email()
+    |> set_session_token()
+    |> validate_required([:email, :session_token])
+    |> maybe_require_name()
     |> unique_constraint(:email)
-    |> unique_constraint(:auth0_uid)
   end
 
-  defp populate_uuid(changeset) do
-    if get_field(changeset, :uuid),
-      do: changeset,
-      else: put_change(changeset, :uuid, RTL.Factory.random_uuid())
+  defp downcase_email(changeset) do
+    email = get_field(changeset, :email) || ""
+    downcased = String.downcase(email)
+
+    if email != downcased do
+      put_change(changeset, :email, downcased)
+    else
+      changeset
+    end
+  end
+
+  defp set_session_token(changeset) do
+    if get_field(changeset, :session_token) == nil do
+      put_change(changeset, :session_token, Nanoid.generate(20))
+    else
+      changeset
+    end
+  end
+
+  # To make registration seamless, we only require user's name on the "My profile" page.
+  # The user will be guided here after registration, or on subsequent login if they
+  # haven't already set their name.
+  defp maybe_require_name(changeset) do
+    if get_field(changeset, :require_name) do
+      changeset |> validate_required([:full_name])
+    else
+      changeset
+    end
   end
 
   #
@@ -44,10 +69,8 @@ defmodule RTL.Accounts.User do
   end
 
   def filter(query, :id, id), do: where(query, [u], u.id == ^id)
-  def filter(query, :uuid, uuid), do: where(query, [u], u.uuid == ^uuid)
-  def filter(query, :email, email), do: where(query, [u], u.email == ^email)
-  def filter(query, :auth0_uid, uid), do: where(query, [u], u.auth0_uid == ^uid)
-  def filter(query, :full_name, name), do: where(query, [u], u.full_name == ^name)
+  def filter(query, :email, e), do: where(query, [u], u.email == ^String.downcase(e))
+  def filter(query, :session_token, st), do: where(query, [u], u.session_token == ^st)
   def filter(query, :preload, :projects), do: preload(query, :projects)
   def filter(query, :order, :newest), do: order_by(query, [u], desc: u.id)
   def filter(query, :order, :full_name), do: order_by(query, [u], asc: u.full_name)

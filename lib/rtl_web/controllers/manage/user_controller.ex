@@ -22,6 +22,8 @@ defmodule RTLWeb.Manage.UserController do
   end
 
   def create(conn, %{"user" => user_params}) do
+    user_params = Map.put(user_params, "require_name", true)
+
     case Accounts.insert_user(user_params) do
       {:ok, user} ->
         conn
@@ -41,6 +43,8 @@ defmodule RTLWeb.Manage.UserController do
   end
 
   def update(conn, %{"user" => user_params}) do
+    user_params = Map.put(user_params, "require_name", true)
+
     case Accounts.update_user(conn.assigns.user, user_params) do
       {:ok, user} ->
         conn

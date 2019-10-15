@@ -90,10 +90,6 @@ defmodule RTLWeb.CodingInterfaceTest do
   # Helpers
   #
 
-  defp login(conn, user) do
-    navigate_to Routes.auth_path(conn, :force_login, user.uuid)
-  end
-
   defp create_tag(project) do
     name = Factory.random_uuid()
 

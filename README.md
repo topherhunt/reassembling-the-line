@@ -39,18 +39,33 @@ I've written scripts to help with batch importing videos from YouTube. Here's ho
   * A current version of ChromeDriver must be running in order for integration tests to pass.
 
 
+## Production
+
+Deploy to production:
+
+  * `git push rtl-prod master`
+  * `heroku run -a rtl-prod mix ecto.migrate`
+
+Run an iex console on the server:
+
+    heroku run -a rtl-prod "POOL_SIZE=2 iex -S mix"
+
+Register a new user:
+
+  * `heroku run -a rtl-prod iex -S mix`
+  * `RTL.Accounts.insert_user!(%{full_name: "Elmer Fudd", email: "elmer.fudd@gmail.com"})`
+
+Get the link to force login as a registered user:
+
+    heroku run mix login hunt.topher@gmail.com
+
+
+More documentation at: https://hexdocs.pm/phoenix/heroku.html
+
+
 ## Data privacy
 
 For more info on the GDPR, see: https://www.gdprsummary.com/gdpr-summary/
-
-
-## Heroku & deployment
-
-* `git push heroku-production master`
-* `heroku run -a rtl "POOL_SIZE=2 mix ecto.migrate"`
-* `heroku run -a rtl "POOL_SIZE=2 iex -S mix"`
-
-More documentation at: https://hexdocs.pm/phoenix/heroku.html
 
 
 ## Other docs & tasks

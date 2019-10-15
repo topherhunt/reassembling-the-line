@@ -39,10 +39,3 @@ IO.puts "- #{Repo.count(Video)} videos"
 IO.puts "- #{Repo.count(Coding)} codings"
 IO.puts "- #{Repo.count(Tagging)} Taggings"
 IO.puts "- #{Repo.count(Tag)} tags"
-
-# TODO: Is it possible to invoke a second mix task from a first?
-IO.puts "Login paths:"
-Enum.each(Accounts.get_users, fn(user) ->
-  path = Routes.auth_path(Endpoint, :force_login, user.uuid)
-  IO.puts "* #{user.full_name} logs in with: #{path}"
-end)

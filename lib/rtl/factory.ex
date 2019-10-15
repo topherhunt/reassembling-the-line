@@ -4,13 +4,12 @@ defmodule RTL.Factory do
   alias RTL.{Accounts, Projects, Videos}
 
   def insert_user(params \\ %{}) do
-    params = cast(params, [:full_name, :email, :uuid])
+    params = cast(params, [:full_name, :email])
     uuid = random_uuid()
 
     Accounts.insert_user!(%{
       full_name: params[:full_name] || "User #{uuid}",
       email: params[:email] || "user_#{uuid}@example.com",
-      uuid: params[:uuid] || random_uuid()
     })
   end
 
@@ -113,10 +112,7 @@ defmodule RTL.Factory do
     })
   end
 
-  def random_uuid do
-    pool = String.codepoints("ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz123456789")
-    Enum.map(1..6, fn _ -> Enum.random(pool) end) |> Enum.join()
-  end
+  def random_uuid, do: Nanoid.generate(8)
 
   #
   # Internal

@@ -14,8 +14,8 @@
       <td><%= @user.inserted_at %></td>
     </tr>
     <tr>
-      <th>Last signed in</th>
-      <td><%= @user.last_signed_in_at %></td>
+      <th>Last visited</th>
+      <td><%= @user.last_visit_date %></td>
     </tr>
     <tr>
       <td colspan="9">

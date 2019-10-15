@@ -45,7 +45,6 @@
       <% end %>
     </ul>
 
-
     <ul class="navbar-nav">
 
       <%= if @current_user do %>
@@ -75,8 +74,9 @@
           </a>
           <div class="dropdown-menu dropdown-menu-right">
             <div class="dropdown-item em small">Logged in as <%= @current_user.full_name %></div>
+            <%= link "Account settings", to: Routes.user_path(@conn, :edit), class: "dropdown-item" %>
             <%= link icon("exit_to_app", " Log out"),
-              to: Routes.auth_path(@conn, :logout),
+              to: Routes.auth_path(@conn, :log_out),
               class: "dropdown-item text-danger test-logout-link" %>
           </div>
         </li>

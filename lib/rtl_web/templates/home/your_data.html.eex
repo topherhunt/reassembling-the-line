@@ -29,7 +29,7 @@
 
   <h4>Sub-processors</h4>
 
-  <p>To provide our service, RTL relies on several trusted sub-processors: <a href="https://www.heroku.com/">Heroku</a>, <a href="https://auth0.com/">Auth0</a>, <a href="https://papertrailapp.com/">Papertrail</a>, <a href="https://rollbar.com/">Rollbar</a>, and <a href="https://aws.amazon.com/s3/">Amazon S3</a>. <a href="https://docs.google.com/spreadsheets/d/15mNVsomDdhizgNeTZWBd73wCpV7hc2rvPrnUJshwdQE/edit#gid=0" target="_blank">See this list</a> for more details.</p>
+  <p>To provide our service, RTL relies on several trusted sub-processors: <a href="https://www.heroku.com/">Heroku</a>, <a href="https://mailgun.com/">Mailgun</a>, <a href="https://papertrailapp.com/">Papertrail</a>, <a href="https://rollbar.com/">Rollbar</a>, and <a href="https://aws.amazon.com/s3/">Amazon S3</a>. <a href="https://docs.google.com/spreadsheets/d/15mNVsomDdhizgNeTZWBd73wCpV7hc2rvPrnUJshwdQE/edit#gid=0" target="_blank">See this list</a> for more details.</p>
 
   <h4>Your rights</h4>
 

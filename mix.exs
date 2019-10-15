@@ -50,8 +50,6 @@ defmodule RTL.Mixfile do
       {:absinthe, "~> 1.4"},
       {:absinthe_plug, "~> 1.4"},
       {:react_phoenix, "~> 1.0"},
-      {:ueberauth, "~> 0.6"},
-      {:ueberauth_auth0, "~> 0.3"},
       {:csv, "~> 2.2"},
       {:timex, "~> 3.5"},
       # TODO: when I upgrade to Ecto 3, remove this and work with plain datetimes instead
@@ -61,6 +59,9 @@ defmodule RTL.Mixfile do
       {:ex_aws_s3, "~> 2.0.2"},
       {:sweet_xml, "~> 0.6"},
       {:httpotion, "~> 3.1"},
+      {:nanoid, "~> 2.0"},
+      {:bamboo, "~> 1.3"},
+      {:bamboo_smtp, "~> 2.0"},
       {:hound, "~> 1.0", only: :test}
     ]
   end
@@ -68,16 +69,9 @@ defmodule RTL.Mixfile do
   # Aliases are shortcuts or tasks specific to the current project.
   defp aliases do
     [
-      test: ["ecto.create --quiet", "ecto.migrate", "test"],
-      login: ["run priv/repo/list_autologins.exs"],
-      create_user: ["run priv/repo/create_user.exs"],
-      resetdb: [
-        "ecto.drop",
-        "ecto.create",
-        "ecto.migrate",
-        "create_user \"Topher Hunt\" hunt.topher@gmail.com"
-      ],
-      import_youtube_videos: ["run priv/repo/import_youtube_videos.exs"]
+      "ecto.setup": ["ecto.create", "ecto.migrate"],
+      "ecto.reset": ["ecto.drop", "ecto.setup"],
+      test: ["ecto.create --quiet", "ecto.migrate", "test"]
     ]
   end
 end

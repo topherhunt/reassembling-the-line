@@ -3,7 +3,7 @@ defmodule RTLWeb.Router do
   use RTLWeb, :router
   # Rollbax error handler - see #handle_errors()
   use Plug.ErrorHandler
-  import RTLWeb.SessionPlugs, only: [load_current_user: 2]
+  import RTLWeb.AuthPlugs, only: [load_current_user: 2]
   import RTLWeb.SentryPlugs, only: [ensure_logged_in: 2]
 
   pipeline :browser do
@@ -28,18 +28,12 @@ defmodule RTLWeb.Router do
     get "/your_data", HomeController, :your_data
     get "/test_error", HomeController, :test_error
 
-    #
-    # Auth & session related routes
-    #
+    get "/auth/login", AuthController, :login
+    post "/auth/login_submit", AuthController, :login_submit
+    get "/auth/confirm", AuthController, :confirm
+    get "/auth/log_out", AuthController, :log_out
 
-    scope "/auth" do
-      # The Ueberauth login route redirects to Auth0's login page
-      get "/login", AuthController, :login
-      # Auth0 redirects back here after successful auth
-      get "/auth0_callback", AuthController, :auth0_callback
-      get "/logout", AuthController, :logout
-      get "/force_login/:uuid", AuthController, :force_login
-    end
+    resources "/users", UserController, singleton: true, only: [:edit, :update]
 
     #
     # Admin UI (manage structure, code videos, etc.)
@@ -103,6 +97,11 @@ defmodule RTLWeb.Router do
       get "/index", HelpController, :index
       get "/collecting_videos", HelpController, :collecting_videos
       get "/coding_page", HelpController, :coding_page
+    end
+
+    # In dev, preview all "sent" emails at localhost:4000/sent_emails
+    if Mix.env == :dev do
+      forward "/sent_emails", Bamboo.SentEmailViewerPlug
     end
   end
 

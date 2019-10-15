@@ -42,22 +42,6 @@ config :logger, :console,
   format: "$date $time $metadata[$level] $message\n",
   metadata: [:request_id]
 
-# Avoid Poison dependency
-config :oauth2, serializers: %{"application/json" => Jason}
-
-config :ueberauth, Ueberauth,
-  providers: [
-    auth0: {
-      Ueberauth.Strategy.Auth0,
-      [request_path: "/auth/login", callback_path: "/auth/auth0_callback"]
-    }
-  ]
-
-config :ueberauth, Ueberauth.Strategy.Auth0.OAuth,
-  domain: H.env!("AUTH0_DOMAIN"),
-  client_id: H.env!("AUTH0_CLIENT_ID"),
-  client_secret: H.env!("AUTH0_CLIENT_SECRET")
-
 config :ex_aws,
   access_key_id: H.env!("AWS_ACCESS_KEY_ID"),
   secret_access_key: H.env!("AWS_SECRET_ACCESS_KEY"),

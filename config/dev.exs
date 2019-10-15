@@ -35,6 +35,10 @@ config :rtl, RTLWeb.Endpoint,
     ]
   ]
 
+# Sent emails are captured in a local process for later inspection.
+# Example:
+#   MyApp.AdminEmails.unknown_heats() |> MyApp.Mailer.deliver_now()
+#   Bamboo.SentEmail.all() # => a list having one %Bamboo.Email{} struct
 config :rtl, RTL.Mailer, adapter: Bamboo.LocalAdapter
 
 config :logger, level: :debug

@@ -14,7 +14,7 @@ config :rtl, RTL.Repo,
   # long timeout to allow debugging in tests
   ownership_timeout: 20 * 60 * 1000
 
-config :rtl, RTL.Mailer, adapter: Bamboo.TestAdapter
+config :rtl, RTL.Mailer, adapter: Bamboo.LocalAdapter
 
 config :hound, driver: "chrome_driver", browser: "chrome_headless"
 

@@ -1,68 +1,73 @@
 defmodule RTLWeb.AuthController do
   use RTLWeb, :controller
   alias RTL.Accounts
-  alias RTLWeb.SessionPlugs
-  alias RTL.Helpers, as: H
   require Logger
 
-  # The Ueberauth plug magically does the following:
-  # - creates a "login" action (/auth/login) that redirects to Auth0's login page
-  # - converts Auth0's token into auth data and puts it in conn.assigns.ueberauth_*
-  plug Ueberauth
+  def login(conn, _params) do
+    render conn, "login.html"
+  end
 
-  # After successful Auth0 login, the user is redirected here
-  def auth0_callback(conn, _params) do
-    if conn.assigns[:ueberauth_failure] do
-      handle_auth_failure(conn)
-    else
-      handle_auth_success(conn)
+  def login_submit(conn, %{"user" => %{"email" => email}}) do
+    # We don't look up the user, we simply send a confirmation link to that address.
+    # We'll find or create them after we confirm that they control this address.
+    RTL.Emails.confirm_address(email) |> RTL.Mailer.deliver_now()
+    msg = "Thanks! We just emailed you a login link. Please check your inbox (#{email})."
+
+    conn
+    |> put_flash(:info, msg)
+    |> redirect(to: Routes.auth_path(conn, :login))
+  end
+
+  # The emailed login link directs here.
+  # NOTE: This endpoint must only redirect, never render html, for security reasons.
+  def confirm(conn, %{"token" => token}) do
+    case Accounts.verify_login_token(token) do
+      {:ok, email} ->
+        user = find_user(email) || register_user(email)
+        conn = RTLWeb.AuthPlugs.login!(conn, user)
+
+        # Newly registered users must fill in more info before their account is complete.
+        if user.full_name do
+          conn
+          |> put_flash(:info, "Welcome back!")
+          |> redirect(to: Routes.home_path(conn, :index))
+        else
+          conn
+          |> put_flash(:info, "Please enter your name to complete registration.")
+          |> redirect(to: Routes.user_path(conn, :edit))
+        end
+
+      _ ->
+        conn
+        |> put_flash(:error, "Hmm, that login link is too old. Please try again.")
+        |> redirect(to: Routes.auth_path(conn, :login))
     end
   end
 
-  # TODO: I should require both a user-specific uuid and a global admin PW that's
-  # only stored in the server env, not in the code or db.
-  # Or maybe if I'm using a global secret pw, I don't need user uuid, just id.
-  # TODO: Rename to force_login
-  def force_login(conn, %{"uuid" => uuid}) do
-    user = Accounts.get_user_by!(uuid: uuid)
-    Logger.info("#force_login called; logging in as user #{user.id}.")
+  def log_out(conn, _params) do
+    if conn.assigns.current_user do
+      Accounts.reset_user_sessions(conn.assigns.current_user)
+    end
 
     conn
-    |> SessionPlugs.login!(user)
-    |> put_flash(:info, "Welcome back, #{user.full_name}!")
-    |> redirect(to: Routes.manage_project_path(conn, :index))
-  end
-
-  def logout(conn, _params) do
-    conn
-    |> SessionPlugs.logout!()
-    |> redirect(external: auth0_logout_url(conn))
+    |> RTLWeb.AuthPlugs.logout!()
+    |> redirect(to: Routes.home_path(conn, :index))
   end
 
   #
-  # Internal
+  # Helpers
   #
 
-  defp handle_auth_success(conn) do
-    auth = conn.assigns.ueberauth_auth
-    user = Accounts.Services.FindOrCreateUserFromAuth.call(auth)
-
-    conn
-    |> SessionPlugs.login!(user)
-    |> put_flash(:info, "Welcome back, #{user.full_name}!")
-    |> redirect(to: "/")
+  defp find_user(email) do
+    if user = Accounts.get_user_by(email: email) do
+      Logger.info "Logged in existing user #{user.id} (#{user.email})"
+      user
+    end
   end
 
-  defp handle_auth_failure(conn) do
-    # I haven't yet seen a scenario where this is invoked, so I'll be lazy about it
-    raise("auth0_callback received failure response: #{inspect(conn.assigns)}")
-  end
-
-  defp auth0_logout_url(conn) do
-    domain = H.env!("AUTH0_DOMAIN")
-    client_id = H.env!("AUTH0_CLIENT_ID")
-    return_to = Routes.home_url(conn, :index)
-    encoded_query = URI.encode_query(client_id: client_id, returnTo: return_to)
-    "https://#{domain}/v2/logout?#{encoded_query}"
+  defp register_user(email) do
+    user = Accounts.insert_user!(%{email: email})
+    Logger.info "Registered new user #{user.id} (#{user.email})"
+    user
   end
 end

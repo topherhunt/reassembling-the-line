@@ -9,9 +9,14 @@ defmodule RTLWeb.IntegrationHelpers do
   # High-level
   #
 
+  def login(_conn, user) do
+    token = RTL.Accounts.get_login_token(user.email)
+    navigate_to Routes.auth_url(RTLWeb.Endpoint, :confirm, token: token)
+  end
+
   def login_as_new_user(conn, params \\ %{}) do
     user = Factory.insert_user(params)
-    navigate_to Routes.auth_path(conn, :force_login, user.uuid)
+    login(conn, user)
     user
   end
 
