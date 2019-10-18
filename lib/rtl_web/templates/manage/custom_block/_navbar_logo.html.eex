@@ -1,0 +1,1 @@
+<%= link icon("video_library", " Reassembling the Line"), to: Routes.home_path(@conn, :index), class: "navbar-brand text-info" %>

@@ -47,6 +47,7 @@ defmodule RTLWeb do
       import Phoenix.Controller, only: [get_flash: 2, view_module: 1]
       import Phoenix.LiveView, only: [live_render: 2, live_render: 3]
       import RTL.Sentry, only: [is_superadmin?: 1, can_manage_project?: 2]
+      import RTLWeb.CustomBlockHelpers, only: [custom_block: 2]
       import RTLWeb.Gettext
       import RTLWeb.{ErrorHelpers, DateHelpers, RouteHelpers, TextHelpers}
 

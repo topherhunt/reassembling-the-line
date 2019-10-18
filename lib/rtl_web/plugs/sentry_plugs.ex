@@ -2,14 +2,16 @@ defmodule RTLWeb.SentryPlugs do
   import Plug.Conn, only: [assign: 3, halt: 1]
   import Phoenix.Controller, only: [put_flash: 3, redirect: 2]
   alias RTLWeb.Router.Helpers, as: Routes
-  alias RTL.{Sentry, Projects}
+  alias RTL.Sentry
+  alias RTL.Projects
 
   #
   # Plugs
   #
 
   def load_project(conn, _) do
-    project = Projects.get_project_by!(uuid: conn.params["project_uuid"])
+    uuid = conn.params["project_uuid"]
+    project = Projects.get_project_by!(uuid: uuid, preload: :custom_blocks)
     assign(conn, :project, project)
   end
 

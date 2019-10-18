@@ -74,7 +74,7 @@
 
     <%= if is_superadmin?(@current_user) do %>
       <div class="u-card">
-        <h4>Custom settings</h4>
+        <h4>Settings</h4>
         <%= for field <- Map.keys(RTL.Projects.ProjectSetting.valid_fields()) do %>
           <div class="u-relative pb-2">
             <div><code><%= field %></code></div>
@@ -86,6 +86,12 @@
             <div class="u-abs-top-right" style="top: 0px; right: 0px;"><%= link "edit", to: Routes.manage_project_setting_path(@conn, :edit, @project, field) %></div>
           </div>
         <% end %>
+      </div>
+
+      <div class="u-card">
+        <h4>Custom blocks</h4>
+
+        <p><%= link "manage", to: Routes.manage_custom_block_path(@conn, :index, @project), class: "btn btn-light" %></p>
       </div>
     <% end %>
   </div>

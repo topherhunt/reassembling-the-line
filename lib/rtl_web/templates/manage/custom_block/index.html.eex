@@ -1,0 +1,36 @@
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><%= link "Manage projects", to: Routes.manage_project_path(@conn, :index) %></li>
+    <li class="breadcrumb-item"><%= link @project.name, to: Routes.manage_project_path(@conn, :show, @project) %></li>
+    <li class="breadcrumb-item active">Custom blocks</li>
+  </ol>
+</nav>
+
+<h1>Custom blocks</h1>
+
+<p>
+  <%= link "Export all to JSON", to: Routes.manage_custom_block_path(@conn, :export, @project) %>
+  &nbsp;
+  <%= link "Import from JSON", to: Routes.manage_custom_block_path(@conn, :import, @project) %>
+</p>
+
+<table class="table">
+  <%= for template <- @templates do %>
+    <tr>
+      <td>
+        <div><strong><code><%= template.label %></code></strong></div>
+        <div class="text-muted"><%= template.description %></div>
+      </td>
+      <td class="u-nowrap">
+        <% block = @project.custom_blocks |> Enum.find(& &1.label == template.label) %>
+        <%= if block do %>
+          <strong>customized</strong>
+        <% else %>
+          default
+        <% end %>
+        &nbsp;
+        <%= link "edit", to: Routes.manage_custom_block_path(@conn, :edit, @project, template.label) %>
+      </td>
+    </tr>
+  <% end %>
+</table>

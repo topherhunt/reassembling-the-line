@@ -1,0 +1,3 @@
+<h1><%= @project.name %></h1>
+<% owner = RTL.Accounts.get_user_by!(admin_on_project: @project) %>
+<p>This project is run by <a href="mailto:<%= owner.email %>"><%= owner.full_name %></a> using the <%= link "RTL", to: "/" %> platform.</p>

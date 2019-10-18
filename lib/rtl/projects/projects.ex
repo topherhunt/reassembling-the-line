@@ -2,10 +2,10 @@
 defmodule RTL.Projects do
   import Ecto.Query, warn: false
   alias RTL.Repo
-  alias RTL.Projects.{Project, Prompt, ProjectAdminJoin}
+  alias RTL.Projects.{Project, Prompt, ProjectAdminJoin, CustomBlock}
 
   #
-  # Project schema
+  # Projects
   #
 
   def get_project(id, filt \\ []), do: get_project_by(Keyword.merge([id: id], filt))
@@ -26,7 +26,7 @@ defmodule RTL.Projects do
   def project_changeset(project, params \\ %{}), do: Project.changeset(project, params)
 
   #
-  # Prompt schema
+  # Prompts
   #
 
   def get_prompt(id, filt \\ []), do: get_prompt_by(Keyword.merge([id: id], filt))
@@ -46,7 +46,7 @@ defmodule RTL.Projects do
   def prompt_changeset(prompt, params \\ %{}), do: Prompt.changeset(prompt, params)
 
   #
-  # ProjectAdminJoin schema
+  # ProjectAdminJoins
   #
 
   def is_project_admin?(user, %Project{} = project) do
@@ -64,6 +64,27 @@ defmodule RTL.Projects do
     from(j in ProjectAdminJoin, where: [project_id: ^project.id, admin_id: ^user.id])
     |> Repo.delete_all()
   end
+
+  #
+  # Custom blocks
+  #
+
+  def get_custom_block(id, filt \\ []), do: query_custom_blocks([{:id, id} | filt]) |> Repo.one()
+  def get_custom_block!(id, filt \\ []), do: query_custom_blocks([{:id, id} | filt]) |> Repo.one!()
+  def get_custom_block_by(filt), do: query_custom_blocks(filt) |> Repo.first()
+  def get_custom_block_by!(filt), do: query_custom_blocks(filt) |> Repo.first!()
+  def get_custom_blocks(filt \\ []), do: query_custom_blocks(filt) |> Repo.all()
+  def count_custom_blocks(filt \\ []), do: query_custom_blocks(filt) |> Repo.count()
+  def query_custom_blocks(filt), do: CustomBlock |> CustomBlock.apply_filters(filt)
+
+  def insert_custom_block(params), do: new_custom_block_changeset(params) |> Repo.insert()
+  def insert_custom_block!(params), do: new_custom_block_changeset(params) |> Repo.insert!()
+  def update_custom_block(b, params), do: custom_block_changeset(b, params) |> Repo.update()
+  def update_custom_block!(b, params), do: custom_block_changeset(b, params) |> Repo.update!()
+  def delete_custom_block!(b), do: Repo.delete!(b)
+
+  def new_custom_block_changeset(changes \\ %{}), do: CustomBlock.changeset(%CustomBlock{}, changes)
+  def custom_block_changeset(b, changes \\ %{}), do: CustomBlock.changeset(b, changes)
 
   #
   # Pubsub stuff

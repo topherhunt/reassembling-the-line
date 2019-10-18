@@ -17,6 +17,7 @@ defmodule RTL.Projects.Project do
     has_many :project_admin_joins, RTL.Projects.ProjectAdminJoin
     has_many :admins, through: [:project_admin_joins, :admin]
     has_many :prompts, RTL.Projects.Prompt
+    has_many :custom_blocks, RTL.Projects.CustomBlock
   end
 
   #
@@ -59,7 +60,7 @@ defmodule RTL.Projects.Project do
   def filter(query, :prompt, prom), do: Q.where(query, [p], p.prompt_id == ^prom.id)
   def filter(query, :order, :newest), do: Q.order_by(query, [p], desc: p.id)
   def filter(query, :order, :name), do: Q.order_by(query, [p], asc: p.name)
-  def filter(query, :preload, :admins), do: Q.preload(query, :admins)
+  def filter(query, :preload, p), do: Q.preload(query, ^p)
 
   def filter(query, :visible_to, user) do
     if RTL.Sentry.is_superadmin?(user),

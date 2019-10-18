@@ -50,9 +50,14 @@ defmodule RTLWeb.Router do
         patch "/settings/:field/", Manage.ProjectSettingController, :update
         patch "/settings/:field/clear", Manage.ProjectSettingController, :clear
 
+        resources "/custom_blocks", Manage.CustomBlockController,
+          only: [:index, :edit, :update, :delete], param: "label"
+        get "/custom_blocks/export", Manage.CustomBlockController, :export
+        get "/custom_blocks/import", Manage.CustomBlockController, :import
+        post "/custom_blocks/import_submit", Manage.CustomBlockController, :import_submit
+
         resources "/prompts", Manage.PromptController,
-          except: [:index, :show],
-          param: "prompt_uuid"
+          except: [:index, :show], param: "prompt_uuid"
 
         resources "/videos", Manage.VideoController, only: [:index, :new, :create]
 

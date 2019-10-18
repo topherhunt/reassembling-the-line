@@ -1,0 +1,7 @@
+<div class="text-center small">
+  <strong><%= link "Reassembling the Line", to: "/" %></strong>
+  &nbsp; &nbsp;
+  <%= link "Your data", to: Routes.home_path(@conn, :your_data), target: "_blank" %>
+  &nbsp; &nbsp;
+  <%= link "Contact us", to: contact_us_url(), target: "_blank" %>
+</div>
