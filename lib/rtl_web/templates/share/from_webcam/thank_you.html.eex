@@ -1,15 +1,1 @@
-<div class="u-centered-600">
-  <% content = project_setting(@project, "thank_you_page") %>
-  <%= if content do %>
-    <%# TODO: sanitize all html injections from ProjectSettings? %>
-    <%= raw(content) %>
-  <% else %>
-    <h1>🎉 Thank you 🎉</h1>
-
-    <p>Thank you for taking the time to share your story as part of the <strong><%= @project.name %></strong> project. To learn more about the project, or to reach the project owner, click the link below.</p>
-
-    <p class="text-center">
-      <%= link "About this project", to: Routes.explore_project_path(@conn, :show, @project) %>
-    </p>
-  <% end %>
-</div>
+<%= custom_block @conn, "thank_you_page" %>

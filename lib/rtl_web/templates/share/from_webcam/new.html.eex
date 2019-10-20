@@ -1,10 +1,9 @@
 <div class="test-page-new-from-webcam"></div>
 
-<h1>Share your story</h1>
-
 <div class="row">
   <div class="col-md-5 order-md-2">
     <div class="alert alert-info">
+      <h1></h1> <%# just to align spacing %>
       <p class="mb-2"><strong>How to use this page:</strong></p>
       <ol style="padding-left: 20px;">
         <li>Read the question. Think about what you want to say.</li>
@@ -33,12 +32,7 @@
   </div>
 
   <div class="col-md-7">
-    <% intro = project_setting(@project, "webcam_recording_intro") %>
-    <%= if intro do %>
-      <%= raw(intro) %>
-    <% else %>
-      <p>Thank you for taking the time to share your experience! I hope you find it rewarding. And we'll do our best to enable your voice to inspire change on issues that matter to you.</p>
-    <% end %>
+    <%= custom_block @conn, "recording_page_intro" %>
 
     <h5>The question:</h5>
     <div class="text-success" style="font-size: 1.1em;">
@@ -46,7 +40,6 @@
     </div>
 
     <div class="pb-4"></div>
-
 
     <div class="u-box-shadow" style="width: 100%; min-height: 200px; overflow: hidden; border-radius: 10px; margin-bottom: 10px;">
       <div id="ziggeo-recorder" style="width: 100%;"></div>
@@ -105,13 +98,7 @@
 
         <div class="u-card u-box-shadow">
           <h4 class="text-danger">Data consent</h4>
-          <div>
-            <%= if text = project_setting(@project, "recording_consent_text") do %>
-              <%= raw(text) %>
-            <% else %>
-              By clicking the button below, you're giving consent for Reassembling the Line to store your data as part of this project, <%= link @project.name, to: Routes.explore_project_path(@conn, :show, @project), target: "_blank" %>. See our <%= link "data privacy policy", to: Routes.home_path(@conn, :your_data), target: "_blank" %> for more information.
-            <% end %>
-          </div>
+          <div><%= custom_block @conn, "recording_page_consent_text" %></div>
         </div>
 
         <%= hidden_input f, :prompt_id, value: @prompt.id %>

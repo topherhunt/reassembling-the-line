@@ -1,26 +1,5 @@
 <nav class="navbar navbar-expand-sm navbar-light bg-light">
-  <%= if @conn.assigns[:project] do %>
-
-    <% logo_image_url = project_setting(@project, "logo_image_url") %>
-    <% logo_link_url = project_setting(@project, "logo_link_url") %>
-    <%= if logo_image_url do %>
-      <%= if logo_link_url do %>
-        <%= link to: logo_link_url, class: "navbar-brand", target: "_blank" do %>
-          <img src="<%= logo_image_url %>" style="height: 40px" />
-        <% end %>
-      <% else %>
-        <span class="navbar-brand">
-          <img src="<%= logo_image_url %>" style="height: 40px" />
-        </span>
-      <% end %>
-    <% end %>
-
-    <%= link @project.name, to: Routes.explore_project_path(@conn, :show, @project), class: "navbar-brand" %>
-  <% else %>
-    <%= link icon("video_library", " Reassembling the Line"),
-      to: Routes.home_path(@conn, :index),
-      class: "navbar-brand text-info" %>
-  <% end %>
+  <%= custom_block @conn, "navbar_logo" %>
 
   <button class="navbar-toggler" data-toggle="collapse" data-target="#navbar-content">
     <span class="navbar-toggler-icon"></span>
