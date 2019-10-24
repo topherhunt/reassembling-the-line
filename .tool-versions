@@ -1,0 +1,11 @@
+# asdf tool version specification
+# To use it:
+#   * Install asdf: https://asdf-vm.com/#/core-manage-asdf-vm
+#   * `asdf plugin install erlang`
+#   * `asdf plugin install elixir`
+#   * Install Erlang deps: https://github.com/asdf-vm/asdf-erlang#before-asdf-install
+#   * Run `asdf install` (watch for any errors during Erlang build!
+#   * Run your normal `mix` and `iex` commands as you normally would
+
+erlang 21.0.6
+elixir 1.8.1-otp-21
