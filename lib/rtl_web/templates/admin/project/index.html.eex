@@ -1,0 +1,20 @@
+<div class="test-page-manage-project-list" ></div>
+<h1>Projects</h1>
+
+<%= for project <- @projects do %>
+
+  <div class="u-card">
+    <div>
+      <%= link project.name, to: Routes.admin_project_path(@conn, :show, project), class: "test-link-show-project-#{project.id}" %>
+    </div>
+
+    <div class="small">
+      Created <%= print_date(project.inserted_at) %>
+      &nbsp;
+      TODO: List current admins & basic stats
+    </div>
+  </div>
+
+<% end %>
+
+<%= link "+ New project", to: Routes.admin_project_path(@conn, :new), class: "test-link-new-project" %>

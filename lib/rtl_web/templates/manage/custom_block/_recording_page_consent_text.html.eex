@@ -1,1 +1,0 @@
-By clicking the button below, you're giving consent for Reassembling the Line to store your data as part of this project, <%= link @project.name, to: Routes.explore_project_path(@conn, :show, @project), target: "_blank" %>. See our <%= link "data policy", to: Routes.home_path(@conn, :your_data), target: "_blank" %> for more information.

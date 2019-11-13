@@ -1,0 +1,17 @@
+<div class="test-page-edit-prompt-<%= @prompt.id %>" ></div>
+
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><%= link "Manage projects", to: Routes.admin_project_path(@conn, :index) %></li>
+    <li class="breadcrumb-item"><%= link @project.name, to: Routes.admin_project_path(@conn, :show, @project) %></li>
+    <li class="breadcrumb-item active">
+      <%= "Edit question: "<> ellipsis(HtmlSanitizeEx.strip_tags(@prompt.html), 30) %>
+    </li>
+  </ol>
+</nav>
+
+<h1>Edit question</h1>
+
+<%= render "_form.html",
+  changeset: @changeset,
+  path: Routes.admin_prompt_path(@conn, :update, @project, @prompt) %>

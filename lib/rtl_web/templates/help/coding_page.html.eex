@@ -10,6 +10,8 @@
     </div>
   </div>
 
+  <hr>
+
   <div class="row">
     <div class="col-sm-6">
       <h3>1. The video</h3>
@@ -22,6 +24,8 @@
       <img class="u-box-shadow" src="/images/help/coding_page_video.jpg" style="width: 100%;">
     </div>
   </div>
+
+  <hr>
 
   <div class="row">
     <div class="col-sm-6">
@@ -38,6 +42,8 @@
     </div>
   </div>
 
+  <hr>
+
   <div class="row">
     <div class="col-sm-6">
       <h3>3. The tag list</h3>
@@ -51,6 +57,8 @@
       <img class="u-box-shadow" src="/images/help/coding_page_tags.jpg" style="width: 100%;">
     </div>
   </div>
+
+  <hr>
 
   <div class="row">
     <div class="col-sm-6">
@@ -68,7 +76,7 @@
   <div class="row">
     <div class="col-sm-1"></div>
     <div class="col-sm-10 u-card">
-      <h3 class="text-info">This page is a work-in-progress. Suggestions welcome!</h3>
+      <p class="text-info"><strong>This page is a work-in-progress. Suggestions welcome!</strong></p>
       <p>We want the tagging page to be as easy and <span class="text-success">delightful</span> to use as possible. If you're running into trouble or aren't sure how to do the thing you need, <%= link "please send us a note!", to: contact_us_url(), target: "_blank" %></p>
     </div>
   </div>

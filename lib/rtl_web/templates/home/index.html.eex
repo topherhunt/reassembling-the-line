@@ -21,7 +21,7 @@
     <%= if @demo_project do %>
       <p>
         <%= link "Check out a demo project",
-          to: Routes.explore_project_path(@conn, :show, @demo_project),
+          to: Routes.project_path(@conn, :show, @demo_project),
           class: "btn btn-outline-info" %>
       </p>
     <% end %>

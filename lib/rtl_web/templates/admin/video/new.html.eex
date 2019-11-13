@@ -1,0 +1,86 @@
+<%# NOTE: This page should ~90% mirror from_webcam/new, but has enough differences that de-duplicating it would be tough. Watch out for introducing subtle JS bugs, since it's hard to test end-to-end. %>
+
+<div class="test-page-manage-video-new"></div>
+
+<h1>Upload a video</h1>
+
+<p>Use this page to manually upload a recording. This is useful if the interview was captured offline and saved to a file.</p>
+
+<div class="js-admin-upload-video-form">
+  <%= form_for @changeset, Routes.admin_video_path(@conn, :create, @project), [class: "js-suppress-enter"], fn(f) -> %>
+
+    <div class="form-group">
+      <div><strong>Video recording</strong> <span class="text-danger">(required)</span></div>
+      <div class="em small">A recording in <strong>.webm or .mp4</strong> format.</div>
+      <input type="file" class="js-recording-attachment form-control" accept="video/mp4,video/*">
+    </div>
+
+    <div class="form-group">
+      <div><strong>Thumbnail</strong> <span class="text-danger">(required)</span></div>
+      <div class="em small">A <strong>.jpg</strong> image that will be shown in the playlist etc.</div>
+      <input type="file" class="js-thumbnail-attachment form-control" accept="image/jpeg">
+    </div>
+
+    <div class="form-group">
+      <%= label f, :prompt_id do %>
+        <strong>Prompt</strong>
+      <% end %>
+      <%= select f, :prompt_id, Enum.map(@prompts, & {HtmlSanitizeEx.strip_tags(&1.html), &1.id}), class: "form-control" %>
+    </div>
+
+    <div class="form-group">
+      <%= label f, :speaker_name do %>
+        <strong>Speaker's name</strong>
+        <span class="text-danger u-tooltip-target">
+          (required)
+          <div class="u-tooltip">We need to know the speaker's name in order to protect their data ownership rights.</div>
+        </span>
+      <% end %>
+      <%= text_input f, :speaker_name, class: "form-control" %>
+    </div>
+
+    <div class="form-group">
+      <label>
+        <%= checkbox f, :permission_show_name, checked: true %>
+        <span class="pl-2">Speaker has given permission for their name to be shown alongside this video.</span>
+      </label>
+    </div>
+
+    <div class="u-card u-box-shadow">
+      <h4 class="text-danger">Data consent</h4>
+      <div><%= custom_block @conn, "recording_page_consent_text" %></div>
+    </div>
+
+    <%= hidden_input f, :thumbnail_filename, value: "TO POPULATE", class: "js-thumbnail-filename" %>
+    <%= hidden_input f, :recording_filename, value: "TO POPULATE", class: "js-recording-filename" %>
+    <%= link "Submit", to: "#", class: "js-upload-and-submit-btn btn btn-primary" %>
+    <%= submit " ", class: "js-submit-form-btn js-hidden", style: "display: none;" %>
+
+  <% end %>
+</div>
+
+<div class="row">
+  <div class="col-sm-8">
+    <div class="js-upload-urls"
+      data-uuid='<%= @filename_uuid %>'
+      data-urls='<%= Jason.encode!(@presigned_upload_urls) %>'></div>
+
+    <div class="js-upload-progress-container js-hidden">
+      <p><strong>Uploading.</strong> Do not close or refresh the page until the upload is complete.</p>
+      <div class="progress">
+        <div class="progress-bar progress-bar-striped active" role="progressbar" style="width: 1%;"></div>
+      </div>
+    </div>
+
+    <div class="js-upload-failed alert alert-danger js-hidden">
+      <p><strong>There was an error uploading the recording.</strong></p>
+      <ul>
+        <li><%= link "Retry upload", to: "#", class: "js-retry-upload" %></li>
+      </ul>
+      <p></p>
+      <p></p>
+    </div>
+  </div>
+</div>
+
+<div style="height: 100px;"></div>

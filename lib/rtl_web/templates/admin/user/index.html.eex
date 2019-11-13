@@ -1,0 +1,22 @@
+<div class="test-page-manage-user-list"></div>
+<h1>Users</h1>
+
+<%= Enum.map(@users, fn(user) -> %>
+
+  <div class="u-card">
+    <div class="userRow__title">
+      <%= link user.full_name, to: Routes.admin_user_path(@conn, :show, user) %>
+    </div>
+
+    <div class="small">
+      Created: <%= print_date(user.inserted_at) %>
+      &nbsp;
+      Last visited: <%= print_date(user.last_visit_date) %>
+      &nbsp;
+      Admin of <%= length(user.projects) %> projects
+    </div>
+  </div>
+
+<% end) %>
+
+<%= link "+ New user", to: Routes.admin_user_path(@conn, :new), class: "btn btn-outline-primary test-link-new-user" %>

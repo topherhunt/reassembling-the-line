@@ -17,8 +17,21 @@ defmodule RTLWeb.Router do
     plug :load_current_user
   end
 
-  pipeline :require_login do
+  pipeline :admin do
     plug :ensure_logged_in
+  end
+
+  pipeline :api do
+    plug :accepts, ["json"]
+    plug :fetch_session
+    plug :load_current_user
+  end
+
+  pipeline :graphql do
+    plug :accepts, ["json"]
+    plug :fetch_session
+    plug :load_current_user
+    plug :set_absinthe_context
   end
 
   scope "/", RTLWeb do
@@ -28,6 +41,10 @@ defmodule RTLWeb.Router do
     get "/your_data", HomeController, :your_data
     get "/test_error", HomeController, :test_error
 
+    get "/help", HelpController, :index
+    get "/help/collecting_videos", HelpController, :collecting_videos
+    get "/help/coding_page", HelpController, :coding_page
+
     get "/auth/login", AuthController, :login
     post "/auth/login_submit", AuthController, :login_submit
     get "/auth/confirm", AuthController, :confirm
@@ -36,68 +53,53 @@ defmodule RTLWeb.Router do
     resources "/users", UserController, singleton: true, only: [:edit, :update]
 
     #
-    # Admin UI (manage structure, code videos, etc.)
+    # Admin- and superadmin-facing routes
     #
 
-    scope "/manage", as: :manage do
-      pipe_through :require_login
+    scope "/admin", as: :admin do
+      pipe_through :admin
 
-      resources "/users", Manage.UserController
-      resources "/projects", Manage.ProjectController, param: "project_uuid"
+      resources "/users", Admin.UserController
+      resources "/projects", Admin.ProjectController, param: "project_uuid"
+
+      resources "/project_admin_joins", Admin.ProjectAdminJoinController,
+        only: [:create, :delete]
 
       scope "/projects/:project_uuid" do
-        resources "/custom_blocks", Manage.CustomBlockController,
+        resources "/custom_blocks", Admin.CustomBlockController,
           only: [:index, :edit, :update, :delete], param: "label"
-        get "/custom_blocks/export", Manage.CustomBlockController, :export
-        get "/custom_blocks/import", Manage.CustomBlockController, :import
-        post "/custom_blocks/import_submit", Manage.CustomBlockController, :import_submit
+        get "/custom_blocks/export", Admin.CustomBlockController, :export
+        get "/custom_blocks/import", Admin.CustomBlockController, :import
+        post "/custom_blocks/import_submit", Admin.CustomBlockController, :import_submit
 
-        resources "/prompts", Manage.PromptController,
+        resources "/prompts", Admin.PromptController,
           except: [:index, :show], param: "prompt_uuid"
 
-        resources "/videos", Manage.VideoController, only: [:index, :new, :create]
+        resources "/videos", Admin.VideoController, only: [:index, :new, :create]
+        get "/videos/:video_id/code", Admin.VideoController, :code
+        post "/videos/:video_id/mark_coded", Admin.VideoController, :mark_coded
 
-        scope "/videos/:video_id" do
-          get "/code", Manage.VideoController, :code
-          post "/mark_coded", Manage.VideoController, :mark_coded
-        end
-
-        get "/export_videos", Manage.VideoExportController, :new
-        get "/import_videos", Manage.VideoImportController, :new
-        post "/import_videos", Manage.VideoImportController, :create
+        get "/export_videos", Admin.VideoExportController, :new
+        get "/import_videos", Admin.VideoImportController, :new
+        post "/import_videos", Admin.VideoImportController, :create
       end
-
-      # Not scoped under /projects/:id so we can add a join from either direction
-      resources "/project_admin_joins", Manage.ProjectAdminJoinController,
-        only: [:create, :delete]
     end
 
     #
-    # Public-facing UI (share your story, explore results, etc.)
+    # Public-facing project-related routes
     #
 
     scope "/projects/:project_uuid" do
-      scope "/share", as: :share do
-        scope "/prompts/:prompt_uuid" do
-          resources "/from_webcam", Share.FromWebcamController, only: [:new, :create]
-          get "/from_webcam/thank_you", Share.FromWebcamController, :thank_you
-        end
-      end
+      get "/", ProjectController, :show
 
-      scope "/explore", as: :explore do
-        get "/", Explore.ProjectController, :show
+      resources "/prompts/:prompt_uuid/videos", VideoController, only: [:new, :create]
+      get "/videos/thank_you", VideoController, :thank_you
+      get "/videos/:id", VideoController, :show
+      # Legacy URL for webcam recording page
+      get "/share/prompts/:prompt_uuid/from_webcam/new", VideoController, :new
 
-        get "/clips/", Explore.ClipController, :index
-        get "/clips/playlist", Explore.ClipController, :playlist
-
-        get "/videos/:id", Explore.VideoController, :show
-      end
-    end
-
-    scope "/help" do
-      get "/index", HelpController, :index
-      get "/collecting_videos", HelpController, :collecting_videos
-      get "/coding_page", HelpController, :coding_page
+      get "/results/", ResultsController, :index
+      get "/results/playlist", ResultsController, :playlist
     end
 
     # In dev, preview all "sent" emails at localhost:4000/sent_emails
@@ -106,23 +108,10 @@ defmodule RTLWeb.Router do
     end
   end
 
-  pipeline :api do
-    plug :accepts, ["json"]
-    plug :fetch_session
-    plug :load_current_user
-  end
-
   scope "/api", RTLWeb do
     pipe_through :api
 
     post "/log", Api.LogController, :log
-  end
-
-  pipeline :graphql do
-    plug :accepts, ["json"]
-    plug :fetch_session
-    plug :load_current_user
-    plug :set_absinthe_context
   end
 
   scope "/graphql" do

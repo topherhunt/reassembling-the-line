@@ -1,0 +1,102 @@
+<div class="test-page-new-from-webcam"></div>
+
+<div class="row">
+  <div class="col-md-5 order-md-2">
+    <div class="alert alert-info">
+      <h1></h1> <%# just to align spacing %>
+      <p class="mb-2"><strong>How to use this page:</strong></p>
+      <ol style="padding-left: 20px;">
+        <li>Read the question. Think about what you want to say.</li>
+        <li>Click on <strong class="text-danger">Record Video</strong> to set up the camera. Make sure your face is centered in the picture.</li>
+        <li>When you're ready to start, click <strong class="text-danger">Record</strong>.</li>
+        <li>
+          Tell your story! You'll have <strong>up to 5 minutes</strong> to speak.
+          If you're not confident speaking in English, feel free to use 🇳🇱 Dutch, 🇩🇪 German, or 🇪🇸 Spanish.
+        </li>
+        <li>Once you're done, click <strong class="text-danger">Stop</strong>. You'll get a chance to review, re-do, or download your recording before you submit it.</li>
+      </ol>
+
+      <p>Resources:</p>
+      <ul style="padding-left: 20px;">
+        <li><%= link icon("ondemand_video", " How to record a great video"), to: "https://www.youtube.com/watch?v=rQwanxQmFnc&feature=youtu.be", target: "_blank", class: "text-primary" %></li>
+        <li><%= link icon("error", " Report a problem"), to: "https://docs.google.com/forms/d/e/1FAIpQLSfssoCcvKgVx6Aj9RtdF16lfKVJiFHpy0G9zDXuZx1Wn5fUAw/viewform?usp=sf_link", target: "_blank", class: "text-danger" %></li>
+      </ul>
+    </div>
+    <div class="alert alert-warning d-md-none">
+      <p><strong>If you're recording on your phone:</strong></p>
+      <ul style="padding-left: 20px;">
+        <li>⏱️ Please limit your video to <strong>5 minutes</strong>.</li>
+        <li>📶 On a slow connection? For best results, first record the video using your phone's camera app. Then come back to this page and click "Upload Video".</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="col-md-7">
+    <%= custom_block @conn, "recording_page_intro" %>
+
+    <h5>The question:</h5>
+    <div class="text-success" style="font-size: 1.1em;">
+      <%= raw HtmlSanitizeEx.basic_html(@prompt.html) %>
+    </div>
+
+    <div class="pb-4"></div>
+
+    <div class="u-box-shadow" style="width: 100%; min-height: 200px; overflow: hidden; border-radius: 10px; margin-bottom: 10px;">
+      <div id="ziggeo-recorder" style="width: 100%;"></div>
+    </div>
+
+    <div class="pb-4"></div>
+
+    <div class="js-ziggeo-processing js-hidden">
+      <p><strong class="text-warning">We're preparing your video.</strong> Please don't close or refresh the page.</p>
+
+      <div class="progress">
+        <div class="progress-bar progress-bar-striped active" role="progressbar" style="width: 1%;"></div>
+      </div>
+    </div>
+
+    <div class="js-interview-form-container js-hidden">
+      <div class="alert alert-info">
+        <p>Your video is ready! Click on it to play it. To start over, click <strong>Redo</strong>.</p>
+        <p class="mb-0">When you're happy, fill in the fields below, then click <strong>Submit</strong>.</p>
+      </div>
+
+      <%= form_for @changeset, Routes.video_path(@conn, :create, @project, @prompt), [class: "js-suppress-enter"], fn(f) -> %>
+
+        <div class="form-group">
+          <div>
+            <strong>Name</strong>
+            <span class="text-danger u-tooltip-target">
+              (required)
+              <div class="u-tooltip">We need to know your name in order to protect your data ownership rights for this recording. Please feel free to reach out if you have any questions!</div>
+            </span>
+          </div>
+          <%= text_input f, :speaker_name, class: "form-control", placeholder: "Your name" %>
+        </div>
+
+        <div class="form-group">
+          <label>
+            <%= checkbox f, :permission_show_name, checked: true %>
+            <span class="pl-2">Show my name when showing this video</span>
+          </label>
+        </div>
+
+        <div class="u-card u-box-shadow">
+          <h4 class="text-danger">Data consent</h4>
+          <div><%= custom_block @conn, "recording_page_consent_text" %></div>
+        </div>
+
+        <%= hidden_input f, :prompt_id, value: @prompt.id %>
+        <%= hidden_input f, :recording_filename, value: "TO POPULATE", class: "js-recording-filename" %>
+        <%= hidden_input f, :thumbnail_filename, value: "TO POPULATE", class: "js-thumbnail-filename" %>
+
+        <div class="text-center">
+          <%= submit "Submit your recording", class: "js-form-submit btn btn-primary" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<%# Bottom buffer %>
+<div class="pb-5"></div>

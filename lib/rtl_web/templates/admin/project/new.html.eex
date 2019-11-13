@@ -1,0 +1,12 @@
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><%= link "Manage projects", to: Routes.admin_project_path(@conn, :index) %></li>
+    <li class="breadcrumb-item">New project</li>
+  </ol>
+</nav>
+
+<h1>New project</h1>
+
+<%= render "_form.html",
+  changeset: @changeset,
+  path: Routes.admin_project_path(@conn, :create) %>

@@ -1,0 +1,59 @@
+<div class="test-page-show-user-<%= @user.id %>"></div>
+<h1>User: <%= @user.full_name %></h1>
+
+<div class="u-card">
+  <h4>Basic info</h4>
+
+  <table class="table">
+    <tr>
+      <th>Email</th>
+      <td><%= @user.email %></td>
+    </tr>
+    <tr>
+      <th>Date created</th>
+      <td><%= @user.inserted_at %></td>
+    </tr>
+    <tr>
+      <th>Last visited</th>
+      <td><%= @user.last_visit_date %></td>
+    </tr>
+    <tr>
+      <td colspan="9">
+        <%= link "edit", to: Routes.admin_user_path(@conn, :edit, @user), class: "text-warning test-link-edit-user-#{@user.id}" %>
+      </td>
+    </tr>
+  </table>
+
+
+</div>
+
+<div class="u-card">
+  <h4>Projects I'm admin of:</h4>
+
+  <table class="table">
+    <%= for join <- @user.project_admin_joins do %>
+      <tr>
+        <td>
+          <%= link join.project.name,
+            to: Routes.admin_project_path(@conn, :show, join.project) %></td>
+        <td>
+          <%= link "remove",
+            to: Routes.admin_project_admin_join_path(@conn, :delete, join, project_id: join.project.id, admin_id: @user.id, return_to: @conn.request_path),
+            method: :delete,
+            class: "text-danger",
+            data_confirm: "Really revoke my access on this project?" %>
+        </td>
+      </tr>
+    <% end %>
+  </table>
+
+  <%= form_for @conn, Routes.admin_project_admin_join_path(@conn, :create), [method: :post], fn(f) -> %>
+    Make me admin on a project:
+    &nbsp;
+    <%= hidden_input f, :return_to, value: @conn.request_path %>
+    <%= hidden_input f, :admin_id, value: @user.id %>
+    <%= select f, :project_id, id_and_label_for_projects(@addable_projects), class: "js-chosen-select" %>
+    &nbsp;
+    <%= submit("Add", class: "btn btn-outline-primary btn-sm") %>
+  <% end %>
+</div>

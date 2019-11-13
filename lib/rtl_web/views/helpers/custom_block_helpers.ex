@@ -36,6 +36,6 @@ defmodule RTLWeb.CustomBlockHelpers do
   # Note: For some blocks, project may be nil.
   def default_block(conn, label) do
     project = conn.assigns[:project]
-    RTLWeb.Manage.CustomBlockView.render("_#{label}.html", conn: conn, project: project)
+    RTLWeb.Admin.CustomBlockView.render("_#{label}.html", conn: conn, project: project)
   end
 end

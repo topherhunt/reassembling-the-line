@@ -18,7 +18,7 @@ var PlaylistHelper = {
       method: 'GET',
       // TODO: There should be a client-side RouteHelper that has the authoritative
       // list of all valid routes.
-      url: '/projects/'+project_uuid+'/explore/clips/playlist?tags='+tags_query,
+      url: '/projects/'+project_uuid+'/results/playlist?tags='+tags_query,
       success: function(data) {
         this.handle_new_playlist_data(data.playlist)
       }.bind(this),

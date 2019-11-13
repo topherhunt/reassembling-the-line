@@ -12,7 +12,7 @@ defmodule RTLWeb.ExplorePageTest do
     project = Factory.insert_project()
     Factory.insert_video(project_id: project.id, coded_with_tags: [{"apple", 5, 10}])
 
-    navigate_to Routes.explore_clip_path(conn, :index, project)
+    navigate_to Routes.results_path(conn, :index, project)
 
     refute_text "we don't have any results yet"
   end
@@ -22,7 +22,7 @@ defmodule RTLWeb.ExplorePageTest do
     v1 = Factory.insert_video(project_id: project.id)
     Factory.insert_coding(video_id: v1.id, tags: [{"apple", 40, 50}], completed_at: nil)
 
-    navigate_to Routes.explore_clip_path(conn, :index, project)
+    navigate_to Routes.results_path(conn, :index, project)
 
     assert_text "we don't have any results yet"
   end

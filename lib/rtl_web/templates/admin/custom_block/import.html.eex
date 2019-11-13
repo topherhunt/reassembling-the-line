@@ -1,0 +1,24 @@
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><%= link "Manage projects", to: Routes.admin_project_path(@conn, :index) %></li>
+    <li class="breadcrumb-item"><%= link @project.name, to: Routes.admin_project_path(@conn, :show, @project) %></li>
+    <li class="breadcrumb-item"><%= link "Custom blocks", to: Routes.admin_custom_block_path(@conn, :index, @project) %></li>
+    <li class="breadcrumb-item">Import</li>
+  </ol>
+</nav>
+
+<h1>Import custom blocks</h1>
+
+<p>Import custom blocks from an export JSON file into this project. <span class="strong text-danger">This will erase any custom blocks already applied on this project.</span></p>
+
+<%= form_for @conn, Routes.admin_custom_block_path(@conn, :import_submit, @project), [method: :post, multipart: true], fn f -> %>
+
+  <div class="form-group">
+    <%= label f, :file, "The JSON file" %>
+    <%= file_input f, :file, class: "form-control" %>
+  </div>
+
+  <div class="form-group">
+    <%= submit "Import and overwrite", class: "btn btn-danger" %>
+  </div>
+<% end %>

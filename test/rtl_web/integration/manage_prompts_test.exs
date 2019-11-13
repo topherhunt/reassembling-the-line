@@ -12,7 +12,7 @@ defmodule RTLWeb.ManagePromptsTest do
     prompt2 = Factory.insert_prompt(%{project_id: project.id})
 
     # Listing prompts
-    navigate_to Routes.manage_project_path(conn, :show, project)
+    navigate_to Routes.admin_project_path(conn, :show, project)
     assert_selector(".test-link-edit-prompt-#{prompt1.id}")
     assert_selector(".test-link-edit-prompt-#{prompt2.id}")
 

@@ -1,0 +1,108 @@
+<div class="test-page-manage-video-index"></div>
+
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><%= link "Manage projects", to: Routes.admin_project_path(RTLWeb.Endpoint, :index) %></li>
+    <li class="breadcrumb-item"><%= link @project.name, to: Routes.admin_project_path(RTLWeb.Endpoint, :show, @project) %></li>
+    <li class="breadcrumb-item active">Videos</li>
+  </ol>
+</nav>
+
+<h1>Videos</h1>
+
+<div class="row">
+  <div class="col-sm-6">
+    <p>We categorize each video by tagging any interesting segments so that viewers can easily jump to topics that they care about and don't need to watch each entire video.</p>
+
+    <p>All videos are listed below, with the most recently coded first. Uncoded videos are at the bottom.</p>
+  </div>
+  <div class="col-sm-6">
+    <%= if @next_uncoded_video do %>
+      <%= link icon("label", " Tag the next video"),
+        to: Routes.admin_video_path(RTLWeb.Endpoint, :code, @project, @next_uncoded_video),
+        class: "btn btn-primary" %>
+    <% end %>
+  </div>
+</div>
+
+<table class="table" style="width: 100%;">
+  <thead>
+    <tr>
+      <th></th>
+      <th>Video</th>
+      <th>Tagging status</th>
+    </tr>
+  </thead>
+  <%= Enum.map @videos, fn(video) -> %>
+    <tr class="test-row-video-<%= video.id %>">
+      <td style="padding: 2px; width: 80px;">
+        <div style="height: 80px; width: 80px; overflow: hidden; border-radius: 5px;">
+          <div style="height: 100%; width: 200%; margin-left: -50%;">
+            <img src="<%= RTL.Videos.video_thumbnail_url(video) %>" style="display: block; height: 100%; margin: 0 auto 0 auto;" />
+          </div>
+        </div>
+      </td>
+      <td>
+        <strong><%= RTLWeb.VideoView.title_for_video(video) %></strong>
+        <div class="small">
+          <%= link icon("ondemand_video", " watch"), to: Routes.video_path(RTLWeb.Endpoint, :show, @project, video) %>
+          &nbsp;
+          <%= link to: RTL.Videos.video_recording_url(video), class: "u-tooltip-target" do %>
+            <%= icon("cloud_download", " download") %>
+            <div class="u-tooltip">Right-click, then click "Save Link As..." to download the video.</div>
+          <% end %>
+          &nbsp;
+          <a href="#"
+            class="text-danger test-link-delete-video-<%= video.id %>"
+            phx-click="delete_video"
+            phx-value="<%= video.id %>"
+            data-confirm="Are you sure you want to delete &quot;<%= video.title %>&quot; and its coding data?"><%= icon "delete" %> delete</a>
+        </div>
+        <div class="small">
+          <%= if video.permission_show_name do %>
+            may show name
+          <% else %>
+            <span class="text-warning">may not show name</span>
+          <% end %>
+        </div>
+      </td>
+      <td class="small">
+        <% coding = video.coding %>
+
+        <div>
+          <% url = Routes.admin_video_path(RTLWeb.Endpoint, :code, @project, video) %>
+          <% class = "test-link-code-video-#{video.id}" %>
+          <%= cond do %>
+            <% coding == nil -> %>
+              <span>not started</span> &nbsp;
+              <%= link icon("edit", " start"), to: url, class: "#{class} btn btn-sm btn-primary" %>
+
+            <% coding.completed_at == nil -> %>
+              <span class="text-warning">in progress</span>
+              (<%= coding.coder.full_name %>) &nbsp;
+              <% data = if @current_user.id == coding.coder.id, do: [], else: [confirm: "#{coding.coder.full_name} is working on this video. Are you sure you want to take over?"] %>
+              <%= link icon("edit", " finish"), to: url, class: "#{class} btn btn-sm btn-light", data: data %>
+
+            <% coding.completed_at != nil -> %>
+              <span class="text-success">complete</span>
+              (<%= coding.coder.full_name %>) &nbsp;
+              <%= link icon("edit", " edit"), to: url, class: "#{class} btn btn-sm btn-light" %>
+          <% end %>
+        </div>
+
+        <%= if coding do %>
+          <div>
+            <%# Tags: %>
+            <%= if length(tag_list(video)) > 0 do %>
+              <%= for tag <- tag_list(video) do %>
+                <span class="u-box-shadow u-rounded-tag"><%= tag %></span>
+              <% end %>
+            <% else %>
+              <%# <span class="em text-muted">(none)</span> %>
+            <% end %>
+          </div>
+        <% end %>
+      </td>
+    </tr>
+  <% end %>
+</table>

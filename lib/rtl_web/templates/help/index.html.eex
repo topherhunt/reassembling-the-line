@@ -4,6 +4,7 @@
 
   <ul>
     <li><%= link "Collecting videos", to: Routes.help_path(@conn, :collecting_videos) %></li>
+    <li><%= link "Coding (tagging) videos", to: Routes.help_path(@conn, :coding_page) %></li>
   </ul>
 
 </div>

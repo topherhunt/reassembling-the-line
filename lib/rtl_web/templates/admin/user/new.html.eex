@@ -1,0 +1,7 @@
+<div class="u-centered-600 u-card">
+  <h1>New user</h1>
+
+  <%= render "_form.html",
+    changeset: @changeset,
+    path: Routes.admin_user_path(@conn, :create) %>
+</div>

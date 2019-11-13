@@ -9,16 +9,16 @@
     <ul class="navbar-nav mr-auto">
       <%= if @conn.assigns[:project] do %>
         <%= if @current_user do %>
-          <%= link "Dashboard", to: Routes.manage_project_path(@conn, :show, @project), class: "nav-link #{active_if_current(@conn, Routes.manage_project_path(@conn, :show, @project))}" %>
+          <%= link "Dashboard", to: Routes.admin_project_path(@conn, :show, @project), class: "nav-link #{active_if_current(@conn, Routes.admin_project_path(@conn, :show, @project))}" %>
         <% end %>
 
         <%= if project_setting(@project, "show_explore_link") do %>
-          <%= link "Explore", to: Routes.explore_clip_path(@conn, :index, @project), class: "nav-link #{active_if_current(@conn, Routes.explore_clip_path(@conn, :index, @project))}" %>
+          <%= link "Explore", to: Routes.results_path(@conn, :index, @project), class: "nav-link #{active_if_current(@conn, Routes.results_path(@conn, :index, @project))}" %>
         <% else %>
           <%= if RTL.Sentry.can_manage_project?(@current_user, @project) do %>
             <%= link raw("Explore <i class='icon text-danger'>lock</i>"),
-              to: Routes.explore_clip_path(@conn, :index, @project),
-              class: "nav-link #{active_if_current(@conn, Routes.explore_clip_path(@conn, :index, @project))}" %>
+              to: Routes.results_path(@conn, :index, @project),
+              class: "nav-link #{active_if_current(@conn, Routes.results_path(@conn, :index, @project))}" %>
           <% end %>
         <% end %>
       <% end %>
@@ -29,12 +29,12 @@
       <%= if @current_user do %>
 
         <li class="nav-item">
-          <%= link "Projects", to: Routes.manage_project_path(@conn, :index), class: "nav-link #{active_if_current(@conn, Routes.manage_project_path(@conn, :index))} test-link-manage-project-list" %>
+          <%= link "Projects", to: Routes.admin_project_path(@conn, :index), class: "nav-link #{active_if_current(@conn, Routes.admin_project_path(@conn, :index))} test-link-manage-project-list" %>
         </li>
 
         <%= if is_superadmin?(@current_user) do %>
           <li class="nav-item">
-            <%= link "Users", to: Routes.manage_user_path(@conn, :index), class: "text-warning nav-link test-link-manage-user-list" %>
+            <%= link "Users", to: Routes.admin_user_path(@conn, :index), class: "text-warning nav-link test-link-manage-user-list" %>
           </li>
         <% end %>
 
