@@ -38,9 +38,9 @@ defmodule RTLWeb.Manage.VideoImportControllerTest do
     end
 
     defp stub_videos_json, do: ~s([
-      {"permission":null,"recording_filename":"video1.webm","source_url":"youtube.com/1","thumbnail_filename":"thumb1.jpg","title":"Computer science"},
-      {"permission":null,"recording_filename":"video2.webm","source_url":"youtube.com/2","thumbnail_filename":"thumb2.jpg","title":"Pride standing in the way of progress"},
-      {"permission":null,"recording_filename":"video3.webm","source_url":"youtube.com/3","thumbnail_filename":"thumb3.jpg","title":"Core values"}
+      {"recording_filename":"video1.webm","source_url":"youtube.com/1","thumbnail_filename":"thumb1.jpg","title":"Computer science"},
+      {"recording_filename":"video2.webm","source_url":"youtube.com/2","thumbnail_filename":"thumb2.jpg","title":"Pride standing in the way of progress"},
+      {"recording_filename":"video3.webm","source_url":"youtube.com/3","thumbnail_filename":"thumb3.jpg","title":"Core values"}
     ])
   end
 end

@@ -43,7 +43,7 @@ defmodule RTL.Projects.CustomBlock do
       %{label: "footer", description: "The full footer (replaces ALL default links)"},
       %{label: "landing_page", description: "The full project landing page, incl. title"},
       %{label: "recording_page_intro", description: "Title & intro paragraph(s) at the top of the webcam recording page"},
-      %{label: "recording_page_consent_text", description: "Content for the consent box at the bottom of the recording page"},
+      %{label: "recording_page_consent_text", description: "Content for the consent box at the bottom of the recording page. Note: this should identify the target audience that the speaker is consenting for their video to be shown to!"},
       %{label: "thank_you_page", description: "The full post-recording thank you page, incl. title"}
     ]
   end

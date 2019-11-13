@@ -15,7 +15,6 @@ defmodule RTLWeb.Share.FromWebcamControllerTest do
       "video" => %{
         "prompt_id" => prompt.id,
         "speaker_name" => "Elmer Fudd",
-        "permission" => "researchers",
         "permission_show_name" => true,
         "thumbnail_filename" => "abc.jpg",
         "recording_filename" => "abc.webm"
@@ -46,7 +45,6 @@ defmodule RTLWeb.Share.FromWebcamControllerTest do
       video = Videos.get_video_by(order: :newest)
       assert video.speaker_name == "Elmer Fudd"
       assert video.title == nil
-      assert video.permission == "researchers"
       assert video.thumbnail_filename == "abc.jpg"
       assert video.recording_filename == "abc.webm"
     end

@@ -46,10 +46,6 @@ defmodule RTLWeb.Router do
       resources "/projects", Manage.ProjectController, param: "project_uuid"
 
       scope "/projects/:project_uuid" do
-        get "/settings/:field/edit", Manage.ProjectSettingController, :edit
-        patch "/settings/:field/", Manage.ProjectSettingController, :update
-        patch "/settings/:field/clear", Manage.ProjectSettingController, :clear
-
         resources "/custom_blocks", Manage.CustomBlockController,
           only: [:index, :edit, :update, :delete], param: "label"
         get "/custom_blocks/export", Manage.CustomBlockController, :export

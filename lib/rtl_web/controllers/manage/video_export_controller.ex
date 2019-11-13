@@ -23,7 +23,6 @@ defmodule RTLWeb.Manage.VideoExportController do
       title: v.title,
       speaker_name: v.speaker_name,
       source_url: v.source_url,
-      permission: v.permission,
       recording_filename: v.recording_filename,
       thumbnail_filename: v.thumbnail_filename
     }

@@ -1,4 +1,4 @@
-<%= if project_setting(@project, "show_explore_link") != "true" do %>
+<%= if project_setting(@project, "show_explore_link") != true do %>
   <div class="alert alert-danger">
     <%= icon("lock") %>
     <strong>This page is currently hidden.</strong>

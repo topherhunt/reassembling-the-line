@@ -1,6 +1,5 @@
 defmodule RTLWeb.Manage.VideoView do
   use RTLWeb, :view
-  import RTLWeb.Share.FromWebcamView, only: [permission_options: 1]
 
   def tag_list(video) do
     video.coding.tags

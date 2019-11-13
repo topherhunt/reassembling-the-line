@@ -12,7 +12,7 @@
           <%= link "Dashboard", to: Routes.manage_project_path(@conn, :show, @project), class: "nav-link #{active_if_current(@conn, Routes.manage_project_path(@conn, :show, @project))}" %>
         <% end %>
 
-        <%= if project_setting(@project, "show_explore_link") == "true" do %>
+        <%= if project_setting(@project, "show_explore_link") do %>
           <%= link "Explore", to: Routes.explore_clip_path(@conn, :index, @project), class: "nav-link #{active_if_current(@conn, Routes.explore_clip_path(@conn, :index, @project))}" %>
         <% else %>
           <%= if RTL.Sentry.can_manage_project?(@current_user, @project) do %>

@@ -13,12 +13,12 @@ defmodule RTLWeb.TextHelpers do
   end
 
   def project_setting(project, field) do
-    unless field in Map.keys(RTL.Projects.ProjectSetting.valid_fields()) do
-      raise "Unknown ProjectSetting field: #{field}"
-    end
+    defaults = RTL.Projects.ProjectSetting.defaults()
+    known_fields = Map.keys(defaults)
+    unless field in known_fields, do: raise "Unknown ProjectSetting field: #{field}"
+    default = defaults[field]
 
-    (project.settings || %{})[field]
-    # We don't fall back to a default value, the calling code can have default logic.
+    (project.settings || %{})[field] || default
   end
 
   def icon(icon, extra_html \\ "") do

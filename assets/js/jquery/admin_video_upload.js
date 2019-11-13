@@ -22,7 +22,6 @@ $(function(){
 
   function uploadAndSubmit() {
     if (!isSpeakerNamePresent()) { raise("Please fill in your name.") }
-    if (!isPermissionGiven()) { raise("Please select a permission option.") }
 
     var thumbnailData = validateAndPrepFileForUpload('thumbnail')
     var recordingData = validateAndPrepFileForUpload('recording')
@@ -86,10 +85,6 @@ $(function(){
         $('.js-upload-failed').show(200);
       }
     });
-  }
-
-  function isPermissionGiven() {
-    return !!$('[name="video[permission]"]:checked').val()
   }
 
   function isSpeakerNamePresent() {

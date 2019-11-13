@@ -68,8 +68,6 @@ $(function(){
   $('.js-form-submit').click((e) => {
     if (!isSpeakerNamePresent()) {
       preventSubmit(e, "Please fill in your name.")
-    } else if (!isPermissionGiven()) {
-      preventSubmit(e, "Please select a permission option.")
     }
 
     // Otherwise, allow the form to submit.
@@ -81,10 +79,6 @@ $(function(){
 
   function isSpeakerNamePresent() {
     return $("#video_speaker_name").val().trim() != ""
-  }
-
-  function isPermissionGiven() {
-    return !!$('[name="video[permission]"]:checked').val()
   }
 
   function preventSubmit(e, message) {

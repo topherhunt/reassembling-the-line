@@ -60,7 +60,10 @@ defmodule RTLWeb.Manage.VideoController do
     coding = Videos.get_coding_by!(video: video)
     coder = conn.assigns.current_user
     Videos.update_coding!(coding, %{coder_id: coder.id, completed_at: Timex.now()})
-    redirect(conn, to: Routes.manage_video_path(conn, :index, project))
+
+    conn
+    |> put_flash(:info, "Video marked as complete!")
+    |> redirect(to: Routes.manage_video_path(conn, :index, project))
   end
 
   #

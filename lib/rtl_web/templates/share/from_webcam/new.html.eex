@@ -57,8 +57,8 @@
 
     <div class="js-interview-form-container js-hidden">
       <div class="alert alert-info">
-        <p>Great, your video is ready! Click on it to play it. Click <strong>Redo</strong> if you'd like to start over.</p>
-        <p class="mb-0">When you're happy, please fill in the fields below, then click <strong>Submit</strong>.</p>
+        <p>Your video is ready! Click on it to play it. To start over, click <strong>Redo</strong>.</p>
+        <p class="mb-0">When you're happy, fill in the fields below, then click <strong>Submit</strong>.</p>
       </div>
 
       <%= form_for @changeset, Routes.share_from_webcam_path(@conn, :create, @project, @prompt), [class: "js-suppress-enter"], fn(f) -> %>
@@ -77,23 +77,8 @@
         <div class="form-group">
           <label>
             <%= checkbox f, :permission_show_name, checked: true %>
-            <span class="pl-2">Show my name when showing this video.</span>
+            <span class="pl-2">Show my name when showing this video</span>
           </label>
-        </div>
-
-        <div class="form-group">
-          <div>
-            <strong>Permission</strong>
-            <span class="text-danger">(required)</span>
-          </div>
-          <%= for {label, value} <- permission_options(@project) do %>
-            <div>
-              <label>
-                <%= radio_button f, :permission, value %>
-                <span class="pl-2"><%= raw(label) %></span>
-              </label>
-            </div>
-          <% end %>
         </div>
 
         <div class="u-card u-box-shadow">
@@ -105,7 +90,7 @@
         <%= hidden_input f, :recording_filename, value: "TO POPULATE", class: "js-recording-filename" %>
         <%= hidden_input f, :thumbnail_filename, value: "TO POPULATE", class: "js-thumbnail-filename" %>
 
-        <div>
+        <div class="text-center">
           <%= submit "Submit your recording", class: "js-form-submit btn btn-primary" %>
         </div>
       <% end %>

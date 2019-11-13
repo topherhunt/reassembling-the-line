@@ -46,22 +46,6 @@
       </label>
     </div>
 
-    <div class="form-group">
-      <div>
-        <strong>Permission</strong>
-        <span class="text-danger">(required)</span>
-      </div>
-      <div>Please select which permission setting the speaker has agreed to.</div>
-      <%= for {label, value} <- permission_options(@project) do %>
-        <div>
-          <label>
-            <%= radio_button f, :permission, value %>
-            <span class="pl-2"><%= raw(label) %></span>
-          </label>
-        </div>
-      <% end %>
-    </div>
-
     <div class="u-card u-box-shadow">
       <h4 class="text-danger">Data consent</h4>
       <div><%= custom_block @conn, "recording_page_consent_text" %></div>

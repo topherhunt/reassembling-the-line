@@ -50,7 +50,6 @@ defmodule RTL.Factory do
     video = Videos.insert_video!(%{
       prompt_id: prompt_id,
       speaker_name: "Speaker #{hex}",
-      permission: "public",
       permission_show_name: true,
       recording_filename: params[:recording_filename] || "#{hex}.webm",
       thumbnail_filename: params[:thumbnail_filename] || "#{hex}.jpg"

@@ -14,7 +14,7 @@ defmodule RTL.Videos.Video do
     field :speaker_name, :string
     # eg. the original Youtube url if relevant
     field :source_url, :string
-    # Permission values: "researchers", "public". May be null.
+    # DEPRECATED - used to let the speaker indicate whether they're ok with their video being shown to the public. Now we simply require consent in order to submit the video.
     field :permission, :string
     # whether the speaker_name (which is required) may be shown to researchers & viewers
     field :permission_show_name, :boolean
@@ -39,7 +39,6 @@ defmodule RTL.Videos.Video do
       :title,
       :speaker_name,
       :source_url,
-      :permission,
       :permission_show_name,
       :recording_filename,
       :thumbnail_filename
@@ -51,17 +50,16 @@ defmodule RTL.Videos.Video do
     ])
   end
 
-  # TODO: Only have one changeset function that defines all insertable/updatable fields.
   def new_webcam_recording_changeset(params \\ %{}) do
     webcam_recording_changeset(%RTL.Videos.Video{}, params)
   end
 
+  # TODO: Merge this into the main changeset
   def webcam_recording_changeset(struct, params \\ %{}) do
     struct
     |> cast(params, [
       :prompt_id,
       :speaker_name,
-      :permission,
       :permission_show_name,
       :recording_filename,
       :thumbnail_filename
@@ -69,7 +67,6 @@ defmodule RTL.Videos.Video do
     |> validate_required([
       :prompt_id,
       :speaker_name,
-      :permission,
       :permission_show_name,
       :recording_filename,
       :thumbnail_filename
