@@ -25,17 +25,7 @@ defmodule RTLWeb.AuthController do
       {:ok, email} ->
         user = find_user(email) || register_user(email)
         conn = RTLWeb.AuthPlugs.login!(conn, user)
-
-        # Newly registered users must fill in more info before their account is complete.
-        if user.full_name do
-          conn
-          |> put_flash(:info, "Welcome back!")
-          |> redirect(to: Routes.home_path(conn, :index))
-        else
-          conn
-          |> put_flash(:info, "Please enter your name to complete registration.")
-          |> redirect(to: Routes.user_path(conn, :edit))
-        end
+        redirect_after_confirm(conn, user)
 
       _ ->
         conn
@@ -69,5 +59,25 @@ defmodule RTLWeb.AuthController do
     user = Accounts.insert_user!(%{email: email})
     Logger.info "Registered new user #{user.id} (#{user.email})"
     user
+  end
+
+  defp redirect_after_confirm(conn, user) do
+    cond do
+      user.full_name == nil ->
+        conn
+        |> put_flash(:info, "Please enter your name to complete registration.")
+        |> redirect(to: Routes.user_path(conn, :edit))
+
+      return_to = conn.req_cookies["return_to"] ->
+        conn
+        |> delete_resp_cookie("return_to")
+        |> put_flash(:info, "Welcome back!")
+        |> redirect(to: return_to)
+
+      true ->
+        conn
+        |> put_flash(:info, "Welcome back!")
+        |> redirect(to: Routes.home_path(conn, :index))
+    end
   end
 end

@@ -1,5 +1,5 @@
 defmodule RTLWeb.SentryPlugs do
-  import Plug.Conn, only: [assign: 3, halt: 1]
+  import Plug.Conn
   import Phoenix.Controller, only: [put_flash: 3, redirect: 2]
   alias RTLWeb.Router.Helpers, as: Routes
   alias RTL.Sentry
@@ -24,7 +24,10 @@ defmodule RTLWeb.SentryPlugs do
     if conn.assigns.current_user do
       conn
     else
+      return_to = "#{conn.request_path}?#{conn.query_string}"
+
       conn
+      |> put_resp_cookie("return_to", return_to)
       |> put_flash(:error, "You must be logged in to access that page.")
       |> redirect(to: Routes.home_path(conn, :index))
       |> halt()
