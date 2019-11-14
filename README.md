@@ -65,7 +65,7 @@ More documentation at: https://hexdocs.pm/phoenix/heroku.html
 
 ## Data privacy
 
-For more info on the GDPR, see: https://www.gdprsummary.com/gdpr-summary/
+  * See `docs/gdpr.md`.
 
 
 ## Other docs & tasks

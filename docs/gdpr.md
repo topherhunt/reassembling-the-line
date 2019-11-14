@@ -4,6 +4,7 @@ Resources:
 
   * https://gdprchecklist.io/
   * https://devcenter.heroku.com/articles/gdpr
+  * https://www.gdprsummary.com/gdpr-summary/
 
 Notes on our compliance:
 
