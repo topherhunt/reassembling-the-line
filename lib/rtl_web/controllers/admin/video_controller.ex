@@ -11,35 +11,6 @@ defmodule RTLWeb.Admin.VideoController do
     live_render(conn, RTLWeb.Admin.VideosListLiveview, session: session)
   end
 
-  # Admin video upload page
-  def new(conn, _params) do
-    prompts = Projects.get_prompts(project: conn.assigns.project)
-    changeset = Videos.new_video_changeset()
-    uuid = Factory.random_uuid()
-
-    render(conn, "new.html",
-      prompts: prompts,
-      changeset: changeset,
-      filename_uuid: uuid,
-      # Generate presigned upload urls for all supported filetypes.
-      # (Can't request the upload url later via ajax; that would enable S3 upload attacks)
-      presigned_upload_urls: %{
-        jpg: presigned_upload_url("#{uuid}.jpg"),
-        mp4: presigned_upload_url("#{uuid}.mp4"),
-        webm: presigned_upload_url("#{uuid}.webm")
-      }
-    )
-  end
-
-  # Admin video upload submit
-  def create(conn, %{"video" => video_params}) do
-    Videos.insert_video!(video_params)
-
-    conn
-    |> put_flash(:info, "Video imported.")
-    |> redirect(to: Routes.admin_project_path(conn, :show, conn.assigns.project))
-  end
-
   # The coding page
   # Most of the coding page data is loaded by Apollo, so we don't have much to do here.
   # (In the future we might support multiple codings of the same video, but for now

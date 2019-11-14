@@ -13,9 +13,10 @@
       </p>
       <div>Notes:</div>
       <ul>
-        <li>Requires a webcam. Also requires <span class="text-danger">Chrome or Firefox web browser</span> (for now).</li>
-        <li>Older or less tech-savvy users may have difficulty doing the recording.</li>
-        <li>The link isn't protected or tracked (for now), so a person could submit multiple recordings if they choose to.</li>
+        <li>Requires a webcam.</li>
+        <li>Uploading the video requires a fast internet connection.</li>
+        <li>Works with all modern browsers and devices.</li>
+        <li><span class="text-danger">Note: recording quality is usually poor on phones and tablets (jittery, poor camera angle, etc.)</span></li>
       </ul>
     </div>
     <div class="col-sm-4">
@@ -25,7 +26,14 @@
 
   <hr />
 
-  <h4 class="text-muted">Admin upload</h4>
-  <p class="text-muted em">Coming soon!</p>
+  <h4>Admin upload</h4>
+  <div class="row">
+    <div class="col-sm-8">
+      <p>As an admin, you can upload pre-recorded videos simply by using the normal webcam recording link (see above), and clicking the "Upload" button instead of the "Record" button.</p>
+    </div>
+    <div class="col-sm-4">
+      <img class="u-box-shadow" src="/images/help/ziggeo_upload.png" style="width: 100%;">
+    </div>
+  </div>
 
 </div>

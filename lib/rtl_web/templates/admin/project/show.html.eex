@@ -131,7 +131,6 @@
         <div class="dropdown">
           <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="manage-videos-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><%= icon("settings") %></button>
           <div class="dropdown-menu dropdown-menu-right" aria-labelledby="manage-videos-dropdown">
-            <%= link "Upload a recording", to: Routes.admin_video_path(@conn, :new, @project), class: "dropdown-item" %>
             <%= link "Export videos to JSON", to: Routes.admin_video_export_path(@conn, :new, @project), class: "dropdown-item" %>
             <%= link "Import videos from JSON", to: Routes.admin_video_import_path(@conn, :new, @project), class: "dropdown-item" %>
           </div>
