@@ -1,8 +1,8 @@
 <%= form_for @changeset, @path, [class: "userForm"], fn(f) -> %>
   <div class="form-group">
-    <%= label f, :full_name %>
-    <%= text_input f, :full_name, class: "form-control" %>
-    <%= error_tag f, :full_name %>
+    <%= label f, :name %>
+    <%= text_input f, :name, class: "form-control" %>
+    <%= error_tag f, :name %>
   </div>
 
   <div class="form-group">

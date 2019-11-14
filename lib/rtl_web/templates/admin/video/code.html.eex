@@ -21,7 +21,7 @@
 
 <div>
   <%= if @coding.completed_at do %>
-    <p>Tagging was completed <%= print_date @coding.completed_at %> by <%= @coding.coder.full_name %>.</p>
+    <p>Tagging was completed <%= print_date @coding.completed_at %> by <%= @coding.coder.name %>.</p>
 
     <button disabled class="btn btn-secondary disabled">Mark as complete</button>
   <% else %>

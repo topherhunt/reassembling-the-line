@@ -79,13 +79,13 @@
 
             <% coding.completed_at == nil -> %>
               <span class="text-warning">in progress</span>
-              (<%= coding.coder.full_name %>) &nbsp;
-              <% data = if @current_user.id == coding.coder.id, do: [], else: [confirm: "#{coding.coder.full_name} is working on this video. Are you sure you want to take over?"] %>
+              (<%= coding.coder.name %>) &nbsp;
+              <% data = if @current_user.id == coding.coder.id, do: [], else: [confirm: "#{coding.coder.name} is working on this video. Are you sure you want to take over?"] %>
               <%= link icon("edit", " finish"), to: url, class: "#{class} btn btn-sm btn-light", data: data %>
 
             <% coding.completed_at != nil -> %>
               <span class="text-success">complete</span>
-              (<%= coding.coder.full_name %>) &nbsp;
+              (<%= coding.coder.name %>) &nbsp;
               <%= link icon("edit", " edit"), to: url, class: "#{class} btn btn-sm btn-light" %>
           <% end %>
         </div>

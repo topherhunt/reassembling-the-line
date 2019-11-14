@@ -4,7 +4,7 @@ defmodule RTL.Accounts.User do
   import Ecto.Query
 
   schema "users" do
-    field :full_name, :string # may be nil (in edge cases)
+    field :name, :string # may be nil (in edge cases)
     field :email, :string
     field :session_token, :string
     field :last_visit_date, :date
@@ -22,7 +22,7 @@ defmodule RTL.Accounts.User do
 
   def changeset(struct, params \\ %{}) do
     struct
-    |> cast(params, [:full_name, :email, :session_token, :last_visit_date, :require_name])
+    |> cast(params, [:name, :email, :session_token, :last_visit_date, :require_name])
     |> downcase_email()
     |> set_session_token()
     |> validate_required([:email, :session_token])
@@ -54,7 +54,7 @@ defmodule RTL.Accounts.User do
   # haven't already set their name.
   defp maybe_require_name(changeset) do
     if get_field(changeset, :require_name) do
-      changeset |> validate_required([:full_name])
+      changeset |> validate_required([:name])
     else
       changeset
     end
@@ -73,7 +73,7 @@ defmodule RTL.Accounts.User do
   def filter(query, :session_token, st), do: where(query, [u], u.session_token == ^st)
   def filter(query, :preload, :projects), do: preload(query, :projects)
   def filter(query, :order, :newest), do: order_by(query, [u], desc: u.id)
-  def filter(query, :order, :full_name), do: order_by(query, [u], asc: u.full_name)
+  def filter(query, :order, :name), do: order_by(query, [u], asc: u.name)
 
   def filter(query, :admin_on_project, project) do
     where(

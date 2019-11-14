@@ -1,5 +1,5 @@
 <div class="test-page-show-user-<%= @user.id %>"></div>
-<h1>User: <%= @user.full_name %></h1>
+<h1>User: <%= @user.name %></h1>
 
 <div class="u-card">
   <h4>Basic info</h4>

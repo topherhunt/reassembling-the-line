@@ -5,7 +5,7 @@
 
   <div class="u-card">
     <div class="userRow__title">
-      <%= link user.full_name, to: Routes.admin_user_path(@conn, :show, user) %>
+      <%= link user.name, to: Routes.admin_user_path(@conn, :show, user) %>
     </div>
 
     <div class="small">

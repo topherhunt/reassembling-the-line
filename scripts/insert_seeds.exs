@@ -19,8 +19,8 @@ end
 Accounts.delete_all_users
 Videos.delete_all_content
 
-_whitney = Factory.insert_user(full_name: "Whitney", email: "emailwhitney@gmail.com")
-coder    = Factory.insert_user(full_name: "Coder")
+_whitney = Factory.insert_user(name: "Whitney", email: "emailwhitney@gmail.com")
+coder    = Factory.insert_user(name: "Coder")
 
 tags = (1..5) |> Enum.map(fn(_) -> Factory.insert_tag end)
 

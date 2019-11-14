@@ -53,7 +53,7 @@ Run an iex console on the server:
 Register a new user:
 
   * `heroku run -a rtl-prod iex -S mix`
-  * `RTL.Accounts.insert_user!(%{full_name: "Elmer Fudd", email: "elmer.fudd@gmail.com"})`
+  * `RTL.Accounts.insert_user!(%{name: "Elmer Fudd", email: "elmer.fudd@gmail.com"})`
 
 Get the link to force login as a registered user:
 

@@ -63,7 +63,7 @@ defmodule RTLWeb.AuthController do
 
   defp redirect_after_confirm(conn, user) do
     cond do
-      user.full_name == nil ->
+      user.name == nil ->
         conn
         |> put_flash(:info, "Please enter your name to complete registration.")
         |> redirect(to: Routes.user_path(conn, :edit))

@@ -4,11 +4,11 @@ defmodule RTL.Factory do
   alias RTL.{Accounts, Projects, Videos}
 
   def insert_user(params \\ %{}) do
-    params = cast(params, [:full_name, :email])
+    params = cast(params, [:name, :email])
     uuid = random_uuid()
 
     Accounts.insert_user!(%{
-      full_name: params[:full_name] || "User #{uuid}",
+      name: params[:name] || "User #{uuid}",
       email: params[:email] || "user_#{uuid}@example.com",
     })
   end

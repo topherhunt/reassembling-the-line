@@ -1,7 +1,6 @@
 defmodule RTLWeb.Admin.VideoController do
   use RTLWeb, :controller
-  import RTL.Videos.Attachment, only: [presigned_upload_url: 1]
-  alias RTL.{Factory, Projects, Videos}
+  alias RTL.Videos
 
   plug :load_project
   plug :ensure_can_manage_project

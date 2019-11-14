@@ -13,7 +13,7 @@ defmodule RTLWeb.Admin.ProjectController do
 
   def show(conn, _params) do
     project = conn.assigns.project |> RTL.Repo.preload(:admins)
-    addable_admins = Accounts.get_users(not_admin_on_project: project, order: :full_name)
+    addable_admins = Accounts.get_users(not_admin_on_project: project, order: :name)
     prompts = Projects.get_prompts(project: project, order: :id)
     count_videos = Videos.count_videos(project: project)
     count_videos_coded = Videos.count_videos(project: project, coded: true)

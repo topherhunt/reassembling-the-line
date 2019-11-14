@@ -44,7 +44,7 @@
       <table class="table">
         <%= for join <- @project.project_admin_joins do %>
           <tr>
-            <td><%= join.admin.full_name %></td>
+            <td><%= join.admin.name %></td>
             <%= if is_superadmin?(@current_user) do %>
               <td>
                 <%= link "details", to: Routes.admin_user_path(@conn, :show, join.admin) %>

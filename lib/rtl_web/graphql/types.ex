@@ -4,7 +4,7 @@ defmodule RTLWeb.Graphql.Types do
 
   object :user do
     field :id, :id
-    field :full_name, :string
+    field :name, :string
   end
 
   object :project do

@@ -29,7 +29,7 @@ const codingPageQuery = gql`
       }
       coder {
         id
-        full_name
+        name
       }
       taggings {
         id

@@ -29,8 +29,8 @@ defmodule RTLWeb.Admin.UserControllerTest do
       conn = get(conn, Routes.admin_user_path(conn, :index))
 
       assert html_response(conn, 200)
-      assert conn.resp_body =~ user1.full_name
-      assert conn.resp_body =~ user2.full_name
+      assert conn.resp_body =~ user1.name
+      assert conn.resp_body =~ user2.name
     end
   end
 
@@ -41,7 +41,7 @@ defmodule RTLWeb.Admin.UserControllerTest do
 
       conn = get(conn, Routes.admin_user_path(conn, :show, user))
 
-      assert html_response(conn, 200) =~ user.full_name
+      assert html_response(conn, 200) =~ user.name
     end
   end
 
@@ -60,12 +60,12 @@ defmodule RTLWeb.Admin.UserControllerTest do
       {conn, _user} = login_as_superadmin(conn)
       count = Accounts.count_users()
 
-      params = %{"user" => %{"full_name" => "E. Fudd", "email" => "elmer@fudd.com"}}
+      params = %{"user" => %{"name" => "E. Fudd", "email" => "elmer@fudd.com"}}
       conn = post(conn, Routes.admin_user_path(conn, :create), params)
 
       assert Accounts.count_users() == count + 1
       user = Accounts.get_user_by!(order: :newest)
-      assert user.full_name == "E. Fudd"
+      assert user.name == "E. Fudd"
       assert user.email == "elmer@fudd.com"
       assert redirected_to(conn) == Routes.admin_user_path(conn, :show, user.id)
     end
@@ -74,11 +74,11 @@ defmodule RTLWeb.Admin.UserControllerTest do
       {conn, _user} = login_as_superadmin(conn)
       count = Accounts.count_users()
 
-      params = %{"user" => %{"full_name" => "   ", "email" => "elmer@fudd.com"}}
+      params = %{"user" => %{"name" => "   ", "email" => "elmer@fudd.com"}}
       conn = post(conn, Routes.admin_user_path(conn, :create), params)
 
       assert Accounts.count_users() == count
-      assert html_response(conn, 200) =~ "full_name can't be blank"
+      assert html_response(conn, 200) =~ "name can't be blank"
     end
   end
 
@@ -89,7 +89,7 @@ defmodule RTLWeb.Admin.UserControllerTest do
 
       conn = get(conn, Routes.admin_user_path(conn, :edit, user))
 
-      assert html_response(conn, 200) =~ "Edit user: #{user.full_name}"
+      assert html_response(conn, 200) =~ "Edit user: #{user.name}"
     end
   end
 
@@ -98,11 +98,11 @@ defmodule RTLWeb.Admin.UserControllerTest do
       {conn, _user} = login_as_superadmin(conn)
       user = Factory.insert_user()
 
-      params = %{"user" => %{"full_name" => "Daffy", "email" => "daffy@duck.com"}}
+      params = %{"user" => %{"name" => "Daffy", "email" => "daffy@duck.com"}}
       conn = patch(conn, Routes.admin_user_path(conn, :update, user.id), params)
 
       updated = Accounts.get_user!(user.id)
-      assert updated.full_name == "Daffy"
+      assert updated.name == "Daffy"
       assert updated.email == "daffy@duck.com"
       assert redirected_to(conn) == Routes.admin_user_path(conn, :show, user)
     end
@@ -111,11 +111,11 @@ defmodule RTLWeb.Admin.UserControllerTest do
       {conn, _user} = login_as_superadmin(conn)
       user = Factory.insert_user()
 
-      params = %{"user" => %{"full_name" => " ", "email" => "daffy@duck.com"}}
+      params = %{"user" => %{"name" => " ", "email" => "daffy@duck.com"}}
       conn = patch(conn, Routes.admin_user_path(conn, :update, user), params)
 
       unchanged = Accounts.get_user!(user.id)
-      assert unchanged.full_name == user.full_name
+      assert unchanged.name == user.name
       assert html_response(conn, 200) =~ "name can't be blank"
     end
   end

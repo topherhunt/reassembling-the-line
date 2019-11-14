@@ -52,7 +52,7 @@
             <span class="caret"></span>
           </a>
           <div class="dropdown-menu dropdown-menu-right">
-            <div class="dropdown-item em small">Logged in as <%= @current_user.full_name %></div>
+            <div class="dropdown-item em small">Logged in as <%= @current_user.name %></div>
             <%= link "Account settings", to: Routes.user_path(@conn, :edit), class: "dropdown-item" %>
             <%= link icon("exit_to_app", " Log out"),
               to: Routes.auth_path(@conn, :log_out),

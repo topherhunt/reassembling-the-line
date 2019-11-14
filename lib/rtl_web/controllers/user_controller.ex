@@ -12,7 +12,7 @@ defmodule RTLWeb.UserController do
 
   def update(conn, %{"user" => user_params}) do
     user = conn.assigns.current_user
-    user_params = user_params |> Map.take(["full_name"]) |> Map.put("require_name", true)
+    user_params = user_params |> Map.take(["name"]) |> Map.put("require_name", true)
 
     case Accounts.update_user(user, user_params) do
       {:ok, _user} ->

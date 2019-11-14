@@ -7,9 +7,9 @@
       <%= text_input f, :email, class: "form-control", disabled: true %>
     </div>
     <div class="form-group">
-      <%= label f, :full_name, "Your name" %>
-      <%= text_input f, :full_name, class: "form-control" %>
-      <%= error_tag f, :full_name %>
+      <%= label f, :name, "Your name" %>
+      <%= text_input f, :name, class: "form-control" %>
+      <%= error_tag f, :name %>
     </div>
     <div class="form-group">
       <%= submit "Save", class: "btn btn-primary" %>
