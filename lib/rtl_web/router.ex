@@ -5,6 +5,7 @@ defmodule RTLWeb.Router do
   use Plug.ErrorHandler
   import RTLWeb.AuthPlugs, only: [load_current_user: 2]
   import RTLWeb.SentryPlugs, only: [ensure_logged_in: 2]
+  import RTLWeb.LocalePlugs, only: [detect_locale: 2]
 
   pipeline :browser do
     plug :accepts, ["html"]
@@ -15,6 +16,7 @@ defmodule RTLWeb.Router do
     # plug :protect_from_forgery
     plug :put_secure_browser_headers
     plug :load_current_user
+    plug :detect_locale
   end
 
   pipeline :admin do

@@ -68,6 +68,19 @@
 
       <% end %>
 
+      <% current_locale = Gettext.get_locale(RTLWeb.Gettext) %>
+      <% other_locales = Gettext.known_locales(RTLWeb.Gettext) -- [current_locale] %>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">
+          <%= flag_for_locale(current_locale) %> <span class="caret"></span>
+        </a>
+        <div class="dropdown-menu dropdown-menu-right">
+          <%= for locale <- other_locales do %>
+            <%= link "#{flag_for_locale(locale)} #{String.upcase(locale)}", to: "?locale=#{locale}", class: "dropdown-item" %>
+          <% end %>
+        </div>
+      </li>
+
     </ul>
   </div>
 </nav>

@@ -21,4 +21,12 @@ defmodule RTLWeb.Gettext do
   See the [Gettext Docs](https://hexdocs.pm/gettext) for detailed usage.
   """
   use Gettext, otp_app: :rtl
+
+  def flag_for_locale(locale) do
+    %{
+      "en" => "🇺🇸",
+      "nl" => "🇳🇱",
+      "es" => "🇪🇸"
+    }[locale]
+  end
 end
