@@ -157,7 +157,7 @@
 
     <div class="u-card">
       <h4>4. <%= gettext "Explore & share results" %></h4>
-      <p><%= raw gettext("The <a href=\"%{path}\">Explone page</a> recombines the tagged video clips into various \"playlists\" based on the topics you're interested in.", path: Routes.results_path(@conn, :index, @project)) %></p>
+      <p><%= raw gettext("The <a href=\"%{path}\">Explore page</a> recombines the tagged video clips into various \"playlists\" based on the topics you're interested in.", path: Routes.results_path(@conn, :index, @project)) %></p>
 
       <%= if project_setting(@project, "show_explore_link") != true do %>
         <div class="alert alert-danger">

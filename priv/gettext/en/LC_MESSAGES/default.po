@@ -150,7 +150,7 @@ msgstr ""
 
 #, elixir-format
 #: lib/rtl_web/templates/admin/video/list.html.leex:17
-msgid "All videos are listed below, with the most recently coded first. Uncoded videos are at the bottom."
+msgid "All videos are listed below, with the most recently tagged first. Untagged videos are at the bottom."
 msgstr ""
 
 #, elixir-format
@@ -176,7 +176,7 @@ msgstr ""
 #, elixir-format
 #:
 #: lib/rtl_web/templates/admin/custom_block/_recording_page_consent_text.html.eex:1
-msgid "By clicking the button below, you're giving consent for Reassembling the Line to store your data as part of this project, <a href=\"\" target=\"_blank\">%{project_name}</a>. See our <a href=\"%{data_policy_path}\" target=\"_blank\">data policy</a> for more information."
+msgid "By clicking the button below, you're giving consent for Reassembling the Line to store your data as part of this project, <a href=\"%{project_path}\" target=\"_blank\">%{project_name}</a>. See our <a href=\"%{data_policy_path}\" target=\"_blank\">data policy</a> for more information."
 msgstr ""
 
 #, elixir-format
@@ -781,7 +781,7 @@ msgstr ""
 
 #, elixir-format
 #: lib/rtl_web/templates/admin/project/show.html.eex:160
-msgid "The <a href=\"%{path}\">Explone page</a> recombines the tagged video clips into various \"playlists\" based on the topics you're interested in."
+msgid "The <a href=\"%{path}\">Explore page</a> recombines the tagged video clips into various \"playlists\" based on the topics you're interested in."
 msgstr ""
 
 #, elixir-format
