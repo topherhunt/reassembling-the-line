@@ -1,5 +1,5 @@
 <div class="test-page-manage-project-list" ></div>
-<h1>Projects</h1>
+<h1><%= gettext "Projects" %></h1>
 
 <%= for project <- @projects do %>
 
@@ -9,12 +9,14 @@
     </div>
 
     <div class="small">
-      Created <%= print_date(project.inserted_at) %>
-      &nbsp;
-      TODO: List current admins & basic stats
+      <%= gettext "Created on" %> <%= print_date(project.inserted_at) %>
+      &nbsp; • &nbsp;
+      by <%= List.first(project.admins).name %>
+      &nbsp; • &nbsp;
+      <%= length(project.videos) %> videos
     </div>
   </div>
 
 <% end %>
 
-<%= link "+ New project", to: Routes.admin_project_path(@conn, :new), class: "test-link-new-project" %>
+<%= link gettext("+ New project"), to: Routes.admin_project_path(@conn, :new), class: "test-link-new-project" %>

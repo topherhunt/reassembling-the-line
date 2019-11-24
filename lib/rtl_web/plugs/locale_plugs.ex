@@ -14,10 +14,14 @@ defmodule RTLWeb.LocalePlugs do
     else
       session_locale = get_session(conn, :locale)
       browser_locale = get_req_header(conn, "Accept-Language") |> List.first()
-      locale = session_locale || browser_locale || "en"
+      locale = whitelist(session_locale) || whitelist(browser_locale) || "en"
 
       Gettext.put_locale(RTLWeb.Gettext, locale)
       conn
     end
+  end
+
+  defp whitelist(locale) do
+    if locale in Gettext.known_locales(RTLWeb.Gettext), do: locale
   end
 end

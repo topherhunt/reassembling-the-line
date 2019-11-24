@@ -1,17 +1,17 @@
 <nav aria-label="breadcrumb">
   <ol class="breadcrumb">
-    <li class="breadcrumb-item"><%= link "Manage projects", to: Routes.admin_project_path(@conn, :index) %></li>
+    <li class="breadcrumb-item"><%= link gettext("Manage projects"), to: Routes.admin_project_path(@conn, :index) %></li>
     <li class="breadcrumb-item"><%= link @project.name, to: Routes.admin_project_path(@conn, :show, @project) %></li>
-    <li class="breadcrumb-item"><%= link "Videos", to: Routes.admin_video_path(@conn, :index, @project) %></li>
-    <li class="breadcrumb-item active">Tag video: <%= ellipsis(RTLWeb.VideoView.title_for_video(@video), 30) %></li>
+    <li class="breadcrumb-item"><%= link gettext("Videos"), to: Routes.admin_video_path(@conn, :index, @project) %></li>
+    <li class="breadcrumb-item active"><%= gettext "Tag video:" %> <%= ellipsis(RTLWeb.VideoView.title_for_video(@video), 30) %></li>
   </ol>
 </nav>
 
 <div class="test-page-code-video-<%= @video.id %>"></div>
 
 <div class="pb-3">
-  <span class="h1">Tag video</span> &nbsp;
-  <%= link icon("help", " Help"), to: Routes.help_path(@conn, :coding_page), target: "_blank" %>
+  <span class="h1"><%= gettext "Tag video" %></span> &nbsp;
+  <%= link icon("help", gettext(" Help")), to: Routes.help_path(@conn, :coding_page), target: "_blank" %>
 </div>
 
 <%# I guess I'll just pass in the coding id for now and have Apollo fetch everything %>
@@ -21,13 +21,13 @@
 
 <div>
   <%= if @coding.completed_at do %>
-    <p>Tagging was completed <%= print_date @coding.completed_at %> by <%= @coding.coder.name %>.</p>
+    <p><%= gettext "Tagging was completed at %{completed_at} by %{coder}.", completed_at: print_date(@coding.completed_at), coder: @coding.coder.name %></p>
 
-    <button disabled class="btn btn-secondary disabled">Mark as complete</button>
+    <button disabled class="btn btn-secondary disabled"><%= gettext "Mark as complete" %></button>
   <% else %>
     <%= form_for @changeset, Routes.admin_video_path(@conn, :mark_coded, @project, @video), [method: :post], fn _f -> %>
-      <p>Once you're done tagging, mark this video as complete to check it off the list.</p>
-      <%= submit "Mark as complete", class: "btn btn-primary test-complete-coding-button" %>
+      <p><%= gettext "Once you're done tagging, mark this video as complete to check it off the list." %></p>
+      <%= submit gettext("Mark as complete"), class: "btn btn-primary test-complete-coding-button" %>
     <% end %>
   <% end %>
 </div>

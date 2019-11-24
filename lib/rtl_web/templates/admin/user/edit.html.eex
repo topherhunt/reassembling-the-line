@@ -1,5 +1,5 @@
 <div class="u-centered-600 u-card">
-  <h1>Edit user: <%= @user.name %></h1>
+  <h1><%= gettext "Edit user:" %> <%= @user.name %></h1>
 
   <%= render "_form.html",
     changeset: @changeset,
@@ -7,9 +7,9 @@
 
   <hr />
 
-  <%= link "Delete this user",
+  <%= link gettext("Delete this user"),
     to: Routes.admin_user_path(@conn, :delete, @user.id),
     method: :delete,
-    data_confirm: "WARNING: This will irreversibly delete the user \"#{@user.name}\". Any associated projects will NOT be deleted. Proceed?",
+    data_confirm: gettext("WARNING: This will irreversibly delete this user account. Any associated projects will NOT be deleted. Proceed?"),
     class: "text-danger test-link-delete-user-#{@user.id}" %>
 </div>

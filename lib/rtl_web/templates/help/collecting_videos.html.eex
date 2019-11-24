@@ -1,22 +1,22 @@
 <div class="u-centered-1000">
 
-  <h1>Video collection</h1>
-  <p>RTL gives you various ways to get video recordings into the database.</p>
+  <h1><%= gettext "Video collection" %></h1>
+  <p><%= gettext "RTL gives you various ways to get video recordings into the database." %></p>
 
   <hr />
 
-  <h4>Webcam recording</h4>
+  <h4><%= gettext "Webcam recording" %></h4>
   <div class="row">
     <div class="col-sm-8">
       <p>
-        Interviewees can record their own story on this website, using their computer's webcam. Each submitted recording will appear in the list of videos to code. To enable this, create a prompt under your project, then go to the prompt's details page. Copy the link shown on that page and send it to all of your participants.
+        <%= gettext "Interviewees can record their own story on this website, using their computer's webcam. Each submitted recording will appear in the list of videos to code. To enable this, create a prompt under your project, then go to the prompt's details page. Copy the link shown on that page and send it to all of your participants." %>
       </p>
-      <div>Notes:</div>
+      <div><%= gettext "Notes:" %></div>
       <ul>
-        <li>Requires a webcam.</li>
-        <li>Uploading the video requires a fast internet connection.</li>
-        <li>Works with all modern browsers and devices.</li>
-        <li><span class="text-danger">Note: recording quality is usually poor on phones and tablets (jittery, poor camera angle, etc.)</span></li>
+        <li><%= gettext "Requires a webcam." %></li>
+        <li><%= gettext "Uploading the video requires a fast internet connection." %></li>
+        <li><%= gettext "Works with all modern browsers and devices." %></li>
+        <li><span class="text-danger"><%= gettext "Note: recording quality is usually poor on phones and tablets (jittery, poor camera angle, etc.)" %></span></li>
       </ul>
     </div>
     <div class="col-sm-4">
@@ -26,10 +26,10 @@
 
   <hr />
 
-  <h4>Admin upload</h4>
+  <h4><%= gettext "Admin upload" %></h4>
   <div class="row">
     <div class="col-sm-8">
-      <p>As an admin, you can upload pre-recorded videos simply by using the normal webcam recording link (see above), and clicking the "Upload" button instead of the "Record" button.</p>
+      <p><%= gettext "As an admin, you can upload pre-recorded videos simply by using the normal webcam recording link (see above), and clicking the \"Upload\" button instead of the \"Record\" button." %></p>
     </div>
     <div class="col-sm-4">
       <img class="u-box-shadow" src="/images/help/ziggeo_upload.png" style="width: 100%;">

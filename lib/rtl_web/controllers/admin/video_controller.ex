@@ -32,7 +32,7 @@ defmodule RTLWeb.Admin.VideoController do
     Videos.update_coding!(coding, %{coder_id: coder.id, completed_at: Timex.now()})
 
     conn
-    |> put_flash(:info, "Video marked as complete!")
+    |> put_flash(:info, gettext("Video marked as complete!"))
     |> redirect(to: Routes.admin_video_path(conn, :index, project))
   end
 

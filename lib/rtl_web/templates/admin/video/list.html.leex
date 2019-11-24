@@ -2,23 +2,23 @@
 
 <nav aria-label="breadcrumb">
   <ol class="breadcrumb">
-    <li class="breadcrumb-item"><%= link "Manage projects", to: Routes.admin_project_path(RTLWeb.Endpoint, :index) %></li>
+    <li class="breadcrumb-item"><%= link gettext("Manage projects"), to: Routes.admin_project_path(RTLWeb.Endpoint, :index) %></li>
     <li class="breadcrumb-item"><%= link @project.name, to: Routes.admin_project_path(RTLWeb.Endpoint, :show, @project) %></li>
-    <li class="breadcrumb-item active">Videos</li>
+    <li class="breadcrumb-item active"><%= gettext "Videos" %></li>
   </ol>
 </nav>
 
-<h1>Videos</h1>
+<h1><%= gettext "Videos" %></h1>
 
 <div class="row">
   <div class="col-sm-6">
-    <p>We categorize each video by tagging any interesting segments so that viewers can easily jump to topics that they care about and don't need to watch each entire video.</p>
+    <p><%= gettext "We categorize each video by tagging any interesting segments so that viewers can easily jump to topics that they care about and don't need to watch each entire video." %></p>
 
-    <p>All videos are listed below, with the most recently coded first. Uncoded videos are at the bottom.</p>
+    <p><%= gettext "All videos are listed below, with the most recently coded first. Uncoded videos are at the bottom." %></p>
   </div>
   <div class="col-sm-6">
     <%= if @next_uncoded_video do %>
-      <%= link icon("label", " Tag the next video"),
+      <%= link icon("label", gettext(" Tag the next video")),
         to: Routes.admin_video_path(RTLWeb.Endpoint, :code, @project, @next_uncoded_video),
         class: "btn btn-primary" %>
     <% end %>
@@ -29,8 +29,8 @@
   <thead>
     <tr>
       <th></th>
-      <th>Video</th>
-      <th>Tagging status</th>
+      <th><%= gettext "Video" %></th>
+      <th><%= gettext "Tagging status" %></th>
     </tr>
   </thead>
   <%= Enum.map @videos, fn(video) -> %>
@@ -45,24 +45,24 @@
       <td>
         <strong><%= RTLWeb.VideoView.title_for_video(video) %></strong>
         <div class="small">
-          <%= link icon("ondemand_video", " watch"), to: Routes.video_path(RTLWeb.Endpoint, :show, @project, video) %>
+          <%= link icon("ondemand_video", gettext(" watch")), to: Routes.video_path(RTLWeb.Endpoint, :show, @project, video) %>
           &nbsp;
           <%= link to: RTL.Videos.video_recording_url(video), class: "u-tooltip-target" do %>
-            <%= icon("cloud_download", " download") %>
-            <div class="u-tooltip">Right-click, then click "Save Link As..." to download the video.</div>
+            <%= icon("cloud_download", gettext(" download")) %>
+            <div class="u-tooltip"><%= gettext "Right-click, then click \"Save Link As...\" to download the video." %></div>
           <% end %>
           &nbsp;
           <a href="#"
             class="text-danger test-link-delete-video-<%= video.id %>"
             phx-click="delete_video"
             phx-value="<%= video.id %>"
-            data-confirm="Are you sure you want to delete &quot;<%= video.title %>&quot; and its coding data?"><%= icon "delete" %> delete</a>
+            data-confirm="<%= gettext ~s(Really delete this video and all its tagging data?) %>"><%= icon "delete" %> <%= gettext "delete" %></a>
         </div>
         <div class="small">
           <%= if video.permission_show_name do %>
-            may show name
+            <%= gettext "may show name" %>
           <% else %>
-            <span class="text-warning">may not show name</span>
+            <span class="text-warning"><%= gettext "may not show name" %></span>
           <% end %>
         </div>
       </td>
@@ -74,19 +74,19 @@
           <% class = "test-link-code-video-#{video.id}" %>
           <%= cond do %>
             <% coding == nil -> %>
-              <span>not started</span> &nbsp;
-              <%= link icon("edit", " start"), to: url, class: "#{class} btn btn-sm btn-primary" %>
+              <span><%= gettext "not started" %></span> &nbsp;
+              <%= link icon("edit", gettext(" start")), to: url, class: "#{class} btn btn-sm btn-primary" %>
 
             <% coding.completed_at == nil -> %>
-              <span class="text-warning">in progress</span>
+              <span class="text-warning"><%= gettext "in progress" %></span>
               (<%= coding.coder.name %>) &nbsp;
-              <% data = if @current_user.id == coding.coder.id, do: [], else: [confirm: "#{coding.coder.name} is working on this video. Are you sure you want to take over?"] %>
-              <%= link icon("edit", " finish"), to: url, class: "#{class} btn btn-sm btn-light", data: data %>
+              <% data = if @current_user.id == coding.coder.id, do: [], else: [confirm: gettext("%{coder} is working on tagging this video. Are you sure you want to take over?", coder: coding.coder.name)] %>
+              <%= link icon("edit", gettext(" finish")), to: url, class: "#{class} btn btn-sm btn-light", data: data %>
 
             <% coding.completed_at != nil -> %>
-              <span class="text-success">complete</span>
+              <span class="text-success"><%= gettext "complete" %></span>
               (<%= coding.coder.name %>) &nbsp;
-              <%= link icon("edit", " edit"), to: url, class: "#{class} btn btn-sm btn-light" %>
+              <%= link icon("edit", gettext(" edit")), to: url, class: "#{class} btn btn-sm btn-light" %>
           <% end %>
         </div>
 

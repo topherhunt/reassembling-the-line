@@ -17,12 +17,12 @@ defmodule RTLWeb.UserController do
     case Accounts.update_user(user, user_params) do
       {:ok, _user} ->
         conn
-        |> put_flash(:info, "Thanks! Your changes were saved.")
+        |> put_flash(:info, gettext("Thanks! Your changes were saved."))
         |> redirect(to: Routes.home_path(conn, :index))
 
       {:error, changeset} ->
         conn
-        |> put_flash(:error, "Unable to save your changes. Please see errors below.")
+        |> put_flash(:error, gettext("Unable to save your changes. Please see errors below."))
         |> render("edit.html", user: user, changeset: changeset)
     end
   end

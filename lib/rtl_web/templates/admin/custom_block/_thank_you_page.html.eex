@@ -1,7 +1,7 @@
 <div class="u-centered-600">
-  <h1 class="text-center">🎉 Thank you 🎉</h1>
+  <h1 class="text-center">🎉 <%= gettext "Thank you" %> 🎉</h1>
 
-  <p>Thank you for taking the time to share your story as part of the <strong><%= @project.name %></strong> project. To learn more about the project, or to reach the project owner, click the link below.</p>
+  <p><%= raw gettext("Thank you for taking the time to share your story as part of the <strong>%{project_name}</strong> project. To learn more about the project, or to reach the project owner, click the link below.", project_name: @project.name) %></p>
 
-  <p class="text-center"><%= link "About this project", to: Routes.project_path(@conn, :show, @project) %></p>
+  <p class="text-center"><%= link gettext("About this project"), to: Routes.project_path(@conn, :show, @project) %></p>
 </div>

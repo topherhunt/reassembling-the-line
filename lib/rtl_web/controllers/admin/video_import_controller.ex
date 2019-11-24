@@ -20,7 +20,7 @@ defmodule RTLWeb.Admin.VideoImportController do
       end)
 
       conn
-      |> put_flash(:info, "Imported #{length(videos)} videos.")
+      |> put_flash(:info, gettext("Imported %{num} videos.", num: length(videos)))
       |> redirect(to: Routes.admin_project_path(conn, :show, conn.assigns.project))
     rescue e ->
       render conn, "new.html", prompts: load_prompts(conn), error: e

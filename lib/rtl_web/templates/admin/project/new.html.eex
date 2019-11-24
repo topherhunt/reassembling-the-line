@@ -1,11 +1,11 @@
 <nav aria-label="breadcrumb">
   <ol class="breadcrumb">
-    <li class="breadcrumb-item"><%= link "Manage projects", to: Routes.admin_project_path(@conn, :index) %></li>
-    <li class="breadcrumb-item">New project</li>
+    <li class="breadcrumb-item"><%= link gettext("Manage projects"), to: Routes.admin_project_path(@conn, :index) %></li>
+    <li class="breadcrumb-item"><%= gettext "New project" %></li>
   </ol>
 </nav>
 
-<h1>New project</h1>
+<h1><%= gettext "New project" %></h1>
 
 <%= render "_form.html",
   changeset: @changeset,

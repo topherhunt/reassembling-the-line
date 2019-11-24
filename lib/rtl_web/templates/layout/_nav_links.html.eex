@@ -9,14 +9,14 @@
     <ul class="navbar-nav mr-auto">
       <%= if @conn.assigns[:project] do %>
         <%= if @current_user do %>
-          <%= link "Dashboard", to: Routes.admin_project_path(@conn, :show, @project), class: "nav-link #{active_if_current(@conn, Routes.admin_project_path(@conn, :show, @project))}" %>
+          <%= link gettext("Dashboard"), to: Routes.admin_project_path(@conn, :show, @project), class: "nav-link #{active_if_current(@conn, Routes.admin_project_path(@conn, :show, @project))}" %>
         <% end %>
 
         <%= if project_setting(@project, "show_explore_link") do %>
-          <%= link "Explore", to: Routes.results_path(@conn, :index, @project), class: "nav-link #{active_if_current(@conn, Routes.results_path(@conn, :index, @project))}" %>
+          <%= link gettext("Explore"), to: Routes.results_path(@conn, :index, @project), class: "nav-link #{active_if_current(@conn, Routes.results_path(@conn, :index, @project))}" %>
         <% else %>
           <%= if RTL.Sentry.can_manage_project?(@current_user, @project) do %>
-            <%= link raw("Explore <i class='icon text-danger'>lock</i>"),
+            <%= link raw(gettext("Explore") <> " <i class='icon text-danger'>lock</i>"),
               to: Routes.results_path(@conn, :index, @project),
               class: "nav-link #{active_if_current(@conn, Routes.results_path(@conn, :index, @project))}" %>
           <% end %>
@@ -29,32 +29,32 @@
       <%= if @current_user do %>
 
         <li class="nav-item">
-          <%= link "Projects", to: Routes.admin_project_path(@conn, :index), class: "nav-link #{active_if_current(@conn, Routes.admin_project_path(@conn, :index))} test-link-manage-project-list" %>
+          <%= link gettext("Projects"), to: Routes.admin_project_path(@conn, :index), class: "nav-link #{active_if_current(@conn, Routes.admin_project_path(@conn, :index))} test-link-manage-project-list" %>
         </li>
 
         <%= if is_superadmin?(@current_user) do %>
           <li class="nav-item">
-            <%= link "Users", to: Routes.admin_user_path(@conn, :index), class: "text-warning nav-link test-link-manage-user-list" %>
+            <%= link gettext("Users"), to: Routes.admin_user_path(@conn, :index), class: "text-warning nav-link test-link-manage-user-list" %>
           </li>
         <% end %>
 
       <% end %>
 
       <li class="nav-item">
-        <%= link "Help", to: Routes.help_path(@conn, :index), class: "nav-link" %>
+        <%= link gettext("Help"), to: Routes.help_path(@conn, :index), class: "nav-link" %>
       </li>
 
       <%= if @current_user do %>
 
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">
-            <%= icon "person" %> Account
+            <%= icon "person" %> <%= gettext "Account" %>
             <span class="caret"></span>
           </a>
           <div class="dropdown-menu dropdown-menu-right">
-            <div class="dropdown-item em small">Logged in as <%= @current_user.name %></div>
-            <%= link "Account settings", to: Routes.user_path(@conn, :edit), class: "dropdown-item" %>
-            <%= link icon("exit_to_app", " Log out"),
+            <div class="dropdown-item em small"><%= gettext "Logged in as %{user}", user: @current_user.name %></div>
+            <%= link gettext("Account settings"), to: Routes.user_path(@conn, :edit), class: "dropdown-item" %>
+            <%= link icon("exit_to_app", gettext(" Log out")),
               to: Routes.auth_path(@conn, :log_out),
               class: "dropdown-item text-danger test-logout-link" %>
           </div>
@@ -63,7 +63,7 @@
       <% else %>
 
         <li class="nav-item">
-          <%= link "Log in", to: Routes.auth_path(@conn, :login), class: "nav-link" %>
+          <%= link gettext("Log in"), to: Routes.auth_path(@conn, :login), class: "nav-link" %>
         </li>
 
       <% end %>

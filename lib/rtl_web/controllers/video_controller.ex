@@ -32,6 +32,6 @@ defmodule RTLWeb.VideoController do
   #
 
   defp submission_confirmation_message do
-    "Thank you! We've received your recording and we're looking forward to learning from your experience."
+    gettext("Thank you! We've received your recording and we're looking forward to learning from your experience.")
   end
 end

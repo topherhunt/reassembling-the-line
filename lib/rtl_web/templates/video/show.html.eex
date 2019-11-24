@@ -10,9 +10,5 @@
       style="display: block; width: 100%; height: 480px; background-color: #222;"
       controls=""
       autoplay="" />
-
-    <%= if @video.source_url do %>
-      <p><%= link "Source", to: @video.source_url %></p>
-    <% end %>
   </div>
 </div>

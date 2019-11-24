@@ -11,7 +11,7 @@ defmodule RTLWeb.AuthController do
     # We don't look up the user, we simply send a confirmation link to that address.
     # We'll find or create them after we confirm that they control this address.
     RTL.Emails.confirm_address(email) |> RTL.Mailer.deliver_now()
-    msg = "Thanks! We just emailed you a login link. Please check your inbox (#{email})."
+    msg = gettext("Thanks! We just emailed you a login link. Please check your inbox (%{email}).", email: email)
 
     conn
     |> put_flash(:info, msg)
@@ -29,7 +29,7 @@ defmodule RTLWeb.AuthController do
 
       _ ->
         conn
-        |> put_flash(:error, "Hmm, that login link is too old. Please try again.")
+        |> put_flash(:error, gettext("Hmm, that login link is too old. Please try again."))
         |> redirect(to: Routes.auth_path(conn, :login))
     end
   end
@@ -65,18 +65,18 @@ defmodule RTLWeb.AuthController do
     cond do
       user.name == nil ->
         conn
-        |> put_flash(:info, "Please enter your name to complete registration.")
+        |> put_flash(:info, gettext("Please enter your name to complete registration."))
         |> redirect(to: Routes.user_path(conn, :edit))
 
       return_to = conn.req_cookies["return_to"] ->
         conn
         |> delete_resp_cookie("return_to")
-        |> put_flash(:info, "Welcome back!")
+        |> put_flash(:info, gettext("Welcome back!"))
         |> redirect(to: return_to)
 
       true ->
         conn
-        |> put_flash(:info, "Welcome back!")
+        |> put_flash(:info, gettext("Welcome back!"))
         |> redirect(to: Routes.home_path(conn, :index))
     end
   end

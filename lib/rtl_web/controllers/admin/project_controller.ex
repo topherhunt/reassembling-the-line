@@ -7,7 +7,8 @@ defmodule RTLWeb.Admin.ProjectController do
   plug :ensure_superadmin when action in [:new, :create]
 
   def index(conn, _params) do
-    projects = get_projects(conn)
+    user = conn.assigns.current_user
+    projects = Projects.get_projects(visible_to: user, preload: [:admins, :videos])
     render conn, "index.html", projects: projects
   end
 
@@ -38,12 +39,12 @@ defmodule RTLWeb.Admin.ProjectController do
         Projects.add_project_admin!(conn.assigns.current_user, project)
 
         conn
-        |> put_flash(:info, "Project created.")
+        |> put_flash(:info, gettext("Project created."))
         |> redirect(to: Routes.admin_project_path(conn, :show, project))
 
       {:error, changeset} ->
         conn
-        |> put_flash(:error, "Please see errors below.")
+        |> put_flash(:error, gettext("Please see errors below."))
         |> render("new.html", changeset: changeset)
     end
   end
@@ -57,12 +58,12 @@ defmodule RTLWeb.Admin.ProjectController do
     case Projects.update_project(conn.assigns.project, project_params) do
       {:ok, project} ->
         conn
-        |> put_flash(:info, "Project updated.")
+        |> put_flash(:info, gettext("Project updated."))
         |> redirect(to: Routes.admin_project_path(conn, :show, project))
 
       {:error, changeset} ->
         conn
-        |> put_flash(:error, "Please see errors below.")
+        |> put_flash(:error, gettext("Please see errors below."))
         |> render("edit.html", changeset: changeset)
     end
   end
@@ -71,17 +72,13 @@ defmodule RTLWeb.Admin.ProjectController do
     Projects.delete_project!(conn.assigns.project)
 
     conn
-    |> put_flash(:info, "Project deleted.")
+    |> put_flash(:info, gettext("Project deleted."))
     |> redirect(to: Routes.admin_project_path(conn, :index))
   end
 
   #
   # Helpers
   #
-
-  defp get_projects(conn) do
-    Projects.get_projects(visible_to: conn.assigns.current_user)
-  end
 
   defp next_uncoded_video(project) do
     Videos.get_video_by(

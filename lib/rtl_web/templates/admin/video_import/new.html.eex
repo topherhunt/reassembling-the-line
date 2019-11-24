@@ -1,22 +1,22 @@
 <nav aria-label="breadcrumb">
   <ol class="breadcrumb">
-    <li class="breadcrumb-item"><%= link "Manage projects", to: Routes.admin_project_path(@conn, :index) %></li>
+    <li class="breadcrumb-item"><%= link gettext("Manage projects"), to: Routes.admin_project_path(@conn, :index) %></li>
     <li class="breadcrumb-item"><%= link @project.name, to: Routes.admin_project_path(@conn, :show, @project) %></li>
-    <li class="breadcrumb-item active" style="max-width: 300px;">Import videos</li>
+    <li class="breadcrumb-item active" style="max-width: 300px;"><%= gettext "Import videos" %></li>
   </ol>
 </nav>
 
 <div class="test-page-manage-video-import-new"></div>
-<h1>Import videos</h1>
+<h1><%= gettext "Import videos" %></h1>
 
-<p>This page lets you import videos in the same JSON format provided on the "Export videos" page.</p>
+<p><%= gettext "This page lets you import videos in the same JSON format provided on the \"Export videos\" page." %></p>
 
 <%= if length(@prompts) == 0 do %>
-  <div class="alert alert-danger"><strong>You don't have any prompts to import videos to.</strong> Create a prompt before importing videos.</div>
+  <div class="alert alert-danger"><strong><%= gettext "You don't have any prompts to import videos to." %></strong> <%= gettext "Create a prompt before importing videos." %></div>
 <% end %>
 
 <%= if @error do %>
-  <div class="alert alert-danger"><strong>Error: </strong> <%= inspect(@error) %></div>
+  <div class="alert alert-danger"><strong><%= gettext "Error:" %></strong> <%= inspect(@error) %></div>
 <% end %>
 
 <%= form_for @conn, Routes.admin_video_import_path(@conn, :create, @project), [method: :post], fn(f) -> %>
@@ -26,9 +26,9 @@
   </div>
 
   <div class="form-group">
-    <%= label f, :videos_json, "The videos JSON code" %>
+    <%= label f, :videos_json, gettext("The videos JSON code") %>
     <%= textarea f, :videos_json, class: "form-control", rows: 20, style: "font-size: 0.75em;" %>
   </div>
 
-  <div class="form-group"><%= submit "Import", class: "btn btn-danger" %></div>
+  <div class="form-group"><%= submit gettext("Import"), class: "btn btn-danger" %></div>
 <% end %>

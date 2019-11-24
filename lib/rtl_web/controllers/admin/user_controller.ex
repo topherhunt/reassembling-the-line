@@ -27,12 +27,12 @@ defmodule RTLWeb.Admin.UserController do
     case Accounts.insert_user(user_params) do
       {:ok, user} ->
         conn
-        |> put_flash(:info, "User created.")
+        |> put_flash(:info, gettext("User created."))
         |> redirect(to: Routes.admin_user_path(conn, :show, user.id))
 
       {:error, changeset} ->
         conn
-        |> put_flash(:error, "Please see errors below.")
+        |> put_flash(:error, gettext("Please see errors below."))
         |> render("new.html", changeset: changeset)
     end
   end
@@ -48,12 +48,12 @@ defmodule RTLWeb.Admin.UserController do
     case Accounts.update_user(conn.assigns.user, user_params) do
       {:ok, user} ->
         conn
-        |> put_flash(:info, "User updated.")
+        |> put_flash(:info, gettext("User updated."))
         |> redirect(to: Routes.admin_user_path(conn, :show, user.id))
 
       {:error, changeset} ->
         conn
-        |> put_flash(:error, "Please see errors below.")
+        |> put_flash(:error, gettext("Please see errors below."))
         |> render("edit.html", changeset: changeset)
     end
   end
@@ -62,7 +62,7 @@ defmodule RTLWeb.Admin.UserController do
     Accounts.delete_user!(conn.assigns.user)
 
     conn
-    |> put_flash(:info, "User deleted.")
+    |> put_flash(:info, gettext("User deleted."))
     |> redirect(to: Routes.admin_user_path(conn, :index))
   end
 

@@ -42,6 +42,7 @@ defmodule RTL.Videos.AttachmentTest do
   end
 
   defp create_random_file do
+    System.cmd("mkdir", ["tmp"], stderr_to_stdout: true)
     path = "tmp/#{Factory.random_uuid()}.txt"
     contents = Factory.random_uuid()
     File.write!(path, contents)

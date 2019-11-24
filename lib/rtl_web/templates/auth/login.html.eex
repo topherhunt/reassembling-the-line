@@ -1,15 +1,15 @@
 <div class="u-centered-600 u-card">
-  <h1>Log in</h1>
+  <h1><%= gettext "Log in" %></h1>
 
-  <p>Please enter your email address, then click the button. We'll email you a secure login link.</p>
+  <p><%= gettext "Please enter your email address, then click the button. We'll email you a secure login link." %></p>
 
   <%= form_for @conn, Routes.auth_path(@conn, :login_submit), [method: :post], fn _f -> %>
     <div class="form-group">
-      <label for="email">Email</label>
+      <label for="email"><%= gettext "Email" %></label>
       <%= text_input :user, :email, class: "form-control" %>
     </div>
     <div class="form-group">
-      <%= submit "Send me my login link", class: "btn btn-primary" %>
+      <%= submit gettext("Send me my login link"), class: "btn btn-primary" %>
     </div>
   <% end %>
 </div>

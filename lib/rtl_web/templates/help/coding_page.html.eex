@@ -1,9 +1,9 @@
 <div class="u-centered-1000 u-stack">
   <div class="row">
     <div class="col-sm-6">
-      <h1>Tagging videos</h1>
-      <p>This page lets you add "tags" to important sections of a video. Once you've tagged a bunch of videos with common themes, all of the tagged clips can be reassembled into an interactive playlist for you to explore.</p>
-      <p>This page has four important pieces:</p>
+      <h1><%= gettext "Tagging videos" %></h1>
+      <p><%= gettext "This page lets you add \"tags\" to important sections of a video. Once you've tagged a bunch of videos with common themes, all of the tagged clips can be reassembled into an interactive playlist for you to explore." %></p>
+      <p><%= gettext "This page has four important pieces:" %></p>
     </div>
     <div class="col-sm-6">
       <img class="u-box-shadow" src="/images/help/coding_page.jpg" style="width: 100%;">
@@ -14,10 +14,10 @@
 
   <div class="row">
     <div class="col-sm-6">
-      <h3>1. The video</h3>
+      <h3>1. <%= gettext "The video" %></h3>
       <ul>
-        <li>Click on the video to start or stop playback.</li>
-        <li>Whenever you click on the timeline, the video will jump to that same position.</li>
+        <li><%= gettext "Click on the video to start or stop playback." %></li>
+        <li><%= gettext "Whenever you click on the timeline, the video will jump to that same position." %></li>
       </ul>
     </div>
     <div class="col-sm-6">
@@ -29,12 +29,12 @@
 
   <div class="row">
     <div class="col-sm-6">
-      <h3>2. The timeline</h3>
-      <p>The timeline lets you "tag" sections of this video. Any tags you've added will show up here.</p>
+      <h3>2. <%= gettext "The timeline" %></h3>
+      <p><%= gettext ~s(The timeline lets you "tag" sections of this video. Any tags you've added will show up here.) %></p>
       <ul>
-        <li>Click and drag to select a piece of the video where you'd like to add a tag.</li>
-        <li>Click on a tag to adjust its position, preview it, or remove it.</li>
-        <li>Use the zoom buttons in the top-right corner to see more detail and fine-tune your tag positions.</li>
+        <li><%= gettext "Click and drag to select a piece of the video where you'd like to add a tag." %></li>
+        <li><%= gettext "Click on a tag to adjust its position, preview it, or remove it." %></li>
+        <li><%= gettext "Use the zoom buttons in the top-right corner to see more detail and fine-tune your tag positions." %></li>
       </ul>
     </div>
     <div class="col-sm-6">
@@ -46,11 +46,11 @@
 
   <div class="row">
     <div class="col-sm-6">
-      <h3>3. The tag list</h3>
-      <p>All the tags you've created (for any videos) are listed here.</p>
+      <h3>3. <%= gettext "The tag list" %></h3>
+      <p><%= gettext "All the tags you've created (for any videos) are listed here." %></p>
       <ul>
-        <li>To add a tag to this video, first click and drag on the timeline to make a selection, then move your mouse over a tag and click "apply".</li>
-        <li>You can add, remove, and rename your tags here. Keep in mind that renaming or deleting a tag will affect all videos that are using that tag!</li>
+        <li><%= gettext "To add a tag to this video, first click and drag on the timeline to make a selection, then move your mouse over a tag and click \"apply\"." %></li>
+        <li><%= gettext "You can add, remove, and rename your tags here. Warning: renaming or deleting a tag will affect all videos that are using that tag!" %></li>
       </ul>
     </div>
     <div class="col-sm-6">
@@ -62,10 +62,10 @@
 
   <div class="row">
     <div class="col-sm-6">
-      <h3>4. Mark as complete</h3>
-      <p>Once you're happy with this video's tags, mark it as complete so you can keep track of which videos still need tagging.</p>
+      <h3>4. <%= gettext "Mark as complete" %></h3>
+      <p><%= gettext "Once you're happy with this video's tags, mark it as complete so you can keep track of which videos still need tagging." %></p>
       <ul>
-        <li>You can always edit a video's tags, even if you've already marked it as complete.</li>
+        <li><%= gettext "You can always edit a video's tags, even if you've already marked it as complete." %></li>
       </ul>
     </div>
     <div class="col-sm-6">
@@ -76,9 +76,8 @@
   <div class="row">
     <div class="col-sm-1"></div>
     <div class="col-sm-10 u-card">
-      <p class="text-info"><strong>This page is a work-in-progress. Suggestions welcome!</strong></p>
-      <p>We want the tagging page to be as easy and <span class="text-success">delightful</span> to use as possible. If you're running into trouble or aren't sure how to do the thing you need, <%= link "please send us a note!", to: contact_us_url(), target: "_blank" %></p>
+      <p class="text-info"><strong><%= gettext "How can we improve the tagging page? How can we improve this help page?" %></strong></p>
+      <p><%= raw gettext(~s(We want the tagging page to be as easy and <span class="text-success">delightful</span> to use as possible. If you're running into trouble or aren't sure how to do the thing you need, <a href="%{link}" target="_blank">please send us a note!</a>), link: contact_us_url()) %></p>
     </div>
   </div>
-
 </div>

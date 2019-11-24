@@ -81,7 +81,7 @@ class CodingPage extends React.Component {
 
       <div className="col-4 u-stack">
         <div>
-          <h4>Basic video info</h4>
+          <h4>Video info</h4>
           <div>
             Speaker: {coding.video.speaker_name}
             {coding.video.permission_show_name ? "" : this.warnNamePrivate()}

@@ -7,6 +7,6 @@
   </div>
 
   <div class="form-group">
-    <%= submit "Save", class: "btn btn-primary test-submit" %>
+    <%= submit gettext("Save"), class: "btn btn-primary test-submit" %>
   </div>
 <% end %>

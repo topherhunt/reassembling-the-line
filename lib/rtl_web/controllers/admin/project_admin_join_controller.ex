@@ -10,7 +10,7 @@ defmodule RTLWeb.Admin.ProjectAdminJoinController do
     Projects.add_project_admin!(admin, project)
 
     conn
-    |> put_flash(:info, "#{admin.name} is now an admin on \"#{project.name}\".")
+    |> put_flash(:info, gettext("%{admin} is now an admin on \"%{project}\".", admin: admin.name, project: project.name))
     |> redirect(to: conn.params["return_to"])
   end
 
@@ -20,7 +20,7 @@ defmodule RTLWeb.Admin.ProjectAdminJoinController do
     Projects.remove_project_admin!(admin, project)
 
     conn
-    |> put_flash(:info, "Removed #{admin.name}'s access to project #{project.name}.")
+    |> put_flash(:info, gettext("Removed %{admin}'s access to project %{project}.", admin: admin.name, project: project.name))
     |> redirect(to: conn.params["return_to"])
   end
 end

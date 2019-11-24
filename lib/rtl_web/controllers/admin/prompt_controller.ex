@@ -17,12 +17,12 @@ defmodule RTLWeb.Admin.PromptController do
     case Projects.insert_prompt(params) do
       {:ok, _prompt} ->
         conn
-        |> put_flash(:info, "Question created.")
+        |> put_flash(:info, gettext("Question created."))
         |> redirect(to: Routes.admin_project_path(conn, :show, conn.assigns.project))
 
       {:error, changeset} ->
         conn
-        |> put_flash(:error, "Please see errors below.")
+        |> put_flash(:error, gettext("Please see errors below."))
         |> render("new.html", changeset: changeset)
     end
   end
@@ -37,12 +37,12 @@ defmodule RTLWeb.Admin.PromptController do
     case Projects.update_prompt(conn.assigns.prompt, prompt_params) do
       {:ok, _prompt} ->
         conn
-        |> put_flash(:info, "Question updated.")
+        |> put_flash(:info, gettext("Question updated."))
         |> redirect(to: Routes.admin_project_path(conn, :show, conn.assigns.project))
 
       {:error, changeset} ->
         conn
-        |> put_flash(:error, "Please see errors below.")
+        |> put_flash(:error, gettext("Please see errors below."))
         |> render("edit.html", changeset: changeset)
     end
   end
@@ -51,7 +51,7 @@ defmodule RTLWeb.Admin.PromptController do
     Projects.delete_prompt!(conn.assigns.prompt)
 
     conn
-    |> put_flash(:info, "Question deleted.")
+    |> put_flash(:info, gettext("Question deleted."))
     |> redirect(to: Routes.admin_project_path(conn, :show, conn.assigns.project))
   end
 end

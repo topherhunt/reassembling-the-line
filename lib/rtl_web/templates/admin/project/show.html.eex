@@ -2,58 +2,58 @@
 
 <nav aria-label="breadcrumb">
   <ol class="breadcrumb">
-    <li class="breadcrumb-item"><%= link "Manage projects", to: Routes.admin_project_path(@conn, :index) %></li>
+    <li class="breadcrumb-item"><%= link gettext("Manage projects"), to: Routes.admin_project_path(@conn, :index) %></li>
     <li class="breadcrumb-item active"><%= @project.name %></li>
   </ol>
 </nav>
 
-<h2>Project dashboard</h2>
+<h2><%= gettext "Project dashboard" %></h2>
 
 <div class="row">
   <div class="col-md-5">
 
     <div class="u-card">
-      <h4>Basic info</h4>
+      <h4><%= gettext "Basic info" %></h4>
       <table class="table">
         <tr>
-          <th>Name</th>
+          <th><%= gettext "Name" %></th>
           <td><%= @project.name %></td>
         </tr>
         <tr>
-          <th>Date created</th>
+          <th><%= gettext "Date created" %></th>
           <td><%= print_date(@project.inserted_at) %></td>
         </tr>
         <tr>
           <td colspan="9">
-            <%= link "edit", to: Routes.admin_project_path(@conn, :edit, @project), class: "text-warning test-link-edit-project-#{@project.id}" %>
+            <%= link gettext("edit"), to: Routes.admin_project_path(@conn, :edit, @project), class: "text-warning test-link-edit-project-#{@project.id}" %>
             &nbsp;
-            <%= link "delete",
+            <%= link gettext("delete"),
               to: Routes.admin_project_path(@conn, :delete, @project),
               method: :delete,
-              data_confirm: "WARNING: This will irreversibly delete the project \"#{@project.name}\" and all of its data. Proceed?",
+              data_confirm: gettext("WARNING: This will irreversibly delete the project \"%{project}\" and all of its data. Proceed?", project: @project.name),
               class: "text-danger test-link-delete-project-#{@project.id}" %>
             &nbsp;
-            <%= link "public project page", to: Routes.project_path(@conn, :show, @project) %>
+            <%= link gettext("public project page"), to: Routes.project_path(@conn, :show, @project) %>
           </td>
         </tr>
       </table>
     </div>
 
     <div class="u-card">
-      <h4>Admins</h4>
+      <h4><%= gettext "Admins" %></h4>
       <table class="table">
         <%= for join <- @project.project_admin_joins do %>
           <tr>
             <td><%= join.admin.name %></td>
             <%= if is_superadmin?(@current_user) do %>
               <td>
-                <%= link "details", to: Routes.admin_user_path(@conn, :show, join.admin) %>
+                <%= link gettext("details"), to: Routes.admin_user_path(@conn, :show, join.admin) %>
                 &nbsp;
-                <%= link "remove",
+                <%= link gettext("remove"),
                   to: Routes.admin_project_admin_join_path(@conn, :delete, join, project_id: @project.id, admin_id: join.admin.id, return_to: @conn.request_path),
                   method: :delete,
                   class: "text-danger",
-                  data_confirm: "Really remove this admin?" %>
+                  data_confirm: gettext("Really remove this admin?") %>
               </td>
             <% end %>
           </tr>
@@ -67,16 +67,16 @@
           <%= hidden_input f, :project_id, value: @project.id %>
           <%= select f, :admin_id, id_and_label_for(@addable_admins), class: "js-chosen-select", style: "max-width: 300px;" %>
           &nbsp;
-          <%= submit("Add", class: "btn btn-outline-primary btn-sm") %>
+          <%= submit(gettext("Add"), class: "btn btn-outline-primary btn-sm") %>
         <% end %>
       <% end %>
     </div>
 
     <%= if is_superadmin?(@current_user) do %>
       <div class="u-card">
-        <h4>Custom blocks</h4>
+        <h4><%= gettext "Custom blocks" %></h4>
 
-        <div><%= link "manage", to: Routes.admin_custom_block_path(@conn, :index, @project), class: "btn btn-light" %></div>
+        <div><%= link gettext("manage"), to: Routes.admin_custom_block_path(@conn, :index, @project), class: "btn btn-light" %></div>
       </div>
     <% end %>
   </div>
@@ -84,9 +84,9 @@
   <div class="col-md-7">
 
     <div class="u-card">
-      <h4>1. Setup</h4>
+      <h4>1. <%= gettext "Setup" %></h4>
 
-      <p>What question(s) do you want to ask?</p>
+      <p><%= gettext "What question(s) do you want to ask?" %></p>
 
       <table class="table">
         <%= for prompt <- @prompts do %>
@@ -98,7 +98,7 @@
                 <%= link icon("delete"),
                   to: Routes.admin_prompt_path(@conn, :delete, @project, prompt),
                   method: :delete,
-                  data_confirm: "WARNING: This will irreversibly delete this question and all associated videos. Proceed?",
+                  data_confirm: gettext("WARNING: This will irreversibly delete this question and all associated videos. Proceed?"),
                   class: "text-danger test-link-delete-prompt-#{prompt.id}" %>
               <% end %>
             </td>
@@ -106,16 +106,16 @@
         <% end %>
         <tr>
           <td colspan="9">
-            <%= link "+ add another question", to: Routes.admin_prompt_path(@conn, :new, @project), class: "test-link-new-prompt" %>
+            <%= link gettext("+ add another question"), to: Routes.admin_prompt_path(@conn, :new, @project), class: "test-link-new-prompt" %>
           </td>
         </tr>
       </table>
     </div>
 
     <div class="u-card u-relative">
-      <h4>2. Collect stories</h4>
+      <h4>2. <%= gettext "Collect stories" %></h4>
 
-      <p>Send participants the link below so they can tell their story by recording a video on their computer's webcam. <%= link "Learn more", to: Routes.help_path(@conn, :collecting_videos), target: "_blank" %></p>
+      <p><%= gettext "Send participants the link below so they can tell their story by recording a video on their computer's webcam." %> <%= link gettext("Learn more"), to: Routes.help_path(@conn, :collecting_videos), target: "_blank" %></p>
 
       <%= for prompt <- @prompts do %>
         <%= if length(@prompts) > 1 do %>
@@ -131,24 +131,24 @@
         <div class="dropdown">
           <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="manage-videos-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><%= icon("settings") %></button>
           <div class="dropdown-menu dropdown-menu-right" aria-labelledby="manage-videos-dropdown">
-            <%= link "Export videos to JSON", to: Routes.admin_video_export_path(@conn, :new, @project), class: "dropdown-item" %>
-            <%= link "Import videos from JSON", to: Routes.admin_video_import_path(@conn, :new, @project), class: "dropdown-item" %>
+            <%= link gettext("Export videos to JSON"), to: Routes.admin_video_export_path(@conn, :new, @project), class: "dropdown-item" %>
+            <%= link gettext("Import videos from JSON"), to: Routes.admin_video_import_path(@conn, :new, @project), class: "dropdown-item" %>
           </div>
         </div>
       </div>
     </div>
 
     <div class="u-card">
-      <h4>3. Add tags to videos</h4>
+      <h4>3. <%= gettext "Add tags to videos" %></h4>
       <p>
-        <strong><%= @count_videos %></strong> videos collected /
-        <strong><%= @count_videos_coded %></strong> tagged /
-        <strong><%= @count_videos - @count_videos_coded %></strong> left to tag
+        <strong><%= @count_videos %></strong> <%= gettext "videos collected" %> /
+        <strong><%= @count_videos_coded %></strong> <%= gettext "tagged" %> /
+        <strong><%= @count_videos - @count_videos_coded %></strong> <%= gettext "left to tag" %>
       </p>
       <p>
-        <%= link "List all videos", to: Routes.admin_video_path(@conn, :index, @project), class: "btn btn-outline-primary" %> &nbsp;
+        <%= link gettext("List all videos"), to: Routes.admin_video_path(@conn, :index, @project), class: "btn btn-outline-primary" %> &nbsp;
         <%= if @next_uncoded_video do %>
-          <%= link icon("label", " Tag the next video"),
+          <%= link icon("label", gettext(" Tag the next video")),
             to: Routes.admin_video_path(@conn, :code, @project, @next_uncoded_video),
             class: "btn btn-primary" %>
         <% end %>
@@ -156,14 +156,14 @@
     </div>
 
     <div class="u-card">
-      <h4>4. Explore & share results</h4>
-      <p>The <%= link "Explore page", to: Routes.results_path(@conn, :index, @project) %> recombines the tagged video clips into various "playlists" based on the topics you're interested in.</p>
+      <h4>4. <%= gettext "Explore & share results" %></h4>
+      <p><%= raw gettext("The <a href=\"%{path}\">Explone page</a> recombines the tagged video clips into various \"playlists\" based on the topics you're interested in.", path: Routes.results_path(@conn, :index, @project)) %></p>
 
       <%= if project_setting(@project, "show_explore_link") != true do %>
         <div class="alert alert-danger">
           <%= icon("lock") %>
-          <strong>The explore page is not yet public.</strong>
-          Only project admins can see it.
+          <strong><%= gettext "The explore page is not yet public." %></strong>
+          <%= gettext "Only project admins can see it." %>
         </div>
       <% end %>
     </div>

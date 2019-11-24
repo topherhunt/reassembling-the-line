@@ -33,6 +33,10 @@ defmodule RTLWeb.Admin.ProjectControllerTest do
       project1 = Factory.insert_project()
       project2 = Factory.insert_project()
       project3 = Factory.insert_project()
+      admin = Factory.insert_user()
+      Projects.add_project_admin!(admin, project1)
+      Projects.add_project_admin!(admin, project2)
+      Projects.add_project_admin!(admin, project3)
 
       conn = get(conn, Routes.admin_project_path(conn, :index))
 

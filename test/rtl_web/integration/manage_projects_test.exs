@@ -5,8 +5,9 @@ defmodule RTLWeb.ManageProjectsTest do
   hound_session()
 
   test "Superadmin can list, create, edit, and delete projects", %{conn: conn} do
-    _superadmin = login_as_superadmin(conn)
-    _existing_project = Factory.insert_project()
+    superadmin = login_as_superadmin(conn)
+    existing_project = Factory.insert_project()
+    Projects.add_project_admin!(superadmin, existing_project)
 
     # Listing projects
     find_element(".test-link-manage-project-list") |> click()

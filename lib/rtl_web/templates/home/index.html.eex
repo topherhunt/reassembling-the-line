@@ -2,25 +2,25 @@
 <div class="row">
   <div class="col-md-8">
 
-    <p>RTL is an experimental new way of collecting <strong>human stories</strong>, digesting them into categorized "clips", and recombining those clips into a custom playlist based on what questions you'd like to ask of the data. Somewhere in between art form and social research tool, the vision is to encourage people to <strong>ask novel questions and discover novel insights</strong> by making individuals' stories digestible and accessible at scale <strong>without reducing the nuanced individual voices to numbers</strong>, as much of social research tends to do.</p>
+    <p><%= raw gettext(~s(RTL is an experimental new way of collecting <strong>human stories</strong>, digesting them into categorized "clips", and recombining those clips into a custom playlist based on what questions you'd like to ask of the data. Somewhere in between art form and social research tool, the vision is to encourage people to <strong>ask novel questions and discover novel insights</strong> by making individuals' stories digestible and accessible at scale <strong>without reducing the nuanced individual voices to numbers</strong>, as much of social research tends to do.)) %></p>
 
-    <p>When you're looking at a complex social problem (like what makes for a good education, or how to improve the economy of a region), there's lots of techniques for condensing all of the information into streamlined summaries.</p>
+    <p><%= gettext "When you're looking at a complex social problem (like what makes for a good education, or how to improve the economy of a region), there's lots of techniques for condensing all of the information into streamlined summaries." %></p>
 
-    <p>But by doing so, you simplify. You lose the rich nuance and diversity of perspectives. You're asking a big and nuanced question, but your tools pull you towards simplified and incomplete answers. When you're looking at abstracted numbers and statistics, it's easy to lose sight of the voices of the real people affected by the issue.</p>
+    <p><%= gettext "But by doing so, you simplify. You lose the rich nuance and diversity of perspectives. You're asking a big and nuanced question, but your tools pull you towards simplified and incomplete answers. When you're looking at abstracted numbers and statistics, it's easy to lose sight of the voices of the real people affected by the issue." %></p>
 
-    <p>We're working on a system that gives decision makers more direct access to the rich, diverse personal experiences of the people affected by a problem. We're trying to bring personal storytelling back into social research.</p>
+    <p><%= gettext "We're working on a system that gives decision makers more direct access to the rich, diverse personal experiences of the people affected by a problem. We're trying to bring personal storytelling back into social research." %></p>
 
-    <p class="strong">Our approach:</p>
+    <p class="strong"><%= gettext "Our approach:" %></p>
 
     <ol>
-      <li>Collect raw video recordings where people share their personal experience with a topic. Each video might be 5 minutes, or it might be an hour.</li>
-      <li>"Code" each video into small, digestible, categorized segments.</li>
-      <li>Depending on what topic you're concerned about, we remix those segments into a customized stream of personal experience about that topic.</li>
+      <li><%= gettext "Collect raw video recordings where people share their personal experience with a topic. Each video might be 5 minutes, or it might be an hour." %></li>
+      <li><%= gettext ~s(Categorize each video by selecting and tagging small, digestible segments.) %></li>
+      <li><%= gettext "Depending on what topic you're concerned about, we remix those segments into a customized stream of personal experience about that topic." %></li>
     </ol>
 
     <%= if @demo_project do %>
       <p>
-        <%= link "Check out a demo project",
+        <%= link gettext("Check out a demo project"),
           to: Routes.project_path(@conn, :show, @demo_project),
           class: "btn btn-outline-info" %>
       </p>

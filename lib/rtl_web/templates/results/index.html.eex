@@ -1,16 +1,16 @@
 <%= if project_setting(@project, "show_explore_link") != true do %>
   <div class="alert alert-danger">
     <%= icon("lock") %>
-    <strong>This page is currently hidden.</strong>
-    Only admins can see the link, so people don't stumble on a partial list of results before we've coded all of them.
+    <strong><%= gettext "This page is currently hidden." %></strong>
+    <%= gettext "Only admins can see the link, so people don't stumble on a partial list of results before we've coded all of them." %>
   </div>
 <% end %>
 
-<h1>Explore all clips</h1>
+<h1><%= gettext "Explore all video clips" %></h1>
 
 <div class="test-page-explore-clip-index"></div>
 
-<p>This page shows a playlist of all coded video clips, shuffled randomly to make each visit unique. Use the filter to limit the playlist to certain tags or topics.</p>
+<p><%= gettext "This page shows a playlist of all tagged video clips, shuffled randomly to make each visit unique. Use the filter to limit the playlist to certain tags or topics." %></p>
 
 <div class="row">
   <div class="col-sm-8">
@@ -20,22 +20,22 @@
         data-project-uuid="<%= @project.uuid %>"
         style="display: block; width: 100%; height: 480px; background-color: #222;"
         controls="" />
-      <a class="js-hear-more-link" href="#" style="display: none;">Hear more from this person</a>
+      <a class="js-hear-more-link" href="#" style="display: none;"><%= gettext "Hear more from this person" %></a>
     <% else %>
       <div id="js-no-results" class="alert alert-warning">
-        Whoops - we don't have any results yet!
+        <%= gettext "Whoops - we don't have any results yet!" %>
         <%= if can_manage_project?(@current_user, @project) do %>
-          <%= link "Add tags to some videos", to: Routes.admin_video_path(@conn, :index, @project) %> to fill in this playlist.
+          <%= link gettext("Add tags to some videos"), to: Routes.admin_video_path(@conn, :index, @project) %> <%= gettext "to fill in this playlist." %>
         <% end %>
       </div>
     <% end %>
   </div>
 
   <div class="col-sm-4">
-    <h4>Filter by tag</h4>
+    <h4><%= gettext "Filter by tag" %></h4>
 
     <select class="js-filter-tag">
-      <option value="">- all topics -</option>
+      <option value="">- <%= gettext "all topics" %> -</option>
       <%= Enum.map(@tag_options, fn(tag) -> %>
         <option value="<%= tag.value %>"><%= tag.label %></option>
       <% end) %>
@@ -43,7 +43,7 @@
 
     <div class="u-gap-10"></div>
 
-    <h4>Playlist</h4>
+    <h4><%= gettext "Playlist" %></h4>
 
     <div class="js-playlist-container-outer">
       <div class="js-playlist-container"></div>
