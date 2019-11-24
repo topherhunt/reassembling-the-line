@@ -197,7 +197,7 @@ msgstr "Klik en sleep om een deel van de video te selecteren waaraan u een tag w
 #, elixir-format
 #: lib/rtl_web/templates/video/new.html.eex:10
 msgid "Click on <strong class=\"text-danger\">Record Video</strong> to set up the camera. Make sure your face is centered in the picture."
-msgstr "Klik op <strong class=\"text-danger\">Video opnemen</strong> om de camera in te stellen. Zorg ervoor dat uw gezicht in het midden van de foto staat."
+msgstr "Klik op <strong class=\"text-danger\">Record video</strong> om de camera in te stellen. Zorg ervoor dat uw gezicht in het midden van de foto staat."
 
 #, elixir-format
 #: lib/rtl_web/templates/help/coding_page.html.eex:36
@@ -862,7 +862,7 @@ msgstr "Deze pagina toont een afspeellijst met alle getagde videoclips, willekeu
 #, elixir-format
 #: lib/rtl_web/templates/admin/custom_block/_landing_page.html.eex:3
 msgid "This project is run by <a href=\"mailto:%{owner_email}\">%{owner_name}</a> using the <a href=\"/\">RTL</a> platform."
-msgstr "Dit project wordt beheerd door <a href=\"mailto:%{owner_email}\">%{owner_name}</a> met behulp van het <a href=\"/\">RTL-</a> platform."
+msgstr "Dit project wordt beheerd door <a href=\"mailto:%{owner_email}\">%{owner_name}</a> met behulp van het <a href=\"/\">RTL</a> platform."
 
 #, elixir-format
 #: lib/rtl_web/templates/home/your_data.html.eex:8
@@ -1000,7 +1000,7 @@ msgstr "Welke vraag(en) wilt u stellen?"
 #, elixir-format
 #: lib/rtl_web/templates/video/new.html.eex:58
 msgid "When you're happy, fill in the fields below, then click <strong>Submit</strong>."
-msgstr "Als u tevreden bent, vul de onderstaande velden in en klik op <strong>Verzenden</strong>."
+msgstr "Als u tevreden bent, vul de onderstaande velden in en klik op <strong>Dien uw opname in</strong>."
 
 #, elixir-format
 #: lib/rtl_web/templates/home/index.html.eex:7
@@ -1010,7 +1010,7 @@ msgstr "Als u kijkt naar een complex sociaal probleem (zoals wat goed onderwijs 
 #, elixir-format
 #: lib/rtl_web/templates/video/new.html.eex:11
 msgid "When you're ready to start, click <strong class=\"text-danger\">Record</strong>"
-msgstr "Wanneer u klaar bent om te beginnen, klikt u op <strong class=\"text-danger\">Opnemen</strong>"
+msgstr "Wanneer u klaar bent om te beginnen, klikt u op <strong class=\"text-danger\">Record</strong>"
 
 #, elixir-format
 #: lib/rtl_web/templates/help/coding_page.html.eex:20
@@ -1077,7 +1077,7 @@ msgstr "Uw rechten"
 #, elixir-format
 #: lib/rtl_web/templates/video/new.html.eex:57
 msgid "Your video is ready! Click on it to play it. To start over, click <strong>Redo</strong>."
-msgstr "Uw video is klaar! Klik erop om het te spelen. Klik op <strong>Opnieuw</strong> om opnieuw te beginnen."
+msgstr "Uw video is klaar! Klik erop om het af te spelen. Klik op <strong>Opnieuw</strong> om opnieuw te beginnen."
 
 #, elixir-format
 #: lib/rtl_web/templates/results/index.html.eex:38
@@ -1138,7 +1138,7 @@ msgstr "niet begonnen"
 #, elixir-format
 #: lib/rtl_web/templates/admin/project/show.html.eex:36
 msgid "public project page"
-msgstr "zichtbare projectpagina"
+msgstr "openbare projectpagina"
 
 #, elixir-format
 #: lib/rtl_web/templates/admin/project/show.html.eex:52
