@@ -862,7 +862,7 @@ msgstr "Diese Seite zeigt eine Wiedergabeliste aller getaggten Videoclips, die n
 #, elixir-format
 #: lib/rtl_web/templates/admin/custom_block/_landing_page.html.eex:3
 msgid "This project is run by <a href=\"mailto:%{owner_email}\">%{owner_name}</a> using the <a href=\"/\">RTL</a> platform."
-msgstr "Dieses Projekt wird von <a href=\"mailto:%{owner_email}\">%{owner_name} unter</a> Verwendung der <a href=\"/\">RTL-</a>Plattform ausgeführt."
+msgstr "Dieses Projekt wird von <a href=\"mailto:%{owner_email}\">%{owner_name}</a> unter Verwendung der <a href=\"/\">RTL-</a>Plattform ausgeführt."
 
 #, elixir-format
 #: lib/rtl_web/templates/home/your_data.html.eex:8
@@ -1010,7 +1010,7 @@ msgstr "Wenn Sie sich mit einem komplexen sozialen Problem befassen (z. B. was e
 #, elixir-format
 #: lib/rtl_web/templates/video/new.html.eex:11
 msgid "When you're ready to start, click <strong class=\"text-danger\">Record</strong>"
-msgstr "Wenn Sie bereit sind, klicken Sie auf <strong class=\"text-danger\">Record</strong>."
+msgstr "Wenn Sie bereit sind, klicken Sie auf <strong class=\"text-danger\">Record</strong>"
 
 #, elixir-format
 #: lib/rtl_web/templates/help/coding_page.html.eex:20

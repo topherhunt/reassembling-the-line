@@ -23,8 +23,12 @@
   </div>
 
   <div class="form-group">
-    <%= submit "Save", class: "btn btn-primary" %>
+    <%= link "<< Back to list", to: Routes.admin_custom_block_path(@conn, :index, @project) %>
     &nbsp;
     <%= link "Reset to default", to: Routes.admin_custom_block_path(@conn, :delete, @project, @label), method: :delete, class: "text-danger", data: [confirm: "Really reset this custom block to default?"] %>
+    &nbsp;
+    <%= submit "Save", class: "btn btn-primary" %>
+    &nbsp;
+
   </div>
 <% end %>

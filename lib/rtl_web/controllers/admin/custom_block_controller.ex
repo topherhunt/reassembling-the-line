@@ -30,7 +30,7 @@ defmodule RTLWeb.Admin.CustomBlockController do
 
     conn
     |> put_flash(:info, "Saved.")
-    |> redirect(to: Routes.admin_custom_block_path(conn, :index, project))
+    |> redirect(to: Routes.admin_custom_block_path(conn, :edit, project, label))
   end
 
   def delete(conn, %{"label" => label}) do

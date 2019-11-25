@@ -28,7 +28,7 @@ defmodule RTLWeb.AuthControllerTest do
       assert redirected_to(conn) == Routes.auth_path(conn, :login)
 
       [email] = Bamboo.SentEmail.all()
-      assert email.subject =~ "Your log-in link"
+      assert email.subject =~ "Your login link"
       assert email.to == [nil: "elmer.fudd@example.com"]
       assert email.html_body =~ "Please click the link below to log in."
 
