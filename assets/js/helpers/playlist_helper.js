@@ -51,15 +51,16 @@ var PlaylistHelper = {
 
   end_of_results_html: function() {
     return '<hr><div>' +
-      'That\'s all the clips we have for your search. Adjust your filters to see more.<br>' +
-      '<a href="#" class="js-clear-search">Clear all selected tags</a>' +
+      gettext("That's all the clips we have for your search. Adjust your filters to see more.") +
+      "<br>" +
+      '<a href="#" class="js-clear-search">' + gettext("Clear all selected tags") + '</a>' +
     '</div>';
   },
 
   no_results_html: function() {
     return '<hr><div>' +
-      'We didn\'t find any results for that search.<br>' +
-      '<a href="#" class="js-clear-search">Clear all selected tags</a>' +
+      gettext("We didn't find any results for that search.") + "<br>" +
+      '<a href="#" class="js-clear-search">' + gettext("Clear all selected tags") + '</a>' +
     '</div>';
   },
 

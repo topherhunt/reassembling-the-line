@@ -1,6 +1,7 @@
 defmodule RTL.Emails do
   use Bamboo.Phoenix, view: RTLWeb.EmailsView
   import Bamboo.Email
+  import RTLWeb.Gettext
   alias RTLWeb.Router.Helpers, as: Routes
   require Logger
 
@@ -13,7 +14,7 @@ defmodule RTL.Emails do
     new_email()
     |> to(email)
     |> from("noreply@reassemblingtheline.com")
-    |> subject("[RTL] Your log-in link")
+    |> subject("[RTL] #{gettext("Your login link")}")
     |> put_html_layout({RTLWeb.LayoutView, "email.html"})
     |> render("confirm_address.html", url: url)
   end

@@ -1,0 +1,31 @@
+<%# I'm not sure what's the best-practice way to pass Gettext strings to JS code. %>
+<%# For now we'll define all JS-relevant strings in the page header. %>
+<%# Thanks to https://stackoverflow.com/a/48704265/1729692 %>
+<script type="text/javascript">
+  var translations = <%= raw Jason.encode!(%{
+    "Please fill in your name." => gettext("Please fill in your name."),
+    "Loading..." => gettext("Loading..."),
+    "Error!" => gettext("Error!"),
+    "Video info" => gettext("Video info"),
+    "Speaker:" => gettext("Speaker:"),
+    "Question:" => gettext("Question:"),
+    "apply" => gettext("apply"),
+    "Really delete this tag?" => gettext("Really delete this tag?"),
+    "Make a selection in the timeline first." => gettext("Make a selection in the timeline first."),
+    "Add a new tag" => gettext("Add a new tag"),
+    "Really delete this tagging?" => gettext("Really delete this tagging?"),
+    "That's all the clips we have for your search. Adjust your filters to see more." => gettext("That's all the clips we have for your search. Adjust your filters to see more."),
+    "Clear all selected tags" => gettext("Clear all selected tags"),
+    "We didn't find any results for that search." => gettext("We didn't find any results for that search."),
+  }) %>;
+
+  // Now in any JS file, I can call `gettext("the string to translate")`.
+  // Any missing keys will raise an error (and in prod, will be reported to Rollbar).
+  gettext = function(key) {
+    if (translations[key]) {
+      return translations[key];
+    } else {
+      throw("Error: Missing gettext key \""+key+"\"");
+    }
+  };
+</script>

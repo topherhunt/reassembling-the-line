@@ -168,7 +168,7 @@ msgid "Basic info"
 msgstr ""
 
 #, elixir-format
-#: lib/rtl_web/templates/home/index.html.eex:9
+#: lib/rtl_web/templates/home/index.html.eex:8
 msgid "But by doing so, you simplify. You lose the rich nuance and diversity of perspectives. You're asking a big and nuanced question, but your tools pull you towards simplified and incomplete answers. When you're looking at abstracted numbers and statistics, it's easy to lose sight of the voices of the real people affected by the issue."
 msgstr ""
 
@@ -179,12 +179,12 @@ msgid "By clicking the button below, you're giving consent for RTL to store your
 msgstr ""
 
 #, elixir-format
-#: lib/rtl_web/templates/home/index.html.eex:17
+#: lib/rtl_web/templates/home/index.html.eex:16
 msgid "Categorize each video by selecting and tagging small, digestible segments."
 msgstr ""
 
 #, elixir-format
-#: lib/rtl_web/templates/home/index.html.eex:23
+#: lib/rtl_web/templates/home/index.html.eex:22
 msgid "Check out a demo project"
 msgstr ""
 
@@ -214,7 +214,7 @@ msgid "Coding (tagging) videos"
 msgstr ""
 
 #, elixir-format
-#: lib/rtl_web/templates/home/index.html.eex:16
+#: lib/rtl_web/templates/home/index.html.eex:15
 msgid "Collect raw video recordings where people share their personal experience with a topic. Each video might be 5 minutes, or it might be an hour."
 msgstr ""
 
@@ -279,7 +279,7 @@ msgid "Delete this user"
 msgstr ""
 
 #, elixir-format
-#: lib/rtl_web/templates/home/index.html.eex:18
+#: lib/rtl_web/templates/home/index.html.eex:17
 msgid "Depending on what topic you're concerned about, we remix those segments into a customized stream of personal experience about that topic."
 msgstr ""
 
@@ -552,7 +552,7 @@ msgid "Only project admins can see it."
 msgstr ""
 
 #, elixir-format
-#: lib/rtl_web/templates/home/index.html.eex:13
+#: lib/rtl_web/templates/home/index.html.eex:12
 msgid "Our approach:"
 msgstr ""
 
@@ -638,7 +638,7 @@ msgid "RTL gives you various ways to get video recordings into the database."
 msgstr ""
 
 #, elixir-format
-#: lib/rtl_web/templates/home/index.html.eex:5
+#: lib/rtl_web/templates/home/index.html.eex:4
 msgid "RTL is an experimental new way of collecting <strong>human stories</strong>, digesting them into categorized \"clips\", and recombining those clips into a custom playlist based on what questions you'd like to ask of the data. Somewhere in between art form and social research tool, the vision is to encourage people to <strong>ask novel questions and discover novel insights</strong> by making individuals' stories digestible and accessible at scale <strong>without reducing the nuanced individual voices to numbers</strong>, as much of social research tends to do."
 msgstr ""
 
@@ -679,7 +679,7 @@ msgstr ""
 
 #, elixir-format
 #: lib/rtl_web/templates/admin/prompt/_form.html.eex:10
-#: lib/rtl_web/templates/user/edit.html.eex:16
+#: lib/rtl_web/templates/user/edit.html.eex:17
 msgid "Save"
 msgstr ""
 
@@ -971,7 +971,7 @@ msgid "We're preparing your video."
 msgstr ""
 
 #, elixir-format
-#: lib/rtl_web/templates/home/index.html.eex:11
+#: lib/rtl_web/templates/home/index.html.eex:10
 msgid "We're working on a system that gives decision makers more direct access to the rich, diverse personal experiences of the people affected by a problem. We're trying to bring personal storytelling back into social research."
 msgstr ""
 
@@ -1002,7 +1002,7 @@ msgid "When you're happy, fill in the fields below, then click <strong>Submit</s
 msgstr ""
 
 #, elixir-format
-#: lib/rtl_web/templates/home/index.html.eex:7
+#: lib/rtl_web/templates/home/index.html.eex:6
 msgid "When you're looking at a complex social problem (like what makes for a good education, or how to improve the economy of a region), there's lots of techniques for condensing all of the information into streamlined summaries."
 msgstr ""
 
@@ -1057,12 +1057,12 @@ msgid "Your email address"
 msgstr ""
 
 #, elixir-format
-#: lib/rtl_web/templates/emails/confirm_address.html.eex:1
+#: lib/rtl/emails.ex:17 lib/rtl_web/templates/emails/confirm_address.html.eex:1
 msgid "Your login link"
 msgstr ""
 
 #, elixir-format
-#: lib/rtl_web/templates/user/edit.html.eex:11
+#: lib/rtl_web/templates/user/edit.html.eex:12
 #: lib/rtl_web/templates/video/new.html.eex:65
 #: lib/rtl_web/templates/video/new.html.eex:71
 msgid "Your name"
@@ -1167,4 +1167,74 @@ msgstr ""
 #, elixir-format
 #: lib/rtl_web/templates/video/new.html.eex:26
 msgid "📶 On a slow connection? For best results, first record the video using your phone's camera app. Then come back to this page and click \"Upload Video\"."
+msgstr ""
+
+#, elixir-format
+#: lib/rtl_web/templates/layout/_gettext_js.html.eex:6
+msgid "Please fill in your name."
+msgstr ""
+
+#, elixir-format
+#: lib/rtl_web/templates/layout/_gettext_js.html.eex:15
+msgid "Add a new tag"
+msgstr ""
+
+#, elixir-format
+#: lib/rtl_web/templates/layout/_gettext_js.html.eex:18
+msgid "Clear all selected tags"
+msgstr ""
+
+#, elixir-format
+#: lib/rtl_web/templates/layout/_gettext_js.html.eex:8
+msgid "Error!"
+msgstr ""
+
+#, elixir-format
+#: lib/rtl_web/templates/layout/_gettext_js.html.eex:7
+msgid "Loading..."
+msgstr ""
+
+#, elixir-format
+#: lib/rtl_web/templates/layout/_gettext_js.html.eex:14
+msgid "Make a selection in the timeline first."
+msgstr ""
+
+#, elixir-format
+#: lib/rtl_web/templates/layout/_gettext_js.html.eex:11
+msgid "Question:"
+msgstr ""
+
+#, elixir-format
+#: lib/rtl_web/templates/layout/_gettext_js.html.eex:13
+msgid "Really delete this tag?"
+msgstr ""
+
+#, elixir-format
+#: lib/rtl_web/templates/layout/_gettext_js.html.eex:16
+msgid "Really delete this tagging?"
+msgstr ""
+
+#, elixir-format
+#: lib/rtl_web/templates/layout/_gettext_js.html.eex:10
+msgid "Speaker:"
+msgstr ""
+
+#, elixir-format
+#: lib/rtl_web/templates/layout/_gettext_js.html.eex:17
+msgid "That's all the clips we have for your search. Adjust your filters to see more."
+msgstr ""
+
+#, elixir-format
+#: lib/rtl_web/templates/layout/_gettext_js.html.eex:9
+msgid "Video info"
+msgstr ""
+
+#, elixir-format
+#: lib/rtl_web/templates/layout/_gettext_js.html.eex:12
+msgid "apply"
+msgstr ""
+
+#, elixir-format
+#: lib/rtl_web/templates/layout/_gettext_js.html.eex:19
+msgid "We didn't find any results for that search."
 msgstr ""

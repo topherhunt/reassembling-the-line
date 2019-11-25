@@ -51,7 +51,7 @@ class TagManager extends React.Component {
         return <div className="__tag">
           <input type="text" id="new-tag-name"
             className="__newTagNameField test-add-tag-field"
-            placeholder="Add a new tag"
+            placeholder={gettext("Add a new tag")}
             value={this.state.newTagName}
             onChange={(e) => this.setState({newTagName: e.target.value})}
             onKeyUp={(e) => {

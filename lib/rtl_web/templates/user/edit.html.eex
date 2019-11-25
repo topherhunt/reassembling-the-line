@@ -4,7 +4,8 @@
   <%= form_for @changeset, Routes.user_path(@conn, :update), [method: "patch"], fn f -> %>
     <div class="form-group">
       <%= label f, :email, gettext("Your email address") %>
-      <small>We don't spam. We don't share your email address with anyone.</small>
+      &nbsp;
+      <small class="text-muted">We don't spam. We don't share your email address with anyone.</small>
       <%= text_input f, :email, class: "form-control", disabled: true %>
     </div>
     <div class="form-group">

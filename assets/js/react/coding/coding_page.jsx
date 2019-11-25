@@ -42,11 +42,11 @@ class CodingPage extends React.Component {
   }
 
   renderLoading() {
-    return <div>Loading...</div>
+    return <div>{gettext("Loading...")}</div>
   }
 
   renderError() {
-    return <div>Error!</div>
+    return <div>{gettext("Error!")}</div>
   }
 
   renderCodingPage(coding) {
@@ -81,14 +81,14 @@ class CodingPage extends React.Component {
 
       <div className="col-4 u-stack">
         <div>
-          <h4>Video info</h4>
+          <h4>{gettext("Video info")}</h4>
           <div>
-            Speaker: {coding.video.speaker_name}
+            {gettext("Speaker:")} {coding.video.speaker_name}
             {coding.video.permission_show_name ? "" : this.warnNamePrivate()}
           </div>
 
           <div>
-            Question: <span className="text-success">{coding.video.prompt.sanitized_text}</span>
+            {gettext("Question:")} <span className="text-success">{coding.video.prompt.sanitized_text}</span>
           </div>
         </div>
 

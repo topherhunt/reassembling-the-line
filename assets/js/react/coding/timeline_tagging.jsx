@@ -94,7 +94,7 @@ class TimelineTagging extends React.Component {
         return <a href="#" className="text-danger test-tagging-delete-link"
           onClick={(e) => {
             e.preventDefault()
-            if (!confirm("Really delete this tagging?")) return
+            if (!confirm(gettext("Really delete this tagging?"))) return
             deleteTagging({variables: {id: this.props.tagging.id}})
           }}
         >

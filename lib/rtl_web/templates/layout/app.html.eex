@@ -27,6 +27,7 @@
         console.error('Ziggeo error: ', status, msg)
       });
     </script>
+    <%= render "_gettext_js.html" %>
   </head>
 
   <body>

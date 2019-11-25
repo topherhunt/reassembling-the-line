@@ -67,7 +67,7 @@ $(function(){
 
   $('.js-form-submit').click((e) => {
     if (!isSpeakerNamePresent()) {
-      preventSubmit(e, "Please fill in your name.")
+      preventSubmit(e, gettext("please_fill_in_name"))
     }
 
     // Otherwise, allow the form to submit.

@@ -104,7 +104,7 @@ class TagListRow extends React.Component {
         <a href="#"
           className="test-tag-apply-link"
           onClick={(e) => { e.preventDefault(); this.applyTag(mutationFuncs) }}
-        >apply</a>
+        >{gettext("apply")}</a>
         &nbsp; &nbsp;
         <a href="#"
           className="text-warning test-tag-edit-link"
@@ -118,7 +118,7 @@ class TagListRow extends React.Component {
           className="text-danger test-tag-delete-link"
           onClick={(e) => {
             e.preventDefault()
-            if (!confirm("Really delete this tag?")) return
+            if (!confirm(gettext("Really delete this tag?"))) return
             mutationFuncs.deleteTag({variables: {id: this.props.tag.id}})
           }}
         ><i className="icon">delete</i></a>
@@ -162,7 +162,7 @@ class TagListRow extends React.Component {
 
   applyTag(mutationFuncs) {
     if (!this.props.timelineSelection) {
-      alert("Make a selection in the timeline first.")
+      alert(gettext("Make a selection in the timeline first."))
       return
     }
 
