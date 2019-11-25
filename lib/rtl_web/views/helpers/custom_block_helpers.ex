@@ -8,7 +8,7 @@ defmodule RTLWeb.CustomBlockHelpers do
     unless label in all_labels, do: raise "Unknown block label: #{inspect(label)}"
 
     if block = find_block(project, label) do
-      block.body |> inject_variables(project) |> raw()
+      (block.body || "") |> inject_variables(project) |> raw()
     else
       default_block(conn, label)
     end

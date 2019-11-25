@@ -378,7 +378,7 @@ msgstr ""
 
 #, elixir-format
 #: lib/rtl_web/templates/video/new.html.eex:7
-msgid "How to use this page:"
+msgid "How to record your video:"
 msgstr ""
 
 #, elixir-format

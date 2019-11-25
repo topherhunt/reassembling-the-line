@@ -26,7 +26,8 @@ defmodule RTLWeb.Gettext do
     %{
       "en" => "🇺🇸",
       "nl" => "🇳🇱",
-      "es" => "🇪🇸"
+      "es" => "🇪🇸",
+      "de" => "🇩🇪"
     }[locale]
   end
 end

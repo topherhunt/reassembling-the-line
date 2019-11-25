@@ -379,8 +379,8 @@ msgstr "Hoe lang we het bewaren"
 
 #, elixir-format
 #: lib/rtl_web/templates/video/new.html.eex:7
-msgid "How to use this page:"
-msgstr "Hoe deze pagina te gebruiken:"
+msgid "How to record your video:"
+msgstr "Hoe u een video kunt opnemen:"
 
 #, elixir-format
 #: lib/rtl_web/templates/home/your_data.html.eex:20

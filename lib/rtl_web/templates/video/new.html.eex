@@ -4,7 +4,7 @@
   <div class="col-md-5 order-md-2">
     <div class="alert alert-info">
       <h1></h1> <%# just to align spacing %>
-      <p class="mb-2"><strong><%= gettext "How to use this page:" %></strong></p>
+      <p class="mb-2"><strong><%= gettext "How to record your video:" %></strong></p>
       <ol style="padding-left: 20px;">
         <li><%= gettext "Read the question. Think about what you want to say." %></li>
         <li><%= raw gettext(~s(Click on <strong class="text-danger">Record Video</strong> to set up the camera. Make sure your face is centered in the picture.)) %></li>

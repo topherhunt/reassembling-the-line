@@ -8,7 +8,7 @@
 ## to merge POT files into PO files.
 msgid ""
 msgstr ""
-"Language: en\n"
+"Language: de\n"
 "Plural-Forms: nplurals=2\n"
 
 #, elixir-format
@@ -19,7 +19,7 @@ msgstr ""
 #, elixir-format
 #: lib/rtl_web/templates/video/new.html.eex:18
 msgid " How to record a great video"
-msgstr ""
+msgstr " Ein kurzes Video über, wie man ein tolles Video aufnimmt."
 
 #, elixir-format
 #: lib/rtl_web/templates/layout/_nav_links.html.eex:57
@@ -29,7 +29,7 @@ msgstr ""
 #, elixir-format
 #: lib/rtl_web/templates/video/new.html.eex:19
 msgid " Report a problem"
-msgstr ""
+msgstr " Ein Problem, melden Sie sich!"
 
 #, elixir-format
 #: lib/rtl_web/templates/admin/project/show.html.eex:151
@@ -111,12 +111,12 @@ msgstr ""
 #, elixir-format
 #: lib/rtl_web/templates/layout/_nav_links.html.eex:51
 msgid "Account"
-msgstr ""
+msgstr "Konto"
 
 #, elixir-format
 #: lib/rtl_web/templates/layout/_nav_links.html.eex:56
 msgid "Account settings"
-msgstr ""
+msgstr "Konto Einstellungen"
 
 #, elixir-format
 #: lib/rtl_web/templates/admin/project/show.html.eex:70
@@ -197,7 +197,7 @@ msgstr ""
 #, elixir-format
 #: lib/rtl_web/templates/video/new.html.eex:10
 msgid "Click on <strong class=\"text-danger\">Record Video</strong> to set up the camera. Make sure your face is centered in the picture."
-msgstr ""
+msgstr "Klicken Sie auf <strong class=\"text-danger\">Record Video</strong>, um die Kamera einzurichten. Stellen Sie sicher, dass Ihr Gesicht im Bild zentriert ist."
 
 #, elixir-format
 #: lib/rtl_web/templates/help/coding_page.html.eex:36
@@ -252,7 +252,7 @@ msgstr ""
 #, elixir-format
 #: lib/rtl_web/templates/layout/_nav_links.html.eex:12
 msgid "Dashboard"
-msgstr ""
+msgstr "Dashboard"
 
 #, elixir-format
 #: lib/rtl_web/templates/video/new.html.eex:82
@@ -323,7 +323,7 @@ msgstr ""
 #: lib/rtl_web/templates/layout/_nav_links.html.eex:16
 #: lib/rtl_web/templates/layout/_nav_links.html.eex:19
 msgid "Explore"
-msgstr ""
+msgstr "Analyse"
 
 #, elixir-format
 #: lib/rtl_web/templates/admin/project/show.html.eex:159
@@ -360,7 +360,7 @@ msgstr ""
 #: lib/rtl_web/templates/help/index.html.eex:3
 #: lib/rtl_web/templates/layout/_nav_links.html.eex:44
 msgid "Help"
-msgstr ""
+msgstr "Hilfe"
 
 #, elixir-format
 #: lib/rtl_web/controllers/auth_controller.ex:32
@@ -380,7 +380,7 @@ msgstr ""
 #, elixir-format
 #: lib/rtl_web/templates/video/new.html.eex:7
 msgid "How to record your video:"
-msgstr ""
+msgstr "Wie nimmt man ein Video auf:"
 
 #, elixir-format
 #: lib/rtl_web/templates/home/your_data.html.eex:20
@@ -535,7 +535,7 @@ msgstr ""
 #, elixir-format
 #: lib/rtl_web/templates/video/new.html.eex:13
 msgid "Once you're done, click <strong class=\"text-danger\">Stop</strong>. You'll get a chance to review, re-do, or download your recording before you submit it."
-msgstr ""
+msgstr "Wenn Sie fertig sind, klicken Sie auf <strong class=\"text-danger\">Stop</strong>. Sie haben die Möglichkeit, Ihre Aufzeichnung zu überprüfen, erneut zu bearbeiten oder herunterzuladen, bevor Sie sie senden."
 
 #, elixir-format
 #: lib/rtl_web/templates/help/coding_page.html.eex:66
@@ -616,7 +616,7 @@ msgstr ""
 #: lib/rtl_web/templates/admin/project/index.html.eex:2
 #: lib/rtl_web/templates/layout/_nav_links.html.eex:32
 msgid "Projects"
-msgstr ""
+msgstr "Projekte"
 
 #, elixir-format
 #: lib/rtl_web/controllers/admin/prompt_controller.ex:20
@@ -646,7 +646,7 @@ msgstr ""
 #, elixir-format
 #: lib/rtl_web/templates/video/new.html.eex:9
 msgid "Read the question. Think about what you want to say."
-msgstr ""
+msgstr "Nehmen Sie sich Zeit die Fragen zu lesen. Überlegen Sie, was Sie sagen möchten und machen Sie sich ggf. Notizen."
 
 #, elixir-format
 #: lib/rtl_web/templates/admin/video/list.html.leex:59
@@ -671,7 +671,7 @@ msgstr ""
 #, elixir-format
 #: lib/rtl_web/templates/video/new.html.eex:16
 msgid "Resources:"
-msgstr ""
+msgstr "Ressourcen:"
 
 #, elixir-format
 #: lib/rtl_web/templates/admin/video/list.html.leex:52
@@ -747,7 +747,7 @@ msgstr ""
 #, elixir-format
 #: lib/rtl_web/templates/video/new.html.eex:12
 msgid "Tell your story! You'll have <strong>up to 5 minutes</strong> to speak. If you're not confident speaking in English, feel free to use 🇳🇱 Dutch, 🇩🇪 German, or 🇪🇸 Spanish."
-msgstr ""
+msgstr "Erzählen Sie und teilen Sie sich mit! Sie haben bis zu <strong>5 Minuten</strong> Zeit. Wenn Sie können Ihre Aufnahme in 🇩🇪 Deutsch, 🇺🇸 Englisch, 🇳🇱 Niederländisch oder 🇪🇸 Spanisch tätigen."
 
 #, elixir-format
 #: lib/rtl_web/templates/admin/custom_block/_thank_you_page.html.eex:2
@@ -797,7 +797,7 @@ msgstr ""
 #, elixir-format
 #: lib/rtl_web/templates/video/new.html.eex:34
 msgid "The question:"
-msgstr ""
+msgstr "Die Fragen:"
 
 #, elixir-format
 #: lib/rtl_web/templates/help/coding_page.html.eex:49
@@ -1010,7 +1010,7 @@ msgstr ""
 #, elixir-format
 #: lib/rtl_web/templates/video/new.html.eex:11
 msgid "When you're ready to start, click <strong class=\"text-danger\">Record</strong>"
-msgstr ""
+msgstr "Wenn Sie bereit sind, klicken Sie auf <strong class=\"text-danger\">Record</strong>."
 
 #, elixir-format
 #: lib/rtl_web/templates/help/coding_page.html.eex:20
