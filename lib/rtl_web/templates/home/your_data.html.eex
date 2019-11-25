@@ -1,11 +1,11 @@
 <div class="u-centered-800">
   <h1><%= gettext "Data policy" %></h1>
 
-  <p><%= gettext "This page describes Reassembling the Line's data policy and your rights under the GDPR (General Data Protection Regulation)." %> <%= link gettext("Learn more about the GDPR here."), to: "https://www.gdprsummary.com/gdpr-summary/" %></p>
+  <p><%= gettext "This page describes RTL's data policy and your rights under the GDPR (General Data Protection Regulation)." %> <%= link gettext("Learn more about the GDPR here."), to: "https://www.gdprsummary.com/gdpr-summary/" %></p>
 
   <h4><%= gettext "Who we are" %></h4>
 
-  <p><%= raw gettext(~s[This site is <a href="/">Reassembling the Line</a>, a service that offers researchers a new way to understand complex social issues by collecting, categorizing, and learning from your personal experiences. It's a project by Whitney Hunter-Thomson (co-founder) and Topher Hunt (co-founder and lead developer). <a href="%{contact_us_url}">Click here to contact us</a> with any questions.], contact_us_url: contact_us_url()) %></p>
+  <p><%= raw gettext(~s[This site is <a href="/">RTL</a>, a service that offers researchers a new way to understand complex social issues by collecting, categorizing, and learning from your personal experiences. It's a project by Whitney Hunter-Thomson (co-founder) and Topher Hunt (co-founder and lead developer). <a href="%{contact_us_url}">Click here to contact us</a> with any questions.], contact_us_url: contact_us_url()) %></p>
 
   <p><%= raw gettext("Data on this website is grouped under <strong>projects</strong>, each project being run by a particular researcher or project owner. You can find the project owner's contact information on the project's landing page.") %></p>
 
@@ -39,5 +39,5 @@
 
   <h4><%= gettext "Your rights" %></h4>
 
-  <p><%= raw gettext("The data you contribute to projects on Reassembling the Line belongs to you. You have the right to ask us for a copy of it, or ask us to remove it. <a href=\"%{url}\" target=\"_blank\">Contact us</a> with any questions or requests.", url: contact_us_url()) %></p>
+  <p><%= raw gettext("The data you contribute to projects on RTL belongs to you. You have the right to ask us for a copy of it, or ask us to remove it. <a href=\"%{url}\" target=\"_blank\">Contact us</a> with any questions or requests.", url: contact_us_url()) %></p>
 </div>

@@ -79,7 +79,7 @@
         </div>
 
         <div class="u-card u-box-shadow">
-          <h4 class="text-danger"><%= gettext "Data consent" %></h4>
+          <h4 class="text-danger"><%= gettext "Consent to our use of your data" %></h4>
           <div><%= custom_block @conn, "recording_page_consent_text" %></div>
         </div>
 

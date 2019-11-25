@@ -1,5 +1,5 @@
 <div class="text-center small">
-  <strong><%= link "Reassembling the Line", to: "/" %></strong>
+  <strong><%= link "RTL", to: "/" %></strong>
   &nbsp; &nbsp;
   <%= link gettext("Your data"), to: Routes.home_path(@conn, :your_data), target: "_blank" %>
   &nbsp; &nbsp;

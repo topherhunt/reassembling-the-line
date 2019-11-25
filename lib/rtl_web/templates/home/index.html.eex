@@ -1,7 +1,6 @@
-<h1>Reassembling the Line</h1>
+<h1>RTL <em class="text-muted h4">(Reassembling the Line)</em></h1>
 <div class="row">
   <div class="col-md-8">
-
     <p><%= raw gettext(~s(RTL is an experimental new way of collecting <strong>human stories</strong>, digesting them into categorized "clips", and recombining those clips into a custom playlist based on what questions you'd like to ask of the data. Somewhere in between art form and social research tool, the vision is to encourage people to <strong>ask novel questions and discover novel insights</strong> by making individuals' stories digestible and accessible at scale <strong>without reducing the nuanced individual voices to numbers</strong>, as much of social research tends to do.)) %></p>
 
     <p><%= gettext "When you're looking at a complex social problem (like what makes for a good education, or how to improve the economy of a region), there's lots of techniques for condensing all of the information into streamlined summaries." %></p>

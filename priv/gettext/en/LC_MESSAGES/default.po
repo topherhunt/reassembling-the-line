@@ -176,7 +176,7 @@ msgstr ""
 #, elixir-format
 #:
 #: lib/rtl_web/templates/admin/custom_block/_recording_page_consent_text.html.eex:1
-msgid "By clicking the button below, you're giving consent for Reassembling the Line to store your data as part of this project, <a href=\"%{project_path}\" target=\"_blank\">%{project_name}</a>. See our <a href=\"%{data_policy_path}\" target=\"_blank\">data policy</a> for more information."
+msgid "By clicking the button below, you're giving consent for RTL to store your data as part of this project, <a href=\"%{project_path}\" target=\"_blank\">%{project_name}</a>. See our <a href=\"%{data_policy_path}\" target=\"_blank\">data policy</a> for more information."
 msgstr ""
 
 #, elixir-format
@@ -256,7 +256,7 @@ msgstr ""
 
 #, elixir-format
 #: lib/rtl_web/templates/video/new.html.eex:82
-msgid "Data consent"
+msgid "Consent to our use of your data"
 msgstr ""
 
 #, elixir-format
@@ -786,7 +786,7 @@ msgstr ""
 
 #, elixir-format
 #: lib/rtl_web/templates/home/your_data.html.eex:42
-msgid "The data you contribute to projects on Reassembling the Line belongs to you. You have the right to ask us for a copy of it, or ask us to remove it. <a href=\"%{url}\" target=\"_blank\">Contact us</a> with any questions or requests."
+msgid "The data you contribute to projects on RTL belongs to you. You have the right to ask us for a copy of it, or ask us to remove it. <a href=\"%{url}\" target=\"_blank\">Contact us</a> with any questions or requests."
 msgstr ""
 
 #, elixir-format
@@ -826,7 +826,7 @@ msgstr ""
 
 #, elixir-format
 #: lib/rtl_web/templates/home/your_data.html.eex:4
-msgid "This page describes Reassembling the Line's data policy and your rights under the GDPR (General Data Protection Regulation)."
+msgid "This page describes RTL's data policy and your rights under the GDPR (General Data Protection Regulation)."
 msgstr ""
 
 #, elixir-format
@@ -866,7 +866,7 @@ msgstr ""
 
 #, elixir-format
 #: lib/rtl_web/templates/home/your_data.html.eex:8
-msgid "This site is <a href=\"/\">Reassembling the Line</a>, a service that offers researchers a new way to understand complex social issues by collecting, categorizing, and learning from your personal experiences. It's a project by Whitney Hunter-Thomson (co-founder) and Topher Hunt (co-founder and lead developer). <a href=\"%{contact_us_url}\">Click here to contact us</a> with any questions."
+msgid "This site is <a href=\"/\">RTL</a>, a service that offers researchers a new way to understand complex social issues by collecting, categorizing, and learning from your personal experiences. It's a project by Whitney Hunter-Thomson (co-founder) and Topher Hunt (co-founder and lead developer). <a href=\"%{contact_us_url}\">Click here to contact us</a> with any questions."
 msgstr ""
 
 #, elixir-format

@@ -1,4 +1,4 @@
-<h1>Reassembling the Line: <%= gettext "Your login link" %></h1>
+<h1>RTL: <%= gettext "Your login link" %></h1>
 
 <p><%= gettext "Please click the link below to log in." %></p>
 
