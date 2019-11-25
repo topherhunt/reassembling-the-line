@@ -1077,7 +1077,7 @@ msgstr "Deine Rechte"
 #, elixir-format
 #: lib/rtl_web/templates/video/new.html.eex:57
 msgid "Your video is ready! Click on it to play it. To start over, click <strong>Redo</strong>."
-msgstr "Dein Video ist fertig! Klicken Sie darauf, um es zu spielen. Um von <strong>vorne</strong> zu beginnen, klicken Sie auf <strong>Redo</strong>."
+msgstr "Ihr Video ist fertig! Klicken Sie es an, um es abzuspielen. Um von <strong>vorne</strong> zu beginnen, klicken Sie auf <strong>Redo</strong>."
 
 #, elixir-format
 #: lib/rtl_web/templates/results/index.html.eex:38
