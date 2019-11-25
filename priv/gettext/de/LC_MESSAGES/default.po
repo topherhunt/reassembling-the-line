@@ -177,7 +177,7 @@ msgstr "Auf diese Weise vereinfachen Sie jedoch. Sie verlieren die Fülle und Vi
 #:
 #: lib/rtl_web/templates/admin/custom_block/_recording_page_consent_text.html.eex:1
 msgid "By clicking the button below, you're giving consent for RTL to store your data as part of this project, <a href=\"%{project_path}\" target=\"_blank\">%{project_name}</a>. See our <a href=\"%{data_policy_path}\" target=\"_blank\">data policy</a> for more information."
-msgstr "Durch Klicken auf die Schaltfläche unten, erteilen Sie RTL die Erlaubnis, Ihre Daten als Teil dieses Projekts <a href=\"%{project_path}\" target=\"_blank\">%{project_name}</a> zu speichern. Weitere Informationen finden Sie in unserer <a href=\"%{data_policy_path}\" target=\"_blank\">Datenschutzerklärung</a>."
+msgstr "Durch Klicken auf \"Aufnahme Senden\" geben Sie \"RTL\" Ihr Einverständnis, Ihre Daten als Teil des Projekts, <a href=\"%{project_path}\" target=\"_blank\">%{project_name}</a>, zu speichern. Weiterführende Informationen finden Sie in unserer <a href=\"%{data_policy_path}\" target=\"_blank\">Datenschutzerklärung</a>."
 
 #, elixir-format
 #: lib/rtl_web/templates/home/index.html.eex:16
@@ -257,7 +257,7 @@ msgstr "Dashboard"
 #, elixir-format
 #: lib/rtl_web/templates/video/new.html.eex:82
 msgid "Consent to our use of your data"
-msgstr "Zustimmung zu unserer Verwendung Ihrer Daten"
+msgstr "Einwilligung in Datengebrauch"
 
 #, elixir-format
 #: lib/rtl_web/templates/home/your_data.html.eex:10
@@ -707,7 +707,7 @@ msgstr "Teile deine Geschichte"
 #, elixir-format
 #: lib/rtl_web/templates/video/new.html.eex:77
 msgid "Show my name when showing this video"
-msgstr "Zeige meinen Namen, wenn dieses Video gezeigt wird"
+msgstr "Bei Wiedergabe des Videos darf mein Name angegeben werden."
 
 #, elixir-format
 #: lib/rtl_web/templates/home/your_data.html.eex:28
@@ -717,7 +717,7 @@ msgstr "Subprozessoren"
 #, elixir-format
 #: lib/rtl_web/templates/video/new.html.eex:91
 msgid "Submit your recording"
-msgstr "Senden Sie Ihre Aufnahme"
+msgstr "Aufnahme Senden"
 
 #, elixir-format
 #: lib/rtl_web/templates/admin/video/code.html.eex:13
@@ -862,7 +862,7 @@ msgstr "Diese Seite zeigt eine Wiedergabeliste aller getaggten Videoclips, die n
 #, elixir-format
 #: lib/rtl_web/templates/admin/custom_block/_landing_page.html.eex:3
 msgid "This project is run by <a href=\"mailto:%{owner_email}\">%{owner_name}</a> using the <a href=\"/\">RTL</a> platform."
-msgstr "Dieses Projekt wird von <a href=\"mailto:%{owner_email}\">%{owner_name}</a> unter Verwendung der <a href=\"/\">RTL-</a>Plattform ausgeführt."
+msgstr "Dieses Projekt wird von <a href=\"mailto:%{owner_email}\">%{owner_name}</a> auf der <a href=\"/\">RTL-</a>Plattform durchgeführt."
 
 #, elixir-format
 #: lib/rtl_web/templates/home/your_data.html.eex:8
@@ -1000,7 +1000,7 @@ msgstr "Welche Frage (n) möchten Sie stellen?"
 #, elixir-format
 #: lib/rtl_web/templates/video/new.html.eex:58
 msgid "When you're happy, fill in the fields below, then click <strong>Submit</strong>."
-msgstr "Wenn Sie zufrieden sind, füllen Sie die folgenden Felder aus und klicken Sie auf <strong>Senden</strong>."
+msgstr "Wenn Sie zufrieden sind, füllen Sie die nachfolgenden Felder aus und klicken Sie auf <strong>Senden</strong>."
 
 #, elixir-format
 #: lib/rtl_web/templates/home/index.html.eex:6
