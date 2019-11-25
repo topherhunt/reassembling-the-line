@@ -14,7 +14,7 @@ msgstr ""
 #, elixir-format
 #: lib/rtl_web/templates/admin/video/code.html.eex:14
 msgid " Help"
-msgstr ""
+msgstr " Hilfe"
 
 #, elixir-format
 #: lib/rtl_web/templates/video/new.html.eex:18
@@ -24,7 +24,7 @@ msgstr " Ein kurzes Video über, wie man ein tolles Video aufnimmt."
 #, elixir-format
 #: lib/rtl_web/templates/layout/_nav_links.html.eex:57
 msgid " Log out"
-msgstr ""
+msgstr " Ausloggen"
 
 #, elixir-format
 #: lib/rtl_web/templates/video/new.html.eex:19
@@ -35,78 +35,78 @@ msgstr " Ein Problem, melden Sie sich!"
 #: lib/rtl_web/templates/admin/project/show.html.eex:151
 #: lib/rtl_web/templates/admin/video/list.html.leex:21
 msgid " Tag the next video"
-msgstr ""
+msgstr " Taggen Sie das nächste Video"
 
 #, elixir-format
 #: lib/rtl_web/templates/admin/video/list.html.leex:51
 msgid " download"
-msgstr ""
+msgstr " herunterladen"
 
 #, elixir-format
 #: lib/rtl_web/templates/admin/video/list.html.leex:89
 msgid " edit"
-msgstr ""
+msgstr " bearbeiten"
 
 #, elixir-format
 #: lib/rtl_web/templates/admin/video/list.html.leex:84
 msgid " finish"
-msgstr ""
+msgstr " Fertig"
 
 #, elixir-format
 #: lib/rtl_web/templates/admin/video/list.html.leex:78
 msgid " start"
-msgstr ""
+msgstr " Start"
 
 #, elixir-format
 #: lib/rtl_web/templates/admin/video/list.html.leex:48
 msgid " watch"
-msgstr ""
+msgstr " schauen"
 
 #, elixir-format
 #: lib/rtl_web/controllers/admin/project_admin_join_controller.ex:13
 msgid "%{admin} is now an admin on \"%{project}\"."
-msgstr ""
+msgstr "%{admin} ist jetzt ein Administrator für \"%{project}\"."
 
 #, elixir-format
 #: lib/rtl_web/templates/admin/video/list.html.leex:83
 msgid "%{coder} is working on tagging this video. Are you sure you want to take over?"
-msgstr ""
+msgstr "%{coder} arbeitet an der Markierung dieses Videos. Sind Sie sicher, dass Sie übernehmen möchten?"
 
 #, elixir-format
 #: lib/rtl_web/templates/video/new.html.eex:67
 msgid "(required)"
-msgstr ""
+msgstr "(erforderlich)"
 
 #, elixir-format
 #: lib/rtl_web/templates/admin/project/index.html.eex:22
 msgid "+ New project"
-msgstr ""
+msgstr "+ Neues Projekt"
 
 #, elixir-format
 #: lib/rtl_web/templates/admin/project/show.html.eex:109
 msgid "+ add another question"
-msgstr ""
+msgstr "+ eine weitere Frage hinzufügen"
 
 #, elixir-format
 #: lib/rtl_web/templates/home/your_data.html.eex:17
 #: lib/rtl_web/templates/home/your_data.html.eex:37
 msgid "<a href=\"%{url}\" target=\"_blank\">See this list</a> for more details."
-msgstr ""
+msgstr "Weitere Einzelheiten finden Sie in <a href=\"%{url}\" target=\"_blank\">dieser Liste</a>."
 
 #, elixir-format
 #: lib/rtl_web/templates/home/your_data.html.eex:15
 msgid "<strong>Your name</strong>. We use this both to give you credit when others hear your story, and to protect your data ownership rights in case you decide you'd like your story removed from this site in the future."
-msgstr ""
+msgstr "<strong>Dein Name</strong>. Wir verwenden dies sowohl, um Ihnen Anerkennung zu verschaffen, wenn andere Ihre Geschichte hören, als auch, um Ihre Dateneigentumsrechte zu schützen, falls Sie entscheiden, dass Ihre Geschichte in Zukunft von dieser Website entfernt werden soll."
 
 #, elixir-format
 #: lib/rtl_web/templates/home/your_data.html.eex:16
 msgid "<strong>Your video recording</strong> in which you tell your personal story regarding some particular topic (which depends on the project)."
-msgstr ""
+msgstr "<strong>Ihre Videoaufnahme,</strong> in der Sie Ihre persönliche Geschichte zu einem bestimmten Thema erzählen (abhängig vom Projekt)."
 
 #, elixir-format
 #: lib/rtl_web/templates/admin/custom_block/_thank_you_page.html.eex:6
 msgid "About this project"
-msgstr ""
+msgstr "Über dieses Projekt"
 
 #, elixir-format
 #: lib/rtl_web/templates/layout/_nav_links.html.eex:51
@@ -121,78 +121,78 @@ msgstr "Konto Einstellungen"
 #, elixir-format
 #: lib/rtl_web/templates/admin/project/show.html.eex:70
 msgid "Add"
-msgstr ""
+msgstr "Hinzufügen"
 
 #, elixir-format
 #: lib/rtl_web/templates/results/index.html.eex:28
 msgid "Add tags to some videos"
-msgstr ""
+msgstr "Fügen Sie einigen Videos Tags hinzu"
 
 #, elixir-format
 #: lib/rtl_web/templates/admin/project/show.html.eex:142
 msgid "Add tags to videos"
-msgstr ""
+msgstr "Tags zu Videos hinzufügen"
 
 #, elixir-format
 #: lib/rtl_web/templates/help/collecting_videos.html.eex:29
 msgid "Admin upload"
-msgstr ""
+msgstr "Administrator-Upload"
 
 #, elixir-format
 #: lib/rtl_web/templates/admin/project/show.html.eex:43
 msgid "Admins"
-msgstr ""
+msgstr "Admins"
 
 #, elixir-format
 #: lib/rtl_web/templates/help/coding_page.html.eex:50
 msgid "All the tags you've created (for any videos) are listed here."
-msgstr ""
+msgstr "Alle von Ihnen erstellten Tags (für alle Videos) werden hier aufgelistet."
 
 #, elixir-format
 #: lib/rtl_web/templates/admin/video/list.html.leex:17
 msgid "All videos are listed below, with the most recently tagged first. Untagged videos are at the bottom."
-msgstr ""
+msgstr "Alle Videos sind unten aufgelistet, wobei das zuletzt getaggte zuerst angezeigt wird. Nicht getaggte Videos befinden sich unten."
 
 #, elixir-format
 #: lib/rtl_web/templates/home/your_data.html.eex:26
 msgid "Any videos you submit will be kept in our database for the lifetime of the project, which may be indefinite. You can always contact the project owner for more information."
-msgstr ""
+msgstr "Alle Videos, die Sie einreichen, werden für die Dauer des Projekts in unserer Datenbank gespeichert. Diese kann unbefristet sein. Sie können sich jederzeit an den Projektbesitzer wenden, um weitere Informationen zu erhalten."
 
 #, elixir-format
 #: lib/rtl_web/templates/help/collecting_videos.html.eex:32
 msgid "As an admin, you can upload pre-recorded videos simply by using the normal webcam recording link (see above), and clicking the \"Upload\" button instead of the \"Record\" button."
-msgstr ""
+msgstr "Als Administrator können Sie zuvor aufgezeichnete Videos einfach über den normalen Link für die Webcam-Aufzeichnung (siehe oben) hochladen und auf die Schaltfläche \"Upload\" anstelle der Schaltfläche \"Record\" klicken."
 
 #, elixir-format
 #: lib/rtl_web/templates/admin/project/show.html.eex:16
 msgid "Basic info"
-msgstr ""
+msgstr "Basisinformation"
 
 #, elixir-format
 #: lib/rtl_web/templates/home/index.html.eex:9
 msgid "But by doing so, you simplify. You lose the rich nuance and diversity of perspectives. You're asking a big and nuanced question, but your tools pull you towards simplified and incomplete answers. When you're looking at abstracted numbers and statistics, it's easy to lose sight of the voices of the real people affected by the issue."
-msgstr ""
+msgstr "Auf diese Weise vereinfachen Sie jedoch. Sie verlieren die Fülle und Vielfalt der Perspektiven. Sie stellen eine große und differenzierte Frage, aber Ihre Tools führen Sie zu vereinfachten und unvollständigen Antworten. Wenn Sie abstrakte Zahlen und Statistiken betrachten, verlieren Sie leicht die Stimmen der realen Personen aus den Augen, die von dem Problem betroffen sind."
 
 #, elixir-format
 #:
 #: lib/rtl_web/templates/admin/custom_block/_recording_page_consent_text.html.eex:1
 msgid "By clicking the button below, you're giving consent for Reassembling the Line to store your data as part of this project, <a href=\"%{project_path}\" target=\"_blank\">%{project_name}</a>. See our <a href=\"%{data_policy_path}\" target=\"_blank\">data policy</a> for more information."
-msgstr ""
+msgstr "Durch Klicken auf die Schaltfläche unten, erteilen Sie RTL die Erlaubnis, Ihre Daten als Teil dieses Projekts <a href=\"%{project_path}\" target=\"_blank\">%{project_name}</a> zu speichern. Weitere Informationen finden Sie in unserer <a href=\"%{data_policy_path}\" target=\"_blank\">Datenschutzerklärung</a>."
 
 #, elixir-format
 #: lib/rtl_web/templates/home/index.html.eex:17
 msgid "Categorize each video by selecting and tagging small, digestible segments."
-msgstr ""
+msgstr "Kategorisieren Sie jedes Video, indem Sie kleine, verdauliche Segmente auswählen und markieren."
 
 #, elixir-format
 #: lib/rtl_web/templates/home/index.html.eex:23
 msgid "Check out a demo project"
-msgstr ""
+msgstr "Schauen Sie sich ein Demo-Projekt an"
 
 #, elixir-format
 #: lib/rtl_web/templates/help/coding_page.html.eex:35
 msgid "Click and drag to select a piece of the video where you'd like to add a tag."
-msgstr ""
+msgstr "Klicken und ziehen Sie, um einen Teil des Videos auszuwählen, zu dem Sie ein Tag hinzufügen möchten."
 
 #, elixir-format
 #: lib/rtl_web/templates/video/new.html.eex:10
@@ -202,52 +202,52 @@ msgstr "Klicken Sie auf <strong class=\"text-danger\">Record Video</strong>, um 
 #, elixir-format
 #: lib/rtl_web/templates/help/coding_page.html.eex:36
 msgid "Click on a tag to adjust its position, preview it, or remove it."
-msgstr ""
+msgstr "Klicken Sie auf ein Tag, um dessen Position anzupassen, eine Vorschau anzuzeigen oder es zu entfernen."
 
 #, elixir-format
 #: lib/rtl_web/templates/help/coding_page.html.eex:19
 msgid "Click on the video to start or stop playback."
-msgstr ""
+msgstr "Klicken Sie auf das Video, um die Wiedergabe zu starten oder zu stoppen."
 
 #, elixir-format
 #: lib/rtl_web/templates/help/index.html.eex:7
 msgid "Coding (tagging) videos"
-msgstr ""
+msgstr "Codieren (Markieren) von Videos"
 
 #, elixir-format
 #: lib/rtl_web/templates/home/index.html.eex:16
 msgid "Collect raw video recordings where people share their personal experience with a topic. Each video might be 5 minutes, or it might be an hour."
-msgstr ""
+msgstr "Sammeln Sie rohe Videoaufnahmen, bei denen Personen ihre persönlichen Erfahrungen mit einem Thema teilen. Jedes Video kann 5 Minuten oder eine Stunde lang sein."
 
 #, elixir-format
 #: lib/rtl_web/templates/admin/project/show.html.eex:116
 msgid "Collect stories"
-msgstr ""
+msgstr "Geschichten sammeln"
 
 #, elixir-format
 #: lib/rtl_web/templates/help/index.html.eex:6
 msgid "Collecting videos"
-msgstr ""
+msgstr "Videos sammeln"
 
 #, elixir-format
 #: lib/rtl_web/templates/admin/custom_block/_footer.html.eex:6
 msgid "Contact us"
-msgstr ""
+msgstr "Kontaktiere uns"
 
 #, elixir-format
 #: lib/rtl_web/templates/admin/video_import/new.html.eex:15
 msgid "Create a prompt before importing videos."
-msgstr ""
+msgstr "Erstellen Sie eine Eingabeaufforderung, bevor Sie Videos importieren."
 
 #, elixir-format
 #: lib/rtl_web/templates/admin/project/index.html.eex:12
 msgid "Created on"
-msgstr ""
+msgstr "Erstellt am"
 
 #, elixir-format
 #: lib/rtl_web/templates/admin/project/show.html.eex:77
 msgid "Custom blocks"
-msgstr ""
+msgstr "Benutzerdefinierte Blöcke"
 
 #, elixir-format
 #: lib/rtl_web/templates/layout/_nav_links.html.eex:12
@@ -257,67 +257,67 @@ msgstr "Dashboard"
 #, elixir-format
 #: lib/rtl_web/templates/video/new.html.eex:82
 msgid "Data consent"
-msgstr ""
+msgstr "Zustimmung zu unserer Verwendung Ihrer Daten"
 
 #, elixir-format
 #: lib/rtl_web/templates/home/your_data.html.eex:10
 msgid "Data on this website is grouped under <strong>projects</strong>, each project being run by a particular researcher or project owner. You can find the project owner's contact information on the project's landing page."
-msgstr ""
+msgstr "Die Daten auf dieser Website sind unter <strong>Projekten</strong> zusammengefasst, wobei jedes Projekt von einem bestimmten Forscher oder Projektinhaber durchgeführt wird. Die Kontaktinformationen des Projektbesitzers finden Sie auf der Zielseite des Projekts."
 
 #, elixir-format
 #: lib/rtl_web/templates/home/your_data.html.eex:2
 msgid "Data policy"
-msgstr ""
+msgstr "Datenpolitik"
 
 #, elixir-format
 #: lib/rtl_web/templates/admin/project/show.html.eex:23
 msgid "Date created"
-msgstr ""
+msgstr "Datum erstellt"
 
 #, elixir-format
 #: lib/rtl_web/templates/admin/user/edit.html.eex:10
 msgid "Delete this user"
-msgstr ""
+msgstr "Lösche diesen Benutzer"
 
 #, elixir-format
 #: lib/rtl_web/templates/home/index.html.eex:18
 msgid "Depending on what topic you're concerned about, we remix those segments into a customized stream of personal experience about that topic."
-msgstr ""
+msgstr "Je nachdem, um welches Thema es sich handelt, mischen wir diese Segmente zu einem benutzerdefinierten Strom persönlicher Erfahrungen zu diesem Thema."
 
 #, elixir-format
 #: lib/rtl_web/templates/admin/project/edit.html.eex:5
 msgid "Edit"
-msgstr ""
+msgstr "Bearbeiten"
 
 #, elixir-format
 #: lib/rtl_web/templates/admin/project/edit.html.eex:9
 msgid "Edit project"
-msgstr ""
+msgstr "Projekt bearbeiten"
 
 #, elixir-format
 #: lib/rtl_web/templates/admin/prompt/edit.html.eex:13
 msgid "Edit question"
-msgstr ""
+msgstr "Frage bearbeiten"
 
 #, elixir-format
 #: lib/rtl_web/templates/admin/prompt/edit.html.eex:8
 msgid "Edit question: "
-msgstr ""
+msgstr "Frage bearbeiten:"
 
 #, elixir-format
 #: lib/rtl_web/templates/admin/user/edit.html.eex:2
 msgid "Edit user:"
-msgstr ""
+msgstr "Benutzer bearbeiten:"
 
 #, elixir-format
 #: lib/rtl_web/templates/auth/login.html.eex:8
 msgid "Email"
-msgstr ""
+msgstr "Email"
 
 #, elixir-format
 #: lib/rtl_web/templates/admin/video_import/new.html.eex:19
 msgid "Error:"
-msgstr ""
+msgstr "Error:"
 
 #, elixir-format
 #: lib/rtl_web/templates/layout/_nav_links.html.eex:16
@@ -328,33 +328,33 @@ msgstr "Analyse"
 #, elixir-format
 #: lib/rtl_web/templates/admin/project/show.html.eex:159
 msgid "Explore & share results"
-msgstr ""
+msgstr "Ergebnisse erkunden und teilen"
 
 #, elixir-format
 #: lib/rtl_web/templates/results/index.html.eex:9
 msgid "Explore all video clips"
-msgstr ""
+msgstr "Entdecken Sie alle Videoclips"
 
 #, elixir-format
 #: lib/rtl_web/templates/admin/video_export/new.html.eex:5
 #: lib/rtl_web/templates/admin/video_export/new.html.eex:10
 msgid "Export videos"
-msgstr ""
+msgstr "Videos exportieren"
 
 #, elixir-format
 #: lib/rtl_web/templates/admin/project/show.html.eex:134
 msgid "Export videos to JSON"
-msgstr ""
+msgstr "Exportieren Sie Videos nach JSON"
 
 #, elixir-format
 #: lib/rtl_web/templates/results/index.html.eex:35
 msgid "Filter by tag"
-msgstr ""
+msgstr "Filtern nach Tag"
 
 #, elixir-format
 #: lib/rtl_web/templates/results/index.html.eex:23
 msgid "Hear more from this person"
-msgstr ""
+msgstr "Höre mehr von dieser Person"
 
 #, elixir-format
 #: lib/rtl_web/templates/help/index.html.eex:3
@@ -365,17 +365,17 @@ msgstr "Hilfe"
 #, elixir-format
 #: lib/rtl_web/controllers/auth_controller.ex:32
 msgid "Hmm, that login link is too old. Please try again."
-msgstr ""
+msgstr "Hmm, dieser Login-Link ist zu alt. Bitte versuche es erneut."
 
 #, elixir-format
 #: lib/rtl_web/templates/help/coding_page.html.eex:79
 msgid "How can we improve the tagging page? How can we improve this help page?"
-msgstr ""
+msgstr "Wie können wir die Tagging-Seite verbessern? Wie können wir diese Hilfeseite verbessern?"
 
 #, elixir-format
 #: lib/rtl_web/templates/home/your_data.html.eex:24
 msgid "How long we keep it"
-msgstr ""
+msgstr "Wie lange wir es behalten"
 
 #, elixir-format
 #: lib/rtl_web/templates/video/new.html.eex:7
@@ -385,84 +385,84 @@ msgstr "Wie nimmt man ein Video auf:"
 #, elixir-format
 #: lib/rtl_web/templates/home/your_data.html.eex:20
 msgid "How we use your data"
-msgstr ""
+msgstr "Wie wir Ihre Daten verwenden"
 
 #, elixir-format
 #: lib/rtl_web/templates/emails/confirm_address.html.eex:7
 msgid "If you did not request a log-in link a moment ago, please ignore this email."
-msgstr ""
+msgstr "Wenn Sie vor kurzem noch keinen Login-Link angefordert haben, ignorieren Sie diese E-Mail bitte."
 
 #, elixir-format
 #: lib/rtl_web/templates/video/new.html.eex:23
 msgid "If you're recording on your phone:"
-msgstr ""
+msgstr "Wenn Sie auf Ihrem Handy aufnehmen:"
 
 #, elixir-format
 #: lib/rtl_web/templates/admin/video_import/new.html.eex:33
 msgid "Import"
-msgstr ""
+msgstr "Einführen"
 
 #, elixir-format
 #: lib/rtl_web/templates/admin/video_import/new.html.eex:5
 #: lib/rtl_web/templates/admin/video_import/new.html.eex:10
 msgid "Import videos"
-msgstr ""
+msgstr "Videos importieren"
 
 #, elixir-format
 #: lib/rtl_web/templates/admin/project/show.html.eex:135
 msgid "Import videos from JSON"
-msgstr ""
+msgstr "Importieren Sie Videos von JSON"
 
 #, elixir-format
 #: lib/rtl_web/controllers/admin/video_import_controller.ex:23
 msgid "Imported %{num} videos."
-msgstr ""
+msgstr "%{num} Videos sind importiert."
 
 #, elixir-format
 #: lib/rtl_web/templates/help/collecting_videos.html.eex:12
 msgid "Interviewees can record their own story on this website, using their computer's webcam. Each submitted recording will appear in the list of videos to code. To enable this, create a prompt under your project, then go to the prompt's details page. Copy the link shown on that page and send it to all of your participants."
-msgstr ""
+msgstr "Die Befragten können auf dieser Website mithilfe der Webcam ihres Computers ihre eigene Geschichte aufzeichnen. Jede übermittelte Aufzeichnung wird in der Liste der zu codierenden Videos angezeigt. Um dies zu aktivieren, erstellen Sie eine Eingabeaufforderung unter Ihrem Projekt und wechseln Sie dann zur Detailseite der Eingabeaufforderung. Kopieren Sie den auf dieser Seite gezeigten Link und senden Sie ihn an alle Ihre Teilnehmer."
 
 #, elixir-format
 #: lib/rtl_web/templates/admin/video_export/new.html.eex:19
 msgid "It doesn't encode the video recording file itself, just a reference to the filename on Amazon S3. Make sure that wherever you import these videos, is using the same S3 bucket (or has the same file available some other way)."
-msgstr ""
+msgstr "Die Videoaufnahmedatei selbst wird nicht verschlüsselt, nur ein Verweis auf den Dateinamen in Amazon S3. Stellen Sie sicher, dass Sie überall, wo Sie diese Videos importieren, denselben S3-Bucket verwenden (oder auf andere Weise dieselbe Datei zur Verfügung haben)."
 
 #, elixir-format
 #: lib/rtl_web/templates/admin/video_export/new.html.eex:18
 msgid "It doesn't export coding / tagging data, only the video itself."
-msgstr ""
+msgstr "Es werden keine Codierungs- / Markierungsdaten exportiert, nur das Video selbst."
 
 #, elixir-format
 #: lib/rtl_web/templates/admin/video_export/new.html.eex:17
 msgid "It doesn't record the prompt that each video is associated with. You'll select the prompt when you import the videos."
-msgstr ""
+msgstr "Es wird nicht die Eingabeaufforderung aufgezeichnet, der jedes Video zugeordnet ist. Sie wählen die Eingabeaufforderung aus, wenn Sie die Videos importieren."
 
 #, elixir-format
 #: lib/rtl_web/templates/admin/project/show.html.eex:118
 msgid "Learn more"
-msgstr ""
+msgstr "Mehr erfahren"
 
 #, elixir-format
 #: lib/rtl_web/templates/home/your_data.html.eex:4
 msgid "Learn more about the GDPR here."
-msgstr ""
+msgstr "Erfahren Sie hier mehr über die DSGVO."
 
 #, elixir-format
 #: lib/rtl_web/templates/admin/project/show.html.eex:149
 msgid "List all videos"
-msgstr ""
+msgstr "Alle Videos auflisten"
 
 #, elixir-format
 #: lib/rtl_web/templates/auth/login.html.eex:2
 #: lib/rtl_web/templates/layout/_nav_links.html.eex:66
 msgid "Log in"
-msgstr ""
+msgstr "Einloggen"
 
 #, elixir-format
 #: lib/rtl_web/templates/layout/_nav_links.html.eex:55
 msgid "Logged in as %{user}"
-msgstr ""
+msgstr "Angemeldet als %{user}"
 
 #, elixir-format
 #: lib/rtl_web/templates/admin/project/edit.html.eex:3
@@ -475,62 +475,62 @@ msgstr ""
 #: lib/rtl_web/templates/admin/video_export/new.html.eex:3
 #: lib/rtl_web/templates/admin/video_import/new.html.eex:3
 msgid "Manage projects"
-msgstr ""
+msgstr "Projekte verwalten"
 
 #, elixir-format
 #: lib/rtl_web/templates/admin/video/code.html.eex:26
 #: lib/rtl_web/templates/admin/video/code.html.eex:30
 #: lib/rtl_web/templates/help/coding_page.html.eex:65
 msgid "Mark as complete"
-msgstr ""
+msgstr "Als vollständig markieren"
 
 #, elixir-format
 #: lib/rtl_web/templates/emails/confirm_address.html.eex:7
 msgid "Maybe someone else entered your address by mistake."
-msgstr ""
+msgstr "Vielleicht hat jemand anderes versehentlich Ihre Adresse eingegeben."
 
 #, elixir-format
 #: lib/rtl_web/templates/user/edit.html.eex:2
 msgid "My profile"
-msgstr ""
+msgstr "Mein Profil"
 
 #, elixir-format
 #: lib/rtl_web/templates/admin/project/show.html.eex:19
 msgid "Name"
-msgstr ""
+msgstr "Name"
 
 #, elixir-format
 #: lib/rtl_web/templates/admin/project/new.html.eex:4
 #: lib/rtl_web/templates/admin/project/new.html.eex:8
 msgid "New project"
-msgstr ""
+msgstr "Neues Projekt"
 
 #, elixir-format
 #: lib/rtl_web/templates/admin/prompt/new.html.eex:7
 #: lib/rtl_web/templates/admin/prompt/new.html.eex:11
 msgid "New question"
-msgstr ""
+msgstr "Neue Frage"
 
 #, elixir-format
 #: lib/rtl_web/templates/help/collecting_videos.html.eex:19
 msgid "Note: recording quality is usually poor on phones and tablets (jittery, poor camera angle, etc.)"
-msgstr ""
+msgstr "Hinweis: Bei Telefonen und Tablets ist die Aufnahmequalität normalerweise schlecht (unruhig, schlechter Kamerawinkel usw.)."
 
 #, elixir-format
 #: lib/rtl_web/templates/admin/video_export/new.html.eex:14
 #: lib/rtl_web/templates/help/collecting_videos.html.eex:14
 msgid "Notes:"
-msgstr ""
+msgstr "Anmerkungen:"
 
 #, elixir-format
 #: lib/rtl_web/templates/home/your_data.html.eex:22
 msgid "Once the project owner has decided to release the project's information, selected clips of your video will be included in an interactive database visible to the broader public (or to just the target audience specified for that project)."
-msgstr ""
+msgstr "Sobald der Projektinhaber beschlossen hat, die Projektinformationen freizugeben, werden ausgewählte Clips Ihres Videos in eine interaktive Datenbank aufgenommen, die für die breite Öffentlichkeit (oder nur für die für dieses Projekt angegebene Zielgruppe) sichtbar ist."
 
 #, elixir-format
 #: lib/rtl_web/templates/admin/video/code.html.eex:29
 msgid "Once you're done tagging, mark this video as complete to check it off the list."
-msgstr ""
+msgstr "Wenn Sie mit dem Markieren fertig sind, markieren Sie dieses Video als vollständig, um es aus der Liste zu entfernen."
 
 #, elixir-format
 #: lib/rtl_web/templates/video/new.html.eex:13
@@ -540,47 +540,47 @@ msgstr "Wenn Sie fertig sind, klicken Sie auf <strong class=\"text-danger\">Stop
 #, elixir-format
 #: lib/rtl_web/templates/help/coding_page.html.eex:66
 msgid "Once you're happy with this video's tags, mark it as complete so you can keep track of which videos still need tagging."
-msgstr ""
+msgstr "Wenn Sie mit den Tags dieses Videos zufrieden sind, markieren Sie es als vollständig, damit Sie nachverfolgen können, welche Videos noch markiert werden müssen."
 
 #, elixir-format
 #: lib/rtl_web/templates/results/index.html.eex:5
 msgid "Only admins can see the link, so people don't stumble on a partial list of results before we've coded all of them."
-msgstr ""
+msgstr "Nur Administratoren können den Link sehen, sodass die Leute nicht über eine unvollständige Liste von Ergebnissen stolpern, bevor wir sie alle codiert haben."
 
 #, elixir-format
 #: lib/rtl_web/templates/admin/project/show.html.eex:166
 msgid "Only project admins can see it."
-msgstr ""
+msgstr "Nur Projektadministratoren können es sehen."
 
 #, elixir-format
 #: lib/rtl_web/templates/home/index.html.eex:13
 msgid "Our approach:"
-msgstr ""
+msgstr "Unser Vorgehen:"
 
 #, elixir-format
 #: lib/rtl_web/templates/results/index.html.eex:46
 msgid "Playlist"
-msgstr ""
+msgstr "Wiedergabeliste"
 
 #, elixir-format
 #: lib/rtl_web/templates/emails/confirm_address.html.eex:3
 msgid "Please click the link below to log in."
-msgstr ""
+msgstr "Bitte klicken Sie auf den folgenden Link, um sich anzumelden."
 
 #, elixir-format
 #: lib/rtl_web/templates/video/new.html.eex:48
 msgid "Please don't close or refresh the page."
-msgstr ""
+msgstr "Bitte schließen oder aktualisieren Sie die Seite nicht."
 
 #, elixir-format
 #: lib/rtl_web/templates/auth/login.html.eex:4
 msgid "Please enter your email address, then click the button. We'll email you a secure login link."
-msgstr ""
+msgstr "Bitte geben Sie Ihre E-Mail-Adresse ein und klicken Sie dann auf die Schaltfläche. Wir senden Ihnen einen sicheren Login-Link per E-Mail."
 
 #, elixir-format
 #: lib/rtl_web/controllers/auth_controller.ex:68
 msgid "Please enter your name to complete registration."
-msgstr ""
+msgstr "Bitte geben Sie Ihren Namen ein, um die Registrierung abzuschließen."
 
 #, elixir-format
 #: lib/rtl_web/controllers/admin/project_controller.ex:47
@@ -590,27 +590,27 @@ msgstr ""
 #: lib/rtl_web/controllers/admin/user_controller.ex:35
 #: lib/rtl_web/controllers/admin/user_controller.ex:56
 msgid "Please see errors below."
-msgstr ""
+msgstr "Bitte sehen Sie Fehler unten."
 
 #, elixir-format
 #: lib/rtl_web/controllers/admin/project_controller.ex:42
 msgid "Project created."
-msgstr ""
+msgstr "Projekt erstellt."
 
 #, elixir-format
 #: lib/rtl_web/templates/admin/project/show.html.eex:10
 msgid "Project dashboard"
-msgstr ""
+msgstr "Projekt-Dashboard"
 
 #, elixir-format
 #: lib/rtl_web/controllers/admin/project_controller.ex:75
 msgid "Project deleted."
-msgstr ""
+msgstr "Projekt gelöscht."
 
 #, elixir-format
 #: lib/rtl_web/controllers/admin/project_controller.ex:61
 msgid "Project updated."
-msgstr ""
+msgstr "Projekt aktualisiert."
 
 #, elixir-format
 #: lib/rtl_web/templates/admin/project/index.html.eex:2
@@ -621,27 +621,27 @@ msgstr "Projekte"
 #, elixir-format
 #: lib/rtl_web/controllers/admin/prompt_controller.ex:20
 msgid "Question created."
-msgstr ""
+msgstr "Frage erstellt."
 
 #, elixir-format
 #: lib/rtl_web/controllers/admin/prompt_controller.ex:54
 msgid "Question deleted."
-msgstr ""
+msgstr "Frage gelöscht"
 
 #, elixir-format
 #: lib/rtl_web/controllers/admin/prompt_controller.ex:40
 msgid "Question updated."
-msgstr ""
+msgstr "Frage aktualisiert."
 
 #, elixir-format
 #: lib/rtl_web/templates/help/collecting_videos.html.eex:4
 msgid "RTL gives you various ways to get video recordings into the database."
-msgstr ""
+msgstr "Mit RTL haben Sie verschiedene Möglichkeiten, Videoaufnahmen in die Datenbank aufzunehmen."
 
 #, elixir-format
 #: lib/rtl_web/templates/home/index.html.eex:5
 msgid "RTL is an experimental new way of collecting <strong>human stories</strong>, digesting them into categorized \"clips\", and recombining those clips into a custom playlist based on what questions you'd like to ask of the data. Somewhere in between art form and social research tool, the vision is to encourage people to <strong>ask novel questions and discover novel insights</strong> by making individuals' stories digestible and accessible at scale <strong>without reducing the nuanced individual voices to numbers</strong>, as much of social research tends to do."
-msgstr ""
+msgstr "RTL ist eine experimentelle neue Methode, um <strong>menschliche Geschichten zu</strong> sammeln, sie in kategorisierte \"Clips\" zu unterteilen und diese Clips basierend auf den Fragen, die Sie an die Daten stellen möchten, in einer benutzerdefinierten Wiedergabeliste zu rekombinieren. Irgendwo zwischen Kunstform und sozialem Forschungsinstrument besteht die Vision darin, die Menschen zu ermutigen, <strong>neue Fragen zu stellen und neue Einsichten zu entdecken,</strong> indem sie die Geschichten von <strong>Einzelnen in</strong> großem Maßstab verdaulich und zugänglich machen, <strong>ohne die nuancierten Einzelstimmen auf Zahlen zu reduzieren</strong>, wie dies in der Sozialforschung der Fall ist machen."
 
 #, elixir-format
 #: lib/rtl_web/templates/video/new.html.eex:9
@@ -651,22 +651,22 @@ msgstr "Nehmen Sie sich Zeit die Fragen zu lesen. Überlegen Sie, was Sie sagen 
 #, elixir-format
 #: lib/rtl_web/templates/admin/video/list.html.leex:59
 msgid "Really delete this video and all its tagging data?"
-msgstr ""
+msgstr "Dieses Video und alle seine Markierungsdaten wirklich löschen?"
 
 #, elixir-format
 #: lib/rtl_web/templates/admin/project/show.html.eex:56
 msgid "Really remove this admin?"
-msgstr ""
+msgstr "Diesen Admin wirklich entfernen?"
 
 #, elixir-format
 #: lib/rtl_web/controllers/admin/project_admin_join_controller.ex:23
 msgid "Removed %{admin}'s access to project %{project}."
-msgstr ""
+msgstr "Der Zugriff von %{admin} auf das Projekt %{project} wurde entfernt."
 
 #, elixir-format
 #: lib/rtl_web/templates/help/collecting_videos.html.eex:16
 msgid "Requires a webcam."
-msgstr ""
+msgstr "Benötigt eine Webcam."
 
 #, elixir-format
 #: lib/rtl_web/templates/video/new.html.eex:16
@@ -676,73 +676,73 @@ msgstr "Ressourcen:"
 #, elixir-format
 #: lib/rtl_web/templates/admin/video/list.html.leex:52
 msgid "Right-click, then click \"Save Link As...\" to download the video."
-msgstr ""
+msgstr "Klicken Sie mit der rechten Maustaste und dann auf \"Link speichern unter ...\", um das Video herunterzuladen."
 
 #, elixir-format
 #: lib/rtl_web/templates/admin/prompt/_form.html.eex:10
 #: lib/rtl_web/templates/user/edit.html.eex:16
 msgid "Save"
-msgstr ""
+msgstr "speichern"
 
 #, elixir-format
 #: lib/rtl_web/templates/auth/login.html.eex:12
 msgid "Send me my login link"
-msgstr ""
+msgstr "Senden Sie mir meinen Login-Link"
 
 #, elixir-format
 #: lib/rtl_web/templates/admin/project/show.html.eex:118
 msgid "Send participants the link below so they can tell their story by recording a video on their computer's webcam."
-msgstr ""
+msgstr "Senden Sie den Teilnehmern den unten stehenden Link, damit sie ihre Geschichte erzählen können, indem Sie ein Video auf der Webcam ihres Computers aufnehmen."
 
 #, elixir-format
 #: lib/rtl_web/templates/admin/project/show.html.eex:87
 msgid "Setup"
-msgstr ""
+msgstr "Installieren"
 
 #, elixir-format
 #: lib/rtl_web/templates/admin/custom_block/_recording_page_intro.html.eex:1
 msgid "Share your story"
-msgstr ""
+msgstr "Teile deine Geschichte"
 
 #, elixir-format
 #: lib/rtl_web/templates/video/new.html.eex:77
 msgid "Show my name when showing this video"
-msgstr ""
+msgstr "Zeige meinen Namen, wenn dieses Video gezeigt wird"
 
 #, elixir-format
 #: lib/rtl_web/templates/home/your_data.html.eex:28
 msgid "Sub-processors"
-msgstr ""
+msgstr "Subprozessoren"
 
 #, elixir-format
 #: lib/rtl_web/templates/video/new.html.eex:91
 msgid "Submit your recording"
-msgstr ""
+msgstr "Senden Sie Ihre Aufnahme"
 
 #, elixir-format
 #: lib/rtl_web/templates/admin/video/code.html.eex:13
 msgid "Tag video"
-msgstr ""
+msgstr "Video taggen"
 
 #, elixir-format
 #: lib/rtl_web/templates/admin/video/code.html.eex:6
 msgid "Tag video:"
-msgstr ""
+msgstr "Video taggen:"
 
 #, elixir-format
 #: lib/rtl_web/templates/admin/video/list.html.leex:33
 msgid "Tagging status"
-msgstr ""
+msgstr "Tagging-Status"
 
 #, elixir-format
 #: lib/rtl_web/templates/help/coding_page.html.eex:4
 msgid "Tagging videos"
-msgstr ""
+msgstr "Markieren von Videos"
 
 #, elixir-format
 #: lib/rtl_web/templates/admin/video/code.html.eex:24
 msgid "Tagging was completed at %{completed_at} by %{coder}."
-msgstr ""
+msgstr "Die Markierung wurde um %{completed_at} von %{coder} abgeschlossen."
 
 #, elixir-format
 #: lib/rtl_web/templates/video/new.html.eex:12
@@ -752,47 +752,47 @@ msgstr "Erzählen Sie und teilen Sie sich mit! Sie haben bis zu <strong>5 Minute
 #, elixir-format
 #: lib/rtl_web/templates/admin/custom_block/_thank_you_page.html.eex:2
 msgid "Thank you"
-msgstr ""
+msgstr "Vielen Dank"
 
 #, elixir-format
 #: lib/rtl_web/templates/admin/custom_block/_recording_page_intro.html.eex:2
 msgid "Thank you for taking the time to share your experience! We hope you find it rewarding. And we'll do our best to enable your voice to inspire change on issues that matter to you."
-msgstr ""
+msgstr "Vielen Dank, dass Sie sich die Zeit genommen haben, Ihre Erfahrungen mit uns zu teilen! Wir hoffen, Sie finden es lohnend. Und wir werden unser Bestes tun, damit Ihre Stimme Veränderungen in Fragen hervorruft, die Sie interessieren."
 
 #, elixir-format
 #: lib/rtl_web/templates/admin/custom_block/_thank_you_page.html.eex:4
 msgid "Thank you for taking the time to share your story as part of the <strong>%{project_name}</strong> project. To learn more about the project, or to reach the project owner, click the link below."
-msgstr ""
+msgstr "Vielen Dank, dass Sie sich die Zeit genommen haben, Ihre Geschichte als Teil des Projekts \"<strong>%{project_name}</strong>\" zu teilen. Um mehr über das Projekt zu erfahren oder den Projektbesitzer zu erreichen, klicken Sie auf den folgenden Link."
 
 #, elixir-format
 #: lib/rtl_web/controllers/video_controller.ex:35
 msgid "Thank you! We've received your recording and we're looking forward to learning from your experience."
-msgstr ""
+msgstr "Vielen Dank! Wir haben Ihre Aufnahme erhalten und freuen uns darauf, aus Ihren Erfahrungen zu lernen."
 
 #, elixir-format
 #: lib/rtl_web/controllers/auth_controller.ex:14
 msgid "Thanks! We just emailed you a login link. Please check your inbox (%{email})."
-msgstr ""
+msgstr "Vielen Dank! Wir haben Ihnen gerade einen Login-Link per E-Mail geschickt. Bitte überprüfen Sie Ihren Posteingang (%{email})."
 
 #, elixir-format
 #: lib/rtl_web/controllers/user_controller.ex:20
 msgid "Thanks! Your changes were saved."
-msgstr ""
+msgstr "Vielen Dank! Ihre Änderungen wurden gespeichert."
 
 #, elixir-format
 #: lib/rtl_web/templates/admin/project/show.html.eex:160
 msgid "The <a href=\"%{path}\">Explore page</a> recombines the tagged video clips into various \"playlists\" based on the topics you're interested in."
-msgstr ""
+msgstr "Auf der <a href=\"%{path}\">Seite</a> \"Durchsuchen\" werden die markierten Videoclips anhand der Themen, an denen Sie interessiert sind, zu verschiedenen \"Wiedergabelisten\" zusammengefasst."
 
 #, elixir-format
 #: lib/rtl_web/templates/home/your_data.html.eex:42
 msgid "The data you contribute to projects on Reassembling the Line belongs to you. You have the right to ask us for a copy of it, or ask us to remove it. <a href=\"%{url}\" target=\"_blank\">Contact us</a> with any questions or requests."
-msgstr ""
+msgstr "Die Daten, die Sie zu Projekten bei RTL beitragen, gehören Ihnen. Sie haben das Recht, von uns eine Kopie anzufordern oder sie zu entfernen. <a href=\"%{url}\" target=\"_blank\">Kontaktieren Sie uns</a> bei Fragen oder Wünschen."
 
 #, elixir-format
 #: lib/rtl_web/templates/admin/project/show.html.eex:165
 msgid "The explore page is not yet public."
-msgstr ""
+msgstr "Die Erkundungsseite ist noch nicht öffentlich."
 
 #, elixir-format
 #: lib/rtl_web/templates/video/new.html.eex:34
@@ -802,210 +802,210 @@ msgstr "Die Fragen:"
 #, elixir-format
 #: lib/rtl_web/templates/help/coding_page.html.eex:49
 msgid "The tag list"
-msgstr ""
+msgstr "Die Tag-Liste"
 
 #, elixir-format
 #: lib/rtl_web/templates/help/coding_page.html.eex:32
 msgid "The timeline"
-msgstr ""
+msgstr "Die Zeitleiste"
 
 #, elixir-format
 #: lib/rtl_web/templates/help/coding_page.html.eex:33
 msgid "The timeline lets you \"tag\" sections of this video. Any tags you've added will show up here."
-msgstr ""
+msgstr "In der Timeline können Sie Abschnitte dieses Videos \"markieren\". Alle Tags, die Sie hinzugefügt haben, werden hier angezeigt."
 
 #, elixir-format
 #: lib/rtl_web/templates/help/coding_page.html.eex:17
 msgid "The video"
-msgstr ""
+msgstr "Das Video"
 
 #, elixir-format
 #: lib/rtl_web/templates/admin/video_import/new.html.eex:29
 msgid "The videos JSON code"
-msgstr ""
+msgstr "Der Video-JSON-Code"
 
 #, elixir-format
 #: lib/rtl_web/templates/home/your_data.html.eex:4
 msgid "This page describes Reassembling the Line's data policy and your rights under the GDPR (General Data Protection Regulation)."
-msgstr ""
+msgstr "Auf dieser Seite wird beschrieben, wie Sie die Datenrichtlinie der Leitung und Ihre Rechte gemäß der DSGVO (Allgemeine Datenschutzverordnung) neu zusammenstellen."
 
 #, elixir-format
 #: lib/rtl_web/templates/help/coding_page.html.eex:6
 msgid "This page has four important pieces:"
-msgstr ""
+msgstr "Diese Seite enthält vier wichtige Teile:"
 
 #, elixir-format
 #: lib/rtl_web/templates/results/index.html.eex:4
 msgid "This page is currently hidden."
-msgstr ""
+msgstr "Diese Seite ist derzeit ausgeblendet."
 
 #, elixir-format
 #: lib/rtl_web/templates/help/coding_page.html.eex:5
 msgid "This page lets you add \"tags\" to important sections of a video. Once you've tagged a bunch of videos with common themes, all of the tagged clips can be reassembled into an interactive playlist for you to explore."
-msgstr ""
+msgstr "Auf dieser Seite können Sie wichtigen Abschnitten eines Videos \"Tags\" hinzufügen. Sobald Sie eine Reihe von Videos mit gemeinsamen Themen markiert haben, können alle markierten Clips zu einer interaktiven Wiedergabeliste zusammengefügt werden, die Sie erkunden können."
 
 #, elixir-format
 #: lib/rtl_web/templates/admin/video_export/new.html.eex:12
 msgid "This page lets you export all this project's videos to a file. Copy the JSON code below to get your export."
-msgstr ""
+msgstr "Auf dieser Seite können Sie alle Videos dieses Projekts in eine Datei exportieren. Kopieren Sie den folgenden JSON-Code, um Ihren Export zu erhalten."
 
 #, elixir-format
 #: lib/rtl_web/templates/admin/video_import/new.html.eex:12
 msgid "This page lets you import videos in the same JSON format provided on the \"Export videos\" page."
-msgstr ""
+msgstr "Auf dieser Seite können Sie Videos im selben JSON-Format importieren, das Sie auf der Seite \"Videos exportieren\" finden."
 
 #, elixir-format
 #: lib/rtl_web/templates/results/index.html.eex:13
 msgid "This page shows a playlist of all tagged video clips, shuffled randomly to make each visit unique. Use the filter to limit the playlist to certain tags or topics."
-msgstr ""
+msgstr "Diese Seite zeigt eine Wiedergabeliste aller getaggten Videoclips, die nach dem Zufallsprinzip gemischt werden, um jeden Besuch einzigartig zu machen. Verwenden Sie den Filter, um die Wiedergabeliste auf bestimmte Tags oder Themen zu beschränken."
 
 #, elixir-format
 #: lib/rtl_web/templates/admin/custom_block/_landing_page.html.eex:3
 msgid "This project is run by <a href=\"mailto:%{owner_email}\">%{owner_name}</a> using the <a href=\"/\">RTL</a> platform."
-msgstr ""
+msgstr "Dieses Projekt wird von <a href=\"mailto:%{owner_email}\">%{owner_name} unter</a> Verwendung der <a href=\"/\">RTL-</a>Plattform ausgeführt."
 
 #, elixir-format
 #: lib/rtl_web/templates/home/your_data.html.eex:8
 msgid "This site is <a href=\"/\">Reassembling the Line</a>, a service that offers researchers a new way to understand complex social issues by collecting, categorizing, and learning from your personal experiences. It's a project by Whitney Hunter-Thomson (co-founder) and Topher Hunt (co-founder and lead developer). <a href=\"%{contact_us_url}\">Click here to contact us</a> with any questions."
-msgstr ""
+msgstr "Diese Website ist <a href=\"/\">Reassembling the Line</a>, ein Service, der Forschern eine neue Möglichkeit bietet, komplexe soziale Probleme zu verstehen, indem sie Ihre persönlichen Erfahrungen sammeln, kategorisieren und daraus lernen. Es ist ein Projekt von Whitney Hunter-Thomson (Mitbegründer) und Topher Hunt (Mitbegründer und Hauptentwickler). <a href=\"%{contact_us_url}\">Klicken Sie hier</a> um uns bei Fragen zu kontaktieren."
 
 #, elixir-format
 #: lib/rtl_web/templates/help/coding_page.html.eex:52
 msgid "To add a tag to this video, first click and drag on the timeline to make a selection, then move your mouse over a tag and click \"apply\"."
-msgstr ""
+msgstr "Um diesem Video ein Tag hinzuzufügen, klicken Sie zunächst auf die Timeline und ziehen Sie sie, um eine Auswahl zu treffen. Fahren Sie dann mit der Maus über ein Tag und klicken Sie auf \"Übernehmen\"."
 
 #, elixir-format
 #: lib/rtl_web/templates/home/your_data.html.eex:31
 msgid "To provide our service, RTL relies on several trusted sub-processors:"
-msgstr ""
+msgstr "Um unseren Service anbieten zu können, stützt sich RTL auf mehrere vertrauenswürdige Subprozessoren:"
 
 #, elixir-format
 #: lib/rtl_web/controllers/user_controller.ex:25
 msgid "Unable to save your changes. Please see errors below."
-msgstr ""
+msgstr "Änderungen können nicht gespeichert werden. Bitte sehen Sie Fehler unten."
 
 #, elixir-format
 #: lib/rtl_web/templates/help/collecting_videos.html.eex:17
 msgid "Uploading the video requires a fast internet connection."
-msgstr ""
+msgstr "Das Hochladen des Videos erfordert eine schnelle Internetverbindung."
 
 #, elixir-format
 #: lib/rtl_web/templates/help/coding_page.html.eex:37
 msgid "Use the zoom buttons in the top-right corner to see more detail and fine-tune your tag positions."
-msgstr ""
+msgstr "Verwenden Sie die Zoom-Schaltflächen in der oberen rechten Ecke, um mehr Details zu sehen und Ihre Tag-Positionen zu optimieren."
 
 #, elixir-format
 #: lib/rtl_web/controllers/admin/user_controller.ex:30
 msgid "User created."
-msgstr ""
+msgstr "Benutzer erstellt."
 
 #, elixir-format
 #: lib/rtl_web/controllers/admin/user_controller.ex:65
 msgid "User deleted."
-msgstr ""
+msgstr "Benutzer gelöscht"
 
 #, elixir-format
 #: lib/rtl_web/controllers/admin/user_controller.ex:51
 msgid "User updated."
-msgstr ""
+msgstr "Benutzer aktualisiert."
 
 #, elixir-format
 #: lib/rtl_web/templates/layout/_nav_links.html.eex:37
 msgid "Users"
-msgstr ""
+msgstr "Benutzer"
 
 #, elixir-format
 #: lib/rtl_web/templates/admin/video/list.html.leex:32
 msgid "Video"
-msgstr ""
+msgstr "Video"
 
 #, elixir-format
 #: lib/rtl_web/templates/help/collecting_videos.html.eex:3
 msgid "Video collection"
-msgstr ""
+msgstr "Videosammlung"
 
 #, elixir-format
 #: lib/rtl_web/controllers/admin/video_controller.ex:35
 msgid "Video marked as complete!"
-msgstr ""
+msgstr "Video als vollständig markiert!"
 
 #, elixir-format
 #: lib/rtl_web/templates/admin/video/code.html.eex:5
 #: lib/rtl_web/templates/admin/video/list.html.leex:7
 #: lib/rtl_web/templates/admin/video/list.html.leex:11
 msgid "Videos"
-msgstr ""
+msgstr "Videos"
 
 #, elixir-format
 #: lib/rtl_web/templates/admin/project/show.html.eex:33
 msgid "WARNING: This will irreversibly delete the project \"%{project}\" and all of its data. Proceed?"
-msgstr ""
+msgstr "WARNUNG: Dadurch werden das Projekt \"%{project}\" und alle seine Daten irreversibel gelöscht. Vorgehen?"
 
 #, elixir-format
 #: lib/rtl_web/templates/admin/project/show.html.eex:101
 msgid "WARNING: This will irreversibly delete this question and all associated videos. Proceed?"
-msgstr ""
+msgstr "WARNUNG: Dadurch werden diese Frage und alle zugehörigen Videos irreversibel gelöscht. Vorgehen?"
 
 #, elixir-format
 #: lib/rtl_web/templates/admin/user/edit.html.eex:13
 msgid "WARNING: This will irreversibly delete this user account. Any associated projects will NOT be deleted. Proceed?"
-msgstr ""
+msgstr "WARNUNG: Dadurch wird dieses Benutzerkonto irreversibel gelöscht. Zugehörige Projekte werden NICHT gelöscht. Vorgehen?"
 
 #, elixir-format
 #: lib/rtl_web/templates/admin/video/list.html.leex:15
 msgid "We categorize each video by tagging any interesting segments so that viewers can easily jump to topics that they care about and don't need to watch each entire video."
-msgstr ""
+msgstr "Wir kategorisieren jedes Video, indem wir interessante Segmente mit Tags versehen, damit die Zuschauer problemlos zu Themen springen können, die sie interessieren, und nicht jedes Video einzeln ansehen müssen."
 
 #, elixir-format
 #: lib/rtl_web/templates/video/new.html.eex:68
 msgid "We need to know your name in order to protect your data ownership rights for this recording. Please feel free to reach out if you have any questions!"
-msgstr ""
+msgstr "Wir müssen Ihren Namen kennen, um Ihre Dateneigentumsrechte für diese Aufzeichnung zu schützen. Bei Fragen können Sie sich gerne an uns wenden!"
 
 #, elixir-format
 #: lib/rtl_web/templates/help/coding_page.html.eex:80
 msgid "We want the tagging page to be as easy and <span class=\"text-success\">delightful</span> to use as possible. If you're running into trouble or aren't sure how to do the thing you need, <a href=\"%{link}\" target=\"_blank\">please send us a note!</a>"
-msgstr ""
+msgstr "Wir möchten, dass die Tagging-Seite so einfach und <span class=\"text-success\">ansprechend</span> wie möglich ist. Wenn Sie in Schwierigkeiten geraten oder nicht sicher sind, wie Sie das tun sollen, was Sie brauchen, <a href=\"%{link}\" target=\"_blank\">senden Sie uns bitte eine Nachricht!</a>"
 
 #, elixir-format
 #: lib/rtl_web/templates/video/new.html.eex:48
 msgid "We're preparing your video."
-msgstr ""
+msgstr "Wir bereiten Ihr Video vor."
 
 #, elixir-format
 #: lib/rtl_web/templates/home/index.html.eex:11
 msgid "We're working on a system that gives decision makers more direct access to the rich, diverse personal experiences of the people affected by a problem. We're trying to bring personal storytelling back into social research."
-msgstr ""
+msgstr "Wir arbeiten an einem System, mit dem Entscheidungsträger direkter auf die vielfältigen persönlichen Erfahrungen der von einem Problem betroffenen Personen zugreifen können. Wir versuchen, persönliches Geschichtenerzählen in die Sozialforschung zurückzubringen."
 
 #, elixir-format
 #: lib/rtl_web/templates/help/collecting_videos.html.eex:8
 msgid "Webcam recording"
-msgstr ""
+msgstr "Webcam-Aufnahme"
 
 #, elixir-format
 #: lib/rtl_web/controllers/auth_controller.ex:74
 #: lib/rtl_web/controllers/auth_controller.ex:79
 msgid "Welcome back!"
-msgstr ""
+msgstr "Willkommen zurück!"
 
 #, elixir-format
 #: lib/rtl_web/templates/home/your_data.html.eex:12
 msgid "What data we collect (and why we need it)"
-msgstr ""
+msgstr "Welche Daten sammeln wir (und warum brauchen wir sie?)"
 
 #, elixir-format
 #: lib/rtl_web/templates/admin/project/show.html.eex:89
 msgid "What question(s) do you want to ask?"
-msgstr ""
+msgstr "Welche Frage (n) möchten Sie stellen?"
 
 #, elixir-format
 #: lib/rtl_web/templates/video/new.html.eex:58
 msgid "When you're happy, fill in the fields below, then click <strong>Submit</strong>."
-msgstr ""
+msgstr "Wenn Sie zufrieden sind, füllen Sie die folgenden Felder aus und klicken Sie auf <strong>Senden</strong>."
 
 #, elixir-format
 #: lib/rtl_web/templates/home/index.html.eex:7
 msgid "When you're looking at a complex social problem (like what makes for a good education, or how to improve the economy of a region), there's lots of techniques for condensing all of the information into streamlined summaries."
-msgstr ""
+msgstr "Wenn Sie sich mit einem komplexen sozialen Problem befassen (z. B. was eine gute Ausbildung ausmacht oder wie die Wirtschaft einer Region verbessert werden kann), gibt es viele Techniken, um alle Informationen in übersichtlichen Zusammenfassungen zusammenzufassen."
 
 #, elixir-format
 #: lib/rtl_web/templates/video/new.html.eex:11
@@ -1015,157 +1015,157 @@ msgstr "Wenn Sie bereit sind, klicken Sie auf <strong class=\"text-danger\">Reco
 #, elixir-format
 #: lib/rtl_web/templates/help/coding_page.html.eex:20
 msgid "Whenever you click on the timeline, the video will jump to that same position."
-msgstr ""
+msgstr "Immer wenn Sie auf die Timeline klicken, springt das Video an dieselbe Position."
 
 #, elixir-format
 #: lib/rtl_web/templates/home/your_data.html.eex:6
 msgid "Who we are"
-msgstr ""
+msgstr "Wer wir sind"
 
 #, elixir-format
 #: lib/rtl_web/templates/results/index.html.eex:26
 msgid "Whoops - we don't have any results yet!"
-msgstr ""
+msgstr "Whoops - wir haben noch keine Ergebnisse!"
 
 #, elixir-format
 #: lib/rtl_web/templates/help/collecting_videos.html.eex:18
 msgid "Works with all modern browsers and devices."
-msgstr ""
+msgstr "Funktioniert mit allen modernen Browsern und Geräten."
 
 #, elixir-format
 #: lib/rtl_web/templates/help/coding_page.html.eex:53
 msgid "You can add, remove, and rename your tags here. Warning: renaming or deleting a tag will affect all videos that are using that tag!"
-msgstr ""
+msgstr "Hier können Sie Ihre Tags hinzufügen, entfernen und umbenennen. Warnung: Das Umbenennen oder Löschen eines Tags wirkt sich auf alle Videos aus, die dieses Tag verwenden!"
 
 #, elixir-format
 #: lib/rtl_web/templates/help/coding_page.html.eex:68
 msgid "You can always edit a video's tags, even if you've already marked it as complete."
-msgstr ""
+msgstr "Sie können die Tags eines Videos jederzeit bearbeiten, auch wenn Sie es bereits als vollständig markiert haben."
 
 #, elixir-format
 #: lib/rtl_web/templates/admin/video_import/new.html.eex:15
 msgid "You don't have any prompts to import videos to."
-msgstr ""
+msgstr "Sie haben keine Eingabeaufforderungen zum Importieren von Videos."
 
 #, elixir-format
 #: lib/rtl_web/templates/admin/custom_block/_footer.html.eex:4
 msgid "Your data"
-msgstr ""
+msgstr "Deine Daten"
 
 #, elixir-format
 #: lib/rtl_web/templates/user/edit.html.eex:6
 msgid "Your email address"
-msgstr ""
+msgstr "deine Emailadresse"
 
 #, elixir-format
 #: lib/rtl_web/templates/emails/confirm_address.html.eex:1
 msgid "Your login link"
-msgstr ""
+msgstr "Ihr Login-Link"
 
 #, elixir-format
 #: lib/rtl_web/templates/user/edit.html.eex:11
 #: lib/rtl_web/templates/video/new.html.eex:65
 #: lib/rtl_web/templates/video/new.html.eex:71
 msgid "Your name"
-msgstr ""
+msgstr "Dein Name"
 
 #, elixir-format
 #: lib/rtl_web/templates/home/your_data.html.eex:40
 msgid "Your rights"
-msgstr ""
+msgstr "Deine Rechte"
 
 #, elixir-format
 #: lib/rtl_web/templates/video/new.html.eex:57
 msgid "Your video is ready! Click on it to play it. To start over, click <strong>Redo</strong>."
-msgstr ""
+msgstr "Dein Video ist fertig! Klicken Sie darauf, um es zu spielen. Um von <strong>vorne</strong> zu beginnen, klicken Sie auf <strong>Redo</strong>."
 
 #, elixir-format
 #: lib/rtl_web/templates/results/index.html.eex:38
 msgid "all topics"
-msgstr ""
+msgstr "alle themen"
 
 #, elixir-format
 #: lib/rtl_web/templates/admin/video/list.html.leex:87
 msgid "complete"
-msgstr ""
+msgstr "Komplett"
 
 #, elixir-format
 #: lib/rtl_web/templates/admin/project/show.html.eex:30
 #: lib/rtl_web/templates/admin/video/list.html.leex:59
 msgid "delete"
-msgstr ""
+msgstr "löschen"
 
 #, elixir-format
 #: lib/rtl_web/templates/admin/project/show.html.eex:50
 msgid "details"
-msgstr ""
+msgstr "Einzelheiten"
 
 #, elixir-format
 #: lib/rtl_web/templates/admin/project/show.html.eex:28
 msgid "edit"
-msgstr ""
+msgstr "bearbeiten"
 
 #, elixir-format
 #: lib/rtl_web/templates/admin/video/list.html.leex:81
 msgid "in progress"
-msgstr ""
+msgstr "in Bearbeitung"
 
 #, elixir-format
 #: lib/rtl_web/templates/admin/project/show.html.eex:146
 msgid "left to tag"
-msgstr ""
+msgstr "Links zu taggen"
 
 #, elixir-format
 #: lib/rtl_web/templates/admin/project/show.html.eex:79
 msgid "manage"
-msgstr ""
+msgstr "verwalten"
 
 #, elixir-format
 #: lib/rtl_web/templates/admin/video/list.html.leex:65
 msgid "may not show name"
-msgstr ""
+msgstr "darf keinen Namen zeigen"
 
 #, elixir-format
 #: lib/rtl_web/templates/admin/video/list.html.leex:63
 msgid "may show name"
-msgstr ""
+msgstr "kann Namen zeigen"
 
 #, elixir-format
 #: lib/rtl_web/templates/admin/video/list.html.leex:77
 msgid "not started"
-msgstr ""
+msgstr "nicht angefangen"
 
 #, elixir-format
 #: lib/rtl_web/templates/admin/project/show.html.eex:36
 msgid "public project page"
-msgstr ""
+msgstr "öffentliche Projektseite"
 
 #, elixir-format
 #: lib/rtl_web/templates/admin/project/show.html.eex:52
 msgid "remove"
-msgstr ""
+msgstr "Löschen"
 
 #, elixir-format
 #: lib/rtl_web/templates/admin/project/show.html.eex:145
 msgid "tagged"
-msgstr ""
+msgstr "markiert"
 
 #, elixir-format
 #: lib/rtl_web/templates/results/index.html.eex:28
 msgid "to fill in this playlist."
-msgstr ""
+msgstr "um diese Wiedergabeliste auszufüllen."
 
 #, elixir-format
 #: lib/rtl_web/templates/admin/project/show.html.eex:144
 msgid "videos collected"
-msgstr ""
+msgstr "Videos gesammelt"
 
 #, elixir-format
 #: lib/rtl_web/templates/video/new.html.eex:25
 msgid "⏱️ Please limit your video to <strong>5 minutes</strong>."
-msgstr ""
+msgstr "⏱️ Bitte beschränken Sie Ihr Video auf <strong>5 Minuten</strong>."
 
 #, elixir-format
 #: lib/rtl_web/templates/video/new.html.eex:26
 msgid "📶 On a slow connection? For best results, first record the video using your phone's camera app. Then come back to this page and click \"Upload Video\"."
-msgstr ""
+msgstr "📶 Bei einer langsamen Verbindung? Die besten Ergebnisse erzielen Sie, wenn Sie zuerst das Video mit der Kamera-App Ihres Telefons aufnehmen. Kehren Sie dann zu dieser Seite zurück und klicken Sie auf \"Video hochladen\"."

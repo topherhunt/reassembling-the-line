@@ -44,7 +44,7 @@
 
     <div class="pb-4"></div>
 
-    <div class="js-ziggeo-processing js-hidden">
+    <div class="js-ziggeo-processing js-hiddenX">
       <p><strong class="text-warning"><%= gettext "We're preparing your video." %></strong> <%= gettext "Please don't close or refresh the page." %></p>
 
       <div class="progress">
@@ -52,7 +52,7 @@
       </div>
     </div>
 
-    <div class="js-interview-form-container js-hidden">
+    <div class="js-interview-form-container js-hiddenX">
       <div class="alert alert-info">
         <p><%= raw gettext("Your video is ready! Click on it to play it. To start over, click <strong>Redo</strong>.") %></p>
         <p class="mb-0"><%= raw gettext("When you're happy, fill in the fields below, then click <strong>Submit</strong>.") %></p>

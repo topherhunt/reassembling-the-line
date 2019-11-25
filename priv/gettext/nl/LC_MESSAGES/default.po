@@ -14,53 +14,53 @@ msgstr ""
 #, elixir-format
 #: lib/rtl_web/templates/admin/video/code.html.eex:14
 msgid " Help"
-msgstr "Hulp"
+msgstr " Hulp"
 
 #, elixir-format
 #: lib/rtl_web/templates/video/new.html.eex:18
 msgid " How to record a great video"
-msgstr "Hoe een geweldige video op te nemen"
+msgstr " Hoe een geweldige video op te nemen"
 
 #, elixir-format
 #: lib/rtl_web/templates/layout/_nav_links.html.eex:57
 msgid " Log out"
-msgstr "Uitloggen"
+msgstr " Uitloggen"
 
 #, elixir-format
 #: lib/rtl_web/templates/video/new.html.eex:19
 msgid " Report a problem"
-msgstr "Meld een probleem"
+msgstr " Meld een probleem"
 
 #, elixir-format
 #: lib/rtl_web/templates/admin/project/show.html.eex:151
 #: lib/rtl_web/templates/admin/video/list.html.leex:21
 msgid " Tag the next video"
-msgstr "Tag de volgende video"
+msgstr " Tag de volgende video"
 
 #, elixir-format
 #: lib/rtl_web/templates/admin/video/list.html.leex:51
 msgid " download"
-msgstr "downloaden"
+msgstr " downloaden"
 
 #, elixir-format
 #: lib/rtl_web/templates/admin/video/list.html.leex:89
 msgid " edit"
-msgstr "bewerken"
+msgstr " bewerken"
 
 #, elixir-format
 #: lib/rtl_web/templates/admin/video/list.html.leex:84
 msgid " finish"
-msgstr "afmaken"
+msgstr " afmaken"
 
 #, elixir-format
 #: lib/rtl_web/templates/admin/video/list.html.leex:78
 msgid " start"
-msgstr "start"
+msgstr " start"
 
 #, elixir-format
 #: lib/rtl_web/templates/admin/video/list.html.leex:48
 msgid " watch"
-msgstr "kijk"
+msgstr " kijken"
 
 #, elixir-format
 #: lib/rtl_web/controllers/admin/project_admin_join_controller.ex:13
