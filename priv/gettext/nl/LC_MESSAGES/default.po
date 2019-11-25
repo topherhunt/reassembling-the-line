@@ -1173,17 +1173,17 @@ msgstr "📶 Op een langzame verbinding? Voor de beste resultaten neemt u eerst 
 #, elixir-format
 #: lib/rtl_web/templates/layout/_gettext_js.html.eex:6
 msgid "Please fill in your name."
-msgstr ""
+msgstr "Vul alstublieft uw naam in."
 
 #, elixir-format
 #: lib/rtl_web/templates/layout/_gettext_js.html.eex:15
 msgid "Add a new tag"
-msgstr ""
+msgstr "Voeg een nieuwe tag toe"
 
 #, elixir-format
 #: lib/rtl_web/templates/layout/_gettext_js.html.eex:18
 msgid "Clear all selected tags"
-msgstr ""
+msgstr "Wis alle geselecteerde tags"
 
 #, elixir-format
 #: lib/rtl_web/templates/layout/_gettext_js.html.eex:8
@@ -1193,49 +1193,49 @@ msgstr "Fout!"
 #, elixir-format
 #: lib/rtl_web/templates/layout/_gettext_js.html.eex:7
 msgid "Loading..."
-msgstr ""
+msgstr "Bezig met laden..."
 
 #, elixir-format
 #: lib/rtl_web/templates/layout/_gettext_js.html.eex:14
 msgid "Make a selection in the timeline first."
-msgstr ""
+msgstr "Maak eerst een selectie in de tijdlijn."
 
 #, elixir-format
 #: lib/rtl_web/templates/layout/_gettext_js.html.eex:11
 msgid "Question:"
-msgstr ""
+msgstr "Vraag:"
 
 #, elixir-format
 #: lib/rtl_web/templates/layout/_gettext_js.html.eex:13
 msgid "Really delete this tag?"
-msgstr ""
+msgstr "Echt deze tag verwijderen?"
 
 #, elixir-format
 #: lib/rtl_web/templates/layout/_gettext_js.html.eex:16
 msgid "Really delete this tagging?"
-msgstr ""
+msgstr "Wilt u deze tagging echt verwijderen?"
 
 #, elixir-format
 #: lib/rtl_web/templates/layout/_gettext_js.html.eex:10
 msgid "Speaker:"
-msgstr ""
+msgstr "Spreker:"
 
 #, elixir-format
 #: lib/rtl_web/templates/layout/_gettext_js.html.eex:17
 msgid "That's all the clips we have for your search. Adjust your filters to see more."
-msgstr ""
+msgstr "Dat zijn alle clips die we hebben voor uw zoekopdracht. Pas uw filters aan om meer te zien."
 
 #, elixir-format
 #: lib/rtl_web/templates/layout/_gettext_js.html.eex:9
 msgid "Video info"
-msgstr ""
+msgstr "Video info"
 
 #, elixir-format
 #: lib/rtl_web/templates/layout/_gettext_js.html.eex:12
 msgid "apply"
-msgstr ""
+msgstr "toepassen"
 
 #, elixir-format
 #: lib/rtl_web/templates/layout/_gettext_js.html.eex:19
 msgid "We didn't find any results for that search."
-msgstr ""
+msgstr "We hebben geen resultaten gevonden voor die zoekopdracht."
