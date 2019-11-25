@@ -1,7 +1,6 @@
 import $ from "jquery"
 
 $(function(){
-
   $("[data-focus-on-click]").click(function(){
     var target_selector = $(this).data("focus-on-click");
     $(target_selector).focus();
