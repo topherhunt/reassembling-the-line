@@ -747,7 +747,7 @@ msgstr "Die Markierung wurde um %{completed_at} von %{coder} abgeschlossen."
 #, elixir-format
 #: lib/rtl_web/templates/video/new.html.eex:12
 msgid "Tell your story! You'll have <strong>up to 5 minutes</strong> to speak. If you're not confident speaking in English, feel free to use 🇳🇱 Dutch, 🇩🇪 German, or 🇪🇸 Spanish."
-msgstr "Erzählen Sie und teilen Sie sich mit! Sie haben bis zu <strong>5 Minuten</strong> Zeit. Wenn Sie können Ihre Aufnahme in 🇩🇪 Deutsch, 🇺🇸 Englisch, 🇳🇱 Niederländisch oder 🇪🇸 Spanisch tätigen."
+msgstr "Erzählen Sie und teilen Sie sich mit! Sie haben bis zu <strong>5 Minuten</strong> Zeit. Sie können Ihre Aufnahme in 🇩🇪 Deutsch, 🇺🇸 Englisch, 🇳🇱 Niederländisch oder 🇪🇸 Spanisch tätigen."
 
 #, elixir-format
 #: lib/rtl_web/templates/admin/custom_block/_thank_you_page.html.eex:2
