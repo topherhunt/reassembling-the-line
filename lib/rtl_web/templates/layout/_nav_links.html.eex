@@ -18,7 +18,7 @@
           <%= if RTL.Sentry.can_manage_project?(@current_user, @project) do %>
             <%= link raw(gettext("Explore") <> " <i class='icon text-danger'>lock</i>"),
               to: Routes.results_path(@conn, :index, @project),
-              class: "nav-link #{active_if_current(@conn, Routes.results_path(@conn, :index, @project))}" %>
+              class: "nav-link u-nowrap #{active_if_current(@conn, Routes.results_path(@conn, :index, @project))}" %>
           <% end %>
         <% end %>
       <% end %>
