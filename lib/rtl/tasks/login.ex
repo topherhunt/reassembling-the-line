@@ -1,4 +1,5 @@
 # Print out a URL that I can click to "force login" as a registered user.
+# To get the user's email address, log in as an admin and look at the users list.
 # See https://hexdocs.pm/mix/Mix.Task.html
 #
 # Usage:
