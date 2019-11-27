@@ -780,7 +780,7 @@ msgstr ""
 
 #, elixir-format
 #: lib/rtl_web/templates/admin/project/show.html.eex:160
-msgid "The <a href=\"%{path}\">Explore page</a> recombines the tagged video clips into various \"playlists\" based on the topics you're interested in."
+msgid "The Explore page recombines the tagged video clips into various \"playlists\" based on the topics you're interested in."
 msgstr ""
 
 #, elixir-format

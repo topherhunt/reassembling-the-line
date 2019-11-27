@@ -23,9 +23,17 @@ defmodule RTLWeb.AuthController do
   def confirm(conn, %{"token" => token}) do
     case Accounts.verify_login_token(token) do
       {:ok, email} ->
-        user = find_user(email) || register_user(email)
-        conn = RTLWeb.AuthPlugs.login!(conn, user)
-        redirect_after_confirm(conn, user)
+        # For now we don't support new registrations.
+        # user = find_user(email) || register_user(email)
+        if user = find_user(email) do
+          conn
+          |> RTLWeb.AuthPlugs.login!(user)
+          |> redirect_after_confirm(user)
+        else
+          conn
+          |> put_flash(:info, "Thanks for your interest in RTL! Please reach out to us (hunt.topher@gmail.com) if you'd like to join our closed beta program.")
+          |> redirect(to: Routes.home_path(conn, :index))
+        end
 
       _ ->
         conn

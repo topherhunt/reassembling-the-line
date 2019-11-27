@@ -94,12 +94,12 @@ defmodule RTLWeb.Admin.ProjectControllerTest do
       assert html_response(conn, 200) =~ "New project"
     end
 
-    test "rejects non-superadmin", %{conn: conn} do
+    test "non-superadmin can also view the new project form", %{conn: conn} do
       {conn, _} = login_as_new_user(conn)
 
       conn = get(conn, Routes.admin_project_path(conn, :new))
 
-      assert redirected_to(conn) == Routes.home_path(conn, :index)
+      assert html_response(conn, 200) =~ "New project"
     end
   end
 
@@ -125,15 +125,16 @@ defmodule RTLWeb.Admin.ProjectControllerTest do
       assert html_response(conn, 200) =~ "name can't be blank"
     end
 
-    test "rejects non-superadmin", %{conn: conn} do
+    test "non-superadmin can create projects too", %{conn: conn} do
       {conn, _} = login_as_new_user(conn)
       projects_count = Projects.count_projects()
 
       params = %{"project" => %{"name" => "My Little Project"}}
       conn = post(conn, Routes.admin_project_path(conn, :create), params)
 
-      assert Projects.count_projects() == projects_count
-      assert redirected_to(conn) == Routes.home_path(conn, :index)
+      assert Projects.count_projects() == projects_count + 1
+      project = Projects.get_projects() |> List.last()
+      assert redirected_to(conn) == Routes.admin_project_path(conn, :show, project)
     end
   end
 

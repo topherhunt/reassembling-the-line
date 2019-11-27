@@ -781,8 +781,8 @@ msgstr "Bedankt! Uw wijzigingen zijn opgeslagen."
 
 #, elixir-format
 #: lib/rtl_web/templates/admin/project/show.html.eex:160
-msgid "The <a href=\"%{path}\">Explore page</a> recombines the tagged video clips into various \"playlists\" based on the topics you're interested in."
-msgstr "De <a href=\"%{path}\">Verkenning-pagina</a> combineert de getagde videoclips in verschillende \"afspeellijsten\" op basis van de onderwerpen waarin u bent geïnteresseerd."
+msgid "The Explore page recombines the tagged video clips into various \"playlists\" based on the topics you're interested in."
+msgstr "De Verkenning-pagina combineert de getagde videoclips in verschillende \"afspeellijsten\" op basis van de onderwerpen waarin u bent geïnteresseerd."
 
 #, elixir-format
 #: lib/rtl_web/templates/home/your_data.html.eex:42

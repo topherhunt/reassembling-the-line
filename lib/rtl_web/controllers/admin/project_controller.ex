@@ -4,7 +4,6 @@ defmodule RTLWeb.Admin.ProjectController do
 
   plug :load_project when action in [:show, :edit, :update, :delete]
   plug :ensure_can_manage_project when action in [:show, :edit, :update, :delete]
-  plug :ensure_superadmin when action in [:new, :create]
 
   def index(conn, _params) do
     user = conn.assigns.current_user

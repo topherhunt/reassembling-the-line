@@ -49,14 +49,25 @@ defmodule RTLWeb.AuthControllerTest do
       assert_logged_in(conn, user)
     end
 
-    test "when valid and user does not exist: registers & logs you in", %{conn: conn} do
-      # Token contains a capitalized email, but is registered as lower-cased
-      token = stub_token("Daisy@EXAMPLE.com", ts_now())
+    # test "when valid and user does not exist: registers & logs you in", %{conn: conn} do
+    #   # Token contains a capitalized email, but is registered as lower-cased
+    #   token = stub_token("Daisy@EXAMPLE.com", ts_now())
+    #   conn = get(conn, Routes.auth_path(conn, :confirm, token: token))
+
+    #   assert user = Accounts.get_user_by!(email: "daisy@example.com")
+    #   assert redirected_to(conn) == Routes.user_path(conn, :edit)
+    #   assert_logged_in(conn, user)
+    # end
+
+    test "when valid and user does not exist: denies access (for now)", %{conn: conn} do
+      user_count = Accounts.count_users()
+
+      token = stub_token("daisy@example.com", ts_now())
       conn = get(conn, Routes.auth_path(conn, :confirm, token: token))
 
-      assert user = Accounts.get_user_by!(email: "daisy@example.com")
-      assert redirected_to(conn) == Routes.user_path(conn, :edit)
-      assert_logged_in(conn, user)
+      assert Accounts.count_users() == user_count
+      assert redirected_to(conn) == Routes.home_path(conn, :index)
+      assert_logged_out(conn)
     end
 
     test "when link is expired: rejects and redirects", %{conn: conn} do
