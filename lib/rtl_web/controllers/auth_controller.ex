@@ -10,7 +10,8 @@ defmodule RTLWeb.AuthController do
   def login_submit(conn, %{"user" => %{"email" => email}}) do
     # We don't look up the user, we simply send a confirmation link to that address.
     # We'll find or create them after we confirm that they control this address.
-    RTL.Emails.confirm_address(email) |> RTL.Mailer.deliver_now()
+    # Silently ignores sending failures.
+    RTL.Emails.confirm_address(email) |> RTL.Mailer.send()
     msg = gettext("Thanks! We just emailed you a login link. Please check your inbox (%{email}).", email: email)
 
     conn
