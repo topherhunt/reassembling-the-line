@@ -153,7 +153,8 @@ defmodule RTLWeb.Graphql.Resolvers do
     current_user = resolution.context.current_user
 
     unless Sentry.can_manage_project?(current_user, %Project{id: project_id}) do
-      raise "User #{current_user.id} is not authorized to manage project #{project_id}."
+      user_id = (current_user || %{id: "(none)"}).id
+      raise "User #{user_id} is not authorized to manage project #{project_id}."
     end
   end
 end

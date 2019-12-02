@@ -31,7 +31,7 @@ var TagHelper = {
 
   update_page_url: function(tags) {
     var tags_qs = this.to_query_string(tags)
-    window.history.pushState({}, "Explore Videos", "clips?tags=" + tags_qs)
+    window.history.pushState({}, "Explore Videos", "results?tags=" + tags_qs)
   },
 
   update_select_element: function(filtered_tags) {

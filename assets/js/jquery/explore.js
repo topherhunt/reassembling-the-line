@@ -12,7 +12,7 @@ $(document).ready(function() {
 
   // TODO: Write a react-select utility component to replace Chosen here.
   TagHelper.update_select_element(TagHelper.get_from_query_string())
-  PlaylistHelper.refresh_playlist()
+  PlaylistHelper.refresh_playlist({autoplay: false})
 
   ////
   // Event listeners

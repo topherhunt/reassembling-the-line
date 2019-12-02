@@ -63,11 +63,12 @@ defmodule RTLWeb.AuthController do
     end
   end
 
-  defp register_user(email) do
-    user = Accounts.insert_user!(%{email: email})
-    Logger.info "Registered new user #{user.id} (#{user.email})"
-    user
-  end
+  # Registration isn't supported for now
+  # defp register_user(email) do
+  #   user = Accounts.insert_user!(%{email: email})
+  #   Logger.info "Registered new user #{user.id} (#{user.email})"
+  #   user
+  # end
 
   defp redirect_after_confirm(conn, user) do
     cond do

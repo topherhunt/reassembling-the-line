@@ -3,7 +3,7 @@ import { TagHelper } from './tag_helper'
 import { PlaylistRowComponent } from '../components/playlist_row_component'
 
 var PlaylistHelper = {
-  refresh_playlist: function() {
+  refresh_playlist: function(opts) {
     var player = $('.js-explore-video-player')
     var current_tags = TagHelper.get_from_select_elements()
     var project_uuid = $('.js-explore-video-player').data('project-uuid')
@@ -20,7 +20,7 @@ var PlaylistHelper = {
       // list of all valid routes.
       url: '/projects/'+project_uuid+'/results/playlist?tags='+tags_query,
       success: function(data) {
-        this.handle_new_playlist_data(data.playlist)
+        this.handle_new_playlist_data(data.playlist, opts)
       }.bind(this),
       error: function(error) {
         console.log('Error loading playlist data: ', error)
@@ -29,10 +29,10 @@ var PlaylistHelper = {
     })
   },
 
-  handle_new_playlist_data: function(segments) {
+  handle_new_playlist_data: function(segments, opts) {
     if (segments.length > 0) {
       this.populate_playlist(segments)
-      this.play_clip(segments[0].segment_id)
+      this.play_clip(segments[0].segment_id, opts)
       this.scroll_to_clip($('.js-playlist-row').first())
     } else {
       $('.js-playlist-container').html(this.no_results_html());
@@ -64,7 +64,7 @@ var PlaylistHelper = {
     '</div>';
   },
 
-  play_clip: function(segment_id) {
+  play_clip: function(segment_id, opts) {
     var playlist_row  = $('.js-playlist-row[data-segment-id="'+segment_id+'"]');
     var recording_url = playlist_row.data('recording-url');
     var video_id      = playlist_row.data('video-id');
@@ -77,11 +77,15 @@ var PlaylistHelper = {
     player.attr('src', recording_url+'#t='+starts_at);
     $('.js-hear-more-link').show().attr('href', '/videos/' + video_id);
 
-    this.start_player();
+    this.start_player(opts);
   },
 
-  start_player: function() {
-    if (window.document.hasFocus()) {
+  start_player: function(opts) {
+    opts = opts || {}
+    // Autoplay is false only when page is first loaded
+    if (opts.autoplay === undefined) { opts.autoplay = true; }
+
+    if (opts.autoplay) {
       var video = $('video.js-explore-video-player')[0];
       video.play();
     }
