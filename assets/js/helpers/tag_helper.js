@@ -12,8 +12,8 @@ var TagHelper = {
     var tags = tags_string
       .split(",")
       .map(function(tag){
-        var tag_array = decodeURI(tag).split(":")
-        return {name: tag_array[1]}
+        var tag_name = decodeURI(tag)
+        return {name: tag_name}
       })
     return tags
   },
