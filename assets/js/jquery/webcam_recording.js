@@ -16,14 +16,17 @@ import nanoid from "nanoid"
 $(function(){
   if ($('#ziggeo-recorder').length == 0) { return }
 
+  let videoKey = nanoid(10) // Generate a unique filename for this video & thumbnail
+  let hasUnsavedData = false
+
   window.ziggeoApp.on("ready", function() {
     let ziggeoRecorderElement = document.getElementById("ziggeo-recorder")
-    let videoKey = nanoid(10) // Generate a unique filename for this video & thumbnail
-    console.log('Initializing recorder with video key: '+videoKey)
+    report("Initializing Ziggeo widget. videoKey: "+videoKey)
 
     let recorder = new ZiggeoApi.V2.Recorder({
       element: ziggeoRecorderElement,
       attrs: {
+        // countdown: false,
         width: '100%',
         height: '100%',
         theme: "modern",
@@ -38,7 +41,13 @@ $(function(){
 
     // Ziggeo events: https://ziggeo.com/docs/sdks/javascript/browser-interaction/events
 
+    recorder.on("recording", () => {
+      report("Video recording started. videoKey: "+videoKey)
+      hasUnsavedData = true
+    })
+
     recorder.on('uploading', () => {
+      report("Video upload started. videoKey: "+videoKey)
       $('.js-ziggeo-processing').fadeIn()
     })
 
@@ -53,6 +62,7 @@ $(function(){
     })
 
     recorder.on('processed', () => {
+      report("Video upload complete. videoKey: "+videoKey)
       $('.js-ziggeo-processing').hide()
       $('.js-interview-form-container').fadeIn();
       $('.js-recording-filename').val(videoKey+'.mp4')
@@ -67,10 +77,22 @@ $(function(){
 
   $('.js-form-submit').click((e) => {
     if (!isSpeakerNamePresent()) {
-      preventSubmit(e, gettext("please_fill_in_name"))
+      preventSubmit(e, gettext("Please fill in your name."))
+    } else {
+      report("Submitting video form. videoKey: "+videoKey)
+      hasUnsavedData = false
     }
+  })
 
-    // Otherwise, allow the form to submit.
+  // Prevent accidental navigation away from the in-progress page
+  window.addEventListener("beforeunload", function(event) {
+    if (hasUnsavedData) {
+      report("beforeunload fired and video was not submitted. videoKey: "+videoKey)
+      event.preventDefault()
+      let msg = "You haven't submitted your video yet. Are you sure you want to leave this page?"
+      event.returnValue = msg
+      return msg
+    }
   })
 
   //
@@ -88,6 +110,7 @@ $(function(){
 
   // Unused now. Re-add if I need better monitoring.
   function report(msg) {
+    console.log(msg)
     $.post("/api/log", {message: "Webcam recording page: "+msg})
   }
 
