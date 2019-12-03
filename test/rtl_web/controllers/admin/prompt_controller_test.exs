@@ -17,7 +17,7 @@ defmodule RTLWeb.Admin.PromptControllerTest do
 
       conn = get(conn, prompt_path(conn, :edit, proj, prompt))
 
-      assert redirected_to(conn) == Routes.home_path(conn, :index)
+      assert redirected_to(conn) == Routes.auth_path(conn, :login)
       assert conn.halted
     end
 

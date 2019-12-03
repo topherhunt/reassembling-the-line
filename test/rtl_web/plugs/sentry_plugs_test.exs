@@ -20,7 +20,7 @@ defmodule RTLWeb.SentryPlugsTest do
     test "redirects and halts if no current_user", %{conn: conn} do
       conn = SentryPlugs.ensure_logged_in(conn, [])
 
-      assert redirected_to(conn) == Routes.home_path(conn, :index)
+      assert redirected_to(conn) == Routes.auth_path(conn, :login)
       assert conn.halted
     end
   end

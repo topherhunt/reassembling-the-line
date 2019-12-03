@@ -6,7 +6,7 @@ defmodule RTLWeb.Admin.VideoControllerTest do
     test "reject if not logged in", %{conn: conn} do
       conn = get(conn, Routes.admin_video_path(conn, :index, "1"))
 
-      assert redirected_to(conn) == Routes.home_path(conn, :index)
+      assert redirected_to(conn) == Routes.auth_path(conn, :login)
       assert conn.halted
     end
 

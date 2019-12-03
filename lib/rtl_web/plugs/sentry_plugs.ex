@@ -29,7 +29,7 @@ defmodule RTLWeb.SentryPlugs do
       conn
       |> put_resp_cookie("return_to", return_to)
       |> put_flash(:error, "You must be logged in to access that page.")
-      |> redirect(to: Routes.home_path(conn, :index))
+      |> redirect(to: Routes.auth_path(conn, :login))
       |> halt()
     end
   end

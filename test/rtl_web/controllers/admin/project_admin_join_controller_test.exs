@@ -6,7 +6,7 @@ defmodule RTLWeb.Admin.ProjectAdminJoinControllerTest do
     test "all actions reject non-logged-in user", %{conn: conn} do
       conn = get(conn, Routes.admin_user_path(conn, :index))
 
-      assert redirected_to(conn) == Routes.home_path(conn, :index)
+      assert redirected_to(conn) == Routes.auth_path(conn, :login)
       assert conn.halted
     end
 

@@ -5,7 +5,7 @@ defmodule RTLWeb.Admin.VideoExportControllerTest do
     project = Factory.insert_project()
     conn = get(conn, Routes.admin_video_export_path(conn, :new, project))
 
-    assert redirected_to(conn) == Routes.home_path(conn, :index)
+    assert redirected_to(conn) == Routes.auth_path(conn, :login)
     assert conn.halted
   end
 

@@ -5,7 +5,7 @@ defmodule RTLWeb.Admin.ProjectControllerTest do
   describe "plugs" do
     test "all actions reject if no user is logged in", %{conn: conn} do
       conn = get(conn, Routes.admin_project_path(conn, :index))
-      assert redirected_to(conn) == Routes.home_path(conn, :index)
+      assert redirected_to(conn) == Routes.auth_path(conn, :login)
       assert conn.halted
     end
 
