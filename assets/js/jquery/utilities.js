@@ -23,3 +23,8 @@ $(function(){
     }
   })
 });
+
+// This will help with testing that sourcemaps are working
+window.testError = function() {
+  return someRandomFunctionName()
+}

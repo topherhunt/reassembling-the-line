@@ -6,8 +6,7 @@ const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = (env, options) => ({
-  // TODO: Try simplifying to just a single path (app.js)
-  // Orig: {app: ['./js/app.js'].concat(glob.sync('./vendor/**/*.js'))}
+  devtool: "source-map",
   entry: './js/app.js',
   module: {
     // Specifies transformation rules for each file type
@@ -39,7 +38,7 @@ module.exports = (env, options) => ({
   },
   optimization: {
     minimizer: [
-      new UglifyJsPlugin({ cache: true, parallel: true, sourceMap: false }),
+      new UglifyJsPlugin({ cache: true, parallel: true, sourceMap: true }),
       new OptimizeCSSAssetsPlugin({})
     ]
   },
