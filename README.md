@@ -1,5 +1,7 @@
 # Reassembling the Line
 
+[![HitCount](http://hits.dwyl.com/topherhunt/reassembling-the-line.svg)](http://hits.dwyl.com/topherhunt/reassembling-the-line)
+
 Record video interviews where people share first-hand experience on an important topic. Code each segment of the video by theme. Explore the results using a novel filterable segment playback UI. Built by Whitney Hunter-Thomson and [Topher Hunt](topherhunt.com).
 
 Check out the demo to see more: [https://rtl-demo1.herokuapp.com](https://rtl-demo1.herokuapp.com)
