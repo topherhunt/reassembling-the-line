@@ -24,7 +24,7 @@ defmodule RTL.Projects.CustomBlock do
   # Filters
   #
 
-  def apply_filters(starting_query, filters) do
+  def filter(starting_query, filters) do
     Enum.reduce(filters, starting_query, fn {k, v}, query -> filter(query, k, v) end)
   end
 

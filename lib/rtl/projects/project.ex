@@ -25,13 +25,13 @@ defmodule RTL.Projects.Project do
   # Public API
   #
 
-  # TODO: Remove the query functions in the context and replace with these
-  def get(id, f \\ []), do: __MODULE__ |> apply_filters([{:id, id} | f]) |> Repo.one()
-  def get!(id, f \\ []), do: __MODULE__ |> apply_filters([{:id, id} | f]) |> Repo.one!()
-  def first(filters \\ []), do: __MODULE__ |> apply_filters(filters) |> Repo.first()
-  def first!(filters \\ []), do: __MODULE__ |> apply_filters(filters) |> Repo.first!()
-  def all(filters \\ []), do: __MODULE__ |> apply_filters(filters) |> Repo.all()
-  def count(filters \\ []), do: __MODULE__ |> apply_filters(filters) |> Repo.count()
+  # TODO: Remove these in favor of plain Repo calls in context
+  def get(id, f \\ []), do: __MODULE__ |> filter([{:id, id} | f]) |> Repo.one()
+  def get!(id, f \\ []), do: __MODULE__ |> filter([{:id, id} | f]) |> Repo.one!()
+  def first(filters \\ []), do: __MODULE__ |> filter(filters) |> Repo.first()
+  def first!(filters \\ []), do: __MODULE__ |> filter(filters) |> Repo.first!()
+  def all(filters \\ []), do: __MODULE__ |> filter(filters) |> Repo.all()
+  def count(filters \\ []), do: __MODULE__ |> filter(filters) |> Repo.count()
 
   def changeset(struct, params) do
     struct
@@ -52,7 +52,7 @@ defmodule RTL.Projects.Project do
   # Filters
   #
 
-  def apply_filters(starting_query, filters) do
+  def filter(starting_query, filters) do
     Enum.reduce(filters, starting_query, fn {k, v}, query -> filter(query, k, v) end)
   end
 

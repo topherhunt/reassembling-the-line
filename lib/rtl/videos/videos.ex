@@ -32,28 +32,16 @@ defmodule RTL.Videos do
   end
 
   #
-  # Global
-  #
-
-  def delete_all_content do
-    Repo.delete_all(Video)
-    Repo.delete_all(Coding)
-    Repo.delete_all(Tagging)
-    Repo.delete_all(Tag)
-
-    notify_subscribers("videos.deleted_all")
-  end
-
-  #
   # Videos
   #
 
+  # TODO: Remove these in favor of plain repo calls
   def get_video(id, filt \\ []), do: get_video_by([{:id, id} | filt])
   def get_video!(id, filt \\ []), do: get_video_by!([{:id, id} | filt])
-  def get_video_by(filt), do: Video |> Video.apply_filters(filt) |> Repo.first()
-  def get_video_by!(filt), do: Video |> Video.apply_filters(filt) |> Repo.first!()
-  def list_videos(filt \\ []), do: Video |> Video.apply_filters(filt) |> Repo.all()
-  def count_videos(filt \\ []), do: Video |> Video.apply_filters(filt) |> Repo.count()
+  def get_video_by(filt), do: Video |> Video.filter(filt) |> Repo.first()
+  def get_video_by!(filt), do: Video |> Video.filter(filt) |> Repo.first!()
+  def list_videos(filt \\ []), do: Video |> Video.filter(filt) |> Repo.all()
+  def count_videos(filt \\ []), do: Video |> Video.filter(filt) |> Repo.count()
 
   def new_video_changeset(params \\ %{}), do: Video.generic_changeset(%Video{}, params)
 
@@ -81,12 +69,13 @@ defmodule RTL.Videos do
   # Codings
   #
 
+  # TODO: Remove these in favor of plain repo calls
   def get_coding(id, f \\ []), do: get_coding_by([{:id, id} | f])
   def get_coding!(id, f \\ []), do: get_coding_by!([{:id, id} | f])
-  def get_coding_by(f \\ []), do: Coding |> Coding.apply_filters(f) |> Repo.first()
-  def get_coding_by!(f \\ []), do: Coding |> Coding.apply_filters(f) |> Repo.first!()
-  def list_codings(f \\ []), do: Coding |> Coding.apply_filters(f) |> Repo.all()
-  def count_codings(f \\ []), do: Coding |> Coding.apply_filters(f) |> Repo.count()
+  def get_coding_by(f \\ []), do: Coding |> Coding.filter(f) |> Repo.first()
+  def get_coding_by!(f \\ []), do: Coding |> Coding.filter(f) |> Repo.first!()
+  def list_codings(f \\ []), do: Coding |> Coding.filter(f) |> Repo.all()
+  def count_codings(f \\ []), do: Coding |> Coding.filter(f) |> Repo.count()
 
   def insert_coding!(attrs) do
     %Coding{} |> Coding.changeset(attrs) |> Repo.insert!()

@@ -2,18 +2,20 @@
 defmodule RTL.Projects do
   import Ecto.Query, warn: false
   alias RTL.Repo
+  alias RTL.Accounts.User
   alias RTL.Projects.{Project, Prompt, ProjectAdminJoin, CustomBlock}
 
   #
   # Projects
   #
 
+  # TODO: Remove these in favor of plain repo calls
   def get_project(id, filt \\ []), do: get_project_by(Keyword.merge([id: id], filt))
   def get_project!(id, filt \\ []), do: get_project_by!(Keyword.merge([id: id], filt))
-  def get_project_by(filt), do: Project |> Project.apply_filters(filt) |> Repo.first()
-  def get_project_by!(filt), do: Project |> Project.apply_filters(filt) |> Repo.first!()
-  def get_projects(filt \\ []), do: Project |> Project.apply_filters(filt) |> Repo.all()
-  def count_projects(filt \\ []), do: Project |> Project.apply_filters(filt) |> Repo.count()
+  def get_project_by(filt), do: Project |> Project.filter(filt) |> Repo.first()
+  def get_project_by!(filt), do: Project |> Project.filter(filt) |> Repo.first!()
+  def get_projects(filt \\ []), do: Project |> Project.filter(filt) |> Repo.all()
+  def count_projects(filt \\ []), do: Project |> Project.filter(filt) |> Repo.count()
 
   def insert_project(params), do: new_project_changeset(params) |> Repo.insert()
   def insert_project!(params), do: new_project_changeset(params) |> Repo.insert!()
@@ -29,12 +31,13 @@ defmodule RTL.Projects do
   # Prompts
   #
 
+  # TODO: Remove these in favor of plain repo calls
   def get_prompt(id, filt \\ []), do: get_prompt_by(Keyword.merge([id: id], filt))
   def get_prompt!(id, filt \\ []), do: get_prompt_by!(Keyword.merge([id: id], filt))
-  def get_prompt_by(filt), do: Prompt |> Prompt.apply_filters(filt) |> Repo.first()
-  def get_prompt_by!(filt), do: Prompt |> Prompt.apply_filters(filt) |> Repo.first!()
-  def get_prompts(filt \\ []), do: Prompt |> Prompt.apply_filters(filt) |> Repo.all()
-  def count_prompts(filt \\ []), do: Prompt |> Prompt.apply_filters(filt) |> Repo.count()
+  def get_prompt_by(filt), do: Prompt |> Prompt.filter(filt) |> Repo.first()
+  def get_prompt_by!(filt), do: Prompt |> Prompt.filter(filt) |> Repo.first!()
+  def get_prompts(filt \\ []), do: Prompt |> Prompt.filter(filt) |> Repo.all()
+  def count_prompts(filt \\ []), do: Prompt |> Prompt.filter(filt) |> Repo.count()
 
   def insert_prompt(params), do: new_prompt_changeset(params) |> Repo.insert()
   def insert_prompt!(params), do: new_prompt_changeset(params) |> Repo.insert!()
@@ -49,18 +52,18 @@ defmodule RTL.Projects do
   # ProjectAdminJoins
   #
 
-  def is_project_admin?(user, %Project{} = project) do
+  def is_project_admin?(%User{} = user, %Project{} = project) do
     from(j in ProjectAdminJoin, where: [project_id: ^project.id, admin_id: ^user.id])
     |> Repo.any?()
   end
 
-  def add_project_admin!(user, %Project{} = project) do
+  def add_project_admin!(%User{} = user, %Project{} = project) do
     %ProjectAdminJoin{}
     |> ProjectAdminJoin.changeset(%{project_id: project.id, admin_id: user.id})
     |> Repo.insert!()
   end
 
-  def remove_project_admin!(user, %Project{} = project) do
+  def remove_project_admin!(%User{} = user, %Project{} = project) do
     from(j in ProjectAdminJoin, where: [project_id: ^project.id, admin_id: ^user.id])
     |> Repo.delete_all()
   end
@@ -75,7 +78,7 @@ defmodule RTL.Projects do
   def get_custom_block_by!(filt), do: query_custom_blocks(filt) |> Repo.first!()
   def get_custom_blocks(filt \\ []), do: query_custom_blocks(filt) |> Repo.all()
   def count_custom_blocks(filt \\ []), do: query_custom_blocks(filt) |> Repo.count()
-  def query_custom_blocks(filt), do: CustomBlock |> CustomBlock.apply_filters(filt)
+  def query_custom_blocks(filt), do: CustomBlock |> CustomBlock.filter(filt)
 
   def insert_custom_block(params), do: new_custom_block_changeset(params) |> Repo.insert()
   def insert_custom_block!(params), do: new_custom_block_changeset(params) |> Repo.insert!()

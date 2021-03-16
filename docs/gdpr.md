@@ -28,4 +28,4 @@ Notes on our compliance:
   * Site errors are sent to Rollbar
   * Project admin (who sends out requests to participants to submit their videos) has access to their projects' user submissions incl. recordings
   * RTL webmaster has access to all data on all projects
-  * Our video capture plugin, Ziggeo, uploads all recorded / uploaded videos to their servers, processes them, and then drops them in our (EU) S3 bucket. Videos are then auto-deleted from Ziggeo after 1 day.
+  * Our video capture plugin, Ziggeo, uploads all recorded / uploaded videos to their servers, processes them, and then drops them in our (EU) S3 bucket. Videos are then auto-deleted from Ziggeo after 1 day. (TODO: Update this to reflect our usage of Agora.io)

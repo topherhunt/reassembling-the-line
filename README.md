@@ -14,10 +14,9 @@ If you're using this project, **please let us know** so we can learn what works 
   * Ensure Erlang, Kiex, Elixir (version in `mix.exs`), and Node are installed
   * `mix deps.get`
   * `npm install`
-  * `mix ecto.create`
-  * `mix ecto.migrate`
-  * `MIX_ENV=test mix ecto.reset_test`
-  * `mix run priv/repo/insert_seeds.exs`
+  * `mix ecto.reset`
+  * `mix run scripts/seeds.exs`
+  * `MIX_ENV=test mix ecto.reset`
 
 
 ## Running the app

@@ -37,7 +37,7 @@ defmodule RTLWeb.ConnCase do
       Ecto.Adapters.SQL.Sandbox.mode(RTL.Repo, {:shared, self()})
     end
 
-    RTL.DataHelpers.empty_database()
+    Factory.empty_database()
     System.put_env("SUPERADMIN_EMAILS", "superadmin@example.com")
     {:ok, conn: Phoenix.ConnTest.build_conn()}
   end

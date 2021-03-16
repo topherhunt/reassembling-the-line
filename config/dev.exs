@@ -41,7 +41,7 @@ config :rtl, RTLWeb.Endpoint,
 #   Bamboo.SentEmail.all() # => a list having one %Bamboo.Email{} struct
 config :rtl, RTL.Mailer, adapter: Bamboo.LocalAdapter
 
-config :logger, level: :debug
+config :logger, level: :info # use :debug to view full sql
 
 # higher stack depth (impairs performance)
 config :phoenix, :stacktrace_depth, 20

@@ -30,7 +30,7 @@ defmodule RTLWeb.ResultsController do
   defp tags_from_params(params) do
     (params["tags"] || "")
     |> String.split(",")
-    |> Enum.reject(& H.is_blank?(&1))
+    |> Enum.reject(& H.blank?(&1))
     |> Enum.map(& %{name: &1})
   end
 end
