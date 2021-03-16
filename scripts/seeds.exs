@@ -7,7 +7,7 @@ alias RTL.Repo
 alias RTL.Accounts.User
 alias RTL.Videos.{Video, Coding, Tagging, Tag}
 
-empty_database()
+RTL.Factory.empty_database()
 
 admin = insert_user(name: "Admin", email: "admin@example.com")
 coder = insert_user(name: "Coder", email: "coder@example.com")

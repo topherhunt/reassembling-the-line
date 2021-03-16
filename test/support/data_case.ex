@@ -32,7 +32,7 @@ defmodule RTL.DataCase do
       Ecto.Adapters.SQL.Sandbox.mode(RTL.Repo, {:shared, self()})
     end
 
-    Factory.empty_database()
+    RTL.Factory.empty_database()
 
     :ok
   end
