@@ -5,12 +5,11 @@ defmodule RTL.Videos.Attachment do
 
   def upload_file(local_filepath) do
     filename = Path.basename(local_filepath)
-    s3_path = "interviews/#{filename}"
     s3_options = [{:acl, "public-read"}]
 
     local_filepath
     |> ExAws.S3.Upload.stream_file()
-    |> ExAws.S3.upload(s3_bucket(), s3_path, s3_options)
+    |> ExAws.S3.upload(s3_bucket(), path(filename), s3_options)
     |> ExAws.request!()
     # Old non-streamed logic (less performant):
     # ExAws.S3.put_object(s3_bucket(), s3_path, File.read!(path), s3_options)
@@ -20,22 +19,20 @@ defmodule RTL.Videos.Attachment do
 
   def presigned_upload_url(filename) do
     config = ExAws.Config.new(:s3)
-    path = "interviews/#{filename}"
     # This ACL is no longer needed since I set the bucket policy to public-read.
     params = [{"x-amz-acl", "public-read"}, {"contentType", "binary/octet-stream"}]
     opts = [query_params: params]
-    {:ok, url} = ExAws.S3.presigned_url(config, :put, s3_bucket(), path, opts)
+    {:ok, url} = ExAws.S3.presigned_url(config, :put, s3_bucket(), path(filename), opts)
     url
   end
 
-  def url(filename) do
-    "https://#{s3_host()}/#{s3_bucket()}/interviews/#{filename}"
+  def delete_file(filename) do
+    ExAws.S3.delete_object(s3_bucket(), path(filename)) |> ExAws.request!()
   end
 
-  def delete_file(filename) do
-    s3_path = "interviews/#{filename}"
-    ExAws.S3.delete_object(s3_bucket(), s3_path) |> ExAws.request!()
-  end
+  def url(filename), do: "https://#{s3_host()}/#{s3_bucket()}/#{path(filename)}"
+
+  def path(filename), do: "#{s3_env()}/interviews/#{filename}"
 
   #
   # Internal
@@ -46,4 +43,5 @@ defmodule RTL.Videos.Attachment do
   # More info: https://docs.aws.amazon.com/AmazonS3/latest/dev/VirtualHosting.html
   defp s3_host, do: H.env!("S3_HOST")
   defp s3_bucket, do: H.env!("S3_BUCKET")
+  defp s3_env, do: "#{Mix.env()}"
 end

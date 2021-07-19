@@ -105,7 +105,7 @@
       data-urls='<%= Jason.encode!(@presigned_upload_urls) %>'></div>
 
     <div class="js-upload-progress-container js-hidden">
-      <p><strong>We're saving your recording.</strong> Do not close or refresh the page until the upload is complete.</p>
+      <p><strong>We're saving your recording.</strong> <br>Do not close or refresh the page until the upload is complete.</p>
       <div class="progress">
         <div class="progress-bar progress-bar-striped active" role="progressbar" style="width: 1%;"></div>
       </div>

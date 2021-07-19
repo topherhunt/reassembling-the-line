@@ -1,6 +1,7 @@
 defmodule RTLWeb.VideoController do
   use RTLWeb, :controller
   alias RTL.Videos
+  alias RTL.Videos.Attachment
 
   plug :load_project
   plug :load_prompt when action in [:new, :create]
@@ -15,8 +16,8 @@ defmodule RTLWeb.VideoController do
       # Generate presigned upload urls for all supported filetypes.
       # (The JS only uses .jpg and .webm for now, but this approach gives us flexibility)
       presigned_upload_urls: %{
-        jpg: presigned_upload_url("thumbnail", "#{uuid}.jpg"),
-        webm: presigned_upload_url("recording", "#{uuid}.webm")
+        jpg: Attachment.presigned_upload_url("#{uuid}.jpg"),
+        webm: Attachment.presigned_upload_url("#{uuid}.webm")
       }
     )
 

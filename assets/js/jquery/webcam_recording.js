@@ -47,6 +47,7 @@ $(function(){
       console.log("getUserMedia failed:", error)
       $('.js-webcam-recording-container').hide()
       $('.js-init-failed-alert').show()
+    })
 
   //
   // Listeners
@@ -168,7 +169,8 @@ $(function(){
     report("submitInterview called.")
 
     if (!isSpeakerNamePresent()) { raise("Please fill in your name.") }
-    if (!isPermissionGiven()) { raise("Please select a permission option.") }
+    // We don't require a consent checkbox anymore, it's just a warning banner.
+    // if (!isPermissionGiven()) { raise("Please select a permission option.") }
 
     $('.js-interview-form-container').hide()
     $('.js-upload-failed').hide()
@@ -276,8 +278,8 @@ $(function(){
     videoPlayer.muted = false
   }
 
-  function isPermissionGiven() {
-    return !!$('[name="video[permission]"]:checked').val()
+  function isSpeakerNamePresent() {
+    return $("#video_speaker_name").val().trim() != ""
   }
 
   function uploadFile(url, fileBlob, updateBarOnProgress, onSuccess) {
@@ -322,4 +324,4 @@ $(function(){
     $.post("/api/log", {message: "Webcam recording page: "+msg})
   }
 
-});
+})
