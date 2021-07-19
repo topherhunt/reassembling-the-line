@@ -38,25 +38,31 @@
 
     <div class="pb-4"></div>
 
-    <div class="u-box-shadow" style="width: 100%; min-height: 200px; overflow: hidden; border-radius: 10px; margin-bottom: 10px;">
-      <div id="ziggeo-recorder" style="width: 100%;"></div>
+    <div class="u-box-shadow" style="width: 100%; background-color: #000; overflow: hidden; border-radius: 10px; margin-bottom: 10px;">
+      <div class="js-webcam-recording-container" style="max-width: 640px; max-height: 480px; margin: 0 auto 0 auto; position: relative; overflow: hidden;">
+        <video class="js-recording-preview-video" controls="" autoplay="" style="width: 100%; height: 100%;"></video>
+        <div class="js-recording-controls" style="position: absolute; top: 10px; left: 10px;">
+          <span class="js-setting-up-recording btn btn-warning disabled">Setting up video. Please wait...</span>
+          <%= link icon("play_arrow", " Start recording"), to: "#", class: "js-start-recording btn btn-success js-hidden" %>
+          <%= link icon("stop", " Stop recording"), to: "#", class: "js-stop-recording btn btn-danger js-hidden" %>
+          <%= link icon("refresh", " Start over"), to: "#", class: "js-restart-recording btn btn-warning js-hidden" %>
+          <span class="js-time-remaining js-hidden" style="padding: 5px; color: #fff; background-color: #000; opacity: 0.5; border-radius: 5px;"></span>
+        </div>
+      </div>
+    </div>
+
+    <canvas class="js-thumbnail-canvas js-hidden"></canvas>
+
+    <a class="u-hidden js-download-recording-link"></a>
+
+    <div class="js-init-failed-alert alert alert-danger js-hidden">
+      We were unable to access your webcam for recording. Please check your browser's settings to allow this page to use your webcam and microphone.
     </div>
 
     <div class="pb-4"></div>
 
-    <div class="js-ziggeo-processing js-hidden">
-      <p><strong class="text-warning"><%= gettext "We're preparing your video." %></strong> <%= gettext "Please don't close or refresh the page." %></p>
-
-      <div class="progress">
-        <div class="progress-bar progress-bar-striped active" role="progressbar" style="width: 1%;"></div>
-      </div>
-    </div>
-
     <div class="js-interview-form-container js-hidden">
-      <div class="alert alert-info">
-        <p><%= raw gettext("Your video is ready! Click on it to play it. To start over, click <strong>Redo</strong>.") %></p>
-        <p class="mb-0"><%= raw gettext("When you're happy, fill in the fields below, then click <strong>Submit</strong>.") %></p>
-      </div>
+      <h5>Submit your recording</h5>
 
       <%= form_for @changeset, Routes.video_path(@conn, :create, @project, @prompt), [class: "js-suppress-enter"], fn(f) -> %>
 
@@ -88,9 +94,30 @@
         <%= hidden_input f, :thumbnail_filename, value: "TO POPULATE", class: "js-thumbnail-filename" %>
 
         <div class="text-center">
-          <%= submit gettext("Submit your recording"), class: "js-form-submit btn btn-primary" %>
+          <%= link gettext("Submit your recording"), to: "#", class: "js-upload-and-submit-btn btn btn-primary" %>
+          <%= submit " ", class: "js-submit-form-btn js-hidden", style: "display: none;" %>
         </div>
       <% end %>
+    </div>
+
+    <div class="js-upload-data"
+      data-uuid='<%= @filename_uuid %>'
+      data-urls='<%= Jason.encode!(@presigned_upload_urls) %>'></div>
+
+    <div class="js-upload-progress-container js-hidden">
+      <p><strong>We're saving your recording.</strong> Do not close or refresh the page until the upload is complete.</p>
+      <div class="progress">
+        <div class="progress-bar progress-bar-striped active" role="progressbar" style="width: 1%;"></div>
+      </div>
+    </div>
+
+    <div class="js-upload-failed alert alert-danger js-hidden">
+      <p><strong>There was an error uploading your recording.</strong> What you can do:</p>
+      <ul>
+        <li><%= link "Retry upload", to: "#", class: "js-retry-upload" %></li>
+        <li><%= link "Download my video for safekeeping (.webm)", to: "#", class: "js-download-recording" %></li>
+        <li><%= link "Refresh the page and start over", to: "", class: "text-danger" %></li>
+      </ul>
     </div>
   </div>
 </div>
