@@ -28,7 +28,8 @@
     "react-phoenix": "file:../deps/react_phoenix",
     "react-select": "^2.4.3",
     "sass-loader": "^7.1.0",
-    "trix": "^1.1.1"
+    "trix": "^1.1.1",
+    "webrtc-adapter": "^8.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.0.0",

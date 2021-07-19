@@ -15,6 +15,9 @@ import "phoenix_html"
 import "bootstrap"
 import "react-phoenix"
 import "trix"
+// See https://developer.mozilla.org/en-US/docs/Web/API/WebRTC_API/adapter.js
+import adapter from 'webrtc-adapter';
+
 
 // Local
 
