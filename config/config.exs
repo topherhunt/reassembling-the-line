@@ -53,6 +53,9 @@ config :ex_aws,
     # More info: https://docs.aws.amazon.com/AmazonS3/latest/dev/VirtualHosting.html
     host: H.env!("S3_HOST"),
     region: H.env!("S3_REGION")
+  ],
+  mediaconvert: [
+    host: H.env!("MEDIACONVERT_API_ENDPOINT")
   ]
 
 # Import environment specific config. This must remain at the bottom

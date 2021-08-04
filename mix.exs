@@ -55,8 +55,9 @@ defmodule RTL.Mixfile do
       # TODO: when I upgrade to Ecto 3, remove this and work with plain datetimes instead
       {:timex_ecto, "~> 3.3"},
       # Downgraded to avoid presigned url bug: https://github.com/ex-aws/ex_aws/issues/602
-      {:ex_aws, "~> 2.0.1"},
-      {:ex_aws_s3, "~> 2.0.2"},
+      {:ex_aws, "~> 2.1"},
+      {:ex_aws_s3, "~> 2.0"},
+      {:ex_aws_mediaconvert, "~> 2.0"},
       {:sweet_xml, "~> 0.6"},
       {:httpotion, "~> 3.1"},
       {:nanoid, "~> 2.0"},
