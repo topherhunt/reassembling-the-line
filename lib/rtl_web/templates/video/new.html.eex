@@ -52,8 +52,6 @@
       </div>
     </div>
 
-    <canvas class="js-thumbnail-canvas js-hidden"></canvas>
-
     <a class="u-hidden js-download-recording-link"></a>
 
     <div class="js-browser-not-compatible alert alert-danger js-hidden">
@@ -97,7 +95,6 @@
 
         <%= hidden_input f, :prompt_id, value: @prompt.id %>
         <%= hidden_input f, :recording_filename, value: "TO POPULATE", class: "js-recording-filename" %>
-        <%= hidden_input f, :thumbnail_filename, value: "TO POPULATE", class: "js-thumbnail-filename" %>
 
         <div class="text-center">
           <%= link gettext("Submit your recording"), to: "#", class: "js-upload-and-submit-btn btn btn-primary" %>

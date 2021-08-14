@@ -35,7 +35,6 @@ $(function(){
   var mediaRecorder
   var recordingChunks
   var recordingBlob
-  var thumbnailBlob
   var hasUnsavedData
 
   videoPlayer = $('.js-recording-preview-video')[0]
@@ -71,9 +70,7 @@ $(function(){
 
   $('.js-restart-recording').click(function(e){
     e.preventDefault()
-    // We could clear and restart the recording without a page refresh, but the
-    // thumbnail generation process doesn't like this for some reason (dirty canvas?)
-    location.reload()
+    location.reload() // just refresh the whole page to ensure its state is fully reset
   })
 
   $('.js-download-recording').click(function(e){
@@ -142,7 +139,6 @@ $(function(){
     recordingChunks = [] // ensure any stale recording data is cleared out
     mediaRecorder.start(100) // send chunk every 100 ms
     hasUnsavedData = true
-    captureThumbnail()
   }
 
   function stopRecording() {
@@ -189,35 +185,25 @@ $(function(){
     $('.js-upload-progress-container').fadeIn()
 
     // Grab the presigned S3 upload urls corresponding to each file type.
-    // For now we always capture as .jpg and .webm, but .mp4 would be a more desireable
-    // default in the future.
+    // For now we always capture as .webm, and convert to .mp4 & .jpg on the backend.
     let uploadUrls = $('.js-upload-data').data('urls')
-    let thumbnailUrl = uploadUrls.jpg || raise("Can't find .jpg upload url")
     let recordingUrl = uploadUrls.webm || raise("Can't find .webm upload url")
 
     // Set the filename input fields, so the Video record knows what files to link to.
     let filename_base = $('.js-upload-data').data('filename-base')
-    $('.js-thumbnail-filename').val(filename_base+'.jpg')
     $('.js-recording-filename').val(filename_base+'.webm')
 
-    // Start the actual uploads.
-    console.log("Uploading the thumbnail to S3...")
-    report("Uploading thumbnail...")
-    uploadFile(thumbnailUrl, thumbnailBlob, false, function() {
+    // Start the actual upload.
+    console.log("Uploading the recording to S3...")
+    report("Uploading recording...")
+    $('.progress-bar').css({width: "2%"})
 
-      console.log("Uploading the recording to S3...")
-      report("Thumbnail uploaded. Uploading recording...")
-      $('.progress-bar').css({width: "2%"})
-
-
-      uploadFile(recordingUrl, recordingBlob, true, function() {
-
-        console.log("Uploads complete. Submitting.")
-        hasUnsavedData = false
-        report("Recording uploaded.")
-        $('.progress-bar').css({width: "100%"})
-        $('.js-submit-form-btn').click()
-      })
+    uploadFile(recordingUrl, recordingBlob, true, function(){
+      console.log("Uploads complete. Submitting.")
+      hasUnsavedData = false
+      report("Recording uploaded.")
+      $('.progress-bar').css({width: "100%"})
+      $('.js-submit-form-btn').click()
     })
   }
 
@@ -247,35 +233,6 @@ $(function(){
     var min = Math.floor(total_seconds / 60)
     var sec = total_seconds % 60
     return min + ":" + ("0" + sec).substr(-2, 2)
-  }
-
-  // Relies on the mediaStream having started
-  function captureThumbnail() {
-    console.log("captureThumbnail called")
-    var track = mediaStream.getVideoTracks()[0]
-    var imageCapture = new ImageCapture(track)
-    imageCapture.grabFrame()
-    .then(function(imageBitmap) {
-      // We have the image as imageBitmap, now we need to render it into a jpeg blob.
-      // See https://developer.mozilla.org/en-US/docs/Web/API/ImageCapture#Example
-
-      var imgWidth = imageBitmap.width
-      var imgHeight = imageBitmap.height
-
-      var canvas = document.querySelector('.js-thumbnail-canvas')
-      canvas.width = 480 // let's ensure non-terrible image quality
-      canvas.height = (canvas.width * imgHeight / imgWidth)
-      canvas.getContext('2d').drawImage(imageBitmap, 0, 0, canvas.width, canvas.height)
-      canvas.toBlob(updateThumbnailBlob, 'image/jpeg', 0.8)
-    })
-    .catch(function(error) {
-      console.error("ImageCapture.grabFrame() failed: ", error)
-      console.log(error)
-    })
-  }
-
-  function updateThumbnailBlob(blob) {
-    thumbnailBlob = blob
   }
 
   function playLiveVideoPreview() {

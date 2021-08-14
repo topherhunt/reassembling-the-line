@@ -17,7 +17,6 @@ defmodule RTLWeb.VideoController do
       # Generate presigned upload urls for all supported filetypes.
       # (The JS only uses .jpg and .webm for now, but this approach gives us flexibility)
       presigned_upload_urls: %{
-        jpg: Attachment.presigned_upload_url("#{filename}.jpg"),
         webm: Attachment.presigned_upload_url("#{filename}.webm")
       }
     )
@@ -25,14 +24,17 @@ defmodule RTLWeb.VideoController do
 
   # The form submits here once the video has finished uploading.
   def create(conn, %{"video" => video_params}) do
+    webm_filename = video_params["recording_filename"]
+
+    # Call AWS MediaConvert to convert the .webm recording to .mp4 and .jpg formats.
+    result = Videos.MediaConvertWrapper.create_job(Attachment.path(webm_filename))
+
+    video_params =
+      video_params
+      |> Map.put("recording_filename", result.mp4)
+      |> Map.put("thumbnail_filename", result.jpg)
+
     video = Videos.insert_video!(video_params, :webcam_recording)
-
-    # Start a AWS MediaConverter job to convert the video to standard .mp4 format.
-    Videos.MediaConvertWrapper.create_job(Attachment.path(video.recording_filename))
-
-    # Users must be given the (yet-to-be-converted) .mp4 recording, not the .webm.
-    mp4_filename = video.recording_filename |> String.replace(".webm", ".mp4")
-    Videos.update_video!(video, %{recording_filename: mp4_filename})
 
     conn
     |> put_flash(:info, gettext("Thank you! We've received your recording and we're looking forward to learning from your experience."))
