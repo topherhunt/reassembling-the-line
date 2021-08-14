@@ -3,7 +3,6 @@ defmodule RTL.Videos.Video do
   import Ecto.Changeset
   require Ecto.Query
   alias Ecto.Query, as: Q
-  alias RTL.Repo
 
   schema "videos" do
     belongs_to :prompt, RTL.Projects.Prompt
@@ -27,50 +26,20 @@ defmodule RTL.Videos.Video do
     has_many :tags, through: [:coding, :tags]
   end
 
-  # TODO: Move this stuff up to the context
-  def insert_webcam_recording!(params) do
-    new_webcam_recording_changeset(params) |> Repo.insert!()
-  end
+  #
+  # Changesets
+  #
 
-  def generic_changeset(struct, params \\ %{}) do
+  def changeset(struct, params, :generic) do
     struct
-    |> cast(params, [
-      :prompt_id,
-      :title,
-      :speaker_name,
-      :source_url,
-      :permission_show_name,
-      :recording_filename,
-      :thumbnail_filename
-    ])
-    |> validate_required([
-      :prompt_id,
-      :recording_filename,
-      :thumbnail_filename
-    ])
+    |> cast(params, [:prompt_id, :title, :source_url, :speaker_name, :permission_show_name, :recording_filename, :thumbnail_filename])
+    |> validate_required([:prompt_id, :recording_filename, :thumbnail_filename])
   end
 
-  def new_webcam_recording_changeset(params \\ %{}) do
-    webcam_recording_changeset(%RTL.Videos.Video{}, params)
-  end
-
-  # TODO: Merge this into the main changeset
-  def webcam_recording_changeset(struct, params \\ %{}) do
-    struct
-    |> cast(params, [
-      :prompt_id,
-      :speaker_name,
-      :permission_show_name,
-      :recording_filename,
-      :thumbnail_filename
-    ])
-    |> validate_required([
-      :prompt_id,
-      :speaker_name,
-      :permission_show_name,
-      :recording_filename,
-      :thumbnail_filename
-    ])
+  # When recording a video from webcam, the speaker's identifying info is required.
+  def changeset(struct, params, :webcam_recording) do
+    changeset(struct, params, :generic)
+    |> validate_required([:speaker_name, :permission_show_name])
   end
 
   #

@@ -15,14 +15,19 @@ import "phoenix_html"
 import "bootstrap"
 import "react-phoenix"
 import "trix"
+import $ from "jquery"
 // See https://developer.mozilla.org/en-US/docs/Web/API/WebRTC_API/adapter.js
 import adapter from 'webrtc-adapter';
 
-
+//
 // Local
+//
 
 import "./liveview_init"
 import "./react/globals"
 import "./jquery/utilities"
 import "./jquery/explore"
 import "./jquery/webcam_recording"
+
+// make jquery available in the browser console etc.
+window.$ = $;

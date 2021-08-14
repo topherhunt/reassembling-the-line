@@ -4,6 +4,8 @@
     <h1 style="margin-top: 0px;"><%= title_for_video(@video) %></h1>
     <div style="padding-bottom: 5px;"></div>
 
+    <%= render(RTLWeb.VideoView, "_not_ready_yet.html", video: @video) %>
+
     <video
       src="<%= Videos.video_recording_url(@video) %>"
       poster="<%= Videos.video_thumbnail_url(@video) %>"

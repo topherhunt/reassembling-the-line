@@ -57,7 +57,7 @@ defmodule RTL.Videos.Services.ImportFromYoutube do
           source_url: url,
           recording_filename: recording_filename,
           thumbnail_filename: thumbnail_filename
-        })
+        }, :generic)
 
         {:ok, url, nil}
 

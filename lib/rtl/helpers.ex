@@ -93,11 +93,16 @@ defmodule RTL.Helpers do
 
   def now, do: DateTime.utc_now()
 
-  def datetime_gt?(a, b), do: DateTime.compare(a, b) == :gt # returns true if A > B
-  def datetime_lt?(a, b), do: DateTime.compare(a, b) == :lt # returns true if A < B
-  def datetime_gte?(a, b), do: DateTime.compare(a, b) in [:gt, :eq] # true if A >= B
-  def datetime_lte?(a, b), do: DateTime.compare(a, b) in [:lt, :eq] # true if A <= B
+  def datetime_gt?(a, b), do: datetime_compare(a, b) == :gt # returns true if A > B
+  def datetime_lt?(a, b), do: datetime_compare(a, b) == :lt # returns true if A < B
+  def datetime_gte?(a, b), do: datetime_compare(a, b) in [:gt, :eq] # true if A >= B
+  def datetime_lte?(a, b), do: datetime_compare(a, b) in [:lt, :eq] # true if A <= B
   def datetime_between?(dt, a, b), do: datetime_gte?(dt, a) && datetime_lte?(dt, b)
+
+  def datetime_compare(a, b), do: DateTime.compare(to_datetime(a), to_datetime(b))
+
+  def to_datetime(%NaiveDateTime{} = dt), do: DateTime.from_naive!(dt, "Etc/UTC")
+  def to_datetime(dt), do: dt
 
   def beginning_of_day(%Date{} = d), do: d |> Timex.to_datetime() |> beginning_of_day()
   def beginning_of_day(%DateTime{} = dt), do: dt |> Timex.beginning_of_day()

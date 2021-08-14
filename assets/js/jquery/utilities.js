@@ -22,6 +22,15 @@ $(function(){
       e.preventDefault()
     }
   })
+
+  if ($('.js-show-if-video-unavailable').length > 0) {
+    setTimeout(function(){
+      var video = $('video')[0]
+      if (video.readyState == 0) {
+        $('.js-show-if-video-unavailable').show()
+      }
+    }, 1000)
+  }
 });
 
 // This will help with testing that sourcemaps are working

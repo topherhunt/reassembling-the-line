@@ -1,5 +1,6 @@
 defmodule RTLWeb.Admin.VideoImportController do
   use RTLWeb, :controller
+  alias RTL.{Projects, Videos}
 
   plug :load_project
   plug :ensure_can_manage_project
@@ -9,14 +10,14 @@ defmodule RTLWeb.Admin.VideoImportController do
   end
 
   def create(conn, %{"prompt_id" => prompt_id, "videos_json" => videos_json}) do
-    prompt = RTL.Projects.get_prompt!(prompt_id, project: conn.assigns.project)
+    prompt = Projects.get_prompt!(prompt_id, project: conn.assigns.project)
 
     try do
       videos = videos_json
       |> Jason.decode!()
       |> Enum.map(fn(attrs) ->
         attrs = Map.merge(attrs, %{"prompt_id" => prompt.id})
-        RTL.Videos.insert_video!(attrs)
+        Videos.insert_video!(attrs, :generic)
       end)
 
       conn
@@ -32,6 +33,6 @@ defmodule RTLWeb.Admin.VideoImportController do
   #
 
   defp load_prompts(conn) do
-    RTL.Projects.get_prompts(project: conn.assigns.project)
+    Projects.get_prompts(project: conn.assigns.project)
   end
 end

@@ -43,18 +43,24 @@ defmodule RTL.Videos do
   def list_videos(filt \\ []), do: Video |> Video.filter(filt) |> Repo.all()
   def count_videos(filt \\ []), do: Video |> Video.filter(filt) |> Repo.count()
 
-  def new_video_changeset(params \\ %{}), do: Video.generic_changeset(%Video{}, params)
-
-  def insert_video(params) do
-    new_video_changeset(params)
+  def insert_video(params, scope) do
+    %Video{}
+    |> Video.changeset(params, scope)
     |> Repo.insert()
     |> notify_subscribers_if_succeeded("videos.inserted")
   end
 
-  def insert_video!(params) do
-    new_video_changeset(params)
+  def insert_video!(params, scope) do
+    %Video{}
+    |> Video.changeset(params, scope)
     |> Repo.insert!()
     |> notify_subscribers("videos.inserted")
+  end
+
+  def update_video!(%Video{} = video, params) do
+    video
+    |> Video.changeset(params, :generic)
+    |> Repo.update!()
   end
 
   def delete_video!(video) do

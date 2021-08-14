@@ -64,7 +64,7 @@ defmodule RTL.Factory do
       permission_show_name: true,
       recording_filename: params[:recording_filename] || "#{hex}.webm",
       thumbnail_filename: params[:thumbnail_filename] || "#{hex}.jpg"
-    })
+    }, :generic)
 
     if tags = params[:coded_with_tags] do
       insert_coding(video_id: video.id, tags: tags)

@@ -50,7 +50,7 @@ defmodule RTLWeb do
       import RTLWeb.CustomBlockHelpers, only: [custom_block: 2]
       import RTLWeb.Gettext
       import RTLWeb.{ErrorHelpers, DateHelpers, RouteHelpers, TextHelpers}
-
+      alias RTL.Helpers, as: H
       alias RTLWeb.Router.Helpers, as: Routes
 
       # Rendered HTML will automatically use RTL.LayoutView "app.html"

@@ -7,17 +7,26 @@
 # - You can find the mediaconvert API endpoint on the web console.
 #
 defmodule RTL.Videos.MediaConvertWrapper do
+  require Logger
   alias RTL.Helpers, as: H
 
-  def create_job(path, filename) do
-    ExAws.MediaConvert.create_job(job_spec(path, filename))
+  # `path` should include the filename (as returned by Videos.Attachment.path())
+  # Converting the video might take a minute.
+  def create_job(path) do
+    unless Mix.env() == :test do
+      response = ExAws.MediaConvert.create_job(job_spec(path)) |> ExAws.request!()
+      job = response["job"]
+      log :info, "Job #{job["id"]} #{job["status"]} (file: #{path})"
+      :ok
+    end
   end
 
   def list_jobs do
     ExAws.MediaConvert.list_jobs()
   end
 
-  def job_spec(path, filename) do
+  def job_spec(path) do
+    bare_path = Path.dirname(path)
     bucket = H.env!("S3_BUCKET")
     %{
       "AccelerationSettings" => %{"Mode" => "DISABLED"},
@@ -30,7 +39,7 @@ defmodule RTL.Videos.MediaConvertWrapper do
             "AudioSelectors" => %{
               "Audio Selector 1" => %{"DefaultSelection" => "DEFAULT"}
             },
-            "FileInput" => "https://s3-eu-central-1.amazonaws.com/#{bucket}#{path}/#{filename}",
+            "FileInput" => "https://s3-eu-central-1.amazonaws.com/#{bucket}/#{path}",
             "TimecodeSource" => "ZEROBASED",
             "VideoSelector" => %{}
           }
@@ -40,7 +49,7 @@ defmodule RTL.Videos.MediaConvertWrapper do
             "Name" => "File Group",
             "OutputGroupSettings" => %{
               "FileGroupSettings" => %{
-                "Destination" => "s3://#{bucket}#{path}/"
+                "Destination" => "s3://#{bucket}/#{bare_path}/"
               },
               "Type" => "FILE_GROUP_SETTINGS"
             },
@@ -79,4 +88,6 @@ defmodule RTL.Videos.MediaConvertWrapper do
       "StatusUpdateInterval" => "SECONDS_60"
     }
   end
+
+  defp log(level, message), do: Logger.log(level, "MediaConvertWrapper: #{message}")
 end

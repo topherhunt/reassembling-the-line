@@ -55,7 +55,7 @@ $(function(){
 
   $('.js-start-recording').click(function(e) {
     e.preventDefault()
-    startRecording()
+    startRecordingCountdown()
   })
 
   $('.js-stop-recording').click(function(e) {
@@ -113,23 +113,29 @@ $(function(){
     $('.js-start-recording').show()
   }
 
-  function startRecording() {
-    report("startRecording called.")
+  function startRecordingCountdown() {
+    report("startRecordingCountdown called.")
 
     $('.js-interview-form-container').hide()
     $('.js-start-recording').hide()
     $('.js-restart-recording').hide()
 
-    setTimeout(function(){
-      $('.js-stop-recording').fadeIn()
-      $('.js-time-remaining').fadeIn()
-      showRecordingTimer(60 * 5)
-    }, 1000)
+    var countdown = $('.js-countdown')
+    countdown.show().text("Recording in 3...")
+    setTimeout(function(){ countdown.text("Recording in 2...") }, 1000)
+    setTimeout(function(){ countdown.text("Recording in 1...") }, 2000)
+    setTimeout(function(){ countdown.hide(); startRecording()  }, 3000)
+  }
+
+  // The countdown timer has finished; actual recording starts now.
+  function startRecording() {
+    $('.js-stop-recording').fadeIn()
+    $('.js-time-remaining').fadeIn()
+    showRecordingTimer(60 * 5)
 
     recordingChunks = [] // ensure any stale recording data is cleared out
     mediaRecorder.start(100) // send chunk every 100 ms
     hasUnsavedData = true
-
     captureThumbnail()
   }
 
@@ -184,9 +190,9 @@ $(function(){
     let recordingUrl = uploadUrls.webm || raise("Can't find .webm upload url")
 
     // Set the filename input fields, so the Video record knows what files to link to.
-    let uuid = $('.js-upload-data').data('uuid')
-    $('.js-thumbnail-filename').val(uuid+'.jpg')
-    $('.js-recording-filename').val(uuid+'.webm')
+    let filename_base = $('.js-upload-data').data('filename-base')
+    $('.js-thumbnail-filename').val(filename_base+'.jpg')
+    $('.js-recording-filename').val(filename_base+'.webm')
 
     // Start the actual uploads.
     console.log("Uploading the thumbnail to S3...")
@@ -239,6 +245,7 @@ $(function(){
 
   // Relies on the mediaStream having started
   function captureThumbnail() {
+    console.log("captureThumbnail called")
     var track = mediaStream.getVideoTracks()[0]
     var imageCapture = new ImageCapture(track)
     imageCapture.grabFrame()

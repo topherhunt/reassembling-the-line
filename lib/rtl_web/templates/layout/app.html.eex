@@ -15,6 +15,7 @@
 
     <%= if Mix.env() == :prod, do: render "_rollbar_js.html" %>
     <%= render "_gettext_js.html" %>
+    <script src="<%= Routes.static_path(@conn, "/js/app.js") %>"></script>
   </head>
 
   <body>
@@ -35,7 +36,5 @@
     </main>
 
     <footer><%= custom_block @conn, "footer" %></footer>
-
-    <script src="<%= Routes.static_path(@conn, "/js/app.js") %>"></script>
   </body>
 </html>

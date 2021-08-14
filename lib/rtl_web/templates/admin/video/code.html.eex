@@ -14,6 +14,8 @@
   <%= link icon("help", gettext(" Help")), to: Routes.help_path(@conn, :coding_page), target: "_blank" %>
 </div>
 
+<%= render(RTLWeb.VideoView, "_not_ready_yet.html", video: @video) %>
+
 <%# I guess I'll just pass in the coding id for now and have Apollo fetch everything %>
 <%= ReactPhoenix.ClientSide.react_component("ReactComponents.CodingPage", %{codingId: @coding.id}) %>
 

@@ -1,0 +1,8 @@
+<div class="alert alert-danger max-w-800px js-show-if-video-unavailable js-hidden">
+  <strong>This video isn't ready yet.</strong>
+  <%= if H.datetime_lte?(@video.inserted_at, H.mins_ago(30)) do %>
+    It usually shouldn't take this long to prepare the video file. The converter might have failed; please report the problem using the "Contact Us" link found below.
+  <% else %>
+    Converting the video takes a few minutes. Please check back in half an hour or so.
+  <% end %>
+</div>

@@ -7,10 +7,10 @@
       <p class="mb-2"><strong><%= gettext "How to record your video:" %></strong></p>
       <ol style="padding-left: 20px;">
         <li><%= gettext "Read the question. Think about what you want to say." %></li>
-        <li><%= raw gettext(~s(Click on <strong class="text-danger">Record Video</strong> to set up the camera. Make sure your face is centered in the picture.)) %></li>
-        <li><%= raw gettext(~s(When you're ready to start, click <strong class="text-danger">Record</strong>)) %>.</li>
+        <li><%= raw gettext(~s(Make sure that your camera is enabled and your face is visible in the center of the preview window.)) %></li>
+        <li><%= raw gettext(~s(When you're ready to start, click <strong class="text-danger">Start Recording</strong>)) %>.</li>
         <li><%= raw gettext("Tell your story! You'll have <strong>up to 5 minutes</strong> to speak. If you're not confident speaking in English, feel free to use 🇳🇱 Dutch, 🇩🇪 German, or 🇪🇸 Spanish.") %></li>
-        <li><%= raw gettext(~s(Once you're done, click <strong class="text-danger">Stop</strong>. You'll get a chance to review, re-do, or download your recording before you submit it.)) %></li>
+        <li><%= raw gettext(~s(Once you're done, click <strong class="text-danger">Stop recording</strong>. You'll get a chance to review, re-do, or download your recording before you submit it.)) %></li>
       </ol>
 
       <p><%= gettext "Resources:" %></p>
@@ -42,10 +42,11 @@
       <div class="js-webcam-recording-container" style="max-width: 640px; max-height: 480px; margin: 0 auto 0 auto; position: relative; overflow: hidden;">
         <video class="js-recording-preview-video" controls="" autoplay="" style="width: 100%; height: 100%;"></video>
         <div class="js-recording-controls" style="position: absolute; top: 10px; left: 10px;">
-          <span class="js-setting-up-recording btn btn-warning disabled">Setting up video. Please wait...</span>
-          <%= link icon("play_arrow", " Start recording"), to: "#", class: "js-start-recording btn btn-success js-hidden" %>
-          <%= link icon("stop", " Stop recording"), to: "#", class: "js-stop-recording btn btn-danger js-hidden" %>
-          <%= link icon("refresh", " Start over"), to: "#", class: "js-restart-recording btn btn-warning js-hidden" %>
+          <span class="js-setting-up-recording btn btn-warning disabled"><%= gettext "Setting up video. Please wait..." %></span>
+          <%= link icon("play_arrow", " " <> gettext("Start recording")), to: "#", class: "js-start-recording btn btn-success js-hidden" %>
+          <span class="js-countdown badge badge-warning js-hidden"><%= gettext "Recording will start soon..." %></span>
+          <%= link icon("stop", " " <> gettext("Stop recording")), to: "#", class: "js-stop-recording btn btn-danger js-hidden" %>
+          <%= link icon("refresh", " " <> gettext("Start over")), to: "#", class: "js-restart-recording btn btn-warning js-hidden" %>
           <span class="js-time-remaining js-hidden" style="padding: 5px; color: #fff; background-color: #000; opacity: 0.5; border-radius: 5px;"></span>
         </div>
       </div>
@@ -56,13 +57,13 @@
     <a class="u-hidden js-download-recording-link"></a>
 
     <div class="js-init-failed-alert alert alert-danger js-hidden">
-      We were unable to access your webcam for recording. Please check your browser's settings to allow this page to use your webcam and microphone.
+      <%= gettext "We were unable to access your webcam for recording. Please check your browser's settings to allow this page to use your webcam and microphone." %>
     </div>
 
     <div class="pb-4"></div>
 
     <div class="js-interview-form-container js-hidden">
-      <h5>Submit your recording</h5>
+      <h5><%= gettext "Submit your recording" %></h5>
 
       <%= form_for @changeset, Routes.video_path(@conn, :create, @project, @prompt), [class: "js-suppress-enter"], fn(f) -> %>
 
@@ -101,22 +102,22 @@
     </div>
 
     <div class="js-upload-data"
-      data-uuid='<%= @filename_uuid %>'
+      data-filename-base='<%= @filename_base %>'
       data-urls='<%= Jason.encode!(@presigned_upload_urls) %>'></div>
 
     <div class="js-upload-progress-container js-hidden">
-      <p><strong>We're saving your recording.</strong> <br>Do not close or refresh the page until the upload is complete.</p>
+      <p><strong><%= gettext "We're saving your recording." %></strong> <br><%= gettext "Do not close or refresh the page until the upload is complete." %></p>
       <div class="progress">
         <div class="progress-bar progress-bar-striped active" role="progressbar" style="width: 1%;"></div>
       </div>
     </div>
 
     <div class="js-upload-failed alert alert-danger js-hidden">
-      <p><strong>There was an error uploading your recording.</strong> What you can do:</p>
+      <p><strong><%= gettext "There was an error uploading your recording." %></strong> <%= gettext "What you can do:" %></p>
       <ul>
-        <li><%= link "Retry upload", to: "#", class: "js-retry-upload" %></li>
-        <li><%= link "Download my video for safekeeping (.webm)", to: "#", class: "js-download-recording" %></li>
-        <li><%= link "Refresh the page and start over", to: "", class: "text-danger" %></li>
+        <li><%= link gettext("Retry upload"), to: "#", class: "js-retry-upload" %></li>
+        <li><%= link gettext("Download my video for safekeeping (.webm)"), to: "#", class: "js-download-recording" %></li>
+        <li><%= link gettext("Refresh the page and start over"), to: "", class: "text-danger" %></li>
       </ul>
     </div>
   </div>
