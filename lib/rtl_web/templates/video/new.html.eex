@@ -56,6 +56,11 @@
 
     <a class="u-hidden js-download-recording-link"></a>
 
+    <div class="js-browser-not-compatible alert alert-danger js-hidden">
+      <strong><%= gettext "This page requires a more up-to-date browser." %></strong>
+      <%= raw gettext("For best results, we recommend using the latest version of <a href='https://www.google.com/chrome/'>Chrome</a> or <a href='https://www.mozilla.org/en-US/firefox/new/'>Firefox</a> to record your video.") %>
+    </div>
+
     <div class="js-init-failed-alert alert alert-danger js-hidden">
       <%= gettext "We were unable to access your webcam for recording. Please check your browser's settings to allow this page to use your webcam and microphone." %>
     </div>

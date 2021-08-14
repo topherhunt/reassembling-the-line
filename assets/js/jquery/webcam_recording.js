@@ -18,6 +18,12 @@ import $ from "jquery"
 $(function(){
   if ($('.js-webcam-recording-container').length == 0) { return }
 
+  if (typeof MediaRecorder == "undefined") {
+    $('.js-webcam-recording-container').hide()
+    $('.js-browser-not-compatible').show()
+    return
+  }
+
   //
   // Init the video stream
   //
