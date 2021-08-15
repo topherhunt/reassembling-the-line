@@ -45,8 +45,8 @@ defmodule RTLWeb.VideoControllerTest do
       video = Videos.get_video_by(order: :newest)
       assert video.speaker_name == "Elmer Fudd"
       assert video.title == nil
-      assert video.thumbnail_filename == "abc.jpg"
-      assert video.recording_filename == "abc.webm"
+      assert video.thumbnail_filename == "abc.0000000.jpg"
+      assert video.recording_filename == "abc.mp4"
     end
   end
 end

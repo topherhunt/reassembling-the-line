@@ -1,13 +1,33 @@
 defmodule RTLWeb.Admin.VideoController do
   use RTLWeb, :controller
-  alias RTL.Videos
+  alias RTL.{Repo, Videos}
+  alias RTL.Videos.Video
+  import Ecto.Query
 
   plug :load_project
   plug :ensure_can_manage_project
 
   def index(conn, _params) do
-    session = %{current_user: conn.assigns.current_user, project: conn.assigns.project}
-    live_render(conn, RTLWeb.Admin.VideosListLiveview, session: session)
+    project = conn.assigns.project
+    videos =
+      Video.filter(project: project, order: :last_coded)
+      |> preload(coding: [:coder, :tags])
+      |> Repo.all()
+    next_uncoded_video =
+      Video.filter(project: project, coded: false, order: :last_coded)
+      |> Repo.first()
+
+    render conn, "index.html", videos: videos, next_uncoded_video: next_uncoded_video
+  end
+
+  def delete(conn, %{"id" => id}) do
+    project = conn.assigns.project
+    video = Video.filter(project: project, id: id) |> Repo.one!()
+    Videos.delete_video!(video)
+
+    conn
+    |> put_flash(:info, "Video #{id} deleted.")
+    |> redirect(to: Routes.admin_video_path(conn, :index, project))
   end
 
   # The coding page

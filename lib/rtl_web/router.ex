@@ -77,7 +77,7 @@ defmodule RTLWeb.Router do
         resources "/prompts", Admin.PromptController,
           except: [:index, :show], param: "prompt_uuid"
 
-        get "/videos", Admin.VideoController, :index
+        resources "/videos", Admin.VideoController, only: [:index, :delete]
         get "/videos/:video_id/code", Admin.VideoController, :code
         post "/videos/:video_id/mark_coded", Admin.VideoController, :mark_coded
 

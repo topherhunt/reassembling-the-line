@@ -46,7 +46,7 @@ defmodule RTL.Videos.Video do
   # Filters
   #
 
-  def filter(starting_query, filters) do
+  def filter(starting_query \\ __MODULE__, filters) do
     Enum.reduce(filters, starting_query, fn {k, v}, query -> filter(query, k, v) end)
   end
 

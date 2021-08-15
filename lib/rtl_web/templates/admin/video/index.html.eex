@@ -52,11 +52,7 @@
             <div class="u-tooltip"><%= gettext "Right-click, then click \"Save Link As...\" to download the video." %></div>
           <% end %>
           &nbsp;
-          <a href="#"
-            class="text-danger test-link-delete-video-<%= video.id %>"
-            phx-click="delete_video"
-            phx-value="<%= video.id %>"
-            data-confirm="<%= gettext ~s(Really delete this video and all its tagging data?) %>"><%= icon "delete" %> <%= gettext "delete" %></a>
+          <%= link icon("delete", " " <> gettext("delete")), to: Routes.admin_video_path(@conn, :delete, @project, video), method: :delete, class: "text-danger test-link-delete-video-#{video.id}", "data-confirm": gettext("Really delete this video and all its tagging data?") %>
         </div>
         <div class="small">
           <%= if video.permission_show_name do %>

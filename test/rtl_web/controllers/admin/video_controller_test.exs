@@ -12,7 +12,7 @@ defmodule RTLWeb.Admin.VideoControllerTest do
 
     test "reject if not an admin of this project", %{conn: conn} do
       {conn, _user} = login_as_new_user(conn)
-      project = Factory.insert_project()
+      project = insert_project()
 
       conn = get(conn, Routes.admin_video_path(conn, :index, project))
       assert redirected_to(conn) == Routes.home_path(conn, :index)
@@ -21,7 +21,7 @@ defmodule RTLWeb.Admin.VideoControllerTest do
 
     test "allow if superadmin", %{conn: conn} do
       {conn, _user} = login_as_superadmin(conn)
-      project = Factory.insert_project()
+      project = insert_project()
 
       conn = get(conn, Routes.admin_video_path(conn, :index, project))
       assert html_response(conn, 200) =~ "test-page-manage-video-index"
@@ -31,7 +31,10 @@ defmodule RTLWeb.Admin.VideoControllerTest do
   describe "#index" do
     test "renders correctly", %{conn: conn} do
       {conn, user} = login_as_new_user(conn)
-      project = Factory.insert_project()
+      project = insert_project()
+      prompt = insert_prompt(project_id: project.id)
+      _v1 = insert_video(prompt_id: prompt.id)
+      _v2 = insert_video(prompt_id: prompt.id)
       RTL.Projects.add_project_admin!(user, project)
 
       conn = get(conn, Routes.admin_video_path(conn, :index, project))
@@ -43,9 +46,9 @@ defmodule RTLWeb.Admin.VideoControllerTest do
   describe "#code" do
     test "renders the coding page", %{conn: conn} do
       {conn, user} = login_as_new_user(conn)
-      project = Factory.insert_project()
-      prompt = Factory.insert_prompt(project_id: project.id)
-      video = Factory.insert_video(prompt_id: prompt.id)
+      project = insert_project()
+      prompt = insert_prompt(project_id: project.id)
+      video = insert_video(prompt_id: prompt.id)
       RTL.Projects.add_project_admin!(user, project)
 
       conn = get(conn, Routes.admin_video_path(conn, :code, project, video))
@@ -57,10 +60,10 @@ defmodule RTLWeb.Admin.VideoControllerTest do
   describe "#mark_coded" do
     test "marks this coding as completed by this coder", %{conn: conn} do
       {conn, user} = login_as_new_user(conn)
-      project = Factory.insert_project()
-      prompt = Factory.insert_prompt(project_id: project.id)
-      video = Factory.insert_video(prompt_id: prompt.id)
-      coding = Factory.insert_coding(video_id: video.id, completed_at: nil)
+      project = insert_project()
+      prompt = insert_prompt(project_id: project.id)
+      video = insert_video(prompt_id: prompt.id)
+      coding = insert_coding(video_id: video.id, completed_at: nil)
       RTL.Projects.add_project_admin!(user, project)
 
       assert Videos.get_coding(coding.id).completed_at == nil

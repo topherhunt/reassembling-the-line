@@ -11,6 +11,7 @@ defmodule RTLWeb.IntegrationCase do
       import RTLWeb.IntegrationHelpers
       alias RTLWeb.Router.Helpers, as: Routes
       alias RTL.Factory
+      import RTL.Factory
 
       @endpoint RTLWeb.Endpoint
     end

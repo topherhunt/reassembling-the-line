@@ -24,6 +24,7 @@ defmodule RTLWeb.ConnCase do
       import RTLWeb.ConnHelpers
       alias RTLWeb.Router.Helpers, as: Routes
       alias RTL.Factory
+      import RTL.Factory
 
       # The default endpoint for testing
       @endpoint RTLWeb.Endpoint

@@ -12,19 +12,18 @@ defmodule RTL.Videos.MediaConvertWrapper do
   alias RTL.Helpers, as: H
 
   # `path` should include the filename (as returned by Videos.Attachment.path())
-  # Converting the video might take a minute.
+  # The conversion job takes a few minutes to complete.
   def create_job(webm_path) do
-    unless Mix.env() == :test do
-      response = ExAws.MediaConvert.create_job(job_spec(webm_path)) |> ExAws.request!()
-      job = response["job"]
-      log :info, "Job #{job["id"]} #{job["status"]} (file: #{webm_path})"
+    response = job_spec(webm_path) |> ExAws.MediaConvert.create_job() |> request!()
+    job = response["job"]
+    log :info, "Job #{job["id"]} #{job["status"]} (file: #{webm_path})"
 
-      # The return value specifies the filenames of the created resources.
-      %{
-        mp4: webm_path |> Path.basename() |> String.replace(".webm", ".mp4"),
-        jpg: webm_path |> Path.basename() |> String.replace(".webm", ".0000000.jpg")
-      }
-    end
+    # The return value specifies the filenames of the created resources.
+    # Note that AWS MediaConvert adds a suffix to the jpg filename.
+    %{
+      mp4: webm_path |> Path.basename() |> String.replace(".webm", ".mp4"),
+      jpg: webm_path |> Path.basename() |> String.replace(".webm", ".0000000.jpg")
+    }
   end
 
   def list_jobs do
@@ -103,6 +102,15 @@ defmodule RTL.Videos.MediaConvertWrapper do
       },
       "StatusUpdateInterval" => "SECONDS_60"
     }
+  end
+
+  defp request!(job) do
+    if Mix.env() == :test do
+      # In tests, we stub the ExAws response rather than actually sending the request.
+      %{"job" => %{"id" => "TEST"}}
+    else
+      ExAws.request!(job)
+    end
   end
 
   defp log(level, message), do: Logger.log(level, "MediaConvertWrapper: #{message}")

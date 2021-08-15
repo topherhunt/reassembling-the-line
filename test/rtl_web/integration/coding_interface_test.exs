@@ -9,11 +9,11 @@ defmodule RTLWeb.CodingInterfaceTest do
   hound_session()
 
   test "Project admin can list and delete videos", %{conn: conn} do
-    user = Factory.insert_user()
-    project = Factory.insert_project()
-    prompt = Factory.insert_prompt(project_id: project.id)
-    v1 = Factory.insert_video(prompt_id: prompt.id)
-    v2 = Factory.insert_video(prompt_id: prompt.id)
+    user = insert_user()
+    project = insert_project()
+    prompt = insert_prompt(project_id: project.id)
+    v1 = insert_video(prompt_id: prompt.id)
+    v2 = insert_video(prompt_id: prompt.id)
     Projects.add_project_admin!(user, project)
 
     login(conn, user)
@@ -31,10 +31,10 @@ defmodule RTLWeb.CodingInterfaceTest do
   end
 
   test "User can code a video", %{conn: conn} do
-    user = Factory.insert_user()
-    project = Factory.insert_project()
-    prompt = Factory.insert_prompt(project_id: project.id)
-    video = Factory.insert_video(prompt_id: prompt.id)
+    user = insert_user()
+    project = insert_project()
+    prompt = insert_prompt(project_id: project.id)
+    video = insert_video(prompt_id: prompt.id)
     Projects.add_project_admin!(user, project)
 
     # I can open the coding page for a video
@@ -91,7 +91,7 @@ defmodule RTLWeb.CodingInterfaceTest do
   #
 
   defp create_tag(project) do
-    name = Factory.random_uuid()
+    name = random_uuid()
 
     # sanity check: the add tag form should be in "inactive" state
     refute_selector(".test-add-tag-submit")

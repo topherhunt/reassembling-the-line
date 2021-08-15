@@ -34,7 +34,7 @@ defmodule RTLWeb.VideoController do
       |> Map.put("recording_filename", result.mp4)
       |> Map.put("thumbnail_filename", result.jpg)
 
-    video = Videos.insert_video!(video_params, :webcam_recording)
+    Videos.insert_video!(video_params, :webcam_recording)
 
     conn
     |> put_flash(:info, gettext("Thank you! We've received your recording and we're looking forward to learning from your experience."))
