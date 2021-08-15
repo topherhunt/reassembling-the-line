@@ -48,6 +48,7 @@ Brief steps for syncing translations:
   - `ruby ~/Sites/personal/utilities/machine_translate.rb priv/gettext/nl/LC_MESSAGES/default.po en nl`
   - `git diff` to review & adjust all machine translations
   - Commit changes to Git with message "NL machine translations"
+  - Repeat for each other language.
 
 
 ## Test

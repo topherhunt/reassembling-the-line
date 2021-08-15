@@ -1210,22 +1210,22 @@ msgstr "We hebben geen resultaten gevonden voor die zoekopdracht."
 #, elixir-format
 #: lib/rtl_web/templates/video/new.html.eex:111
 msgid "Do not close or refresh the page until the upload is complete."
-msgstr ""
+msgstr "Sluit of ververs de pagina niet voordat het uploaden is voltooid."
 
 #, elixir-format
 #: lib/rtl_web/templates/video/new.html.eex:121
 msgid "Download my video for safekeeping (.webm)"
-msgstr ""
+msgstr "Download mijn video voor bewaring (.webm)"
 
 #, elixir-format
 #: lib/rtl_web/templates/video/new.html.eex:59
 msgid "For best results, we recommend using the latest version of <a href='https://www.google.com/chrome/'>Chrome</a> or <a href='https://www.mozilla.org/en-US/firefox/new/'>Firefox</a> to record your video."
-msgstr ""
+msgstr "Voor de beste resultaten raden we aan om de nieuwste versie van <a href='https://www.google.com/chrome/'>Chrome</a> of <a href='https://www.mozilla.org/en-US/firefox/new/'>Firefox</a> te gebruiken om je video op te nemen."
 
 #, elixir-format
 #: lib/rtl_web/templates/video/new.html.eex:10
 msgid "Make sure that your camera is enabled and your face is visible in the center of the preview window."
-msgstr ""
+msgstr "Zorg ervoor dat uw camera is ingeschakeld en dat uw gezicht zichtbaar is in het midden van het voorbeeldvenster."
 
 #, elixir-format
 #: lib/rtl_web/templates/video/new.html.eex:13
@@ -1235,52 +1235,52 @@ msgstr "Als u klaar bent, klikt u op <strong class=\"text-danger\">Stop</strong>
 #, elixir-format
 #: lib/rtl_web/templates/video/new.html.eex:47
 msgid "Recording will start soon..."
-msgstr ""
+msgstr "De opname start binnenkort..."
 
 #, elixir-format
 #: lib/rtl_web/templates/video/new.html.eex:122
 msgid "Refresh the page and start over"
-msgstr ""
+msgstr "Ververs de pagina en begin opnieuw"
 
 #, elixir-format
 #: lib/rtl_web/templates/video/new.html.eex:120
 msgid "Retry upload"
-msgstr ""
+msgstr "Probeer opnieuw te uploaden"
 
 #, elixir-format
 #: lib/rtl_web/templates/video/new.html.eex:45
 msgid "Setting up video. Please wait..."
-msgstr ""
+msgstr "We stellen je video op. Wacht alsjeblieft..."
 
 #, elixir-format
 #: lib/rtl_web/templates/video/new.html.eex:49
 msgid "Start over"
-msgstr ""
+msgstr "Begin opnieuw"
 
 #, elixir-format
 #: lib/rtl_web/templates/video/new.html.eex:46
 msgid "Start recording"
-msgstr ""
+msgstr "Start met opnemen"
 
 #, elixir-format
 #: lib/rtl_web/templates/video/new.html.eex:48
 msgid "Stop recording"
-msgstr ""
+msgstr "Stop met opnemen"
 
 #, elixir-format
 #: lib/rtl_web/templates/video/new.html.eex:118
 msgid "There was an error uploading your recording."
-msgstr ""
+msgstr "Er is een fout opgetreden bij het uploaden van je opname."
 
 #, elixir-format
 #: lib/rtl_web/templates/video/new.html.eex:58
 msgid "This page requires a more up-to-date browser."
-msgstr ""
+msgstr "Deze pagina vereist een meer up-to-date browser."
 
 #, elixir-format
 #: lib/rtl_web/templates/video/new.html.eex:63
 msgid "We were unable to access your webcam for recording. Please check your browser's settings to allow this page to use your webcam and microphone."
-msgstr ""
+msgstr "We hebben geen toegang kunnen krijgen tot uw webcam om op te nemen. Controleer de instellingen van uw browser om deze pagina toe te staan uw webcam en microfoon te gebruiken."
 
 #, elixir-format
 #: lib/rtl_web/templates/video/new.html.eex:111
@@ -1290,7 +1290,7 @@ msgstr "We zijn uw video aan het voorbereiden."
 #, elixir-format
 #: lib/rtl_web/templates/video/new.html.eex:118
 msgid "What you can do:"
-msgstr ""
+msgstr "Wat je kunt doen:"
 
 #, elixir-format
 #: lib/rtl_web/templates/video/new.html.eex:11
