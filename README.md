@@ -35,6 +35,21 @@ I've written scripts to help with batch importing videos from YouTube. Here's ho
   * `mix run priv/repo/export_videos_to_dump.exs` - This script exports the local database of Videos to an executable dump which you can run elsewhere to create those same Video records in another environment.
 
 
+## I18n / translation
+
+Most user-visible text in this app is translated using gettext. See https://github.com/topherhunt/cheatsheets/blob/master/elixir/howto/gettext_i18n.md for usage tips.
+
+Brief steps for syncing translations:
+
+  - `mix gettext.extract`
+  - `mix gettext.merge priv/gettext/`
+  - Review all translations marked "fuzzy": edit if needed, then remove the fuzzy label
+  - Commit changes to Git with message "Sync translations"
+  - `ruby ~/Sites/personal/utilities/machine_translate.rb priv/gettext/nl/LC_MESSAGES/default.po en nl`
+  - `git diff` to review & adjust all machine translations
+  - Commit changes to Git with message "NL machine translations"
+
+
 ## Test
 
   * A current version of ChromeDriver must be running in order for integration tests to pass.

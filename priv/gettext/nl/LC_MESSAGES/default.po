@@ -33,32 +33,32 @@ msgstr " Meld een probleem"
 
 #, elixir-format
 #: lib/rtl_web/templates/admin/project/show.html.eex:151
-#: lib/rtl_web/templates/admin/video/list.html.leex:21
+#: lib/rtl_web/templates/admin/video/index.html.eex:21
 msgid " Tag the next video"
 msgstr " Tag de volgende video"
 
 #, elixir-format
-#: lib/rtl_web/templates/admin/video/list.html.leex:51
+#: lib/rtl_web/templates/admin/video/index.html.eex:51
 msgid " download"
 msgstr " downloaden"
 
 #, elixir-format
-#: lib/rtl_web/templates/admin/video/list.html.leex:89
+#: lib/rtl_web/templates/admin/video/index.html.eex:85
 msgid " edit"
 msgstr " bewerken"
 
 #, elixir-format
-#: lib/rtl_web/templates/admin/video/list.html.leex:84
+#: lib/rtl_web/templates/admin/video/index.html.eex:80
 msgid " finish"
 msgstr " afmaken"
 
 #, elixir-format
-#: lib/rtl_web/templates/admin/video/list.html.leex:78
+#: lib/rtl_web/templates/admin/video/index.html.eex:74
 msgid " start"
 msgstr " start"
 
 #, elixir-format
-#: lib/rtl_web/templates/admin/video/list.html.leex:48
+#: lib/rtl_web/templates/admin/video/index.html.eex:48
 msgid " watch"
 msgstr " kijken"
 
@@ -68,12 +68,12 @@ msgid "%{admin} is now an admin on \"%{project}\"."
 msgstr "%{admin} is nu een admin op \"%{project}\"."
 
 #, elixir-format
-#: lib/rtl_web/templates/admin/video/list.html.leex:83
+#: lib/rtl_web/templates/admin/video/index.html.eex:79
 msgid "%{coder} is working on tagging this video. Are you sure you want to take over?"
 msgstr "%{coder} werkt aan het taggen van deze video. Weet u zeker dat u het wilt overnemen?"
 
 #, elixir-format
-#: lib/rtl_web/templates/video/new.html.eex:67
+#: lib/rtl_web/templates/video/new.html.eex:77
 msgid "(required)"
 msgstr "(verplicht)"
 
@@ -149,7 +149,7 @@ msgid "All the tags you've created (for any videos) are listed here."
 msgstr "Alle tags die u hebt gemaakt (voor alle video's) worden hier vermeld."
 
 #, elixir-format
-#: lib/rtl_web/templates/admin/video/list.html.leex:17
+#: lib/rtl_web/templates/admin/video/index.html.eex:17
 msgid "All videos are listed below, with the most recently tagged first. Untagged videos are at the bottom."
 msgstr "Alle video's worden hieronder vermeld, met de meest recent getagde eerst. Ongetagde video's staan onderaan."
 
@@ -193,11 +193,6 @@ msgstr "Bekijk een demo-project"
 #: lib/rtl_web/templates/help/coding_page.html.eex:35
 msgid "Click and drag to select a piece of the video where you'd like to add a tag."
 msgstr "Klik en sleep om een deel van de video te selecteren waaraan u een tag wilt toevoegen."
-
-#, elixir-format
-#: lib/rtl_web/templates/video/new.html.eex:10
-msgid "Click on <strong class=\"text-danger\">Record Video</strong> to set up the camera. Make sure your face is centered in the picture."
-msgstr "Klik op <strong class=\"text-danger\">Record video</strong> om de camera in te stellen. Zorg ervoor dat uw gezicht in het midden van de foto staat."
 
 #, elixir-format
 #: lib/rtl_web/templates/help/coding_page.html.eex:36
@@ -255,7 +250,7 @@ msgid "Dashboard"
 msgstr "Dashboard"
 
 #, elixir-format
-#: lib/rtl_web/templates/video/new.html.eex:82
+#: lib/rtl_web/templates/video/new.html.eex:92
 msgid "Consent to our use of your data"
 msgstr "Toestemming voor ons gebruik van uw gegevens"
 
@@ -331,6 +326,7 @@ msgid "Explore & share results"
 msgstr "Resultaten verkennen en delen"
 
 #, elixir-format
+#: lib/rtl_web/templates/admin/project/show.html.eex:162
 #: lib/rtl_web/templates/results/index.html.eex:9
 msgid "Explore all video clips"
 msgstr "Ontdek alle videoclips"
@@ -363,7 +359,7 @@ msgid "Help"
 msgstr "Hulp"
 
 #, elixir-format
-#: lib/rtl_web/controllers/auth_controller.ex:32
+#: lib/rtl_web/controllers/auth_controller.ex:41
 msgid "Hmm, that login link is too old. Please try again."
 msgstr "Hmm, die inloglink is te oud. Probeer het opnieuw."
 
@@ -414,7 +410,7 @@ msgid "Import videos from JSON"
 msgstr "Video's importeren van JSON"
 
 #, elixir-format
-#: lib/rtl_web/controllers/admin/video_import_controller.ex:23
+#: lib/rtl_web/controllers/admin/video_import_controller.ex:24
 msgid "Imported %{num} videos."
 msgstr "%{num} video's zijn geïmporteerd."
 
@@ -471,15 +467,15 @@ msgstr "Ingelogd als %{user}"
 #: lib/rtl_web/templates/admin/prompt/edit.html.eex:5
 #: lib/rtl_web/templates/admin/prompt/new.html.eex:5
 #: lib/rtl_web/templates/admin/video/code.html.eex:3
-#: lib/rtl_web/templates/admin/video/list.html.leex:5
+#: lib/rtl_web/templates/admin/video/index.html.eex:5
 #: lib/rtl_web/templates/admin/video_export/new.html.eex:3
 #: lib/rtl_web/templates/admin/video_import/new.html.eex:3
 msgid "Manage projects"
 msgstr "Beheer projecten"
 
 #, elixir-format
-#: lib/rtl_web/templates/admin/video/code.html.eex:26
-#: lib/rtl_web/templates/admin/video/code.html.eex:30
+#: lib/rtl_web/templates/admin/video/code.html.eex:28
+#: lib/rtl_web/templates/admin/video/code.html.eex:32
 #: lib/rtl_web/templates/help/coding_page.html.eex:65
 msgid "Mark as complete"
 msgstr "Markeren als voltooid"
@@ -528,14 +524,9 @@ msgid "Once the project owner has decided to release the project's information, 
 msgstr "Zodra de projecteigenaar heeft besloten de projectinformatie vrij te geven, worden geselecteerde clips van uw video opgenomen in een interactieve database die zichtbaar is voor een breder publiek (of alleen voor de doelgroep die voor dat project is gespecificeerd)."
 
 #, elixir-format
-#: lib/rtl_web/templates/admin/video/code.html.eex:29
+#: lib/rtl_web/templates/admin/video/code.html.eex:31
 msgid "Once you're done tagging, mark this video as complete to check it off the list."
 msgstr "Als u klaar bent met taggen, markeer u deze video als voltooid om het uit de lijst te vinken."
-
-#, elixir-format
-#: lib/rtl_web/templates/video/new.html.eex:13
-msgid "Once you're done, click <strong class=\"text-danger\">Stop</strong>. You'll get a chance to review, re-do, or download your recording before you submit it."
-msgstr "Als u klaar bent, klikt u op <strong class=\"text-danger\">Stop</strong>. U krijgt de kans om uw video te bekijken, opnieuw uit te voeren of te downloaden voordat u deze indient."
 
 #, elixir-format
 #: lib/rtl_web/templates/help/coding_page.html.eex:66
@@ -548,7 +539,7 @@ msgid "Only admins can see the link, so people don't stumble on a partial list o
 msgstr "Alleen beheerders kunnen de link zien, zodat men een lege resultatenpagina niet vindt voordat u er klaar voor bent."
 
 #, elixir-format
-#: lib/rtl_web/templates/admin/project/show.html.eex:166
+#: lib/rtl_web/templates/admin/project/show.html.eex:168
 msgid "Only project admins can see it."
 msgstr "Alleen projectbeheerders kunnen het zien."
 
@@ -568,23 +559,18 @@ msgid "Please click the link below to log in."
 msgstr "Klik op de onderstaande link om in te loggen."
 
 #, elixir-format
-#: lib/rtl_web/templates/video/new.html.eex:48
-msgid "Please don't close or refresh the page."
-msgstr "Sluit of vernieuw de pagina niet."
-
-#, elixir-format
 #: lib/rtl_web/templates/auth/login.html.eex:4
 msgid "Please enter your email address, then click the button. We'll email you a secure login link."
 msgstr "Voer uw e-mailadres in en klik vervolgens op de knop. We sturen u een beveiligde inloglink."
 
 #, elixir-format
-#: lib/rtl_web/controllers/auth_controller.ex:68
+#: lib/rtl_web/controllers/auth_controller.ex:78
 msgid "Please enter your name to complete registration."
 msgstr "Voer uw naam in om de registratie te voltooien."
 
 #, elixir-format
-#: lib/rtl_web/controllers/admin/project_controller.ex:47
-#: lib/rtl_web/controllers/admin/project_controller.ex:66
+#: lib/rtl_web/controllers/admin/project_controller.ex:46
+#: lib/rtl_web/controllers/admin/project_controller.ex:65
 #: lib/rtl_web/controllers/admin/prompt_controller.ex:25
 #: lib/rtl_web/controllers/admin/prompt_controller.ex:45
 #: lib/rtl_web/controllers/admin/user_controller.ex:35
@@ -593,7 +579,7 @@ msgid "Please see errors below."
 msgstr "Zie onderstaande fouten."
 
 #, elixir-format
-#: lib/rtl_web/controllers/admin/project_controller.ex:42
+#: lib/rtl_web/controllers/admin/project_controller.ex:41
 msgid "Project created."
 msgstr "Project is gemaakt."
 
@@ -603,12 +589,12 @@ msgid "Project dashboard"
 msgstr "Project dashboard"
 
 #, elixir-format
-#: lib/rtl_web/controllers/admin/project_controller.ex:75
+#: lib/rtl_web/controllers/admin/project_controller.ex:74
 msgid "Project deleted."
 msgstr "Project is verwijderd."
 
 #, elixir-format
-#: lib/rtl_web/controllers/admin/project_controller.ex:61
+#: lib/rtl_web/controllers/admin/project_controller.ex:60
 msgid "Project updated."
 msgstr "Project is bijgewerkt."
 
@@ -649,7 +635,7 @@ msgid "Read the question. Think about what you want to say."
 msgstr "Lees alstublieft de vraag. Denk na over wat u wilt zeggen."
 
 #, elixir-format
-#: lib/rtl_web/templates/admin/video/list.html.leex:59
+#: lib/rtl_web/templates/admin/video/index.html.eex:55
 msgid "Really delete this video and all its tagging data?"
 msgstr "Echt deze video en alle tagging-gegevens verwijderen?"
 
@@ -674,7 +660,7 @@ msgid "Resources:"
 msgstr "Handige links:"
 
 #, elixir-format
-#: lib/rtl_web/templates/admin/video/list.html.leex:52
+#: lib/rtl_web/templates/admin/video/index.html.eex:52
 msgid "Right-click, then click \"Save Link As...\" to download the video."
 msgstr "Klik met de rechtermuisknop en klik vervolgens op \"Link opslaan als ...\" om de video te downloaden."
 
@@ -705,7 +691,7 @@ msgid "Share your story"
 msgstr "Uw verhaal delen"
 
 #, elixir-format
-#: lib/rtl_web/templates/video/new.html.eex:77
+#: lib/rtl_web/templates/video/new.html.eex:87
 msgid "Show my name when showing this video"
 msgstr "Toon mijn naam bij het tonen van deze video"
 
@@ -715,7 +701,8 @@ msgid "Sub-processors"
 msgstr "Sub-processors"
 
 #, elixir-format
-#: lib/rtl_web/templates/video/new.html.eex:91
+#: lib/rtl_web/templates/video/new.html.eex:69
+#: lib/rtl_web/templates/video/new.html.eex:100
 msgid "Submit your recording"
 msgstr "Dien uw opname in"
 
@@ -730,7 +717,7 @@ msgid "Tag video:"
 msgstr "Video taggen:"
 
 #, elixir-format
-#: lib/rtl_web/templates/admin/video/list.html.leex:33
+#: lib/rtl_web/templates/admin/video/index.html.eex:33
 msgid "Tagging status"
 msgstr "Tagstatus"
 
@@ -740,7 +727,7 @@ msgid "Tagging videos"
 msgstr "Video's taggen"
 
 #, elixir-format
-#: lib/rtl_web/templates/admin/video/code.html.eex:24
+#: lib/rtl_web/templates/admin/video/code.html.eex:26
 msgid "Tagging was completed at %{completed_at} by %{coder}."
 msgstr "Het taggen werd op %{completed_at} voltooid door %{coder}."
 
@@ -765,12 +752,12 @@ msgid "Thank you for taking the time to share your story as part of the <strong>
 msgstr "Bedankt dat u de tijd hebt genomen om uw verhaal te delen als onderdeel van het project <strong>%{project_name}</strong>. Klik op de onderstaande link voor meer informatie over het project of om de projecteigenaar te bereiken."
 
 #, elixir-format
-#: lib/rtl_web/controllers/video_controller.ex:35
+#: lib/rtl_web/controllers/video_controller.ex:40
 msgid "Thank you! We've received your recording and we're looking forward to learning from your experience."
 msgstr "Dank u wel! We hebben uw opname ontvangen en kijken ernaar uit om van uw ervaring te leren."
 
 #, elixir-format
-#: lib/rtl_web/controllers/auth_controller.ex:14
+#: lib/rtl_web/controllers/auth_controller.ex:15
 msgid "Thanks! We just emailed you a login link. Please check your inbox (%{email})."
 msgstr "Bedankt! We hebben u zojuist een inloglink gemaild. Controleer uw inbox (%{email})."
 
@@ -790,7 +777,7 @@ msgid "The data you contribute to projects on RTL belongs to you. You have the r
 msgstr "De gegevens die u bijdraagt aan projecten over RTL zijn van u. U hebt het recht om ons om een kopie ervan te vragen of ons te vragen het te verwijderen. <a href=\"%{url}\" target=\"_blank\">Neem contact met ons op</a> voor vragen of verzoeken."
 
 #, elixir-format
-#: lib/rtl_web/templates/admin/project/show.html.eex:165
+#: lib/rtl_web/templates/admin/project/show.html.eex:167
 msgid "The explore page is not yet public."
 msgstr "De verkenningspagina is nog niet openbaar."
 
@@ -915,7 +902,7 @@ msgid "Users"
 msgstr "Gebruikers"
 
 #, elixir-format
-#: lib/rtl_web/templates/admin/video/list.html.leex:32
+#: lib/rtl_web/templates/admin/video/index.html.eex:32
 msgid "Video"
 msgstr "Video"
 
@@ -925,14 +912,14 @@ msgid "Video collection"
 msgstr "Videocollectie"
 
 #, elixir-format
-#: lib/rtl_web/controllers/admin/video_controller.ex:35
+#: lib/rtl_web/controllers/admin/video_controller.ex:55
 msgid "Video marked as complete!"
 msgstr "Video gemarkeerd als voltooid!"
 
 #, elixir-format
 #: lib/rtl_web/templates/admin/video/code.html.eex:5
-#: lib/rtl_web/templates/admin/video/list.html.leex:7
-#: lib/rtl_web/templates/admin/video/list.html.leex:11
+#: lib/rtl_web/templates/admin/video/index.html.eex:7
+#: lib/rtl_web/templates/admin/video/index.html.eex:11
 msgid "Videos"
 msgstr "Videos"
 
@@ -952,12 +939,12 @@ msgid "WARNING: This will irreversibly delete this user account. Any associated 
 msgstr "WAARSCHUWING: Dit zal dit gebruikersaccount onherroepelijk verwijderen. Alle bijbehorende projecten worden NIET verwijderd. Doorgaan?"
 
 #, elixir-format
-#: lib/rtl_web/templates/admin/video/list.html.leex:15
+#: lib/rtl_web/templates/admin/video/index.html.eex:15
 msgid "We categorize each video by tagging any interesting segments so that viewers can easily jump to topics that they care about and don't need to watch each entire video."
 msgstr "We categoriseren elke video door interessante segmenten te taggen, zodat kijkers gemakkelijk naar onderwerpen kunnen gaan waar ze om geven en niet elke hele video hoeven te bekijken."
 
 #, elixir-format
-#: lib/rtl_web/templates/video/new.html.eex:68
+#: lib/rtl_web/templates/video/new.html.eex:78
 msgid "We need to know your name in order to protect your data ownership rights for this recording. Please feel free to reach out if you have any questions!"
 msgstr "We moeten uw naam kennen om uw eigendomsrechten voor deze opname te beschermen. Neem gerust contact op als u vragen hebt!"
 
@@ -965,11 +952,6 @@ msgstr "We moeten uw naam kennen om uw eigendomsrechten voor deze opname te besc
 #: lib/rtl_web/templates/help/coding_page.html.eex:80
 msgid "We want the tagging page to be as easy and <span class=\"text-success\">delightful</span> to use as possible. If you're running into trouble or aren't sure how to do the thing you need, <a href=\"%{link}\" target=\"_blank\">please send us a note!</a>"
 msgstr "We willen dat de tagging-pagina zo gemakkelijk en <span class=\"text-success\">aangenaam</span> mogelijk te gebruiken is. Als u problemen ondervindt of niet zeker weet hoe u het ding moet doen dat u nodig hebt, <a href=\"%{link}\" target=\"_blank\">stuur ons dan een bericht!</a>"
-
-#, elixir-format
-#: lib/rtl_web/templates/video/new.html.eex:48
-msgid "We're preparing your video."
-msgstr "We zijn uw video aan het voorbereiden."
 
 #, elixir-format
 #: lib/rtl_web/templates/home/index.html.eex:10
@@ -982,8 +964,8 @@ msgid "Webcam recording"
 msgstr "Webcam opname"
 
 #, elixir-format
-#: lib/rtl_web/controllers/auth_controller.ex:74
-#: lib/rtl_web/controllers/auth_controller.ex:79
+#: lib/rtl_web/controllers/auth_controller.ex:84
+#: lib/rtl_web/controllers/auth_controller.ex:89
 msgid "Welcome back!"
 msgstr "Welkom terug!"
 
@@ -998,19 +980,9 @@ msgid "What question(s) do you want to ask?"
 msgstr "Welke vraag(en) wilt u stellen?"
 
 #, elixir-format
-#: lib/rtl_web/templates/video/new.html.eex:58
-msgid "When you're happy, fill in the fields below, then click <strong>Submit</strong>."
-msgstr "Als u tevreden bent, vul de onderstaande velden in en klik op <strong>Dien uw opname in</strong>."
-
-#, elixir-format
 #: lib/rtl_web/templates/home/index.html.eex:6
 msgid "When you're looking at a complex social problem (like what makes for a good education, or how to improve the economy of a region), there's lots of techniques for condensing all of the information into streamlined summaries."
 msgstr "Als u kijkt naar een complex sociaal probleem (zoals wat goed onderwijs oplevert, of hoe u de economie van een regio kunt verbeteren), zijn er veel technieken om alle informatie in gestroomlijnde samenvattingen te verdichten."
-
-#, elixir-format
-#: lib/rtl_web/templates/video/new.html.eex:11
-msgid "When you're ready to start, click <strong class=\"text-danger\">Record</strong>"
-msgstr "Wanneer u klaar bent om te beginnen, klikt u op <strong class=\"text-danger\">Record</strong>"
 
 #, elixir-format
 #: lib/rtl_web/templates/help/coding_page.html.eex:20
@@ -1064,8 +1036,8 @@ msgstr "Uw inloglink"
 
 #, elixir-format
 #: lib/rtl_web/templates/user/edit.html.eex:12
-#: lib/rtl_web/templates/video/new.html.eex:65
-#: lib/rtl_web/templates/video/new.html.eex:71
+#: lib/rtl_web/templates/video/new.html.eex:75
+#: lib/rtl_web/templates/video/new.html.eex:81
 msgid "Your name"
 msgstr "Uw naam"
 
@@ -1075,23 +1047,18 @@ msgid "Your rights"
 msgstr "Uw rechten"
 
 #, elixir-format
-#: lib/rtl_web/templates/video/new.html.eex:57
-msgid "Your video is ready! Click on it to play it. To start over, click <strong>Redo</strong>."
-msgstr "Uw video is klaar! Klik erop om het af te spelen. Klik op <strong>Opnieuw</strong> om opnieuw te beginnen."
-
-#, elixir-format
 #: lib/rtl_web/templates/results/index.html.eex:38
 msgid "all topics"
 msgstr "alle onderwerpen"
 
 #, elixir-format
-#: lib/rtl_web/templates/admin/video/list.html.leex:87
+#: lib/rtl_web/templates/admin/video/index.html.eex:83
 msgid "complete"
 msgstr "compleet"
 
 #, elixir-format
 #: lib/rtl_web/templates/admin/project/show.html.eex:30
-#: lib/rtl_web/templates/admin/video/list.html.leex:59
+#: lib/rtl_web/templates/admin/video/index.html.eex:55
 msgid "delete"
 msgstr "verwijderen"
 
@@ -1106,7 +1073,7 @@ msgid "edit"
 msgstr "bewerken"
 
 #, elixir-format
-#: lib/rtl_web/templates/admin/video/list.html.leex:81
+#: lib/rtl_web/templates/admin/video/index.html.eex:77
 msgid "in progress"
 msgstr "bezig"
 
@@ -1121,17 +1088,17 @@ msgid "manage"
 msgstr "beheren"
 
 #, elixir-format
-#: lib/rtl_web/templates/admin/video/list.html.leex:65
+#: lib/rtl_web/templates/admin/video/index.html.eex:61
 msgid "may not show name"
 msgstr "naam is verborgen"
 
 #, elixir-format
-#: lib/rtl_web/templates/admin/video/list.html.leex:63
+#: lib/rtl_web/templates/admin/video/index.html.eex:59
 msgid "may show name"
 msgstr "mag naam tonen"
 
 #, elixir-format
-#: lib/rtl_web/templates/admin/video/list.html.leex:77
+#: lib/rtl_web/templates/admin/video/index.html.eex:73
 msgid "not started"
 msgstr "niet begonnen"
 
@@ -1239,3 +1206,93 @@ msgstr "toepassen"
 #: lib/rtl_web/templates/layout/_gettext_js.html.eex:19
 msgid "We didn't find any results for that search."
 msgstr "We hebben geen resultaten gevonden voor die zoekopdracht."
+
+#, elixir-format
+#: lib/rtl_web/templates/video/new.html.eex:111
+msgid "Do not close or refresh the page until the upload is complete."
+msgstr ""
+
+#, elixir-format
+#: lib/rtl_web/templates/video/new.html.eex:121
+msgid "Download my video for safekeeping (.webm)"
+msgstr ""
+
+#, elixir-format
+#: lib/rtl_web/templates/video/new.html.eex:59
+msgid "For best results, we recommend using the latest version of <a href='https://www.google.com/chrome/'>Chrome</a> or <a href='https://www.mozilla.org/en-US/firefox/new/'>Firefox</a> to record your video."
+msgstr ""
+
+#, elixir-format
+#: lib/rtl_web/templates/video/new.html.eex:10
+msgid "Make sure that your camera is enabled and your face is visible in the center of the preview window."
+msgstr ""
+
+#, elixir-format
+#: lib/rtl_web/templates/video/new.html.eex:13
+msgid "Once you're done, click <strong class=\"text-danger\">Stop recording</strong>. You'll get a chance to review, re-do, or download your recording before you submit it."
+msgstr "Als u klaar bent, klikt u op <strong class=\"text-danger\">Stop</strong>. U krijgt de kans om uw video te bekijken, opnieuw uit te voeren of te downloaden voordat u deze indient."
+
+#, elixir-format
+#: lib/rtl_web/templates/video/new.html.eex:47
+msgid "Recording will start soon..."
+msgstr ""
+
+#, elixir-format
+#: lib/rtl_web/templates/video/new.html.eex:122
+msgid "Refresh the page and start over"
+msgstr ""
+
+#, elixir-format
+#: lib/rtl_web/templates/video/new.html.eex:120
+msgid "Retry upload"
+msgstr ""
+
+#, elixir-format
+#: lib/rtl_web/templates/video/new.html.eex:45
+msgid "Setting up video. Please wait..."
+msgstr ""
+
+#, elixir-format
+#: lib/rtl_web/templates/video/new.html.eex:49
+msgid "Start over"
+msgstr ""
+
+#, elixir-format
+#: lib/rtl_web/templates/video/new.html.eex:46
+msgid "Start recording"
+msgstr ""
+
+#, elixir-format
+#: lib/rtl_web/templates/video/new.html.eex:48
+msgid "Stop recording"
+msgstr ""
+
+#, elixir-format
+#: lib/rtl_web/templates/video/new.html.eex:118
+msgid "There was an error uploading your recording."
+msgstr ""
+
+#, elixir-format
+#: lib/rtl_web/templates/video/new.html.eex:58
+msgid "This page requires a more up-to-date browser."
+msgstr ""
+
+#, elixir-format
+#: lib/rtl_web/templates/video/new.html.eex:63
+msgid "We were unable to access your webcam for recording. Please check your browser's settings to allow this page to use your webcam and microphone."
+msgstr ""
+
+#, elixir-format
+#: lib/rtl_web/templates/video/new.html.eex:111
+msgid "We're saving your recording."
+msgstr "We zijn uw video aan het voorbereiden."
+
+#, elixir-format
+#: lib/rtl_web/templates/video/new.html.eex:118
+msgid "What you can do:"
+msgstr ""
+
+#, elixir-format
+#: lib/rtl_web/templates/video/new.html.eex:11
+msgid "When you're ready to start, click <strong class=\"text-danger\">Start Recording</strong>"
+msgstr "Wanneer u klaar bent om te beginnen, klikt u op <strong class=\"text-danger\">Start</strong>"
