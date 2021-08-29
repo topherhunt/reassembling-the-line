@@ -1,16 +1,22 @@
 <div class="u-centered-600 u-card">
   <h1><%= gettext "Log in" %></h1>
 
-  <p><%= gettext "Please enter your email address, then click the button. We'll email you a secure login link." %></p>
+  <p><%= gettext "Welcome! To log in, please enter your email and password below." %></p>
+  <p class="small"><%= raw gettext("Don't have a password yet? Set one by clicking the &quot;Reset my password&quot; link below.") %></p>
 
-  <%= form_for @conn, Routes.auth_path(@conn, :login_submit), [method: :post], fn _f -> %>
+  <%= form_for :user, Routes.auth_path(@conn, :login_submit), [method: :post], fn f -> %>
     <div class="form-group">
-      <label for="email"><%= gettext "Email" %></label>
-      <%= text_input :user, :email, class: "form-control" %>
+      <%= label f, :email, gettext("Email") %>
+      <%= email_input f, :email, class: "form-control", required: true %>
     </div>
     <div class="form-group">
-      <%= submit gettext("Send me my login link"), class: "btn btn-primary" %>
+      <%= label f, :password, gettext("Password") %>
+      <%= password_input f, :password, class: "form-control", required: true %>
+    </div>
+    <div class="form-group">
+      <%= submit gettext("Log in"), class: "btn btn-primary" %>
     </div>
   <% end %>
-</div>
 
+  <%= render "_links.html", conn: @conn %>
+</div>

@@ -6,6 +6,8 @@ defmodule RTLWeb.AuthPlugs do
       put_session: 3,
       configure_session: 2
     ]
+  alias RTL.{Repo, Accounts}
+  alias RTL.Accounts.User
 
   #
   # Plugs
@@ -41,8 +43,12 @@ defmodule RTLWeb.AuthPlugs do
     |> configure_session(renew: true)
   end
 
-  # To log out, we just nuke the whole (cookie-stored) session.
+  # On logout, we destroy the cookie-stored session and also wipe the user's session_token.
   def logout!(conn) do
+    if user = conn.assigns.current_user do
+      Accounts.reset_user_sessions(user)
+    end
+
     conn
     |> assign(:current_user, nil)
     |> put_session(:user_id, nil)
@@ -68,12 +74,12 @@ defmodule RTLWeb.AuthPlugs do
     # out of all logged-in devices; we just change the session_token.
     id = get_session(conn, :user_id)
     session_token = get_session(conn, :session_token) || "UNKNOWN"
-    RTL.Accounts.get_user_by(id: id, session_token: session_token)
+    User.filter(id: id, session_token: session_token) |> Repo.one()
   end
 
   defp set_assigned_user(conn, user) do
     if user.last_visit_date != Date.utc_today() do
-      RTL.Accounts.update_user!(user, %{last_visit_date: Date.utc_today()})
+      Accounts.update_user!(user, %{last_visit_date: Date.utc_today()}, :admin)
     end
 
     conn

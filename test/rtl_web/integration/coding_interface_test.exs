@@ -16,7 +16,7 @@ defmodule RTLWeb.CodingInterfaceTest do
     v2 = insert_video(prompt_id: prompt.id)
     Projects.add_project_admin!(user, project)
 
-    login(conn, user)
+    login(user)
     navigate_to Routes.admin_video_path(conn, :index, project)
     assert_selector(".test-row-video-#{v1.id}")
     assert_selector(".test-row-video-#{v2.id}")
@@ -38,7 +38,7 @@ defmodule RTLWeb.CodingInterfaceTest do
     Projects.add_project_admin!(user, project)
 
     # I can open the coding page for a video
-    login(conn, user)
+    login(user)
     navigate_to Routes.admin_video_path(conn, :index, project)
     assert_selector(".test-page-manage-video-index")
     find_element(".test-link-code-video-#{video.id}") |> click()

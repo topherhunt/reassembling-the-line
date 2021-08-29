@@ -55,7 +55,7 @@
             <div class="dropdown-item em small"><%= gettext "Logged in as %{user}", user: @current_user.name %></div>
             <%= link gettext("Account settings"), to: Routes.user_path(@conn, :edit), class: "dropdown-item" %>
             <%= link icon("exit_to_app", gettext(" Log out")),
-              to: Routes.auth_path(@conn, :log_out),
+              to: Routes.auth_path(@conn, :logout),
               class: "dropdown-item text-danger test-logout-link" %>
           </div>
         </li>
@@ -64,6 +64,10 @@
 
         <li class="nav-item">
           <%= link gettext("Log in"), to: Routes.auth_path(@conn, :login), class: "nav-link" %>
+        </li>
+
+        <li class="nav-item">
+          <%= link gettext("Sign up"), to: Routes.auth_path(@conn, :signup), class: "nav-link" %>
         </li>
 
       <% end %>

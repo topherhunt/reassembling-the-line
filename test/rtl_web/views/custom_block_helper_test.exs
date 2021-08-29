@@ -16,16 +16,19 @@ defmodule RTLWeb.CustomBlockHelperTest do
     end)
   end
 
-  test "variable {ADMIN_LOGIN_URL} works as expected", %{conn: conn} do
-    project = Factory.insert_project()
-    user = Factory.insert_user()
-    RTL.Projects.add_project_admin!(user, project)
-    block = %{label: "landing_page", body: "<a href=\"{ADMIN_LOGIN_URL}\">Login</a>"}
-    project = Map.put(project, :custom_blocks, [block])
-    conn = Plug.Conn.assign(conn, :project, project)
+  # I'm leaving this commented out so we have a pattern for testing any block
+  # substitutions we add in the future.
+  #
+  # test "variable {ADMIN_LOGIN_URL} works as expected", %{conn: conn} do
+  #   project = Factory.insert_project()
+  #   user = Factory.insert_user()
+  #   RTL.Projects.add_project_admin!(user, project)
+  #   block = %{label: "landing_page", body: "<a href=\"{ADMIN_LOGIN_URL}\">Login</a>"}
+  #   project = Map.put(project, :custom_blocks, [block])
+  #   conn = Plug.Conn.assign(conn, :project, project)
 
-    result = custom_block(conn, "landing_page") |> Phoenix.HTML.safe_to_string()
+  #   result = custom_block(conn, "landing_page") |> Phoenix.HTML.safe_to_string()
 
-    assert result =~ ~r(<a href="http://localhost:\d+/auth/confirm\?token=[\w\.\-]+">Login</a>)
-  end
+  #   assert result =~ ~r(<a href="http://localhost:\d+/auth/confirm\?token=[\w\.\-]+">Login</a>)
+  # end
 end

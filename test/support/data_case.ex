@@ -16,12 +16,14 @@ defmodule RTL.DataCase do
 
   using do
     quote do
+      import RTL.Factory
       import RTL.DataCase
       import RTL.DataHelpers
       import RTL.EmailHelpers
       import RTL.ValidationHelpers
-      alias RTL.Factory
-      alias RTL.Repo
+      alias RTL.{Repo, Factory, Accounts}
+      alias RTL.Accounts.User
+      alias RTL.Helpers, as: H
     end
   end
 

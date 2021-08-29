@@ -9,24 +9,34 @@ defmodule RTLWeb.IntegrationHelpers do
   # High-level
   #
 
-  def login(_conn, user) do
-    token = RTL.Accounts.get_login_token(user.email)
-    navigate_to Routes.auth_url(RTLWeb.Endpoint, :confirm, token: token)
+  def login(user) do
+    navigate_to Routes.auth_url(RTLWeb.Endpoint, :login)
+    find_element("#user_email") |> fill_field(user.email)
+    find_element("#user_password") |> fill_field("password")
+    find_element(~s(button[type="submit"])) |> click()
+    assert_content "Welcome back!"
+    assert_content "Log out"
   end
 
-  def login_as_new_user(conn, params \\ %{}) do
+  def login_as_new_user(params \\ %{}) do
     user = Factory.insert_user(params)
-    login(conn, user)
+    login(user)
     user
   end
 
-  def login_as_superadmin(conn) do
-    login_as_new_user(conn, %{email: "superadmin@example.com"})
+  def login_as_superadmin do
+    login_as_new_user(%{email: "superadmin@example.com"})
   end
 
   #
   # DOM
   #
+
+  # Select an option from a dropdown (<select> element).
+  # See https://stackoverflow.com/a/49861811/1729692
+  def select_option(select_el, value) do
+    find_within_element(select_el, ~s(option[value="#{value}"])) |> click()
+  end
 
   # I always use css selectors, so I can simplify the helpers a bit
   def find_element(selector), do: find_element(:css, selector)
@@ -39,14 +49,26 @@ defmodule RTLWeb.IntegrationHelpers do
     length(find_all_elements(selector))
   end
 
+  # Content can be plain text, HTML, or a regex.
+  def assert_content(content) do
+    wait_until(fn -> page_source() =~ content end)
+  end
+
+  def refute_content(content) do
+    wait_until(fn -> !(page_source() =~ content) end)
+  end
+
+  # TODO: Migrate usages to assert_content
   def assert_text(text) do
     wait_until(fn -> visible_page_text() =~ text end)
   end
 
+  # TODO: Migrate usages to refute_content
   def refute_text(text) do
     wait_until(fn -> !(visible_page_text() =~ text) end)
   end
 
+  # TODO: Migrate usages to assert_content
   def assert_html(text) do
     wait_until(fn -> page_source() =~ text end)
   end
@@ -78,6 +100,8 @@ defmodule RTLWeb.IntegrationHelpers do
   end
 
   def debug do
-    "JS logs: \n<<<<\n#{fetch_log()}\n>>>>\n\nHTML source:\n<<<<\n#{page_source()}\n>>>>"
+    screenshot_path = take_screenshot()
+    filepath = RTLWeb.ConnHelpers.write_response_body_to_file(page_source())
+    "JS logs: #{fetch_log()}\n\nView the HTML source: #{filepath}\n\nView screenshot: #{screenshot_path}"
   end
 end

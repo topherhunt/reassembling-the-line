@@ -1,6 +1,5 @@
 defmodule RTLWeb.CustomBlockHelpers do
   use Phoenix.HTML
-  alias RTLWeb.Router.Helpers, as: Routes
 
   def custom_block(conn, label) do
     project = conn.assigns[:project]
@@ -18,16 +17,18 @@ defmodule RTLWeb.CustomBlockHelpers do
   defp find_block(proj, label), do: Enum.find(proj.custom_blocks, & &1.label == label)
 
   # We support certain variables for custom blocks.
-  defp inject_variables(body, project) do
-    body =
-      if String.contains?(body, "{ADMIN_LOGIN_URL}") do
-        user = RTL.Accounts.get_user_by!(admin_on_project: project)
-        token = RTL.Accounts.get_login_token(user.email)
-        url = Routes.auth_url(RTLWeb.Endpoint, :confirm, token: token)
-        String.replace(body, "{ADMIN_LOGIN_URL}", url)
-      else
-        body
-      end
+  defp inject_variables(body, _project) do
+    # No substitutions are needed for now, but I'm leaving this commented-out example
+    # in case we add more later on.
+    # body =
+    #   if String.contains?(body, "{ADMIN_LOGIN_URL}") do
+    #     user = RTL.Accounts.get_user_by!(admin_on_project: project)
+    #     token = RTL.Accounts.get_login_token(user.email)
+    #     url = Routes.auth_url(RTLWeb.Endpoint, :confirm, token: token)
+    #     String.replace(body, "{ADMIN_LOGIN_URL}", url)
+    #   else
+    #     body
+    #   end
 
     body
   end

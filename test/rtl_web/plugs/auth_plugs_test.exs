@@ -10,7 +10,7 @@ defmodule RTLWeb.AuthPlugsTest do
     put_session(conn, :expires_at, expiry)
   end
 
-  defp assert_logged_out(conn) do
+  defp assert_plug_logged_out(conn) do
     assert get_session(conn, :user_id) == nil
     assert conn.assigns.current_user == nil
     assert conn.private.plug_session_info == :drop
@@ -45,7 +45,7 @@ defmodule RTLWeb.AuthPlugsTest do
 
       conn = AuthPlugs.load_current_user(conn, nil)
 
-      assert_logged_out(conn)
+      assert_plug_logged_out(conn)
     end
 
     test "assigns current_user based on user_id", %{conn: conn} do
@@ -69,7 +69,7 @@ defmodule RTLWeb.AuthPlugsTest do
 
       conn = AuthPlugs.load_current_user(conn, nil)
 
-      assert_logged_out(conn)
+      assert_plug_logged_out(conn)
     end
 
     test "logs me out if session_token is invalid", %{conn: conn} do
@@ -80,7 +80,7 @@ defmodule RTLWeb.AuthPlugsTest do
 
       conn = AuthPlugs.load_current_user(conn, nil)
 
-      assert_logged_out(conn)
+      assert_plug_logged_out(conn)
     end
   end
 
@@ -104,7 +104,7 @@ defmodule RTLWeb.AuthPlugsTest do
 
       conn = AuthPlugs.logout!(conn)
 
-      assert_logged_out(conn)
+      assert_plug_logged_out(conn)
     end
   end
 end

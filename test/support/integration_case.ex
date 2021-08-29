@@ -6,12 +6,14 @@ defmodule RTLWeb.IntegrationCase do
       use Phoenix.ConnTest
       # See https://github.com/HashNuke/hound for usage info
       use Hound.Helpers
+      import RTL.Factory
       import RTL.DataHelpers
       import RTL.EmailHelpers
       import RTLWeb.IntegrationHelpers
       alias RTLWeb.Router.Helpers, as: Routes
-      alias RTL.Factory
-      import RTL.Factory
+      alias RTL.{Repo, Factory, Accounts}
+      alias RTL.Accounts.User
+      alias RTL.Helpers, as: H
 
       @endpoint RTLWeb.Endpoint
     end

@@ -1,131 +1,272 @@
 defmodule RTLWeb.AuthControllerTest do
   use RTLWeb.ConnCase
   alias RTL.Accounts
+  alias RTL.Accounts.User
 
   setup do
-    # Clear all emails sent by previous tests.
-    # NOT compatible with async tests.
+    # Clear all emails sent by previous tests. Tests CANNOT be async.
     Bamboo.SentEmail.reset()
   end
 
-  def ts_now, do: System.system_time(:second)
-  def ts_nearly_1h_ago, do: ts_now() - 3595
-  def ts_over_1h_ago, do: ts_now() - 3605
+  describe "#signup" do
+    test "renders correctly", %{conn: conn} do
+      conn = get(conn, Routes.auth_path(conn, :signup))
+
+      assert_selector conn, "h1", html: "Sign up"
+    end
+  end
+
+  describe "#signup_submit" do
+    test "registers you and emails you a confirmation link", %{conn: conn} do
+      assert Repo.count(User.filter(email: "topher@example.com")) == 0
+
+      params = %{"user" => %{"name" => "Topher", "email" => "Topher@EXAMPLE.com", "password" => "password1", "password_confirmation" => "password1"}}
+      conn = post(conn, Routes.auth_path(conn, :signup_submit), params)
+
+      assert redirected_to(conn) =~ Routes.home_path(conn, :index)
+      assert Repo.count(User.filter(email: "topher@example.com")) == 1
+      assert_email_sent(to: "topher@example.com", subject: "Please confirm your address")
+      assert_logged_out(conn) # you aren't logged in, email confirmation is required
+    end
+
+    test "rejects your submission when invalid", %{conn: conn} do
+      params = %{"user" => %{"name" => "", "email" => "topher@example.com", "password" => "password1", "password_confirmation" => "password1"}}
+      conn = post(conn, Routes.auth_path(conn, :signup_submit), params)
+
+      assert_content conn, "can't be blank"
+      assert Repo.count(User.filter(email: "topher@example.com")) == 0
+      assert count_emails_sent() == 0
+    end
+
+    test "requires password confirmation", %{conn: conn} do
+      params = %{"user" => %{"name" => "Topher", "email" => "topher@example.com", "password" => "password1", "password_confirmation" => "password2"}}
+      conn = post(conn, Routes.auth_path(conn, :signup_submit), params)
+
+      assert_content conn, "doesn't match password"
+      assert Repo.count(User.filter(email: "topher@example.com")) == 0
+      assert count_emails_sent() == 0
+    end
+  end
 
   describe "#login" do
-    test "renders the login form", %{conn: conn} do
+    test "renders correctly", %{conn: conn} do
       conn = get(conn, Routes.auth_path(conn, :login))
 
-      assert html_response(conn, 200) =~ "Please enter your email address"
+      assert_selector conn, "h1", html: "Log in"
     end
   end
 
   describe "#login_submit" do
-    test "emails a signed login link to the provided address", %{conn: conn} do
-      params = %{user: %{email: "elmer.fudd@example.com"}}
+    test "logs you in on success", %{conn: conn} do
+      user = Factory.insert_user()
+
+      params = %{"user" => %{"email" => user.email, "password" => "password"}}
       conn = post(conn, Routes.auth_path(conn, :login_submit), params)
 
-      assert redirected_to(conn) == Routes.auth_path(conn, :login)
-
-      [email] = Bamboo.SentEmail.all()
-      assert email.subject =~ "Your login link"
-      assert email.to == [nil: "elmer.fudd@example.com"]
-      assert email.html_body =~ "Please click the link below to log in."
-
-      assert [_, token] = Regex.run(~r/\?token=([\w\d\.\-\_]+)/, email.html_body)
-      assert {:ok, "elmer.fudd@example.com"} = Accounts.verify_login_token(token)
-    end
-  end
-
-  describe "#confirm" do
-    test "when valid and user exists: logs you in", %{conn: conn} do
-      user = Factory.insert_user(email: "daffy@example.com")
-
-      # User visits the confirm page with a nearly-expired link.
-      token = stub_token("Daffy@EXAMPLE.com", ts_nearly_1h_ago())
-      conn = get(conn, Routes.auth_path(conn, :confirm, token: token))
-
-      assert redirected_to(conn) == Routes.home_path(conn, :index), "The conn: #{inspect(conn)}"
+      assert redirected_to(conn) == Routes.home_path(conn, :index)
       assert_logged_in(conn, user)
     end
 
-    # test "when valid and user does not exist: registers & logs you in", %{conn: conn} do
-    #   # Token contains a capitalized email, but is registered as lower-cased
-    #   token = stub_token("Daisy@EXAMPLE.com", ts_now())
-    #   conn = get(conn, Routes.auth_path(conn, :confirm, token: token))
+    test "rejects you when your account is locked", %{conn: conn} do
+      user = Factory.insert_user()
+      Enum.each(1..5, fn _i ->
+        Factory.insert_login_try(email: String.upcase(user.email))
+      end)
 
-    #   assert user = Accounts.get_user_by!(email: "daisy@example.com")
-    #   assert redirected_to(conn) == Routes.user_path(conn, :edit)
-    #   assert_logged_in(conn, user)
-    # end
+      params = %{"user" => %{"email" => user.email, "password" => "password"}}
+      conn = post(conn, Routes.auth_path(conn, :login_submit), params)
 
-    test "when valid and user does not exist: denies access (for now)", %{conn: conn} do
-      user_count = Accounts.count_users()
-
-      token = stub_token("daisy@example.com", ts_now())
-      conn = get(conn, Routes.auth_path(conn, :confirm, token: token))
-
-      assert Accounts.count_users() == user_count
-      assert redirected_to(conn) == Routes.home_path(conn, :index)
+      assert redirected_to(conn) == Routes.auth_path(conn, :login)
+      assert flash_messages(conn) =~ "Your account is locked."
       assert_logged_out(conn)
     end
 
-    test "when link is expired: rejects and redirects", %{conn: conn} do
-      token = stub_token("Daisy@EXAMPLE.com", ts_over_1h_ago())
-      conn = get(conn, Routes.auth_path(conn, :confirm, token: token))
+    test "rejects you when your UN/PW is incorrect", %{conn: conn} do
+      user = Factory.insert_user()
+
+      params = %{"user" => %{"email" => user.email, "password" => "passwrd"}}
+      conn = post(conn, Routes.auth_path(conn, :login_submit), params)
 
       assert redirected_to(conn) == Routes.auth_path(conn, :login)
+      assert flash_messages(conn) =~ "That email or password is incorrect."
       assert_logged_out(conn)
     end
 
-    test "when link is invalid: rejects and redirects", %{conn: conn} do
-      token = stub_token("Daisy@EXAMPLE.com", ts_now())
-      conn = get(conn, Routes.auth_path(conn, :confirm, token: token<>"z"))
+    test "rejects you when your account isn't yet confirmed", %{conn: conn} do
+      user = Factory.insert_user(confirmed_at: nil)
 
-      assert redirected_to(conn) == Routes.auth_path(conn, :login)
+      params = %{"user" => %{"email" => user.email, "password" => "password"}}
+      conn = post(conn, Routes.auth_path(conn, :login_submit), params)
+
+      assert redirected_to(conn) == Routes.auth_path(conn, :request_email_confirm)
+      assert flash_messages(conn) =~ "You need to confirm your email address"
       assert_logged_out(conn)
     end
   end
 
   describe "#logout" do
-    test "logs you out of all your sessions", %{conn: conn} do
+    test "logs you out", %{conn: conn} do
       user = Factory.insert_user()
-      token = stub_token(user.email, ts_now())
-      conn = get(conn, Routes.auth_path(conn, :confirm, token: token))
+      conn = login(conn, user)
       assert_logged_in(conn, user)
 
-      conn = get(conn, Routes.auth_path(conn, :log_out))
+      conn = get(conn, Routes.auth_path(conn, :logout))
 
       assert redirected_to(conn) == Routes.home_path(conn, :index)
       assert_logged_out(conn)
-
-      # Login session token has been resets
-      old_login_token = user.session_token
-      new_login_token = Accounts.get_user!(user.id).session_token
-      assert new_login_token != old_login_token
-      assert String.length(old_login_token) >= 8
-      assert String.length(new_login_token) >= 8
     end
   end
 
-  #
-  # Helpers
-  #
+  describe "#request_email_confirm" do
+    test "renders correctly", %{conn: conn} do
+      conn = get(conn, Routes.auth_path(conn, :request_email_confirm))
 
-  defp stub_token(email, signed_at) do
-    endpoint = RTLWeb.Endpoint
-    Phoenix.Token.sign(endpoint, "login token salt", email, signed_at: signed_at)
+      assert_selector conn, "h1", html: "Confirm your account"
+    end
   end
 
-  defp assert_logged_in(conn, _user) do
-    conn = get(conn, Routes.home_path(conn, :index))
-    assert conn.resp_body =~ "Log out"
-    refute conn.resp_body =~ "Log in"
+  describe "#request_email_confirm_submit" do
+    test "sends the confirmation link if that email exists", %{conn: conn} do
+      user = Factory.insert_user(confirmed_at: nil)
+
+      params = %{"user" => %{"email" => user.email}}
+      conn = post(conn, Routes.auth_path(conn, :request_email_confirm_submit), params)
+
+      assert redirected_to(conn) == Routes.auth_path(conn, :request_email_confirm)
+      assert count_emails_sent() == 1
+      assert_email_sent(to: user.email, subject: "Please confirm your address")
+    end
+
+    test "does nothing if that email doesn't exist", %{conn: conn} do
+      _user = Factory.insert_user()
+
+      params = %{"user" => %{"email" => "incorrect@example.com"}}
+      conn = post(conn, Routes.auth_path(conn, :request_email_confirm_submit), params)
+
+      assert redirected_to(conn) == Routes.auth_path(conn, :request_email_confirm)
+      assert flash_messages(conn) =~ "doesn't exist in our system"
+      assert count_emails_sent() == 0
+    end
   end
 
-  defp assert_logged_out(conn) do
-    conn = get(conn, Routes.home_path(conn, :index))
-    assert conn.resp_body =~ "Log in"
-    refute conn.resp_body =~ "Log out"
+  describe "#confirm_email" do
+    test "confirms your account if the token is valid", %{conn: conn} do
+      user = Factory.insert_user(confirmed_at: nil)
+
+      token = Accounts.create_token!({:confirm_email, user.id, user.email})
+      conn = get(conn, Routes.auth_path(conn, :confirm_email), %{"token" => token})
+
+      assert redirected_to(conn) == Routes.home_path(conn, :index)
+      assert flash_messages(conn) == "Thanks! Your email address is confirmed."
+      assert_logged_in(conn, user)
+    end
+
+    test "rejects you if token is invalid", %{conn: conn} do
+      user = Factory.insert_user(confirmed_at: nil)
+
+      token = Accounts.create_token!({:confirm_email, user.id, user.email})<>"z"
+      conn = get(conn, Routes.auth_path(conn, :confirm_email), %{"token" => token})
+
+      assert redirected_to(conn) == Routes.auth_path(conn, :request_email_confirm)
+      assert flash_messages(conn) =~ "That link is no longer valid."
+      assert_logged_out(conn)
+    end
+  end
+
+  describe "#request_password_reset" do
+    test "renders correctly", %{conn: conn} do
+      conn = get(conn, Routes.auth_path(conn, :request_password_reset))
+
+      assert_selector conn, "h1", html: "Reset your password"
+    end
+  end
+
+  describe "#request_password_reset_submit" do
+    test "sends the password reset link if that email exists", %{conn: conn} do
+      user = Factory.insert_user()
+
+      params = %{"user" => %{"email" => user.email}}
+      conn = post(conn, Routes.auth_path(conn, :request_password_reset_submit), params)
+
+      assert redirected_to(conn) == Routes.auth_path(conn, :request_password_reset)
+      assert count_emails_sent() == 1
+      assert_email_sent(to: user.email, subject: "Use this link to reset your password")
+    end
+
+    test "does nothing if that email doesn't exist", %{conn: conn} do
+      _user = Factory.insert_user()
+
+      params = %{"user" => %{"email" => "incorrect@example.com"}}
+      conn = post(conn, Routes.auth_path(conn, :request_password_reset_submit), params)
+
+      assert redirected_to(conn) == Routes.auth_path(conn, :request_password_reset)
+      assert flash_messages(conn) =~ "doesn't exist in our system"
+      assert count_emails_sent() == 0
+    end
+  end
+
+  describe "#reset_password" do
+    test "displays the password reset form if that token is valid", %{conn: conn} do
+      user = Factory.insert_user()
+
+      token = Accounts.create_token!({:reset_password, user.id})
+      conn = get(conn, Routes.auth_path(conn, :reset_password), %{"token" => token})
+
+      assert_selector conn, "h1", html: "Reset your password"
+      assert_selector conn, "input#user_password_confirmation"
+    end
+
+    test "rejects you if the token is invalid", %{conn: conn} do
+      user = Factory.insert_user()
+      token = Accounts.create_token!({:reset_password, user.id})<>"z"
+
+      conn = get(conn, Routes.auth_path(conn, :reset_password), %{"token" => token})
+
+      assert redirected_to(conn) == Routes.auth_path(conn, :request_password_reset)
+      assert flash_messages(conn) =~ "That link is no longer valid."
+    end
+  end
+
+  describe "#reset_password_submit" do
+    test "updates your password when token and password are valid", %{conn: conn} do
+      user = Factory.insert_user()
+      token = Accounts.create_token!({:reset_password, user.id})
+
+      conn = post(conn, Routes.auth_path(conn, :reset_password_submit), %{
+        "token" => token,
+        "user" => %{"password" => "password2", "password_confirmation" => "password2"}
+      })
+
+      assert redirected_to(conn) == Routes.auth_path(conn, :login)
+      assert flash_messages(conn) == "Password updated. Please log in."
+      assert Accounts.password_correct?(Repo.get!(User, user.id), "password2")
+    end
+
+    test "rejects you if the token is invalid", %{conn: conn} do
+      user = Factory.insert_user()
+      token = Accounts.create_token!({:reset_password, user.id})<>"z"
+
+      conn = post(conn, Routes.auth_path(conn, :reset_password_submit), %{
+        "token" => token,
+        "user" => %{"password" => "password2", "password_confirmation" => "password2"}
+      })
+
+      assert redirected_to(conn) == Routes.auth_path(conn, :request_password_reset)
+      assert flash_messages(conn) == "Sorry, something went wrong. Please try again."
+      assert !Accounts.password_correct?(Repo.get!(User, user.id), "password2")
+    end
+
+    test "rejects you if the new password is invalid", %{conn: conn} do
+      user = Factory.insert_user()
+      token = Accounts.create_token!({:reset_password, user.id})
+
+      conn = post(conn, Routes.auth_path(conn, :reset_password_submit), %{
+        "token" => token,
+        "user" => %{"password" => "password2", "password_confirmation" => "password3"}
+      })
+
+      assert_content conn, "doesn't match password"
+      assert !Accounts.password_correct?(Repo.get!(User, user.id), "password2")
+    end
   end
 end

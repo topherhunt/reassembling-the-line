@@ -1,6 +1,5 @@
 defmodule RTLWeb.Admin.UserControllerTest do
   use RTLWeb.ConnCase, async: true
-  alias RTL.Accounts
 
   describe "plugs" do
     test "all actions reject non-logged-in user", %{conn: conn} do
@@ -45,42 +44,44 @@ defmodule RTLWeb.Admin.UserControllerTest do
     end
   end
 
-  describe "#new" do
-    test "renders correctly", %{conn: conn} do
-      {conn, _user} = login_as_superadmin(conn)
+  # Admin creating new users is disabled for now, and probably not needed.
+  #
+  # describe "#new" do
+  #   test "renders correctly", %{conn: conn} do
+  #     {conn, _user} = login_as_superadmin(conn)
+  #
+  #     conn = get(conn, Routes.admin_user_path(conn, :new))
+  #
+  #     assert html_response(conn, 200) =~ "New user"
+  #   end
+  # end
 
-      conn = get(conn, Routes.admin_user_path(conn, :new))
-
-      assert html_response(conn, 200) =~ "New user"
-    end
-  end
-
-  describe "#create" do
-    test "inserts the user and redirects", %{conn: conn} do
-      {conn, _user} = login_as_superadmin(conn)
-      count = Accounts.count_users()
-
-      params = %{"user" => %{"name" => "E. Fudd", "email" => "elmer@fudd.com"}}
-      conn = post(conn, Routes.admin_user_path(conn, :create), params)
-
-      assert Accounts.count_users() == count + 1
-      user = Accounts.get_user_by!(order: :newest)
-      assert user.name == "E. Fudd"
-      assert user.email == "elmer@fudd.com"
-      assert redirected_to(conn) == Routes.admin_user_path(conn, :show, user.id)
-    end
-
-    test "rejects changes if invalid", %{conn: conn} do
-      {conn, _user} = login_as_superadmin(conn)
-      count = Accounts.count_users()
-
-      params = %{"user" => %{"name" => "   ", "email" => "elmer@fudd.com"}}
-      conn = post(conn, Routes.admin_user_path(conn, :create), params)
-
-      assert Accounts.count_users() == count
-      assert html_response(conn, 200) =~ "name can't be blank"
-    end
-  end
+  # describe "#create" do
+  #   test "inserts the user and redirects", %{conn: conn} do
+  #     {conn, _user} = login_as_superadmin(conn)
+  #     count = Repo.count(User)
+  #
+  #     params = %{"user" => %{"name" => "E. Fudd", "email" => "elmer@fudd.com"}}
+  #     conn = post(conn, Routes.admin_user_path(conn, :create), params)
+  #
+  #     assert Repo.count(User) == count + 1
+  #     user = Repo.first!(User.filter(order: :newest))
+  #     assert user.name == "E. Fudd"
+  #     assert user.email == "elmer@fudd.com"
+  #     assert redirected_to(conn) == Routes.admin_user_path(conn, :show, user.id)
+  #   end
+  #
+  #   test "rejects changes if invalid", %{conn: conn} do
+  #     {conn, _user} = login_as_superadmin(conn)
+  #     count = Repo.count(User)
+  #
+  #     params = %{"user" => %{"name" => "   ", "email" => "elmer@fudd.com"}}
+  #     conn = post(conn, Routes.admin_user_path(conn, :create), params)
+  #
+  #     assert Repo.count(User) == count
+  #     assert html_response(conn, 200) =~ "name can't be blank"
+  #   end
+  # end
 
   describe "#edit" do
     test "renders correctly", %{conn: conn} do
@@ -101,7 +102,7 @@ defmodule RTLWeb.Admin.UserControllerTest do
       params = %{"user" => %{"name" => "Daffy", "email" => "daffy@duck.com"}}
       conn = patch(conn, Routes.admin_user_path(conn, :update, user.id), params)
 
-      updated = Accounts.get_user!(user.id)
+      updated = Repo.get!(User, user.id)
       assert updated.name == "Daffy"
       assert updated.email == "daffy@duck.com"
       assert redirected_to(conn) == Routes.admin_user_path(conn, :show, user)
@@ -114,7 +115,7 @@ defmodule RTLWeb.Admin.UserControllerTest do
       params = %{"user" => %{"name" => " ", "email" => "daffy@duck.com"}}
       conn = patch(conn, Routes.admin_user_path(conn, :update, user), params)
 
-      unchanged = Accounts.get_user!(user.id)
+      unchanged = Repo.get!(User, user.id)
       assert unchanged.name == user.name
       assert html_response(conn, 200) =~ "name can't be blank"
     end
@@ -127,7 +128,7 @@ defmodule RTLWeb.Admin.UserControllerTest do
 
       conn = delete(conn, Routes.admin_user_path(conn, :delete, user))
 
-      assert Accounts.get_user(user.id) == nil
+      assert Repo.get(User, user.id) == nil
       assert redirected_to(conn) == Routes.admin_user_path(conn, :index)
     end
   end

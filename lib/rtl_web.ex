@@ -49,7 +49,7 @@ defmodule RTLWeb do
       import RTL.Sentry, only: [is_superadmin?: 1, can_manage_project?: 2]
       import RTLWeb.CustomBlockHelpers, only: [custom_block: 2]
       import RTLWeb.Gettext
-      import RTLWeb.{ErrorHelpers, DateHelpers, RouteHelpers, TextHelpers}
+      import RTLWeb.{ErrorHelpers, RouteHelpers, TextHelpers, MiscHelpers}
       alias RTL.Helpers, as: H
       alias RTLWeb.Router.Helpers, as: Routes
 

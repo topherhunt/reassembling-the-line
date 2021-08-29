@@ -9,13 +9,20 @@ defmodule RTL.Factory do
   alias RTL.Projects.{Project, Prompt, ProjectAdminJoin, CustomBlock}
 
   def insert_user(params \\ %{}) do
-    params = cast(params, [:name, :email])
+    params = cast(params, [:name, :email, :confirmed_at])
     uuid = random_uuid()
 
     Accounts.insert_user!(%{
       name: params[:name] || "User #{uuid}",
-      email: params[:email] || "user_#{uuid}@example.com",
-    })
+      email: (params[:email] || "user_#{uuid}@example.com") |> String.downcase(),
+      password: "password",
+      confirmed_at: Map.get(params, :confirmed_at, H.now())
+    }, :admin)
+  end
+
+  def insert_login_try(params \\ %{}) do
+    params = cast(params, [:email])
+    Accounts.insert_login_try!(params[:email])
   end
 
   def insert_project(params \\ %{}) do

@@ -1,20 +1,74 @@
 <div class="u-centered-600 u-card">
-  <h1><%= gettext "My profile" %></h1>
+  <h1><%= gettext "Your profile" %></h1>
 
-  <%= form_for @changeset, Routes.user_path(@conn, :update), [method: "patch"], fn f -> %>
+  <%= form_for @changeset, Routes.user_path(@conn, :update), [method: :patch], fn f -> %>
+    <%= if @changeset.action do %>
+      <div class="alert alert-danger"><%= gettext "There was an error. Please see messages below." %></div>
+    <% end %>
+
     <div class="form-group">
-      <%= label f, :email, gettext("Your email address") %>
-      &nbsp;
-      <small class="text-muted">We don't spam. We don't share your email address with anyone.</small>
-      <%= text_input f, :email, class: "form-control", disabled: true %>
-    </div>
-    <div class="form-group">
-      <%= label f, :name, gettext("Your name") %>
-      <%= text_input f, :name, class: "form-control" %>
+      <%= label f, :name, gettext("Name") %>
+      <%= text_input f, :name, class: "form-control", required: true %>
       <%= error_tag f, :name %>
     </div>
+
+    <div class="form-group">
+      <%= label f, :password do %>
+        <%= gettext("New password") %>
+        <div class="small"><%= gettext "Leave blank if you don't want to change the password." %></div>
+      <% end %>
+      <%= password_input f, :password, class: "form-control", autocomplete: false %>
+      <%= error_tag f, :password %>
+    </div>
+
+    <div class="form-group u-hidden js-confirm-new-password">
+      <%= label f, :password_confirmation do %>
+        <%= gettext("Confirm new password") %>
+        <%= required() %>
+      <% end %>
+      <%= password_input f, :password_confirmation, class: "form-control" %>
+      <%= error_tag f, :password_confirmation %>
+    </div>
+
+    <div class="form-group u-hidden js-current-password">
+      <%= label f, :password_confirmation do %>
+        <%= gettext("Current password") %>
+        <%= required() %>
+      <% end %>
+      <%= password_input f, :current_password, class: "form-control" %>
+      <%= error_tag f, :current_password %>
+    </div>
+
+    <div class="form-group">
+      <%= submit gettext("Save"), class: "btn btn-primary" %>
+    </div>
+  <% end %>
+
+  <h3 class="mt-5"><%= gettext "Change email address" %></h3>
+  <p>Prefer to use a different address? Fill it in below and we'll send you a confirmation link.</p>
+
+  <%= form_for @changeset, Routes.user_path(@conn, :update_email), [method: :patch], fn f -> %>
+    <div class="form-group">
+      <%= label f, :email, gettext("Email") %>
+      <%= email_input f, :email, class: "form-control", required: true %>
+    </div>
+
     <div class="form-group">
       <%= submit gettext("Save"), class: "btn btn-primary" %>
     </div>
   <% end %>
 </div>
+
+<script type="text/javascript">
+  $(function(){
+    $('#user_password').keyup(function(){
+      $('.js-confirm-new-password').show()
+      $('.js-current-password').show()
+    })
+
+    <%= if @changeset.action do %>
+      $('.js-confirm-new-password').show()
+      $('.js-current-password').show()
+    <% end %>
+  });
+</script>

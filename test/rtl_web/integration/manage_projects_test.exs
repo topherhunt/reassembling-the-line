@@ -4,8 +4,8 @@ defmodule RTLWeb.ManageProjectsTest do
 
   hound_session()
 
-  test "Superadmin can list, create, edit, and delete projects", %{conn: conn} do
-    superadmin = login_as_superadmin(conn)
+  test "Superadmin can list, create, edit, and delete projects", %{conn: _conn} do
+    superadmin = login_as_superadmin()
     existing_project = Factory.insert_project()
     Projects.add_project_admin!(superadmin, existing_project)
 
@@ -36,8 +36,8 @@ defmodule RTLWeb.ManageProjectsTest do
     assert Projects.get_project(project.id) == nil
   end
 
-  test "Project admin can list, view, edit, and delete projects", %{conn: conn} do
-    user = login_as_new_user(conn)
+  test "Project admin can list, view, edit, and delete projects", %{conn: _conn} do
+    user = login_as_new_user()
     project = Factory.insert_project()
     Projects.add_project_admin!(user, project)
 

@@ -8,7 +8,10 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>RTL</title>
+    <title>
+      <%= if title = @conn.assigns[:page_title], do: "#{title} • " %>
+      RTL
+    </title>
 
     <link rel="stylesheet" href="<%= Routes.static_path(@conn, "/css/app.css") %>">
     <style><%= custom_block @conn, "custom_css" %></style>

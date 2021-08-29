@@ -1,7 +1,6 @@
 defmodule RTL.Videos.AttachmentTest do
   use RTL.DataCase, async: true
   alias RTL.Videos.Attachment
-  alias RTL.Helpers, as: H
 
   def bucket, do: H.env!("S3_BUCKET")
 

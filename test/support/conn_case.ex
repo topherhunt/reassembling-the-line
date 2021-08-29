@@ -19,12 +19,14 @@ defmodule RTLWeb.ConnCase do
     quote do
       # Import conveniences for testing with connections
       use Phoenix.ConnTest
+      import RTL.Factory
       import RTL.DataHelpers
       import RTL.EmailHelpers
       import RTLWeb.ConnHelpers
       alias RTLWeb.Router.Helpers, as: Routes
-      alias RTL.Factory
-      import RTL.Factory
+      alias RTL.{Repo, Factory, Accounts}
+      alias RTL.Accounts.User
+      alias RTL.Helpers, as: H
 
       # The default endpoint for testing
       @endpoint RTLWeb.Endpoint

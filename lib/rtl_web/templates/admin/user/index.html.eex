@@ -1,22 +1,22 @@
 <div class="test-page-manage-user-list"></div>
 <h1>Users</h1>
 
-<%= Enum.map(@users, fn(user) -> %>
+<table class="table table-sm table-striped w-100">
+  <tr>
+    <th>ID</th>
+    <th>Name</th>
+    <th>Created</th>
+    <th>Last visited</th>
+    <th># projects</th>
+  </tr>
 
-  <div class="u-card">
-    <div class="userRow__title">
-      <%= link user.name, to: Routes.admin_user_path(@conn, :show, user) %>
-    </div>
-
-    <div class="small">
-      Created: <%= print_date(user.inserted_at) %>
-      &nbsp;
-      Last visited: <%= print_date(user.last_visit_date) %>
-      &nbsp;
-      Admin of <%= length(user.projects) %> projects
-    </div>
-  </div>
-
-<% end) %>
-
-<%= link "+ New user", to: Routes.admin_user_path(@conn, :new), class: "btn btn-outline-primary test-link-new-user" %>
+  <%= for user <- @users do %>
+    <tr>
+      <td><%= link user.id, to: Routes.admin_user_path(@conn, :show, user), class: "test-user-#{user.id}-link" %></td>
+      <td><%= user.name %></td>
+      <td><%= print_date(user.inserted_at) %></td>
+      <td><%= print_date(user.last_visit_date) %></td>
+      <td><%= length(user.projects) %></td>
+    </tr>
+  <% end %>
+</table>

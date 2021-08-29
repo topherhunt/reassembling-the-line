@@ -5,7 +5,7 @@ defmodule RTLWeb.ManagePromptsTest do
   hound_session()
 
   test "Project admin can manage a project's prompts", %{conn: conn} do
-    user = login_as_new_user(conn)
+    user = login_as_new_user()
     project = Factory.insert_project()
     Projects.add_project_admin!(user, project)
     prompt1 = Factory.insert_prompt(%{project_id: project.id})

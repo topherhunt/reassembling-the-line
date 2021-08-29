@@ -4,12 +4,13 @@
 defmodule RTL.Accounts do
   import Ecto.Query, warn: false
   alias RTL.Repo
-  alias RTL.Accounts.User
+  alias RTL.Accounts.{User, Nonce, LoginTry}
 
   #
   # User schema
   #
 
+  # TODO: Remove these, use User.filter() and pipe to Repo functions instead
   def get_user(id, filt \\ []), do: query_users([{:id, id} | filt]) |> Repo.one()
   def get_user!(id, filt \\ []), do: query_users([{:id, id} | filt]) |> Repo.one!()
   def get_user_by(filt), do: query_users(filt) |> Repo.first()
@@ -18,31 +19,103 @@ defmodule RTL.Accounts do
   def count_users(filt \\ []), do: query_users(filt) |> Repo.count()
   def query_users(filt), do: User |> User.filter(filt)
 
-  def insert_user(params), do: new_user_changeset(params) |> Repo.insert()
-  def insert_user!(params), do: new_user_changeset(params) |> Repo.insert!()
-  def update_user(user, params), do: user_changeset(user, params) |> Repo.update()
-  def update_user!(user, params), do: user_changeset(user, params) |> Repo.update!()
+  # On insert & update, you must specify the context (:owner or :admin).
+  def insert_user(prms, ctx), do: %User{} |> User.changeset(prms, ctx) |> Repo.insert()
+  def insert_user!(prms, ctx), do: %User{} |> User.changeset(prms, ctx) |> Repo.insert!()
+  def update_user(user, prms, ctx), do: user |> User.changeset(prms, ctx) |> Repo.update()
+  def update_user!(user, prms, ctx), do: user |> User.changeset(prms, ctx) |> Repo.update!()
   def delete_user!(user), do: Repo.delete!(user)
-  def delete_all_users, do: Repo.delete_all(User)
-
-  def new_user_changeset(changes \\ %{}), do: User.changeset(%User{}, changes)
-  def user_changeset(user, changes \\ %{}), do: User.changeset(user, changes)
 
   # Resetting the session_token voids all currently-active login sessions, so the user
   # can be sure that they aren't still logged in on some forgotten device.
-  def reset_user_sessions(user), do: update_user!(user, %{session_token: ""})
+  def reset_user_sessions(user), do: update_user!(user, %{session_token: ""}, :admin)
 
-  #
-  # Login tokens
-  #
-
-  def get_login_token(email) do
-    # Phoenix.Token gives us signed, salted, reversible, expirable tokens for free.
-    Phoenix.Token.sign(RTLWeb.Endpoint, "login token salt", email)
+  def password_correct?(user_or_nil, password) do
+    case Argon2.check_pass(user_or_nil, password) do
+      {:ok, _user} -> true
+      {:error, _msg} -> false
+    end
   end
 
-  def verify_login_token(token) do
-    Phoenix.Token.verify(RTLWeb.Endpoint, "login token salt", token, max_age: 3600)
-    # Will return {:ok, email} or {:error, _}
+  #
+  # Tokens
+  #
+
+  # Phoenix.Token gives us signed, salted, reversible, expirable tokens for free.
+  # To protect from replay attacks, we embed a nonce id in each (otherwise stateless)
+  # token. The nonce is validated at parsing time. Be sure to explicitly invalidate
+  # the token when it's no longer needed!
+  #
+  # Usage:
+  #   # Generate a single-use token:
+  #   token = Accounts.create_token!({:reset_password, user_id})
+  #   # Later, parse and validate the token:
+  #   {:ok, {:reset_password, user_id}} = Accounts.parse_token(token)
+  #   # IMPORTANT: Destroy the token as soon as you no longer need it.
+  #   Accounts.invalidate_token!(token)
+
+  @endpoint RTLWeb.Endpoint
+  @salt "HenCSi83BjsltZhJVa6"
+  @one_week 60*60*24*7
+
+  def create_token!(data) do
+    nonce = insert_nonce!()
+    wrapped_data = %{data: data, nonce_id: nonce.id}
+    Phoenix.Token.sign(@endpoint, @salt, wrapped_data)
+  end
+
+  def parse_token(token) do
+    # Some use cases (e.g. the welcome email) need a token with a 2+ day lifetime.
+    # Thanks to the nonces I don't see much harm in this.
+    case Phoenix.Token.verify(@endpoint, @salt, token, max_age: @one_week) do
+      {:ok, map} ->
+        case valid_nonce?(map.nonce_id) do
+          true -> {:ok, map.data}
+          false -> {:error, "invalid nonce"}
+        end
+
+      {:error, msg} -> {:error, msg}
+    end
+  end
+
+  def invalidate_token!(token) do
+    {:ok, map} = Phoenix.Token.verify(@endpoint, @salt, token, max_age: :infinity)
+    delete_nonce!(map.nonce_id)
+    :ok
+  end
+
+  #
+  # Nonces
+  #
+
+  def insert_nonce! do
+    Nonce.admin_changeset(%Nonce{}, %{}) |> Repo.insert!()
+  end
+
+  def valid_nonce?(id) do
+    Repo.get(Nonce, id) != nil
+  end
+
+  def delete_nonce!(id) do
+    Repo.get!(Nonce, id) |> Repo.delete!()
+  end
+
+  #
+  # Login tries
+  #
+
+  def insert_login_try!(email) do
+    LoginTry.admin_changeset(%LoginTry{}, %{email: email}) |> Repo.insert!()
+  end
+
+  def count_recent_login_tries(email) do
+    email = String.downcase(email)
+    time = Timex.now() |> Timex.shift(minutes: -15)
+    LoginTry |> where([t], t.email == ^email and t.inserted_at >= ^time) |> Repo.count()
+  end
+
+  def clear_login_tries(email) do
+    email = String.downcase(email)
+    LoginTry |> where([t], t.email == ^email) |> Repo.delete_all()
   end
 end

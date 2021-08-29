@@ -1,6 +1,7 @@
 defmodule RTLWeb.Admin.UserController do
   use RTLWeb, :controller
   alias RTL.{Accounts, Projects}
+  alias RTL.Accounts.User
 
   plug :ensure_superadmin
   plug :load_user when action in [:show, :edit, :update, :delete]
@@ -16,36 +17,36 @@ defmodule RTLWeb.Admin.UserController do
     render conn, "show.html", addable_projects: addable_projects
   end
 
-  def new(conn, _params) do
-    changeset = Accounts.new_user_changeset()
-    render conn, "new.html", changeset: changeset
-  end
-
-  def create(conn, %{"user" => user_params}) do
-    user_params = Map.put(user_params, "require_name", true)
-
-    case Accounts.insert_user(user_params) do
-      {:ok, user} ->
-        conn
-        |> put_flash(:info, gettext("User created."))
-        |> redirect(to: Routes.admin_user_path(conn, :show, user.id))
-
-      {:error, changeset} ->
-        conn
-        |> put_flash(:error, gettext("Please see errors below."))
-        |> render("new.html", changeset: changeset)
-    end
-  end
+  # For now we don't allow admin to create a new user. If we re-enable it, we need to
+  # decide how generating the user password will be handled. Maybe we auto send the user
+  # a "Set your password by clicking this link" email. Also need to confirm the account.
+  #
+  # def new(conn, _params) do
+  #   changeset = User.changeset(%User{}, %{}, :owner)
+  #   render conn, "new.html", changeset: changeset
+  # end
+  #
+  # def create(conn, %{"user" => user_params}) do
+  #   case Accounts.insert_user(user_params, :admin) do
+  #     {:ok, user} ->
+  #       conn
+  #       |> put_flash(:info, gettext("User created."))
+  #       |> redirect(to: Routes.admin_user_path(conn, :show, user.id))
+  #
+  #     {:error, changeset} ->
+  #       conn
+  #       |> put_flash(:error, gettext("Please see errors below."))
+  #       |> render("new.html", changeset: changeset)
+  #   end
+  # end
 
   def edit(conn, _params) do
-    changeset = Accounts.user_changeset(conn.assigns.user)
+    changeset = User.changeset(conn.assigns.user, %{}, :owner)
     render(conn, "edit.html", changeset: changeset)
   end
 
   def update(conn, %{"user" => user_params}) do
-    user_params = Map.put(user_params, "require_name", true)
-
-    case Accounts.update_user(conn.assigns.user, user_params) do
+    case Accounts.update_user(conn.assigns.user, user_params, :admin) do
       {:ok, user} ->
         conn
         |> put_flash(:info, gettext("User updated."))

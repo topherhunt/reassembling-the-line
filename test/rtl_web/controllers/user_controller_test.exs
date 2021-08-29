@@ -8,8 +8,8 @@ defmodule RTLWeb.UserControllerTest do
 
       conn = get(conn, Routes.user_path(conn, :edit))
 
-      assert html_response(conn, 200) =~ "My profile"
-      assert conn.resp_body =~ user.email
+      assert_content(conn, "Your profile")
+      assert_content(conn, user.email)
     end
   end
 
@@ -21,7 +21,7 @@ defmodule RTLWeb.UserControllerTest do
       conn = patch(conn, Routes.user_path(conn, :update), %{user: user_params})
 
       assert Accounts.get_user!(user.id).name == "New name"
-      assert redirected_to(conn) == Routes.home_path(conn, :index)
+      assert redirected_to(conn) == Routes.user_path(conn, :edit)
     end
 
     test "rejects and re-renders the form when inputs are invalid", %{conn: conn} do

@@ -47,12 +47,22 @@ defmodule RTLWeb.Router do
     get "/help/collecting_videos", HelpController, :collecting_videos
     get "/help/coding_page", HelpController, :coding_page
 
+    get "/auth/signup", AuthController, :signup
+    post "/auth/signup", AuthController, :signup_submit
     get "/auth/login", AuthController, :login
-    post "/auth/login_submit", AuthController, :login_submit
-    get "/auth/confirm", AuthController, :confirm
-    get "/auth/log_out", AuthController, :log_out
+    post "/auth/login", AuthController, :login_submit
+    get "/auth/logout", AuthController, :logout
+    get "/auth/request_email_confirm", AuthController, :request_email_confirm
+    post "/auth/request_email_confirm", AuthController, :request_email_confirm_submit
+    get "/auth/confirm_email", AuthController, :confirm_email
+    get "/auth/request_password_reset", AuthController, :request_password_reset
+    post "/auth/request_password_reset", AuthController, :request_password_reset_submit
+    get "/auth/reset_password", AuthController, :reset_password
+    post "/auth/reset_password", AuthController, :reset_password_submit
 
-    resources "/users", UserController, singleton: true, only: [:edit, :update]
+    get "/account/edit", UserController, :edit
+    patch "/account/update", UserController, :update
+    patch "/account/update_email", UserController, :update_email
 
     #
     # Admin- and superadmin-facing routes
@@ -61,7 +71,7 @@ defmodule RTLWeb.Router do
     scope "/admin", as: :admin do
       pipe_through :admin
 
-      resources "/users", Admin.UserController
+      resources "/users", Admin.UserController, only: [:index, :show, :edit, :update, :delete]
       resources "/projects", Admin.ProjectController, param: "project_uuid"
 
       resources "/project_admin_joins", Admin.ProjectAdminJoinController,

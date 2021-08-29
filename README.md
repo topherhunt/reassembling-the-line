@@ -58,24 +58,10 @@ Brief steps for syncing translations:
 
 ## Production
 
-Deploy to production:
+How to deploy to production:
 
   * `git push rtl-prod master`
   * `heroku run -a rtl-prod mix ecto.migrate`
-
-Run an iex console on the server:
-
-    heroku run -a rtl-prod "POOL_SIZE=2 iex -S mix"
-
-Register a new user:
-
-  * `heroku run -a rtl-prod iex -S mix`
-  * `RTL.Accounts.insert_user!(%{name: "Elmer Fudd", email: "elmer.fudd@gmail.com"})`
-
-Get the link to force login as a registered user:
-
-    heroku run mix login hunt.topher@gmail.com
-
 
 More documentation at: https://hexdocs.pm/phoenix/heroku.html
 
