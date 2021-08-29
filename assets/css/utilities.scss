@@ -2,6 +2,7 @@
 // Layout
 //
 
+// TODO: Remove these & replace with max-w-600px mx-auto etc.
 .u-centered-1000 { max-width: 1000px; margin-left: auto; margin-right: auto; }
 .u-centered-800  { max-width:  800px; margin-left: auto; margin-right: auto; }
 .u-centered-600  { max-width:  600px; margin-left: auto; margin-right: auto; }
@@ -58,6 +59,17 @@
 //
 // Width utilities
 //
+
+.w-100px  { max-width: 100px;  }
+.w-200px  { max-width: 200px;  }
+.w-300px  { max-width: 300px;  }
+.w-400px  { max-width: 400px;  }
+.w-500px  { max-width: 500px;  }
+.w-600px  { max-width: 600px;  }
+.w-700px  { max-width: 700px;  }
+.w-800px  { max-width: 800px;  }
+.w-900px  { max-width: 900px;  }
+.w-1000px { max-width: 1000px; }
 
 .max-w-100px  { max-width: 100px;  }
 .max-w-200px  { max-width: 200px;  }
