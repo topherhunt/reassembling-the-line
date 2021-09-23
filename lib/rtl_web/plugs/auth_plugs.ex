@@ -45,7 +45,7 @@ defmodule RTLWeb.AuthPlugs do
 
   # On logout, we destroy the cookie-stored session and also wipe the user's session_token.
   def logout!(conn) do
-    if user = conn.assigns.current_user do
+    if user = conn.assigns[:current_user] do
       Accounts.reset_user_sessions(user)
     end
 
