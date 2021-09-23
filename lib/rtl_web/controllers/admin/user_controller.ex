@@ -17,28 +17,25 @@ defmodule RTLWeb.Admin.UserController do
     render conn, "show.html", addable_projects: addable_projects
   end
 
-  # For now we don't allow admin to create a new user. If we re-enable it, we need to
-  # decide how generating the user password will be handled. Maybe we auto send the user
-  # a "Set your password by clicking this link" email. Also need to confirm the account.
-  #
-  # def new(conn, _params) do
-  #   changeset = User.changeset(%User{}, %{}, :owner)
-  #   render conn, "new.html", changeset: changeset
-  # end
-  #
-  # def create(conn, %{"user" => user_params}) do
-  #   case Accounts.insert_user(user_params, :admin) do
-  #     {:ok, user} ->
-  #       conn
-  #       |> put_flash(:info, gettext("User created."))
-  #       |> redirect(to: Routes.admin_user_path(conn, :show, user.id))
-  #
-  #     {:error, changeset} ->
-  #       conn
-  #       |> put_flash(:error, gettext("Please see errors below."))
-  #       |> render("new.html", changeset: changeset)
-  #   end
-  # end
+  def new(conn, _params) do
+    changeset = User.changeset(%User{}, %{}, :owner)
+    render conn, "new.html", changeset: changeset
+  end
+
+  def create(conn, %{"user" => user_params}) do
+    user_params = Map.put(user_params, "confirmed_at", H.now())
+    case Accounts.insert_user(user_params, :admin) do
+      {:ok, user} ->
+        conn
+        |> put_flash(:info, gettext("User created."))
+        |> redirect(to: Routes.admin_user_path(conn, :show, user.id))
+
+      {:error, changeset} ->
+        conn
+        |> put_flash(:error, gettext("Please see errors below."))
+        |> render("new.html", changeset: changeset)
+    end
+  end
 
   def edit(conn, _params) do
     changeset = User.changeset(conn.assigns.user, %{}, :owner)

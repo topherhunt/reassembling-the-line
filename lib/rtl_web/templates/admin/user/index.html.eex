@@ -20,3 +20,5 @@
     </tr>
   <% end %>
 </table>
+
+<div class="pt-3"><%= link "+ New user", to: Routes.admin_user_path(@conn, :new) %></div>

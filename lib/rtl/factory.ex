@@ -41,10 +41,10 @@ defmodule RTL.Factory do
   end
 
   def insert_prompt(params \\ %{}) do
-    params = cast(params, [:project_id, :html])
+    params = cast(params, [:project, :project_id, :html])
 
     Projects.insert_prompt!(%{
-      project_id: params[:project_id] || insert_project().id,
+      project_id: params[:project_id] || (params[:project] || insert_project()).id,
       html: params[:html] || "Prompt #{random_uuid()}"
     })
   end

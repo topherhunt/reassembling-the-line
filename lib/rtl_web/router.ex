@@ -71,7 +71,7 @@ defmodule RTLWeb.Router do
     scope "/admin", as: :admin do
       pipe_through :admin
 
-      resources "/users", Admin.UserController, only: [:index, :show, :edit, :update, :delete]
+      resources "/users", Admin.UserController
       resources "/projects", Admin.ProjectController, param: "project_uuid"
 
       resources "/project_admin_joins", Admin.ProjectAdminJoinController,
